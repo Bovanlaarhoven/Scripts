@@ -1,9 +1,9 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "KeySystem", HidePremium = true, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "KeySystem", HidePremium = true, IntroText = "Hydra Hub Early acces" SaveConfig = true, ConfigFolder = "OrionTest"})
 
 OrionLib:MakeNotification({
-	Name = "Your in!",
-	Content = "Thank you for using hydra hub early",
+	Name = "Hydra hub Early acces",
+	Content = "Link to get key is in your clipboard!",
 	Image = "rbxassetid://4483345998",
 	Time = 5
 })
@@ -12,7 +12,7 @@ _G.Key = "NEW"
 _G.KeyInput = "string"
 
 function MakeScriptHub()
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Doors.lua"), true))()
     OrionLib:Destroy()
 end
 
