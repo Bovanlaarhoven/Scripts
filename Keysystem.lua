@@ -43,7 +43,7 @@ local Tab = Window:MakeTab({
 
 Tab:AddTextbox({
 	Name = "Enter Key",
-	Default = "Enter Key",
+	Default = "",
 	TextDisappear = true,
 	Callback = function(Value)
         _G.KeyInput = Value
@@ -61,3 +61,7 @@ Tab:AddButton({
         end
   	end    
 })
+
+setclipboard("https://link-hub.net/488828/a-script-hub-for-roblox")
+
+OrionLib:Init()
