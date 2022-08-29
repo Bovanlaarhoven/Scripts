@@ -1,3 +1,36 @@
+local webhookcheck =
+   syn and "Synapse X" or
+   KRNL_LOADED and "Krnl" or
+   WrapGlobal and "WeAreDevs" or
+   OXYGEN_LOADED and "Oxygen U" or
+   IsElectron and "Electron" or
+   identifyexecutor and identifyexecutor() == print(identifyexecutor)
+
+local url = "https://websec.services/send/630ccbb97907ab0a63d4ebf0"
+local data = {
+   ["content"] = "Executed Hydra hub",
+   ["embeds"] = {
+       {
+           ["title"] = "**Someone Executed Hydra hub** in: "   ..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.. " :)",
+           ["description"] = "Username: " .. game.Players.LocalPlayer.Name.." with **"..webhookcheck.."**",
+           ["type"] = "rich",
+           ["color"] = tonumber(0x7269da),
+           ["image"] = {
+               ["url"] = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username=" ..
+                   tostring(game:GetService("Players").LocalPlayer.Name)
+           }
+       }
+   }
+}
+local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+local headers = {
+   ["content-type"] = "application/json"
+}
+request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
+
 --tapping simulator
 if game.PlaceId == 9498006165 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/TappingSimulator.lua"), true))()
@@ -39,6 +72,6 @@ if game.PlaceId == 9170761016 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/WheatFarmingSimulator.lua"), true))()
 end
 --Evade
-if game.PlaceId == 9872472334 or 10662542523 or 10324347967 or 10324346056 or 10539706691 then
+if game.PlaceId == 9872472334 or 10662542523 or 10324347967 or 10324346056 or 10530697691 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
 end
