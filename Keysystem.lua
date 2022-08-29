@@ -12,8 +12,8 @@ _G.Key = "NEW"
 _G.KeyInput = "string"
 
 function MakeScriptHub()
-loadstring(game:HttpGet((""), true))()
-
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+    OrionLib:Destroy()
 end
 
 
