@@ -14,6 +14,14 @@ money = true
 revivedie = true
 autowistle = true
 autochat1 = true
+autofarm = true
+
+function functionautofarm()
+    while autofarm == true do
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3080.2978515625, -740.00439453125, 16.78089714050293)
+        wait(0.0000000000000001)
+    end
+end
 
 function autochat()
     while autochat1 == true do
@@ -102,8 +110,8 @@ local FunTab= Window:MakeTab({
 	PremiumOnly = false
 })
 
-local TestTab = Window:MakeTab({
-	Name = "Test",
+local CreditsTab = Window:MakeTab({
+	Name = "Credits",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = true
 })
@@ -129,15 +137,17 @@ MainTab:AddSlider({
 
 MainTab:AddSlider({
     Name = "Hip height",
-    Min = -1.45,
+    Min = -1.40,
     Max = 100,
-    Default = -1.45,
+    Default = -1.40,
     Color = Color3.fromRGB(255,255,255),
     Increment = 1,
     Callback = function(HipValue)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = HipValue
     end    
 })
+
+
 --toggles
 
 local FunTab2 = FunTab:AddSection({
@@ -146,6 +156,15 @@ local FunTab2 = FunTab:AddSection({
 
 local MiscTab3 = MainTab:AddSection({
 	Name = "Toggles"
+})
+
+MainTab:AddToggle({
+	Name = "AutoFarm",
+	Default = false,
+	Callback = function(Value)
+        autofarm = Value
+        functionautofarm()
+	end    
 })
 
 FunTab:AddToggle({
@@ -192,24 +211,6 @@ local FunTab3 = FunTab:AddSection({
 
 local MiscTab2 = MiscTab:AddSection({
 	Name = "Buttons"
-})
-
-local Maintab2 = MainTab:AddSection({
-	Name = "Buttons"
-})
-
-MainTab:AddButton({
-	Name = "Alpha Skin (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "AlphaTester")
-  	end    
-})
-
-MainTab:AddButton({
-	Name = "Boombox Skin (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "Boombox")
-  	end    
 })
 
 MiscTab:AddButton({
@@ -328,6 +329,31 @@ TeleportTab:AddButton({
       end    
 })
 
+local MiscTab2 = MiscTab:AddSection({
+	Name = "Item Giver"
+})
+
+MiscTab:AddButton({
+	Name = "Alpha Skin (Permanant)",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "AlphaTester")
+  	end    
+})
+
+MiscTab:AddButton({
+	Name = "Boombox Skin (Permanant)",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "Boombox")
+  	end    
+})
+
+MiscTab:AddButton({
+	Name = "Test Emote (Permanant)",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
+  	end    
+})
+
 --keybinds
 
 local MiscTab1 = MiscTab:AddSection({
@@ -387,6 +413,12 @@ ESPTab:AddColorpicker({
     end  
 })
 
+--credits
+
+CreditsTab:AddParagraph("Owner/Main Dev","hydra#1000")
+CreditsTab:AddParagraph("Credits","FeIix and ss.spooky.ss")
+
+
 local cam = workspace.CurrentCamera
 local rs = game:GetService'RunService'
 
@@ -427,15 +459,6 @@ end
 game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
     esp(plr)
 end)
-
-TestTab:AddToggle({
-	Name = "Spam Chat",
-	Default = false,
-	Callback = function(Value)
-		autochat1 = Value
-        autochat()
-	end    
-})
 
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
