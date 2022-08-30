@@ -1,7 +1,19 @@
-game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-wait(1)
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Evade|", HidePremium = false,IntroText = "Evade Version 1.15", SaveConfig = false, ConfigFolder = "OrionTest"})
+OrionLib:MakeNotification({
+    Name = "Hydra Network",
+    Content = "Hydra Network is Loading.",
+    Image = "rbxassetid://4483345998",
+    Time = 4
+})
+game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+wait(4)
+OrionLib:MakeNotification({
+    Name = "Hydra Network",
+    Content = "Hydra Network is Ready!",
+    Image = "rbxassetid://4483345998",
+    Time = 2
+})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --locals
 local GuiService = game:GetService("GuiService")
@@ -13,7 +25,7 @@ AutoSlide = true
 money = true
 revivedie = true
 autowistle = true
-autochat1 = true
+autochat = true
 autofarm = true
 
 function functionautofarm()
@@ -23,9 +35,9 @@ function functionautofarm()
     end
 end
 
-function autochat()
-    while autochat1 == true do
-        local ohString1 = "Hydra hub on top"
+function SpamChat()
+    while autochat == true do
+        local ohString1 = "Hydra Network on top"
         local ohString2 = "All"
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(ohString1, ohString2)
         wait(1)
@@ -79,6 +91,34 @@ function Autoslide()
     end
 end
     
+
+function Notification()
+OrionLib:MakeNotification({
+    Name = "Respawning...",
+    Content = "You pressed the respawn keybind",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+end
+
+OrionLib:MakeNotification({
+    Name = "Welcome To Hydra Network",
+    Content = "Thanks for using Hydra Network!",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+    
+
+function RandomEmote()
+    OrionLib:MakeNotification({
+        Name = "Random Emoting...",
+        Content = "You pressed the Random Emote keybind",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
+end
+
+
 --tabs
 
 local MainTab= Window:MakeTab({
@@ -100,13 +140,13 @@ local ESPTab = Window:MakeTab({
 })
 
 local TeleportTab= Window:MakeTab({
-	Name = "Teleport",
+    Name = "Teleport",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
 local FunTab= Window:MakeTab({
-	Name = "Fun",
+    Name = "Fun",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -165,6 +205,15 @@ MainTab:AddToggle({
 	Callback = function(Value)
         autofarm = Value
         functionautofarm()
+	end    
+})
+
+FunTab:AddToggle({
+	Name = "Spam Chat",
+	Default = false,
+	Callback = function(Value)
+        autochat = Value
+        SpamChat()
 	end    
 })
 
@@ -237,8 +286,8 @@ MiscTab:AddButton({
             if mouse.Target then
                 hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
                 end
-                end
-                end)
+            end
+        end)
   	end    
 })
 
@@ -384,6 +433,7 @@ FunTab:AddBind({
         local number = math.random(4)
         local ohString1 = (number)
         game:GetService("ReplicatedStorage").Events.Emote:FireServer(ohString1)
+        RandomEmote()
 	end    
 })
 
@@ -393,6 +443,7 @@ MiscTab:AddBind({
 	Hold = false,
 	Callback = function()
         game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+        Notification()
 	end    
 })
 
@@ -417,7 +468,7 @@ ESPTab:AddColorpicker({
 --credits
 
 CreditsTab:AddParagraph("Owner/Main Dev","hydra#1000")
-CreditsTab:AddParagraph("Credits","FeIix and ss.spooky.ss")
+CreditsTab:AddParagraph("Credits","Felix and ss.spooky.ss")
 
 
 local cam = workspace.CurrentCamera
