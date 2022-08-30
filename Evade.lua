@@ -45,9 +45,10 @@ end
 function god()
     while revivedie == true do
         game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-        wait(1)
     end
 end
+            
+
 
 function dofullbright()
     Light.Ambient = Color3.new(1, 1, 1)
