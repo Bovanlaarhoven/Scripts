@@ -57,6 +57,7 @@ end
 function god()
     while revivedie == true do
         game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+        wait()
     end
 end
             
