@@ -12,7 +12,7 @@ OrionLib:MakeNotification({
     Image = "rbxassetid://4483345998",
     Time = 2
 })
-
+wait(1)
 local Window = OrionLib:MakeWindow({Name = "Hydra Network |Nico's Nextbots|", HidePremium = false, IntroText = "Nico's Nextbots", SaveConfig = true, ConfigFolder = "OrionTest"})
 
 --tables
