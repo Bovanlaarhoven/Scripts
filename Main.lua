@@ -65,9 +65,5 @@ if game.PlaceId == 7991339063 then
 end
 --nico's nextbots
 if game.PlaceId == 10118559731 then
-   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Nico'snextbots.lua"), true))()
-end
---Trade Towers
-if game.PlaceId == 5023820864 then
-   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/TradeTower.lua"), true))()
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/nico'snextbot.lua"), true))()
 end
