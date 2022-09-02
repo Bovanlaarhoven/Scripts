@@ -39,6 +39,35 @@ if game.PlaceId == 10106105124 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/WheatFarmingSimulator.lua"), true))()
 end
 --Evade
-if game.PlaceId == 9872472334 or 10662542523 or 10324347967 or 10324346056 or 10530697691 then
+if game.PlaceId == 9872472334 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
+
+if game.PlaceId == 10662542523 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
+
+if game.PlaceId == 10324347967 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
+
+if game.PlaceId == 10324346056 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
+
+if game.PlaceId == 10530697691 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
+-----------
+--RaindBow friends
+if game.PlaceId == 7991339063 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Rainbowfriends.lua"), true))()
+end
+--nico's nextbots
+if game.PlaceId == 10118559731 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Nico'snextbots.lua"), true))()
+end
+--Trade Towers
+if game.PlaceId == 5023820864 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/TradeTower.lua"), true))()
 end
