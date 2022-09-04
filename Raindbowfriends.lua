@@ -1,6 +1,48 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Rainbow friends|", HidePremium = false,IntroText = "Rainbow friends", SaveConfig = false, ConfigFolder = "OrionTest"})
 
+antideath = true
+
+function functionantideath()
+	while antideath == true do
+		local near = nil
+local part
+
+while true do task.wait()
+    local mf = workspace.Monsters
+    for i, v in pairs(mf:GetChildren()) do
+        for i, v in pairs(v:GetChildren()) do
+            local vv = v
+            if v.Name == "HumanoidRootPart" then
+                if (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
+                    for i, v in pairs(game.Workspace.Map_C1.Lockers:GetChildren()) do
+                        for i, v in pairs(v:GetChildren()) do
+                            if v.Name == "HitboxWalls" then
+                                for i, v in pairs(v:GetChildren()) do
+                                    if v.Name == "HitboxWall" then
+                                        if near == nil then
+                                            near = (vv.Position - v.Position).Magnitude
+                                            part = v
+                                        else
+                                            if (vv.Position - v.Position).Magnitude < near then
+                                                near = (vv.Position - v.Position).Magnitude
+                                                part = v
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part.Position.X, part.Position.Y + 6, part.Position.Z)
+                    part = nil
+                    near = nil
+                end
+            end
+        end
+    end
+	end
+end
 --tabs
 
 local MainTab = Window:MakeTab({
@@ -55,6 +97,14 @@ MainTab:AddButton({
   	end    
 })
 
+MainTab:AddToggle({
+	Name = "Anti Death",
+	Default = false,
+	Callback = function(Value)
+		antideath = Value
+		functionantideath()
+	end    
+})
 --sliders
 
 local TargetWalkspeed
