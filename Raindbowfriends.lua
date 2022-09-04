@@ -43,6 +43,7 @@ while true do task.wait()
     end
 	end
 end
+end
 --tabs
 
 local MainTab = Window:MakeTab({
@@ -51,7 +52,6 @@ local MainTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
---buttons
 
 MainTab:AddButton({
 	Name = "Get all Items",
@@ -69,21 +69,6 @@ MainTab:AddButton({
   	end    
 })
 
-MainTab:AddButton({
-	Name = "Inf Jump",
-	Callback = function()
-		for i, v in pairs(game.Workspace:GetChildren()) do
-			if v:IsA("Model") then
-				for i, v in pairs(v:GetChildren()) do
-					if v.Name == "TouchTrigger" then
-						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
-						wait(1)
-					end
-				end
-			end
-		end
-  	end    
-})
 
 MainTab:AddButton({
 	Name = "Inf Jump",
@@ -106,29 +91,6 @@ MainTab:AddToggle({
 	end    
 })
 --sliders
-
-local TargetWalkspeed
-MainTab:AddSlider({
-	Name = "Speed",
-	Min = 0,
-	Max = 100,
-	Default = 0,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	Callback = function(Value)
-		TargetWalkspeed = Value
-	end   
-})
-
---others
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    pcall(function()
-        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
-        end
-    end)
-end)
 
 MainTab:AddButton({
 	Name = "Item esp",
@@ -192,5 +154,28 @@ MainTab:AddButton({
         end)
   	end    
 })
+
+local TargetWalkspeed
+MainTab:AddSlider({
+	Name = "Speed",
+	Min = 0,
+	Max = 100,
+	Default = 0,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	Callback = function(Value)
+		TargetWalkspeed = Value
+	end   
+})
+
+--others
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+        end
+    end)
+end)
 
 OrionLib:Init()
