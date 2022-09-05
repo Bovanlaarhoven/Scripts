@@ -322,18 +322,6 @@ FunTab:AddButton({
       end    
 })
 
-
---credits FeIix#9431
-FunTab:AddButton({
-    Name = "Server Crasher",
-    Callback = function()
-        while task.wait() do
-            game:GetService("ReplicatedStorage").Events.Reset:FireServer()
-            game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-        end
-      end    
-})
-
 TeleportTab:AddButton({
     Name = "Main Game",
     Callback = function()
@@ -382,20 +370,6 @@ TeleportTab:AddButton({
 
 local MiscTab2 = MiscTab:AddSection({
 	Name = "Item Giver"
-})
-
-MiscTab:AddButton({
-	Name = "Alpha Skin (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "AlphaTester")
-  	end    
-})
-
-MiscTab:AddButton({
-	Name = "Boombox Skin (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Skins", "Boombox")
-  	end    
 })
 
 MiscTab:AddButton({
