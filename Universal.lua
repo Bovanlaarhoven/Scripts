@@ -12,7 +12,7 @@ wait(2)
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
-local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.01", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.03", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --scripts
 
@@ -21,9 +21,9 @@ lag = true
 function functionlag()
     while lag == true do
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        wait(0.00001)
+        wait(0.2)
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        wait()
+        wait(0.34)
     end
 end
 
@@ -42,13 +42,19 @@ local ButtonsTab = Window:MakeTab({
 })
 
 local TogglesTab = Window:MakeTab({
-	Name = "Keybinds",
+	Name = "Toggles",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
 local KeybindsTab = Window:MakeTab({
 	Name = "Keybinds",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local OthersTab = Window:MakeTab({
+	Name = "Others",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -70,9 +76,24 @@ TogglesTab:AddToggle({
 	end    
 })
 
+--inputs
+
+OthersTab:AddTextbox({
+    Name = "Chat Spammer (Click it After input)",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Value)
+        local ohString1 = (Value)
+        local ohString2 = "All"
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(ohString1, ohString2)
+    end	  
+})
+
 --dropdowns
 
+
 --sliders
+
 
 local SpeedSection = SliderTab:AddSection({
 	Name = "Walk Modifiers"
@@ -261,6 +282,69 @@ ButtonsTab:AddButton({
     Name = "Free cam (shift + P)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
+      end    
+})
+
+ButtonsTab:AddButton({
+    Name = "Chat Spy",
+    Callback = function()
+        enabled = true
+spyOnMyself = false
+public = false
+publicItalics = true
+privateProperties = {
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
       end    
 })
 
