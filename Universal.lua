@@ -12,7 +12,7 @@ wait(2)
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
-local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.03", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.05", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --scripts
 
@@ -282,6 +282,18 @@ ButtonsTab:AddButton({
     Name = "Free cam (shift + P)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
+      end    
+})
+
+ButtonsTab:AddButton({
+    Name = "Anti-Afk",
+    Callback = function()
+        local vu = game:GetService("VirtualUser")
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        end)
       end    
 })
 
