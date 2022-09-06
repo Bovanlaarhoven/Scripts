@@ -11,6 +11,7 @@ wait(2)
 
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
+local Light = game:GetService("Lighting")
 local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.01", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --scripts
@@ -29,13 +30,13 @@ end
 --tabs
 
 local CharTab = Window:MakeTab({
-	Name = "Character",
+	Name = "Slider Feature's",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
 local FeaturesTab = Window:MakeTab({
-	Name = "Features",
+	Name = "Feature's",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -111,6 +112,18 @@ local SpeedSection = CharTab:AddSection({
 })
 
 CharTab:AddSlider({
+	Name = "Hip Height",
+	Min = 1.7999993562698364,
+	Max = 100,
+	Default = 1.7999993562698364,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	Callback = function(JumpHeight)
+        game.Players.LocalPlayer.Character.Humanoid.HipHeight = JumpHeight
+    end
+})
+
+CharTab:AddSlider({
 	Name = "Gravity",
 	Min = 0,
 	Max = 196.2,
@@ -123,14 +136,14 @@ CharTab:AddSlider({
 })
 
 CharTab:AddSlider({
-	Name = "Hip Height",
-	Min = 1.7999993562698364,
-	Max = 100,
-	Default = 1.7999993562698364,
+	Name = "Day & night Slider",
+	Min = 0,
+	Max = 24,
+	Default = 14,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
-	Callback = function(JumpHeight)
-        game.Players.LocalPlayer.Character.Humanoid.HipHeight = JumpHeight
+	Callback = function(Time)
+        game.Lighting.ClockTime = Time
     end
 })
 
@@ -190,11 +203,58 @@ FeaturesTab:AddBind({
 
 --buttons
 
+FeaturesTab:AddButton({
+	Name = "Full Bright.",
+	Callback = function()
+        Light.Ambient = Color3.new(1, 1, 1)
+        Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+        Light.ColorShift_Top = Color3.new(1, 1, 1)
+        game.Lighting.FogEnd = 100000
+        game.Lighting.FogStart = 0
+        game.Lighting.ClockTime = 14
+        game.Lighting.Brightness = 10
+        game.Lighting.GlobalShadows = false
+  	end    
+})
+
+FeaturesTab:AddButton({
+	Name = "Inf Jump",
+	Callback = function()
+        local InfiniteJumpEnabled = true
+        game:GetService("UserInputService").JumpRequest:connect(function()
+            if InfiniteJumpEnabled then
+                game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+            end
+        end)
+  	end    
+})
+
+FeaturesTab:AddButton({
+	Name = "Q to Teleport",
+	Callback = function()
+        plr = game.Players.LocalPlayer 
+        hum = plr.Character.HumanoidRootPart 
+        mouse = plr:GetMouse()
+        mouse.KeyDown:connect(function(key)
+            if key == "q" then
+            if mouse.Target then
+                hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
+                end
+            end
+        end)
+  	end    
+})
+
+FeaturesTab:AddButton({
+    Name = "Free cam (shift + P)",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
+      end    
+})
 
 --others
 CreditsTab:AddParagraph("Owner/Main Developer","Hydra#0001")
 CreditsTab:AddParagraph("Discord","Dont Forget to join the discord.gg/k9a4zym5uG.")
-
 
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
