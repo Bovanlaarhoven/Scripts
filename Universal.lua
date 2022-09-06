@@ -1,8 +1,17 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+OrionLib:MakeNotification({
+	Name = "Hydra Network",
+	Content = "Welcome To Hydra Network Universal",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+wait(2)
+
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.01", SaveConfig = false, ConfigFolder = "OrionTest"})
-local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 
 --scripts
 
@@ -31,6 +40,12 @@ local FeaturesTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local CreditsTab = Window:MakeTab({
+	Name = "Credits",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
 --toggles
 
 FeaturesTab:AddToggle({
@@ -46,8 +61,25 @@ FeaturesTab:AddToggle({
 
 --sliders
 
+local SpeedSection = CharTab:AddSection({
+	Name = "Walk Modifiers"
+})
+
+local TargetWalkspeed
 CharTab:AddSlider({
-	Name = "Speed",
+	Name = "Speed (MoveDirection)",
+	Min = 0,
+	Max = 100,
+	Default = 0,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	Callback = function(Value)
+		TargetWalkspeed = Value
+	end   
+})
+
+CharTab:AddSlider({
+	Name = "Speed (WalkSpeed)",
 	Min = 0,
 	Max = 100,
 	Default = 16,
@@ -56,6 +88,10 @@ CharTab:AddSlider({
 	Callback = function(WalkSpeed)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeed
 	end   
+})
+
+local SpeedSection = CharTab:AddSection({
+	Name = "Jump Modifiers"
 })
 
 CharTab:AddSlider({
@@ -68,6 +104,10 @@ CharTab:AddSlider({
 	Callback = function(JumpPower)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = JumpPower
     end
+})
+
+local SpeedSection = CharTab:AddSection({
+	Name = "Other Modifiers"
 })
 
 CharTab:AddSlider({
@@ -94,8 +134,74 @@ CharTab:AddSlider({
     end
 })
 
+--keybinds
+
+FeaturesTab:AddBind({
+	Name = "Rejoin Server",
+	Default = Enum.KeyCode.Z,
+	Hold = false,
+	Callback = function()
+        OrionLib:MakeNotification({
+            Name = "You Pressed the Rejoin Keybind.",
+            Content = "Rejoining in 5 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 4 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 3 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 2 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 1 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        local ts = game:GetService("TeleportService")
+        local p = game:GetService("Players").LocalPlayer
+        ts:Teleport(game.PlaceId, p)
+	end    
+})
+
 --buttons
 
 
+--others
+CreditsTab:AddParagraph("Owner/Main Developer","Hydra#0001")
+CreditsTab:AddParagraph("Discord","Dont Forget to join the discord.gg/k9a4zym5uG.")
+
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+        end
+    end)
+end)
 
 OrionLib:Init()
