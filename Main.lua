@@ -58,10 +58,13 @@ end
 if game.PlaceId == 10530697691 then
    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
 end
+if game.PlaceId == 10808838353 then
+   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+end
 -----------
 --RaindBow friends
 if game.PlaceId == 7991339063 then
-   loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Rainbowfriends.lua"), true))()
+   loadstring(game:HttpGet(('https://raw.githubusercontent.com/spookysss/RainbowFriends/main/script%20(2).lua')))()
 end
 --nico's nextbots
 if game.PlaceId == 10118559731 then

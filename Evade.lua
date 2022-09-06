@@ -368,6 +368,15 @@ TeleportTab:AddButton({
       end    
 })
 
+TeleportTab:AddButton({
+    Name = "Vc Only",
+    Callback = function()
+        local TeleportService = game:GetService('TeleportService')
+        GameId = 10808838353
+        TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+      end    
+})
+
 local MiscTab2 = MiscTab:AddSection({
 	Name = "Item Giver"
 })
