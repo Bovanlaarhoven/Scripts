@@ -29,14 +29,26 @@ end
 
 --tabs
 
-local CharTab = Window:MakeTab({
-	Name = "Slider Feature's",
+local SliderTab = Window:MakeTab({
+	Name = "Sliders",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
-local FeaturesTab = Window:MakeTab({
-	Name = "Feature's",
+local ButtonsTab = Window:MakeTab({
+	Name = "Buttons",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local TogglesTab = Window:MakeTab({
+	Name = "Keybinds",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local KeybindsTab = Window:MakeTab({
+	Name = "Keybinds",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -49,7 +61,7 @@ local CreditsTab = Window:MakeTab({
 
 --toggles
 
-FeaturesTab:AddToggle({
+TogglesTab:AddToggle({
 	Name = "Fake lag",
 	Default = false,
 	Callback = function(Value)
@@ -62,12 +74,12 @@ FeaturesTab:AddToggle({
 
 --sliders
 
-local SpeedSection = CharTab:AddSection({
+local SpeedSection = SliderTab:AddSection({
 	Name = "Walk Modifiers"
 })
 
 local TargetWalkspeed
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Speed (MoveDirection)",
 	Min = 0,
 	Max = 100,
@@ -79,7 +91,7 @@ CharTab:AddSlider({
 	end   
 })
 
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Speed (WalkSpeed)",
 	Min = 0,
 	Max = 100,
@@ -91,11 +103,11 @@ CharTab:AddSlider({
 	end   
 })
 
-local SpeedSection = CharTab:AddSection({
+local SpeedSection = SliderTab:AddSection({
 	Name = "Jump Modifiers"
 })
 
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Jump Power",
 	Min = 0,
 	Max = 100,
@@ -107,11 +119,11 @@ CharTab:AddSlider({
     end
 })
 
-local SpeedSection = CharTab:AddSection({
+local SpeedSection = SliderTab:AddSection({
 	Name = "Other Modifiers"
 })
 
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Hip Height",
 	Min = 1.7999993562698364,
 	Max = 100,
@@ -123,7 +135,7 @@ CharTab:AddSlider({
     end
 })
 
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Gravity",
 	Min = 0,
 	Max = 196.2,
@@ -135,13 +147,13 @@ CharTab:AddSlider({
     end
 })
 
-CharTab:AddSlider({
+SliderTab:AddSlider({
 	Name = "Day & night Slider",
 	Min = 0,
 	Max = 24,
 	Default = 14,
 	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
+	Increment = 0.1,
 	Callback = function(Time)
         game.Lighting.ClockTime = Time
     end
@@ -149,7 +161,7 @@ CharTab:AddSlider({
 
 --keybinds
 
-FeaturesTab:AddBind({
+KeybindsTab:AddBind({
 	Name = "Rejoin Server",
 	Default = Enum.KeyCode.Z,
 	Hold = false,
@@ -203,7 +215,7 @@ FeaturesTab:AddBind({
 
 --buttons
 
-FeaturesTab:AddButton({
+ButtonsTab:AddButton({
 	Name = "Full Bright.",
 	Callback = function()
         Light.Ambient = Color3.new(1, 1, 1)
@@ -217,7 +229,7 @@ FeaturesTab:AddButton({
   	end    
 })
 
-FeaturesTab:AddButton({
+ButtonsTab:AddButton({
 	Name = "Inf Jump",
 	Callback = function()
         local InfiniteJumpEnabled = true
@@ -229,7 +241,7 @@ FeaturesTab:AddButton({
   	end    
 })
 
-FeaturesTab:AddButton({
+ButtonsTab:AddButton({
 	Name = "Q to Teleport",
 	Callback = function()
         plr = game.Players.LocalPlayer 
@@ -245,7 +257,7 @@ FeaturesTab:AddButton({
   	end    
 })
 
-FeaturesTab:AddButton({
+ButtonsTab:AddButton({
     Name = "Free cam (shift + P)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
