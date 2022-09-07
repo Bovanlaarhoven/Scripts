@@ -141,7 +141,7 @@ SliderTab:AddSlider({
 })
 
 local SpeedSection = SliderTab:AddSection({
-	Name = "Other Modifiers"
+	Name = "Other Player Modifiers"
 })
 
 SliderTab:AddSlider({
@@ -154,6 +154,22 @@ SliderTab:AddSlider({
 	Callback = function(JumpHeight)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = JumpHeight
     end
+})
+
+SliderTab:AddSlider({
+	Name = "Fov Slider",
+	Min = 1,
+	Max = 120,
+	Default = 70,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	Callback = function(Fov)
+        game:GetService'Workspace'.Camera.FieldOfView = Fov
+    end
+})
+
+local SpeedSection = SliderTab:AddSection({
+	Name = "World Modifiers"
 })
 
 SliderTab:AddSlider({
@@ -357,6 +373,13 @@ StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
 local chatFrame = player.PlayerGui.Chat.Frame
 chatFrame.ChatChannelParentFrame.Visible = true
 chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+      end    
+})
+
+ButtonsTab:AddButton({
+    Name = "turns on Shiftlock in settings",
+    Callback = function()
+        game:GetService("Players").LocalPlayer.DevEnableMouseLock = true
       end    
 })
 
