@@ -257,6 +257,22 @@ KeybindsTab:AddBind({
 	end    
 })
 
+
+KeybindsTab:AddBind({
+	Name = "Bind",
+	Default = Enum.KeyCode.X,
+	Hold = false,
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Pressed The Reset Keybind",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+	end    
+})
+
 --buttons
 
 ButtonsTab:AddButton({
