@@ -38,7 +38,7 @@ end
 
 local SliderTab = Window:MakeTab({
 	Name = "Sliders",
-	Icon = "rbxassetid://10847740276",
+	Icon = "rbxassetid://10847740232",
 	PremiumOnly = false
 })
 
