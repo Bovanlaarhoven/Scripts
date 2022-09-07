@@ -2,9 +2,9 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 
 OrionLib:MakeNotification({
 	Name = "Hydra Network",
-	Content = "Welcome To Hydra Network Universal",
+	Content = "Loading Hydra Network.",
 	Image = "rbxassetid://4483345998",
-	Time = 5
+	Time = 2
 })
 
 wait(2)
@@ -13,6 +13,13 @@ local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
 local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.05", SaveConfig = false, ConfigFolder = "OrionTest"})
+
+OrionLib:MakeNotification({
+	Name = "Hydra Network",
+	Content = "Welcome to Hydra Network Universal",
+	Image = "rbxassetid://4483345998",
+	Time = 2
+})
 
 --scripts
 
@@ -31,7 +38,7 @@ end
 
 local SliderTab = Window:MakeTab({
 	Name = "Sliders",
-	Icon = "rbxassetid://4483345998",
+	Icon = "rbxassetid://10847740276",
 	PremiumOnly = false
 })
 
@@ -103,7 +110,7 @@ local TargetWalkspeed
 SliderTab:AddSlider({
 	Name = "Speed (MoveDirection)",
 	Min = 0,
-	Max = 100,
+	Max = 500,
 	Default = 0,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
@@ -115,7 +122,7 @@ SliderTab:AddSlider({
 SliderTab:AddSlider({
 	Name = "Speed (WalkSpeed)",
 	Min = 0,
-	Max = 100,
+	Max = 500,
 	Default = 16,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
@@ -131,7 +138,7 @@ local SpeedSection = SliderTab:AddSection({
 SliderTab:AddSlider({
 	Name = "Jump Power",
 	Min = 0,
-	Max = 100,
+	Max = 250,
 	Default = 50.145,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
@@ -263,6 +270,12 @@ ButtonsTab:AddButton({
         game.Lighting.ClockTime = 14
         game.Lighting.Brightness = 10
         game.Lighting.GlobalShadows = false
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Full bright Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})
   	end    
 })
 
@@ -275,6 +288,12 @@ ButtonsTab:AddButton({
                 game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
             end
         end)
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the inf jump Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})
   	end    
 })
 
@@ -291,6 +310,12 @@ ButtonsTab:AddButton({
                 end
             end
         end)
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Q to Teleport Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})
   	end    
 })
 
@@ -298,7 +323,13 @@ ButtonsTab:AddButton({
     Name = "Free cam (shift + P)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
-      end    
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the free cam Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})    
+      end
 })
 
 ButtonsTab:AddButton({
@@ -310,6 +341,12 @@ ButtonsTab:AddButton({
         wait(1)
         vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Anti-Afk Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})    
       end    
 })
 
@@ -373,13 +410,25 @@ StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
 local chatFrame = player.PlayerGui.Chat.Frame
 chatFrame.ChatChannelParentFrame.Visible = true
 chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+OrionLib:MakeNotification({
+	Name = "Hydra Network",
+	Content = "Pressed on the Chat Spy Button",
+	Image = "rbxassetid://4483345998",
+	Time = 2
+})    
       end    
 })
 
 ButtonsTab:AddButton({
-    Name = "turns on Shiftlock in settings",
+    Name = "Enables Shift lock in settings",
     Callback = function()
         game:GetService("Players").LocalPlayer.DevEnableMouseLock = true
+		OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Enables Shift lock in settings",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		})    
       end    
 })
 
