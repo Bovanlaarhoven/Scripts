@@ -20,7 +20,7 @@ Tab:AddToggle({
 	Name = "This is a toggle!",
 	Default = false,
 	Callback = function(Value)
-        getgenv().enabled = value
+        getgenv().enabled = Value
 
         getgenv().outlinecolor =  Color3.new(255,255,255)
         local holder = game.CoreGui:FindFirstChild("ESPHolder") or Instance.new("Folder")
@@ -78,9 +78,9 @@ Tab:AddToggle({
 	Name = "This is a toggle!",
 	Default = false,
 	Callback = function(Value)
-        if value == true then
+        if Value == true then
             getgenv().outlinetrans = 0
-        elseif value == false then
+        elseif Value == false then
             getgenv().outlinetrans = 1
         end
 	end    
@@ -90,9 +90,9 @@ Tab:AddToggle({
 	Name = "This is a toggle!",
 	Default = false,
 	Callback = function(Value)
-        if value == true then
+        if Value == true then
             getgenv().filltrans = 0
-        elseif value == false then
+        elseif Value == false then
             getgenv().filltrans = 1
         end
 	end    
@@ -102,8 +102,8 @@ Tab:AddColorpicker({
 	Name = "Colorpicker",
 	Default = Color3.fromRGB(255, 0, 0),
 	Callback = function(Value)
-        s = value
-        getgenv().fillcolor =  value
+        s = Value
+        getgenv().fillcolor =  Value
 	end	  
 })
 
@@ -111,7 +111,7 @@ Tab:AddToggle({
 	Name = "This is a toggle!",
 	Default = false,
 	Callback = function(Value)
-		if value == true then
+		if Value == true then
             local Player = game:GetService("Players").LocalPlayer
             local Camera = game:GetService("Workspace").CurrentCamera
             local Mouse = Player:GetMouse()
@@ -206,7 +206,7 @@ Tab:AddToggle({
             game:GetService("Players").PlayerAdded:Connect(function(v)
                 DrawESP(v)
             end)
-        elseif value == false then
+        elseif Value == false then
             DrawESP = false
             Box.Transparency = 2
         end
