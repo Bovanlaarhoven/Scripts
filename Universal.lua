@@ -12,7 +12,7 @@ wait(2)
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
-local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.05", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.06", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 OrionLib:MakeNotification({
 	Name = "Hydra Network",
