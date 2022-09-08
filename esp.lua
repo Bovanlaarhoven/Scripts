@@ -8,7 +8,7 @@ local function remove()
             end
         end
     end
-end
+end 
 
     local function create()
         local hl = Instance.new("Highlight")
