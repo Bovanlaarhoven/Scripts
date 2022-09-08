@@ -12,7 +12,7 @@ wait(2)
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
-local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.06", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.07", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 OrionLib:MakeNotification({
 	Name = "Hydra Network",
@@ -38,7 +38,7 @@ end
 
 local SliderTab = Window:MakeTab({
 	Name = "Sliders",
-	Icon = "rbxassetid://10847740232",
+	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
@@ -83,6 +83,43 @@ TogglesTab:AddToggle({
 	end    
 })
 
+SliderTab:AddToggle({
+	Name = "Player Esp",
+	Default = false,
+	Callback = function(Value)
+		local ESPColor = Color3.fromRGB(0, 255, 0) -- Your color
+
+local function remove()
+    for i, v in pairs(game.Players:GetPlayers()) do
+        for i, v in pairs(v.Character:GetChildren()) do
+            if v:IsA("Highlight") then
+                v:Destroy()
+            end
+        end
+    end
+end 
+
+    local function create()
+        local hl = Instance.new("Highlight")
+        hl.Parent = character
+        hl.FillColor = ESPColor
+    end
+    
+    for i, v in pairs(game.Players:GetPlayers()) do
+        character = v.Character
+        create()
+    end
+    
+    game.Players.PlayerAdded:Connect(function(plr)
+        plr.CharacterAdded:Connect(function()
+            remove()
+            character = plr.Character
+            create()
+        end)
+    end)
+	end    
+})
+
 --inputs
 
 OthersTab:AddTextbox({
@@ -100,7 +137,6 @@ OthersTab:AddTextbox({
 
 
 --sliders
-
 
 local SpeedSection = SliderTab:AddSection({
 	Name = "Walk Modifiers"
@@ -259,7 +295,7 @@ KeybindsTab:AddBind({
 
 
 KeybindsTab:AddBind({
-	Name = "Bind",
+	Name = "Reset",
 	Default = Enum.KeyCode.X,
 	Hold = false,
 	Callback = function()
