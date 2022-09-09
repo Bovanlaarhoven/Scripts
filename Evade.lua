@@ -203,6 +203,18 @@ MainTab:AddSlider({
     end
 })
 
+MainTab:AddSlider({
+	Name = "Day & night Slider",
+	Min = 0,
+	Max = 24,
+	Default = 14,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 0.1,
+	Callback = function(Time)
+        game.Lighting.ClockTime = Time
+    end
+})
+
 --toggles
 
 local FunTab2 = FunTab:AddSection({
@@ -275,6 +287,75 @@ local FunTab3 = FunTab:AddSection({
 
 local MiscTab2 = MiscTab:AddSection({
 	Name = "Buttons"
+})
+
+MiscTab:AddButton({
+    Name = "Chat Spy",
+    Callback = function()
+        enabled = true
+spyOnMyself = false
+public = false
+publicItalics = true
+privateProperties = {
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+OrionLib:MakeNotification({
+	Name = "Hydra Network",
+	Content = "Pressed on the Chat Spy Button",
+	Image = "rbxassetid://4483345998",
+	Time = 2
+})    
+      end    
 })
 
 ESPTab:AddButton({
@@ -362,7 +443,12 @@ ESPTab:AddButton({
 			end
 		end
 		ps.PlayerAdded:Connect(p_added)
-		
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Player Esp Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
   	end    
 })
 
@@ -375,6 +461,12 @@ MiscTab:AddButton({
                 game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
             end
         end)
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Inf Jump Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
   	end    
 })
 
@@ -391,6 +483,12 @@ MiscTab:AddButton({
                 end
             end
         end)
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Q To Teleport Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
   	end    
 })
 
@@ -398,6 +496,12 @@ MiscTab:AddButton({
 	Name = "Full Bright",
 	Callback = function()
         dofullbright()
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Full Bright Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
   	end    
 })
 
@@ -414,6 +518,12 @@ MiscTab:AddButton({
         local ohString1 = "LowQuality"
         local ohBoolean2 = true
         game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohBoolean2)
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Low Quality Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
   	end    
 })
 
@@ -421,6 +531,12 @@ FunTab:AddButton({
     Name = "Free cam (shift + P)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Free cam Button",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
       end    
 })
 
@@ -502,7 +618,7 @@ local FunTab1 = FunTab:AddSection({
 
 MiscTab:AddBind({
 	Name = "Rejoin Server",
-	Default = Enum.KeyCode.Z,
+	Default = Enum.KeyCode.B,
 	Hold = false,
 	Callback = function()
         OrionLib:MakeNotification({
@@ -560,6 +676,12 @@ MiscTab:AddBind({
         local RandomVote = math.random(3)
 		local ohNumber1 = (RandomVote)
         game:GetService("ReplicatedStorage").Events.Vote:FireServer(ohNumber1)
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed on the Random Vote Keybind",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
 	end    
 })
 
@@ -572,6 +694,12 @@ FunTab:AddBind({
         local ohString1 = (number)
         game:GetService("ReplicatedStorage").Events.Emote:FireServer(ohString1)
         RandomEmote()
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed The Random Emote KeyBind",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
 	end    
 })
 
@@ -582,6 +710,12 @@ MiscTab:AddBind({
 	Callback = function()
         game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
         Notification()
+        OrionLib:MakeNotification({
+			Name = "Hydra Network",
+			Content = "Pressed The Respawn Keybind",
+			Image = "rbxassetid://4483345998",
+			Time = 2
+		}) 
 	end    
 })
 
