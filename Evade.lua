@@ -189,6 +189,19 @@ MainTab:AddSlider({
     end    
 })
 
+MainTab:AddSlider({
+	Name = "Fov Slider",
+	Min = 1,
+	Max = 120,
+	Default = 70,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	Callback = function(Fov)
+        local ohString1 = "FieldOfView"
+        local ohNumber2 = Fov
+        game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohNumber2)
+    end
+})
 
 --toggles
 
@@ -575,7 +588,7 @@ MiscTab:AddBind({
 --test
 
 ESPTab:AddToggle({
-    Name = "Esp",
+    Name = "Bots tracers",
     Default = true,
     Callback = function(Value)
         getgenv().toggleespmpt = Value
