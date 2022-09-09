@@ -694,12 +694,6 @@ FunTab:AddBind({
         local ohString1 = (number)
         game:GetService("ReplicatedStorage").Events.Emote:FireServer(ohString1)
         RandomEmote()
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed The Random Emote KeyBind",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
 	end    
 })
 
