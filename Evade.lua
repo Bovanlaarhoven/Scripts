@@ -13,7 +13,7 @@ OrionLib:MakeNotification({
     Image = "rbxassetid://4483345998",
     Time = 2
 })
-local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.1", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --locals
 local GuiService = game:GetService("GuiService")
@@ -135,7 +135,7 @@ local MiscTab= Window:MakeTab({
 })
 
 local ESPTab = Window:MakeTab({
-    Name =  "Tracers",
+    Name =  "Esp",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
@@ -264,7 +264,7 @@ local MiscTab2 = MiscTab:AddSection({
 	Name = "Buttons"
 })
 
-MainTab:AddButton({
+ESPTab:AddButton({
 	Name = "Player Esp",
 	Callback = function()
 		local c = workspace.CurrentCamera
@@ -485,6 +485,58 @@ local MiscTab1 = MiscTab:AddSection({
 
 local FunTab1 = FunTab:AddSection({
 	Name = "KeyBinds"
+})
+
+MiscTab:AddBind({
+	Name = "Rejoin Server",
+	Default = Enum.KeyCode.Z,
+	Hold = false,
+	Callback = function()
+        OrionLib:MakeNotification({
+            Name = "You Pressed the Rejoin Keybind.",
+            Content = "Rejoining in 5 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 4 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 3 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 2 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining in 1 seconds",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "Hydra Network",
+            Content = "Rejoining",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        local ts = game:GetService("TeleportService")
+        local p = game:GetService("Players").LocalPlayer
+        ts:Teleport(game.PlaceId, p)
+	end    
 })
 
 MiscTab:AddBind({
