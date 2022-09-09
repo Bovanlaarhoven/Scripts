@@ -12,6 +12,7 @@ wait(2)
 local StarterPlayer = game:GetService("StarterPlayer")
 local Workspace = game:GetService("Workspace")
 local Light = game:GetService("Lighting")
+local players = game.Players:GetPlayers()
 local Window = OrionLib:MakeWindow({Name = "Hydra Network Universal", HidePremium = false, IntroText = "Universal 0.07", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 OrionLib:MakeNotification({
@@ -20,6 +21,7 @@ OrionLib:MakeNotification({
 	Image = "rbxassetid://4483345998",
 	Time = 2
 })
+
 
 --scripts
 
@@ -74,49 +76,13 @@ local CreditsTab = Window:MakeTab({
 
 --toggles
 
+
 TogglesTab:AddToggle({
 	Name = "Fake lag",
 	Default = false,
 	Callback = function(Value)
         lag = Value
         functionlag()
-	end    
-})
-
-SliderTab:AddToggle({
-	Name = "Player Esp",
-	Default = false,
-	Callback = function(Value)
-		local ESPColor = Color3.fromRGB(0, 255, 0) -- Your color
-
-local function remove()
-    for i, v in pairs(game.Players:GetPlayers()) do
-        for i, v in pairs(v.Character:GetChildren()) do
-            if v:IsA("Highlight") then
-                v:Destroy()
-            end
-        end
-    end
-end 
-
-    local function create()
-        local hl = Instance.new("Highlight")
-        hl.Parent = character
-        hl.FillColor = ESPColor
-    end
-    
-    for i, v in pairs(game.Players:GetPlayers()) do
-        character = v.Character
-        create()
-    end
-    
-    game.Players.PlayerAdded:Connect(function(plr)
-        plr.CharacterAdded:Connect(function()
-            remove()
-            character = plr.Character
-            create()
-        end)
-    end)
 	end    
 })
 
@@ -310,6 +276,95 @@ KeybindsTab:AddBind({
 })
 
 --buttons
+
+ButtonsTab:AddButton({
+	Name = "Player Esp",
+	Callback = function()
+		local c = workspace.CurrentCamera
+		local ps = game:GetService("Players")
+		local lp = ps.LocalPlayer
+		local rs = game:GetService("RunService")
+		local function getdistancefc(part)
+			return (part.Position - c.CFrame.Position).Magnitude
+		end
+		local function esp(p, cr)
+			local h = cr:WaitForChild("Humanoid")
+			local hrp = cr:WaitForChild("HumanoidRootPart")
+			local text = Drawing.new("Text")
+			text.Visible = false
+			text.Center = true
+			text.Outline = true
+			text.Font = 2
+			text.Color = Color3.fromRGB(255, 255, 255)
+			text.Size = 17
+			local c1
+			local c2
+			local c3
+			local function dc()
+				text.Visible = false
+				text:Remove()
+				if c1 then
+					c1:Disconnect()
+					c1 = nil
+				end
+				if c2 then
+					c2:Disconnect()
+					c2 = nil
+				end
+				if c3 then
+					c3:Disconnect()
+					c3 = nil
+				end
+			end
+			c2 =
+				cr.AncestryChanged:Connect(
+				function(_, parent)
+					if not parent then
+						dc()
+					end
+				end
+			)
+			c3 =
+				h.HealthChanged:Connect(
+				function(v)
+					if (v <= 0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
+						dc()
+					end
+				end
+			)
+			c1 =
+				rs.RenderStepped:Connect(
+				function()
+					local hrp_pos, hrp_os = c:WorldToViewportPoint(hrp.Position)
+					if hrp_os then
+						text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y)
+						text.Text = p.Name .. " (" .. tostring(math.floor(getdistancefc(hrp))) .. " m)"
+						text.Visible = true
+					else
+						text.Visible = false
+					end
+				end
+			)
+		end
+		local function p_added(p)
+			if p.Character then
+				esp(p, p.Character)
+			end
+			p.CharacterAdded:Connect(
+				function(cr)
+					esp(p, cr)
+				end
+			)
+		end
+		for i, p in next, ps:GetPlayers() do
+			if p ~= lp then
+				p_added(p)
+			end
+		end
+		ps.PlayerAdded:Connect(p_added)
+		
+  	end    
+})
 
 ButtonsTab:AddButton({
 	Name = "Full Bright.",
