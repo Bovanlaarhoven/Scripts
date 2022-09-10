@@ -13,7 +13,7 @@ OrionLib:MakeNotification({
     Image = "rbxassetid://4483345998",
     Time = 2
 })
-local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.1", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.2s", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --locals
 local GuiService = game:GetService("GuiService")
