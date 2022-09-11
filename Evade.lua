@@ -21,12 +21,12 @@ local Light = game:GetService("Lighting")
 
 --functions and shit
 
-AutoSlide = true
-money = true
-revivedie = true
-autowistle = true
-autochat = true
-autofarm = true
+getgenv().AutoSlide = true
+getgenv().money = true
+getgenv().revivedie = true
+getgenv().autowistle = true
+getgenv().autochat = true
+getgenv().autofarm = true
 
 function queueOnTeleport(str)
 	if identifyexecutor() == "Synapse X" then
