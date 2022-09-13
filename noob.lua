@@ -1,1 +1,1 @@
-noo
+print("NOOB")
