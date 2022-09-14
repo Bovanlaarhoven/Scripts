@@ -101,12 +101,11 @@ function freemoney()
 end
 
 function Autoslide()
-    while AutoSlide == true do
+    while AutoSlide == true do task.wait()
     game:GetService("ReplicatedStorage").ModuleStorage.WeaponBase.Framework.BaseVM.Slide:Fire()
     local ohString1 = "Crouch"
     local ohBoolean2 = true
     game:GetService("Players").LocalPlayer.PlayerScripts.Events.KeybindUsed:Fire(ohString1, ohBoolean2)
-    wait()
     end
 end
     
