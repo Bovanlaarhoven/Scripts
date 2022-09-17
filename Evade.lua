@@ -13,7 +13,7 @@ OrionLib:MakeNotification({
     Image = "rbxassetid://4483345998",
     Time = 2
 })
-local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.3", SaveConfig = false, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.4", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --locals
 local GuiService = game:GetService("GuiService")
@@ -160,7 +160,7 @@ MainTab:AddSlider({
 	Min = -2,
 	Max = 250,
 	Default = -2,
-	Color = Color3.fromRGB(255,255,255),
+	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
 	Callback = function(Value)
 		TargetWalkspeed = Value
@@ -172,7 +172,7 @@ MainTab:AddSlider({
     Min = -1.40,
     Max = 100,
     Default = -1.40,
-    Color = Color3.fromRGB(255,255,255),
+    Color = Color3.fromRGB(128, 128, 128),
     Increment = 1,
     Callback = function(HipValue)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = HipValue
@@ -184,7 +184,7 @@ MainTab:AddSlider({
 	Min = 1,
 	Max = 120,
 	Default = 70,
-	Color = Color3.fromRGB(255,255,255),
+	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
 	Callback = function(Fov)
         local ohString1 = "FieldOfView"
@@ -198,7 +198,7 @@ MiscTab:AddSlider({
 	Min = 0,
 	Max = 24,
 	Default = 14,
-	Color = Color3.fromRGB(255,255,255),
+	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 0.1,
 	Callback = function(Time)
         game.Lighting.ClockTime = Time
