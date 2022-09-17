@@ -20,8 +20,6 @@ local GuiService = game:GetService("GuiService")
 local Light = game:GetService("Lighting")
 
 --functions and shit
-
-getgenv().AutoSlide = true
 getgenv().money = true
 getgenv().revivedie = true
 getgenv().autowistle = true
@@ -79,25 +77,6 @@ function freemoney()
         game:GetService("Players").LocalPlayer.PlayerGui.HUD.Messages.Use:Fire(ohString1)
         wait(5)
     end
-end
-
-function Autoslide()
-    while AutoSlide == true do task.wait()
-    game:GetService("ReplicatedStorage").ModuleStorage.WeaponBase.Framework.BaseVM.Slide:Fire()
-    local ohString1 = "Crouch"
-    local ohBoolean2 = true
-    game:GetService("Players").LocalPlayer.PlayerScripts.Events.KeybindUsed:Fire(ohString1, ohBoolean2)
-    end
-end
-    
-
-function Notification()
-OrionLib:MakeNotification({
-    Name = "Respawning...",
-    Content = "You pressed the respawn keybind",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
 end
 
 OrionLib:MakeNotification({
@@ -238,15 +217,6 @@ FunTab:AddToggle({
 	Callback = function(Value)
         autochat = Value
         SpamChat()
-	end    
-})
-
-FunTab:AddToggle({
-	Name = "AutoSlide (press c for onces after turning on)",
-	Default = false,
-	Callback = function(Value)
-        AutoSlide = Value
-		Autoslide()
 	end    
 })
 
@@ -604,6 +574,13 @@ MiscTab:AddButton({
   	end    
 })
 
+MiscTab:AddButton({
+	Name = "Test Emote (Permanant)",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
+  	end    
+})
+
 --keybinds
 
 local MiscTab1 = MiscTab:AddSection({
@@ -694,23 +671,6 @@ FunTab:AddBind({
         RandomEmote()
 	end    
 })
-
-MiscTab:AddBind({
-	Name = "Respawn",
-	Default = Enum.KeyCode.R,
-	Hold = false,
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-        Notification()
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed The Respawn Keybind",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-	end    
-})
-
 --test
 
 ESPTab:AddToggle({
