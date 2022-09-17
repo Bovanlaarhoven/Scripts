@@ -608,6 +608,16 @@ local FunTab1 = FunTab:AddSection({
 })
 
 MiscTab:AddBind({
+	Name = "Drink Cola",
+	Default = Enum.KeyCode.H,
+	Hold = false,
+	Callback = function()
+		local ohString1 = "Cola"
+		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
+	end    
+})
+
+MiscTab:AddBind({
 	Name = "Rejoin Server",
 	Default = Enum.KeyCode.B,
 	Hold = false,
