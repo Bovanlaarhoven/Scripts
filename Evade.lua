@@ -739,7 +739,7 @@ end)
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
         if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
         end
     end)
 end)
