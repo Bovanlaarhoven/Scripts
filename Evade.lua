@@ -28,24 +28,6 @@ getgenv().autowistle = true
 getgenv().autochat = true
 getgenv().autofarm = true
 
-function queueOnTeleport(str)
-	if identifyexecutor() == "Synapse X" then
-		pcall(function()
-			syn.queue_on_teleport(str)
-		end)
-	else 
-		local suc,err = pcall(function() queue_on_teleport(str) end)
-		if err then
-			print("Error occured, trying again...")
-			local suc,eror = pcall(function() queue_on_teleport(str) end)
-						if eror then print("Cant queue teleport") end
-		end
-	end
-	end
-	queueOnTeleport([[
-	loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Main.lua"), true))()
-	]])
-
 function functionautofarm()
     while autofarm == true do task.wait()
         game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(3080.2978515625, -800.8651733398438, 16.78089714050293)
@@ -184,7 +166,7 @@ local TargetWalkspeed
 MainTab:AddSlider({
 	Name = "Speed",
 	Min = -2,
-	Max = 100,
+	Max = 250,
 	Default = -2,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
