@@ -25,6 +25,15 @@ getgenv().revivedie = true
 getgenv().autowistle = true
 getgenv().autochat = true
 getgenv().autofarm = true
+getgenv().AutoDrink = true
+
+function autodrink()
+	while AutoDrink == true do
+		local ohString1 = "Cola"
+		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
+		wait(6)
+	end
+end
 
 function functionautofarm()
     while autofarm == true do task.wait()
@@ -141,6 +150,10 @@ local MainTab3 = MainTab:AddSection({
 	Name = "Sliders"
 })
 
+local Misctab5 = MiscTab:AddSection({
+	Name = "Sliders"
+})
+
 local TargetWalkspeed
 MainTab:AddSlider({
 	Name = "Speed",
@@ -180,7 +193,7 @@ MainTab:AddSlider({
     end
 })
 
-MainTab:AddSlider({
+MiscTab:AddSlider({
 	Name = "Day & night Slider",
 	Min = 0,
 	Max = 24,
@@ -201,6 +214,16 @@ local FunTab2 = FunTab:AddSection({
 local MiscTab3 = MainTab:AddSection({
 	Name = "Toggles"
 })
+
+MainTab:AddToggle({
+	Name = "Auto Drink Cola (drinks everytime it runs out)",
+	Default = false,
+	Callback = function(Value)
+		AutoDrink = Value
+		autodrink()
+	end    
+})
+
 
 MainTab:AddToggle({
 	Name = "AutoFarm",
@@ -659,6 +682,12 @@ MiscTab:AddBind({
 	Hold = false,
 	Callback = function()
 		game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+		OrionLib:MakeNotification({
+			Name = "Respawning...",
+			Content = "You pressed the respawn keybind",
+			Image = "rbxassetid://4483345998",
+			Time = 5
+			})
 	end    
 })
 
