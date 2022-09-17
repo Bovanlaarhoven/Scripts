@@ -574,13 +574,6 @@ MiscTab:AddButton({
   	end    
 })
 
-MiscTab:AddButton({
-	Name = "Test Emote (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
-  	end    
-})
-
 --keybinds
 
 local MiscTab1 = MiscTab:AddSection({
@@ -657,6 +650,15 @@ MiscTab:AddBind({
 			Image = "rbxassetid://4483345998",
 			Time = 2
 		}) 
+	end    
+})
+
+MiscTab:AddBind({
+	Name = "Respawn",
+	Default = Enum.KeyCode.R,
+	Hold = false,
+	Callback = function()
+		game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 	end    
 })
 
