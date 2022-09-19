@@ -8,21 +8,23 @@ local Window = OrionLib:MakeWindow({Name = "Redbox 2", HidePremium = false, Intr
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Disabled = true
+getgenv().Transparency = 1
+
         game:GetService('RunService').RenderStepped:connect(function()
         if Disabled then
         for i,v in next, game:GetService('Players'):GetPlayers() do
         if v.Name ~= game:GetService('Players').LocalPlayer.Name then
         pcall(function()
         v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
-        v.Character.Head.Transparency = 0.7
+        v.Character.Head.Transparency = Transparency
         v.Character.Head.BrickColor = BrickColor.new(Color)
         v.Character.Head.Material = "ForceField"
         v.Character.Head.CanCollide = false
         end)
         end
         end
-        end
-        end)
+    end
+end)
 
         
 local MainTab = Window:MakeTab({
@@ -92,6 +94,19 @@ MainTab:AddColorpicker({
 	Callback = function(Value)
 		Color = Value
 	end	  
+})
+
+MainTab:AddSlider({
+	Name = "Transparency",
+	Min = 0,
+	Max = 1,
+	Default = 1,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 0.1,
+	ValueName = "Transparency",
+	Callback = function(Value)
+		Transparency = Value
+	end    
 })
 
 PlayerTab:AddSlider({
