@@ -39,7 +39,7 @@ local PlayerTab = Window:MakeTab({
 
 MainTab:AddBind({
 	Name = "Inf Ammo (equipe Weapon before pressing)",
-	Default = Enum.KeyCode.L,
+	Default = Enum.KeyCode.R,
 	Hold = false,
 	Callback = function()
         local Tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
@@ -50,13 +50,15 @@ MainTab:AddBind({
 	end    
 })
 
-MainTab:AddButton({
+MainTab:AddBind({
 	Name = "No Recoil",
-	Callback = function()	
-        local Tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
-        local m = require(Tool.toolSettings)
-        m.firingRecoilEnabled = false
-  	end    
+	Default = Enum.KeyCode.L,
+	Hold = false,
+	Callback = function()
+                local Tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                local m = require(Tool.toolSettings)
+                m.firingRecoilEnabled = false
+	end    
 })
 
 PlayerTab:AddButton({
