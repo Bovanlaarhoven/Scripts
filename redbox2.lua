@@ -5,6 +5,7 @@ local players = game.Players:GetPlayers()
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Redbox 2", HidePremium = false, IntroText = "Hydra Network", SaveConfig = true, ConfigFolder = "OrionTest"})
 
+getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Disabled = true
         game:GetService('RunService').RenderStepped:connect(function()
