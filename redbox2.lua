@@ -5,12 +5,6 @@ local players = game.Players:GetPlayers()
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Redbox 2", HidePremium = false, IntroText = "Hydra Network", SaveConfig = true, ConfigFolder = "OrionTest"})
 
-local MainTab = Window:MakeTab({
-        Name = "Main",
-        Icon = "rbxassetid://4483345998",
-        PremiumOnly = false
-    })
-
 getgenv().HeadSize = 10
 getgenv().Disabled = true
         game:GetService('RunService').RenderStepped:connect(function()
@@ -20,14 +14,7 @@ getgenv().Disabled = true
         pcall(function()
         v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
         v.Character.Head.Transparency = 0.7
-        MainTab:AddColorpicker({
-                Name = "Colorpicker",
-                Default = Color3.fromRGB(255, 0, 0),
-                Callback = function(Value)
-                        v.Character.Head.BrickColor = Value
-                end	  
-        })
-        
+        v.Character.Head.BrickColor = BrickColor.new(Color)
         v.Character.Head.Material = "ForceField"
         v.Character.Head.CanCollide = false
         end)
@@ -36,8 +23,12 @@ getgenv().Disabled = true
         end
         end)
 
-
-
+        
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
 local PlayerTab = Window:MakeTab({
 	Name = "Local Player",
@@ -92,6 +83,13 @@ MainTab:AddSlider({
     end    
 })
 
+MainTab:AddColorpicker({
+	Name = "Hitbox Color",
+	Default = Color3.fromRGB(255, 0, 0),
+	Callback = function(Value)
+		Color = Value
+	end	  
+})
 
 PlayerTab:AddSlider({
         Name = "Fov Slider",
