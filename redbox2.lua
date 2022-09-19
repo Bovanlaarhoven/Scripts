@@ -74,7 +74,7 @@ PlayerTab:AddButton({
 MainTab:AddSlider({
     Name = "Hitbox",
     Min = 0,
-    Max = 100,
+    Max = 5,
     Default = 5,
     Color = Color3.fromRGB(255,255,255),
     Increment = 1,
