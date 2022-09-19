@@ -9,6 +9,7 @@ getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Disabled = true
 getgenv().Transparency = 1
+getgenv().Meterial = Glass
 
         game:GetService('RunService').RenderStepped:connect(function()
         if Disabled then
@@ -18,7 +19,7 @@ getgenv().Transparency = 1
         v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
         v.Character.Head.Transparency = Transparency
         v.Character.Head.BrickColor = BrickColor.new(Color)
-        v.Character.Head.Material = "ForceField"
+        v.Character.Head.Material = Meterial
         v.Character.Head.CanCollide = false
         end)
         end
@@ -78,8 +79,8 @@ PlayerTab:AddButton({
 MainTab:AddSlider({
     Name = "Hitbox",
     Min = 0,
-    Max = 5,
-    Default = 5,
+    Max = 100,
+    Default = 100,
     Color = Color3.fromRGB(255,255,255),
     Increment = 1,
     ValueName = "Head size",
@@ -100,12 +101,21 @@ MainTab:AddSlider({
 	Name = "Transparency",
 	Min = 0,
 	Max = 1,
-	Default = 1,
+	Default = 0,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 0.1,
 	ValueName = "Transparency",
 	Callback = function(Value)
 		Transparency = Value
+	end    
+})
+
+MainTab:AddDropdown({
+	Name = "HitBox Material",
+	Default = "ForceField",
+	Options = {"Ice", "ForceField", "Neon", "Foil"},
+	Callback = function(Value)
+        Meterial = Value
 	end    
 })
 
