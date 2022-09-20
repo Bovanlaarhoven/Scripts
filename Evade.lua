@@ -846,7 +846,7 @@ ESPTab:AddColorpicker({
 
 --credits
 
-CreditsTab:AddParagraph("Owner/Main Dev","hydra#1000")
+CreditsTab:AddParagraph("Owner/Main Dev","hydra#8270")
 CreditsTab:AddParagraph("Credits","Felix and ss.spooky.ss")
 CreditsTab:AddParagraph("Credits","xCLY And batusd")
 
