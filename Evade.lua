@@ -29,6 +29,18 @@ getgenv().autofarm = true
 getgenv().AutoDrink = true
 getgenv().NoCameraShake = true
 
+getgenv().Settings = {
+    moneyfarm = false,
+    afkfarm = false,
+    NoCameraShake = false,
+    Downedplayeresp = false,
+    AutoRespawn = false,
+    Speed = 1450,
+    Jump = 3,
+    reviveTime = 3,
+    DownedColor = Color3.fromRGB(255,0,0),
+    PlayerColor = Color3.fromRGB(255,170,0),
+}
 
 local FindAI = function()
     for _,v in pairs(WorkspacePlayers:GetChildren()) do
@@ -66,16 +78,6 @@ local revive = function()
         end)
     end
 end
-
-local old
-old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
-    local Args = {...}
-    local method = getnamecallmethod()
-    if tostring(self) == 'Communicator' and method == "InvokeServer" and Args[1] == "update" then
-        return Settings.Speed, Settings.Jump 
-    end
-    return old(self,...)
-end))
 
 task.spawn(function()
     while task.wait() do
@@ -372,8 +374,7 @@ MainTab:AddToggle({
 	Name = "auto respawn (you respawn when you get downed)",
 	Default = false,
 	Callback = function(Value)
-        revivedie = Value
-        god()
+        Settings.AutoRespawn = Value
 	end    
 })
 
@@ -850,6 +851,7 @@ ESPTab:AddColorpicker({
 
 CreditsTab:AddParagraph("Owner/Main Dev","hydra#1000")
 CreditsTab:AddParagraph("Credits","Felix and ss.spooky.ss")
+CreditsTab:AddParagraph("Credits","xCLY And batusd")
 
 
 local cam = workspace.CurrentCamera
@@ -900,6 +902,16 @@ game:GetService("RunService").RenderStepped:Connect(function()
         end
     end)
 end)
+
+local old
+old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
+    local Args = {...}
+    local method = getnamecallmethod()
+    if tostring(self) == 'Communicator' and method == "InvokeServer" and Args[1] == "update" then
+        return Settings.Speed, Settings.Jump 
+    end
+    return old(self,...)
+end))
 
 setclipboard("https://discord.gg/k9a4zym5uG")
 
