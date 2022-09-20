@@ -1,3 +1,8 @@
+local WorkspacePlayers = game:GetService("Workspace").Game.Players
+local Players = game:GetService('Players')
+local localplayer = Players.LocalPlayer
+local GuiService = game:GetService("GuiService")
+local Light = game:GetService("Lighting")
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 OrionLib:MakeNotification({
     Name = "Hydra Network",
@@ -13,11 +18,7 @@ OrionLib:MakeNotification({
     Image = "rbxassetid://4483345998",
     Time = 2
 })
-local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.4", SaveConfig = false, ConfigFolder = "OrionTest"})
-
---locals
-local GuiService = game:GetService("GuiService")
-local Light = game:GetService("Lighting")
+local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.6", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --functions and shit
 getgenv().money = true
@@ -26,6 +27,87 @@ getgenv().autowistle = true
 getgenv().autochat = true
 getgenv().autofarm = true
 getgenv().AutoDrink = true
+getgenv().NoCameraShake = true
+
+
+local FindAI = function()
+    for _,v in pairs(WorkspacePlayers:GetChildren()) do
+        if not Players:FindFirstChild(v.Name) then
+            return v
+        end
+    end
+end
+
+local GetDownedPlr = function()
+    for i,v in pairs(WorkspacePlayers:GetChildren()) do
+        if v:GetAttribute("Downed") then
+            return v
+        end
+    end
+end
+
+local revive = function()
+    local downedplr = GetDownedPlr()
+    if downedplr ~= nil and downedplr:FindFirstChild('HumanoidRootPart') then
+        task.spawn(function()
+            while task.wait() do
+                if localplayer.Character then
+                    workspace.Game.Settings:SetAttribute("ReviveTime", 2.2)
+                    localplayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(downedplr:FindFirstChild('HumanoidRootPart').Position.X, downedplr:FindFirstChild('HumanoidRootPart').Position.Y + 3, downedplr:FindFirstChild('HumanoidRootPart').Position.Z)
+                    task.wait()
+                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), false)
+                    task.wait(4.5)
+                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
+                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
+                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
+                    break
+                end
+            end
+        end)
+    end
+end
+
+local old
+old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
+    local Args = {...}
+    local method = getnamecallmethod()
+    if tostring(self) == 'Communicator' and method == "InvokeServer" and Args[1] == "update" then
+        return Settings.Speed, Settings.Jump 
+    end
+    return old(self,...)
+end))
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.AutoRespawn then
+             if localplayer.Character and localplayer.Character:GetAttribute("Downed") then
+                game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+             end
+        end
+
+        if Settings.NoCameraShake then
+            localplayer.PlayerScripts.CameraShake.Value = CFrame.new(0,0,0) * CFrame.new(0,0,0)
+        end
+        if Settings.moneyfarm then
+            if localplayer.Character and localplayer.Character:GetAttribute("Downed") then
+                game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+                task.wait(3)
+            else
+                revive()
+                task.wait(1)
+            end
+        end
+        if Settings.moneyfarm == false and Settings.afkfarm and localplayer.Character:FindFirstChild('HumanoidRootPart') ~= nil then
+            localplayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(6007, 7005, 8005)
+        end
+    end
+end)
+
+function camerashake()
+    while NoCameraShake == true do task.wait()
+        localplayer.PlayerScripts.CameraShake.Value = CFrame.new(0,0,0) * CFrame.new(0,0,0)
+    end
+end
 
 function autodrink()
 	while AutoDrink == true do
@@ -162,6 +244,7 @@ MainTab:AddSlider({
 	Default = -2,
 	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
+	ValueName = "Walk Speed",
 	Callback = function(Value)
 		TargetWalkspeed = Value
 	end   
@@ -174,6 +257,7 @@ MainTab:AddSlider({
     Default = -1.40,
     Color = Color3.fromRGB(128, 128, 128),
     Increment = 1,
+	ValueName = "Hip Height",
     Callback = function(HipValue)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = HipValue
     end    
@@ -186,10 +270,24 @@ MainTab:AddSlider({
 	Default = 70,
 	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
+	ValueName = "Fov",
 	Callback = function(Fov)
         local ohString1 = "FieldOfView"
         local ohNumber2 = Fov
         game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohNumber2)
+    end
+})
+
+MainTab:AddSlider({
+	Name = "Jump Power",
+	Min = 0,
+	Max = 120,
+	Default = 3,
+	Color = Color3.fromRGB(128, 128, 128),
+	Increment = 1,
+	ValueName = "Jump",
+	Callback = function(Value)
+		Settings.Jump = Value
     end
 })
 
@@ -200,6 +298,7 @@ MiscTab:AddSlider({
 	Default = 14,
 	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 0.1,
+	ValueName = "Time",
 	Callback = function(Time)
         game.Lighting.ClockTime = Time
     end
@@ -216,6 +315,23 @@ local MiscTab3 = MainTab:AddSection({
 })
 
 MainTab:AddToggle({
+	Name = "Money Farm",
+	Default = false,
+	Callback = function(Value)
+		Settings.moneyfarm = Value
+	end    
+})
+
+MainTab:AddToggle({
+	Name = "No Camera Shake",
+	Default = false,
+	Callback = function(Value)
+        NoCameraShake = Value
+        camerashake()
+	end    
+})
+
+MainTab:AddToggle({
 	Name = "Auto Drink Cola (drinks everytime it runs out)",
 	Default = false,
 	Callback = function(Value)
@@ -226,7 +342,7 @@ MainTab:AddToggle({
 
 
 MainTab:AddToggle({
-	Name = "AutoFarm",
+	Name = "Afk Farm",
 	Default = false,
 	Callback = function(Value)
         autofarm = Value
