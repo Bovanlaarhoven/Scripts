@@ -79,8 +79,8 @@ PlayerTab:AddButton({
 MainTab:AddSlider({
     Name = "Hitbox",
     Min = 0,
-    Max = 100,
-    Default = 100,
+    Max = 5,
+    Default = 1,
     Color = Color3.fromRGB(255,255,255),
     Increment = 1,
     ValueName = "Head size",
