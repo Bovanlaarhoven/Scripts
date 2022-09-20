@@ -151,8 +151,6 @@ function god()
     end
 end
             
-
-
 function dofullbright()
     Light.Ambient = Color3.new(1, 1, 1)
     Light.ColorShift_Bottom = Color3.new(1, 1, 1)
@@ -188,8 +186,6 @@ function RandomEmote()
         Time = 5
     })
 end
-
-
 --tabs
 
 local MainTab= Window:MakeTab({
@@ -228,8 +224,28 @@ local CreditsTab = Window:MakeTab({
 	PremiumOnly = true
 })
 
---sliders
+local MiscTab3 = MainTab:AddSection({
+	Name = "Auto Farms"
+})
 
+MainTab:AddToggle({
+	Name = "Money Farm",
+	Default = false,
+	Callback = function(Value)
+		Settings.moneyfarm = Value
+	end    
+})
+
+MainTab:AddToggle({
+	Name = "Afk Farm",
+	Default = false,
+	Callback = function(Value)
+        autofarm = Value
+        functionautofarm()
+	end    
+})
+
+--sliders
 local MainTab3 = MainTab:AddSection({
 	Name = "Sliders"
 })
@@ -317,14 +333,6 @@ local MiscTab3 = MainTab:AddSection({
 })
 
 MainTab:AddToggle({
-	Name = "Money Farm",
-	Default = false,
-	Callback = function(Value)
-		Settings.moneyfarm = Value
-	end    
-})
-
-MainTab:AddToggle({
 	Name = "No Camera Shake",
 	Default = false,
 	Callback = function(Value)
@@ -339,16 +347,6 @@ MainTab:AddToggle({
 	Callback = function(Value)
 		AutoDrink = Value
 		autodrink()
-	end    
-})
-
-
-MainTab:AddToggle({
-	Name = "Afk Farm",
-	Default = false,
-	Callback = function(Value)
-        autofarm = Value
-        functionautofarm()
 	end    
 })
 
@@ -388,7 +386,6 @@ FunTab:AddToggle({
 })
 
 --buttons
-
 local FunTab3 = FunTab:AddSection({
 	Name = "Buttons"
 })
