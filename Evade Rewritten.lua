@@ -1,12 +1,13 @@
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
 local WorkspacePlayers = game:GetService("Workspace").Game.Players
 local Players = game:GetService('Players')
 local localplayer = Players.LocalPlayer
 local GuiService = game:GetService("GuiService")
 local Light = game:GetService("Lighting")
-local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 getgenv().money = true
 getgenv().revivedie = true
@@ -15,7 +16,6 @@ getgenv().autochat = true
 getgenv().autofarm = true
 getgenv().AutoDrink = true
 getgenv().NoCameraShake = true
-
 getgenv().Settings = {
     moneyfarm = false,
     afkfarm = false,
@@ -139,7 +139,7 @@ function god()
 end
 
 local Window = Library:CreateWindow({
-    Title = 'Hydra Network| Evade',
+    Title = 'Hydra Network |Evade',
     Center = true, 
     AutoShow = true,
 })
@@ -150,12 +150,14 @@ local MainTab = {
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-MainTab:AddToggle('MoneyFarm', {
+local AutoFarms = MainTab.Main:AddLeftGroupbox('Auto Farms')
+
+AutoFarms:AddToggle('MoneyFarm', {
     Text = 'Money Farm',
     Default = false,
     Tooltip = 'Auto Revives Players',
 })
 
-MainTab.MoneyFarm:OnChanged(function(Value)
+AutoFarms.MoneyFarm:OnChanged(function(Value)
     Settings.moneyfarm = Value
 end)
