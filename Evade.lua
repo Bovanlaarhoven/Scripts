@@ -250,7 +250,7 @@ MainTab:AddSlider({
 	Name = "Speed",
 	Min = 0,
 	Max = 250,
-	Default = 0~,
+	Default = 0,
 	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
 	ValueName = "Walk Speed",
