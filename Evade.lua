@@ -25,10 +25,8 @@ getgenv().money = true
 getgenv().revivedie = true
 getgenv().autowistle = true
 getgenv().autochat = true
-getgenv().autofarm = true
 getgenv().AutoDrink = true
 getgenv().NoCameraShake = true
-
 getgenv().Settings = {
     moneyfarm = false,
     afkfarm = false,
@@ -117,12 +115,6 @@ function autodrink()
 		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
 		wait(6)
 	end
-end
-
-function functionautofarm()
-    while autofarm == true do task.wait()
-        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(3080.2978515625, -800.8651733398438, 16.78089714050293)
-    end
 end
 
 function SpamChat()
@@ -240,8 +232,7 @@ MainTab:AddToggle({
 	Name = "Afk Farm",
 	Default = false,
 	Callback = function(Value)
-        autofarm = Value
-        functionautofarm()
+        Settings.afkfarm = Value
 	end    
 })
 
