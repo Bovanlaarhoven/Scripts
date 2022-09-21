@@ -254,17 +254,16 @@ local Misctab5 = MiscTab:AddSection({
 	Name = "Sliders"
 })
 
-local TargetWalkspeed
 MainTab:AddSlider({
 	Name = "Speed",
-	Min = -2,
-	Max = 250,
-	Default = -2,
+	Min = 1450,
+	Max = 10000,
+	Default = 1450,
 	Color = Color3.fromRGB(128, 128, 128),
 	Increment = 1,
 	ValueName = "Walk Speed",
 	Callback = function(Value)
-		TargetWalkspeed = Value
+		Settings.Speed = Value
 	end   
 })
 
@@ -890,14 +889,6 @@ end
 
 game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
     esp(plr)
-end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    pcall(function()
-        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
-        end
-    end)
 end)
 
 local old
