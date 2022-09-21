@@ -139,7 +139,7 @@ function god()
 end
 
 local Window = Library:CreateWindow({
-    Title = 'Hydra Network |Evade',
+    Title = 'Evade V3',
     Center = true, 
     AutoShow = true,
 })
@@ -243,6 +243,156 @@ end)
 
 local MyButton = Buttons:AddButton('Test Emote Giver', function()
     game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
+end)
+
+local MyButton = Buttons:AddButton('Chat Spy', function()
+    enabled = true
+    spyOnMyself = false
+    public = false
+    publicItalics = true
+    privateProperties = {
+        Color = Color3.fromRGB(0,255,255); 
+        Font = Enum.Font.SourceSansBold;
+        TextSize = 18;
+    }
+    local StarterGui = game:GetService("StarterGui")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+    local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+    local instance = (_G.chatSpyInstance or 0) + 1
+    _G.chatSpyInstance = instance
+    
+    local function onChatted(p,msg)
+        if _G.chatSpyInstance == instance then
+            if p==player and msg:lower():sub(1,4)=="/spy" then
+                enabled = not enabled
+                wait(0.3)
+                privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+                StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+            elseif enabled and (spyOnMyself==true or p~=player) then
+                msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+                local hidden = true
+                local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                    if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                        hidden = false
+                    end
+                end)
+                wait(1)
+                conn:Disconnect()
+                if hidden and enabled then
+                    if public then
+                        saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                    else
+                        privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                        StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                    end
+                end
+            end
+        end
+    end
+    
+    for _,p in ipairs(Players:GetPlayers()) do
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end
+    Players.PlayerAdded:Connect(function(p)
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end)
+    privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+    local chatFrame = player.PlayerGui.Chat.Frame
+    chatFrame.ChatChannelParentFrame.Visible = true
+    chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+    OrionLib:MakeNotification({
+        Name = "Hydra Network",
+        Content = "Pressed on the Chat Spy Button",
+        Image = "rbxassetid://4483345998",
+        Time = 2
+    })    
+end)
+
+local MyButton = Buttons:AddButton('Player esp', function()
+    local c = workspace.CurrentCamera
+local ps = game:GetService("Players")
+local lp = ps.LocalPlayer
+local rs = game:GetService("RunService")
+local function getdistancefc(part)
+    return (part.Position - c.CFrame.Position).Magnitude
+end
+local function esp(p, cr)
+    local h = cr:WaitForChild("Humanoid")
+    local hrp = cr:WaitForChild("HumanoidRootPart")
+    local text = Drawing.new("Text")
+    text.Visible = false
+    text.Center = true
+    text.Outline = true
+    text.Font = 2
+    text.Color = Color3.fromRGB(255, 255, 255)
+    text.Size = 17
+    local c1
+    local c2
+    local c3
+    local function dc()
+        text.Visible = false
+        text:Remove()
+        if c1 then
+            c1:Disconnect()
+            c1 = nil
+        end
+        if c2 then
+            c2:Disconnect()
+            c2 = nil
+        end
+        if c3 then
+            c3:Disconnect()
+            c3 = nil
+        end
+    end
+    c2 =
+        cr.AncestryChanged:Connect(
+        function(_, parent)
+            if not parent then
+                dc()
+            end
+        end
+    )
+    c3 =
+        h.HealthChanged:Connect(
+        function(v)
+            if (v <= 0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
+                dc()
+            end
+        end
+    )
+    c1 =
+        rs.RenderStepped:Connect(
+        function()
+            local hrp_pos, hrp_os = c:WorldToViewportPoint(hrp.Position)
+            if hrp_os then
+                text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y)
+                text.Text = p.Name .. " (" .. tostring(math.floor(getdistancefc(hrp))) .. " m)"
+                text.Visible = true
+            else
+                text.Visible = false
+            end
+        end
+    )
+end
+local function p_added(p)
+    if p.Character then
+        esp(p, p.Character)
+    end
+    p.CharacterAdded:Connect(
+        function(cr)
+            esp(p, cr)
+        end
+    )
+end
+for i, p in next, ps:GetPlayers() do
+    if p ~= lp then
+        p_added(p)
+    end
+end
 end)
 
 --others
