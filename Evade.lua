@@ -245,6 +245,7 @@ local Misctab5 = MiscTab:AddSection({
 	Name = "Sliders"
 })
 
+local TargetWalkspeed
 MainTab:AddSlider({
 	Name = "Speed",
 	Min = 1450,
@@ -254,7 +255,7 @@ MainTab:AddSlider({
 	Increment = 1,
 	ValueName = "Walk Speed",
 	Callback = function(Value)
-		Settings.Speed = Value
+		TargetWalkspeed = Value
 	end   
 })
 
@@ -900,5 +901,13 @@ Content = "Join the Discord Copied in your clip Board",
 Image = "rbxassetid://4483345998",
 Time = 5
 })
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+        end
+    end)
+end)
 
 OrionLib:Init()
