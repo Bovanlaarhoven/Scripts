@@ -840,6 +840,7 @@ ESPTab:AddColorpicker({
 CreditsTab:AddParagraph("Owner/Main Dev","hydra#8270")
 CreditsTab:AddParagraph("Credits","Felix and ss.spooky.ss")
 CreditsTab:AddParagraph("Credits","xCLY And batusd")
+CreditsTab:AddParagraph("Credits","Truncated Cuboctahedron")
 
 
 local cam = workspace.CurrentCamera
