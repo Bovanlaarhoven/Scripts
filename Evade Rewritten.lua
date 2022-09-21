@@ -1,4 +1,5 @@
 game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+wait()
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
@@ -146,6 +147,7 @@ local Window = Library:CreateWindow({
 
 local MainTab = {
     Main = Window:AddTab('Main Features'), 
+    ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local AutoFarms = MainTab.Main:AddLeftGroupbox('Auto Farms')
@@ -235,6 +237,7 @@ task.spawn(function()
         if state then
             game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
         end
+
         if Library.Unloaded then break end
     end
 end)
@@ -414,3 +417,19 @@ old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
     end
     return old(self,...)
 end))
+
+--ui settings
+
+local MenuGroup = MainTab['UI Settings']:AddLeftGroupbox('Menu')
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
+Library.ToggleKeybind = Options.MenuKeybind
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
+SaveManager:BuildConfigSection(MainTab['UI Settings']) 
+ThemeManager:ApplyToTab(MainTab['UI Settings'])
