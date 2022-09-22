@@ -152,8 +152,10 @@ local MainTab = {
 
 local AutoFarms = MainTab.Main:AddLeftGroupbox('Auto Farms')
 local Modifiers = MainTab.Main:AddLeftGroupbox('Modifiers')
-local Keybinds = MainTab.Main:AddLeftGroupbox('Keybinds')
+local Keybinds = MainTab.Main:AddLeftGroupbox('Keybinds (Hold to key To work)')
 local Buttons = MainTab.Main:AddRightGroupbox('Buttons')
+local Teleport = MainTab.Main:AddRightGroupbox('Teleport')
+local Toggle = MainTab.Main:AddLeftGroupbox('Toggle')
 
 --tabs
 AutoFarms:AddToggle('MoneyFarm', {
@@ -168,14 +170,6 @@ AutoFarms:AddToggle('AfkFarm', {
     Tooltip = 'Afks outside the map',
 })
 
---toggles
-Toggles.MoneyFarm:OnChanged(function(Value)
-    Settings.moneyfarm = Value
-end)
-
-Toggles.AfkFarm:OnChanged(function(Value)
-    Settings.afkfarm = Value
-end)
 
 --sliders
 local TargetWalkspeed
@@ -222,7 +216,7 @@ Keybinds:AddLabel('Respawn'):AddKeyPicker('Respawn', {
     Default = 'R',
     SyncToggleState = false, 
     Mode = 'Hold',
-    Text = 'Respawn Keybind (Hold To work)',
+    Text = 'Respawn Keybind',
     NoUI = false,
 })
 
@@ -242,10 +236,68 @@ task.spawn(function()
     end
 end)
 
+Keybinds:AddLabel('Drink Cola'):AddKeyPicker('Cola', {
+    Default = 'H',
+    SyncToggleState = false, 
+    Mode = 'Hold',
+    Text = 'Drink Cola',
+    NoUI = false,
+})
+
+Options.Cola:OnClick(function()
+    Cola:GetState()
+end)
+
+task.spawn(function()
+    while true do
+        wait(1)
+        local state = Options.Cola:GetState()
+        if state then
+            local ohString1 = "Cola"
+            game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
+        end
+
+        if Library.Unloaded then break end
+    end
+end)
+
 --buttons
+
+local MyButton = Buttons:AddButton('Full Bright', function()
+    Light.Ambient = Color3.new(1, 1, 1)
+    Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+    Light.ColorShift_Top = Color3.new(1, 1, 1)
+    game.Lighting.FogEnd = 100000
+    game.Lighting.FogStart = 0
+    game.Lighting.ClockTime = 14
+    game.Lighting.Brightness = 2
+    game.Lighting.GlobalShadows = false
+end)
 
 local MyButton = Buttons:AddButton('Test Emote Giver', function()
     game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
+end)
+
+local MyButton = Buttons:AddButton('Q to Teleport', function()
+    plr = game.Players.LocalPlayer 
+hum = plr.Character.HumanoidRootPart 
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+    if key == "q" then
+    if mouse.Target then
+        hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
+        end
+    end
+end)
+end)
+
+local MyButton = Buttons:AddButton('Inf Jump', function()
+    local InfiniteJumpEnabled = true
+    game:GetService("UserInputService").JumpRequest:connect(function()
+    if InfiniteJumpEnabled then
+        game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+    end
+end)
 end)
 
 local MyButton = Buttons:AddButton('Chat Spy', function()
@@ -396,6 +448,62 @@ for i, p in next, ps:GetPlayers() do
         p_added(p)
     end
 end
+end)
+
+local MyButton = Teleport:AddButton('Main Game', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 9872472334
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+local MyButton = Teleport:AddButton('Casuel', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 10662542523
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+local MyButton = Teleport:AddButton('Social Space', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 10324347967
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+local MyButton = Teleport:AddButton('Big Team', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 103243460563
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+local MyButton = Teleport:AddButton('Team Deathmatch', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 110539706691
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+local MyButton = Teleport:AddButton('Vc Only', function()
+    local TeleportService = game:GetService('TeleportService')
+    GameId = 10808838353
+    TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+end)
+
+--toggles
+
+Toggle:AddToggle('Camera', {
+    Text = 'No camera shake',
+    Default = false,
+    Tooltip = 'No camera shake',
+})
+
+Settings.MyToggle:OnChanged(function(Value)
+    Settings.NoCameraShake = Value
+end)
+
+Toggle.MoneyFarm:OnChanged(function(Value)
+    Settings.moneyfarm = Value
+end)
+
+Toggle.AfkFarm:OnChanged(function(Value)
+    Settings.afkfarm = Value
 end)
 
 
