@@ -31,13 +31,9 @@ getgenv().Settings = {
     moneyfarm = false,
     afkfarm = false,
     NoCameraShake = false,
-    Downedplayeresp = false,
-    AutoRespawn = false,
     Speed = 1450,
     Jump = 3,
     reviveTime = 3,
-    DownedColor = Color3.fromRGB(255,0,0),
-    PlayerColor = Color3.fromRGB(255,170,0),
 }
 
 local FindAI = function()
