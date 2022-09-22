@@ -7,27 +7,42 @@ local Window = OrionLib:MakeWindow({Name = "Redbox 2", HidePremium = false, Intr
 
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
+getgenv().Rootpart = 50
 getgenv().Disabled = true
-getgenv().Transparency = 1
-getgenv().Meterial = Glass
 
-        game:GetService('RunService').RenderStepped:connect(function()
-        if Disabled then
-        for i,v in next, game:GetService('Players'):GetPlayers() do
-        if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-        pcall(function()
-        v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
-        v.Character.Head.Transparency = Transparency
-        v.Character.Head.BrickColor = BrickColor.new(Color)
-        v.Character.Head.Material = Meterial
-        v.Character.Head.CanCollide = false
-        end)
-        end
-        end
-    end
+
+game:GetService('RunService').RenderStepped:connect(function()
+if Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
+v.Character.Head.Transparency = Transparency
+v.Character.Head.BrickColor = BrickColor.new(Color)
+v.Character.Head.Material = Meterial
+v.Character.Head.CanCollide = false
+end)
+end
+end
+end
 end)
 
-        
+game:GetService('RunService').RenderStepped:connect(function()
+if Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(Rootpart,Rootpart,Rootpart)
+v.Character.HumanoidRootPart.Transparency = Transparency
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new(Color)
+v.Character.HumanoidRootPart.Material = Meterial
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)
+
 local MainTab = Window:MakeTab({
     Name = "Main",
     Icon = "rbxassetid://4483345998",
@@ -77,7 +92,7 @@ PlayerTab:AddButton({
   	end    
 })
 MainTab:AddSlider({
-    Name = "Hitbox",
+    Name = "Hitbox (Head)",
     Min = 0,
     Max = 5,
     Default = 1,
@@ -86,6 +101,19 @@ MainTab:AddSlider({
     ValueName = "Head size",
     Callback = function(Value)
         HeadSize = Value
+    end    
+})
+
+MainTab:AddSlider({
+    Name = "Hitbox (HumanoidRootPart)",
+    Min = 2,
+    Max = 50,
+    Default = 2,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "HumandRootPart Size",
+    Callback = function(Value)
+        Rootpart = Value
     end    
 })
 
@@ -128,8 +156,8 @@ PlayerTab:AddSlider({
 	Increment = 1,
 	ValueName = "Fov",
 	Callback = function(Value)
-	        local amount = Value
-                game:GetService'Workspace'.Camera.FieldOfView = amount
+	    local amount = Value
+        game:GetService'Workspace'.Camera.FieldOfView = amount
 	end    
 })
 
