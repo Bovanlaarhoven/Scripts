@@ -143,7 +143,7 @@ local MainTab = {
 
 local AutoFarms = MainTab.Main:AddLeftGroupbox('Auto Farms')
 local Modifiers = MainTab.Main:AddLeftGroupbox('Modifiers')
-local Keybinds = MainTab.Main:AddLeftGroupbox('Keybinds (Hold to key To work)')
+local Keybinds = MainTab.Main:AddLeftGroupbox('Keybinds')
 local Buttons = MainTab.Main:AddRightGroupbox('Buttons')
 local Teleport = MainTab.Main:AddRightGroupbox('Teleport')
 local Extra = MainTab.Main:AddLeftGroupbox('Extra')
@@ -246,7 +246,7 @@ end)
 
 task.spawn(function()
     while true do
-        wait(1)
+        wait(0.1)
         local state = Options.Respawn:GetState()
         if state then
             game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
@@ -270,7 +270,7 @@ end)
 
 task.spawn(function()
     while true do
-        wait(1)
+        wait(0.1)
         local state = Options.Cola:GetState()
         if state then
             local ohString1 = "Cola"

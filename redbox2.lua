@@ -11,6 +11,7 @@ getgenv().Rootpart = 50
 getgenv().Disabled = true
 
 
+
 game:GetService('RunService').RenderStepped:connect(function()
 if Disabled then
 for i,v in next, game:GetService('Players'):GetPlayers() do
