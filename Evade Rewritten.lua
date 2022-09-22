@@ -222,7 +222,7 @@ Keybinds:AddLabel('Respawn'):AddKeyPicker('Respawn', {
     Default = 'R',
     SyncToggleState = false, 
     Mode = 'Hold',
-    Text = 'Respawn Keybind',
+    Text = 'Respawn Keybind (Hold To work)',
     NoUI = false,
 })
 
@@ -398,6 +398,7 @@ for i, p in next, ps:GetPlayers() do
 end
 end)
 
+
 --others
 
 game:GetService("RunService").RenderStepped:Connect(function()
@@ -423,7 +424,7 @@ end))
 local MenuGroup = MainTab['UI Settings']:AddLeftGroupbox('Menu')
 
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'P', NoUI = true, Text = 'Menu keybind' }) 
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
