@@ -168,6 +168,16 @@ Extra:AddToggle('NoCam', {
     Tooltip = 'No Camera Move',
 })
 
+Extra:AddToggle('AutoRespawn', {
+    Text = 'Auto Respawn',
+    Default = false,
+    Tooltip = 'You Auto Respawn',
+})
+
+Toggles.AutoRespawn:OnChanged(function(Value)
+    Settings.AutoRespawn = Value
+end)
+
 Toggles.NoCam:OnChanged(function(Value)
     Settings.NoCameraShake = Value
 end)
