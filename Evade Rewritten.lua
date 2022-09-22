@@ -18,13 +18,10 @@ getgenv().autowistle = true
 getgenv().autochat = true
 getgenv().autofarm = true
 getgenv().AutoDrink = true
-getgenv().NoCameraShake = true
 getgenv().Settings = {
     moneyfarm = false,
     afkfarm = false,
     NoCameraShake = false,
-    Downedplayeresp = false,
-    AutoRespawn = false,
     Speed = 1450,
     Jump = 3,
     reviveTime = 3,
@@ -93,12 +90,6 @@ task.spawn(function()
     end
 end)
 
-function camerashake()
-    while NoCameraShake == true do task.wait()
-        localplayer.PlayerScripts.CameraShake.Value = CFrame.new(0,0,0) * CFrame.new(0,0,0)
-    end
-end
-
 function autodrink()
 	while AutoDrink == true do
 		local ohString1 = "Cola"
@@ -155,9 +146,10 @@ local Modifiers = MainTab.Main:AddLeftGroupbox('Modifiers')
 local Keybinds = MainTab.Main:AddLeftGroupbox('Keybinds (Hold to key To work)')
 local Buttons = MainTab.Main:AddRightGroupbox('Buttons')
 local Teleport = MainTab.Main:AddRightGroupbox('Teleport')
-local Toggle = MainTab.Main:AddLeftGroupbox('Toggle')
+local Extra = MainTab.Main:AddLeftGroupbox('Extra')
 
 --tabs
+
 AutoFarms:AddToggle('MoneyFarm', {
     Text = 'Money Farm',
     Default = false,
@@ -169,6 +161,24 @@ AutoFarms:AddToggle('AfkFarm', {
     Default = false,
     Tooltip = 'Afks outside the map',
 })
+
+Extra:AddToggle('NoCam', {
+    Text = 'No Camera Shake',
+    Default = false,
+    Tooltip = 'No Camera Move',
+})
+
+Toggles.NoCam:OnChanged(function(Value)
+    Settings.NoCameraShake = Value
+end)
+
+Toggles.MoneyFarm:OnChanged(function(Value)
+    Settings.moneyfarm = Value
+end)
+
+Toggles.AfkFarm:OnChanged(function(Value)
+    Settings.afkfarm = Value
+end)
 
 
 --sliders
@@ -485,27 +495,6 @@ local MyButton = Teleport:AddButton('Vc Only', function()
     GameId = 10808838353
     TeleportService:Teleport(GameId, game.Players.LocalPlayer)
 end)
-
---toggles
-
-Toggle:AddToggle('Camera', {
-    Text = 'No camera shake',
-    Default = false,
-    Tooltip = 'No camera shake',
-})
-
-Settings.MyToggle:OnChanged(function(Value)
-    Settings.NoCameraShake = Value
-end)
-
-Toggle.MoneyFarm:OnChanged(function(Value)
-    Settings.moneyfarm = Value
-end)
-
-Toggle.AfkFarm:OnChanged(function(Value)
-    Settings.afkfarm = Value
-end)
-
 
 --others
 
