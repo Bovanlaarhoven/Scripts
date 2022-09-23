@@ -3,6 +3,7 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
+local MaxAmmo = false
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Rootpart = 50
@@ -53,7 +54,7 @@ local Tabs = {
 local Sliders = Tabs.Main:AddLeftGroupbox('Hitbox Sliders')
 local ColorWheel = Tabs.Main:AddRightGroupbox('Color Wheel')
 local Modifieres = Tabs.Main1:AddLeftGroupbox('Slider Modifieres')
-local Modifieres1 = Tabs.Main1:AddLeftGroupbox('Keybind Modifieres')
+local Modifieres1 = Tabs.Main1:AddLeftGroupbox('Other Modifieres')
 
 Sliders:AddSlider('HitboxHead', {
     Text = 'Hitbox Slider (head)',
@@ -125,6 +126,37 @@ game:GetService("RunService").RenderStepped:Connect(function()
             game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
         end
     end)
+end)
+
+Modifieres1:AddLabel('Fly'):AddKeyPicker('NoFall', {
+    Default = 'K',
+    SyncToggleState = false, 
+    Mode = 'Hold',
+    Text = 'Auto lockpick safes',
+    NoUI = false,
+})
+
+Options.NoFall:OnClick(function()
+    NoFall:GetState()
+end)
+
+task.spawn(function()
+    while true do
+        wait(0.1)
+        local state = Options.NoFall:GetState()
+        if state then
+            local humanoid = game.Players.LocalPlayer.Character.Humanoid
+function state()
+    humanoid:ChangeState(Enum.HumanoidStateType.Swimming)
+end
+
+while true do
+    state()
+    wait()
+end
+        end
+        if Library.Unloaded then break end
+    end
 end)
 
 --settings
