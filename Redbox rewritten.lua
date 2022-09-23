@@ -170,36 +170,7 @@ task.spawn(function()
     end
 end)
 
-Modifieres1:AddLabel('Fly'):AddKeyPicker('NoFall', {
-    Default = 'K',
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'Auto lockpick safes',
-    NoUI = false,
-})
 
-Options.NoFall:OnClick(function()
-    NoFall:GetState()
-end)
-
-task.spawn(function()
-    while true do
-        wait(0.1)
-        local state = Options.NoFall:GetState()
-        if state then
-            local humanoid = game.Players.LocalPlayer.Character.Humanoid
-function state()
-    humanoid:ChangeState(Enum.HumanoidStateType.Swimming)
-end
-
-while true do
-    state()
-    wait()
-end
-        end
-        if Library.Unloaded then break end
-    end
-end)
 
 --some functions
 game:GetService("RunService").RenderStepped:Connect(function()
