@@ -126,19 +126,6 @@ MainTab:AddColorpicker({
 	end	  
 })
 
-MainTab:AddSlider({
-	Name = "Transparency",
-	Min = 0,
-	Max = 1,
-	Default = 0,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 0.1,
-	ValueName = "Transparency",
-	Callback = function(Value)
-		Transparency = Value
-	end    
-})
-
 MainTab:AddDropdown({
 	Name = "HitBox Material",
 	Default = "ForceField",

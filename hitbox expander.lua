@@ -118,58 +118,6 @@ Options.Jump:OnChanged(function()
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Options.Jump.Value
 end)
 
-Modifieres1:AddLabel('Inf Ammo'):AddKeyPicker('KeyPicker', {
-    Default = 'R',
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'Inf Ammo',
-    NoUI = false,
-})
-
-Options.KeyPicker:OnClick(function()
-    KeyPicker:GetState()
-end)
-
-task.spawn(function()
-    while true do
-        wait(0.1)
-        local state = Options.KeyPicker:GetState()
-        if state then
-            local Tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
-            local m = require(Tool.toolSettings)
-            game:GetService("Players").LocalPlayer.Character.Humanoid:UnequipTools()
-            game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(Tool)
-            game:GetService("ReplicatedStorage").Assets.Remotes.syncAmmo:FireServer(1000000,1000000, Tool)
-        end
-        if Library.Unloaded then break end
-    end
-end)
-
-Modifieres1:AddLabel('No Recoil'):AddKeyPicker('NoRecoil', {
-    Default = 'T',
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'No Recoil',
-    NoUI = false,
-})
-
-Options.NoRecoil:OnClick(function()
-    NoRecoil:GetState()
-end)
-
-task.spawn(function()
-    while true do
-        wait(0.1)
-        local state = Options.NoRecoil:GetState()
-        if state then
-            local Tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
-            local m = require(Tool.toolSettings)
-            m.firingRecoilEnabled = false
-        end
-        if Library.Unloaded then break end
-    end
-end)
-
 --some functions
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
