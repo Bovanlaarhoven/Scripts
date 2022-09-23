@@ -72,7 +72,7 @@ Sliders:AddSlider('HitboxRoot', {
     Text = 'Hitbox Slider (HumanoidRootPart)',
     Default = 2,
     Min = 2,
-    Max = 100,
+    Max = 50,
     Rounding = 1,
     Compact = false,
 })
