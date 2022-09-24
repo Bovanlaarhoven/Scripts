@@ -41,7 +41,7 @@ game:GetService('RunService').RenderStepped:connect(function()
     end)
 
 local Window = Library:CreateWindow({
-    Title = 'RedBox2 v2',
+    Title = 'HitBox Expander',
     Center = true, 
     AutoShow = true,
 })
