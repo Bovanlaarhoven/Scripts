@@ -32,7 +32,7 @@ if GameTable[game.PlaceId] == nil then
     })
     
     task.delay(2, function()
-        setclipboard("https://discord.gg/k9a4zym5uG")
+        setclipboard("https://discord.gg/g95ZbGH4M8")
             CoreGui:SetCore("SendNotification", {
             Title = "Loading";
             Text = "Game was not supported so its now loading Hydra Network Universal.";
@@ -46,6 +46,6 @@ else
         Text = "We would appreciate if you joined our discord (Copied)";
         Duration = 10;
     })
-    setclipboard("https://discord.gg/R3QMj5U8Pn")
+    setclipboard("https://discord.gg/g95ZbGH4M8")
     loadstring(game:HttpGet(GameTable[game.PlaceId]))()
 end
