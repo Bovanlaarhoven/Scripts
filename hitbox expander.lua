@@ -3,7 +3,6 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
-local MaxAmmo = false
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Rootpart = 50
