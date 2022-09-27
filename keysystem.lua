@@ -7,7 +7,7 @@ getgenv().Keyinput = "string"
 
 function MakeScript()
     OrionLib:Destroy()
-    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Main.lua"), true))()
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/mains.lua"), true))()
 end
 
 function correctkey()
