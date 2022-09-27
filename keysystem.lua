@@ -50,7 +50,7 @@ Tab:AddButton({
             MakeScript()
             correctkey()
         else
-            setclipboard("https://link-hub.net/488828/key-hydra-network-best")
+            setclipboard("https://link-hub.net/488828/key-for-hydra-network")
             incorrectkey()
         end
   	end    
