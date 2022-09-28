@@ -2,7 +2,8 @@ local GuiService = game:GetService("GuiService")
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Hydra network Keysystem", HidePremium = false, IntroText = "Key System", SaveConfig = false, ConfigFolder = "OrionTest"})
 
-getgenv().Key = " D‘tt»9txN (@^35¶- 9QH⁷%’l!6"
+getgenv().Key = "test"
+getgenv().Key1 = "test1"
 getgenv().Keyinput = "string"
 
 function MakeScript()
@@ -46,7 +47,7 @@ Tab:AddTextbox({
 Tab:AddButton({
 	Name = "Check Key",
 	Callback = function()
-      	if Keyinput == Key then
+      	if Keyinput == Key or Key1 then
             MakeScript()
             correctkey()
         else
