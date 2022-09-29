@@ -2,8 +2,6 @@ local GuiService = game:GetService("GuiService")
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Hydra network Keysystem", HidePremium = false, IntroText = "Key System", SaveConfig = false, ConfigFolder = "OrionTest"})
 
-
-
 getgenv().Key = "herocKnOstYpelEyeRagEM"
 getgenv().Keyinput = "string"
 
@@ -52,7 +50,7 @@ Tab:AddButton({
             MakeScript()
             correctkey()
         else
-            setclipboard(https://link-hub.net/488828/key-for-hydra-network)
+            setclipboard("https://link-hub.net/488828/key-for-hydra-network")
             incorrectkey()
         end
   	end    
