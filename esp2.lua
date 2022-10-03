@@ -32,7 +32,7 @@ end)
 RunService.Heartbeat:Connect(function()
     for i,v in pairs(Players) do
         repeat wait() until v.Character
-        if not v.Character:FindFirstChild("HumoidRootPart").:FindFirstChild("Highlight") then
+        if not v.Character:FindFirstChild("HumoidRootPart"):FindFirstChild("Highlight") then
         local highlightclone = highlight:Clone()
         highlightclone.Adornee = v.Character
         highlightclone.Parent = v.Character:findFirstChild("HumanoidRootPart")
