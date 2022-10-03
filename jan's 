@@ -2,7 +2,6 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 local Window = Library:CreateWindow("cattoware UI Doc", Vector2.new(492, 598), Enum.KeyCode.RightControl)
 local AimingTab = Window:CreateTab("Tab 1")
 
-
 local testSection = AimingTab:CreateSector("First Section", "left")
 
 testSection:AddToggle("Toggle", false, function(first)
