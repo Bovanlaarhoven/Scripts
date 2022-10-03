@@ -9,25 +9,23 @@ _G.getstars = true
 --functions
 
 function GetAllLvls()
-while _G.GetAllLvls == true do
+while _G.GetAllLvls == true do task.wait(0.5)
     local args = {
         [1] = 1660243517.868455,
         [2] = "Level 1",
         [3] = "Normal",
         [4] = false
     }
-    game:GetService("ReplicatedStorage").BeatLevel:FireServer(unpack(args))
-    wait(0.5)        
+    game:GetService("ReplicatedStorage").BeatLevel:FireServer(unpack(args))  
 end
 end
 
 function GetAllStars()
-while _G.getstars == true do
+while _G.getstars == true do task.wait()
     local args = {
         [1] = "Level 1"
     } 
-    game:GetService("ReplicatedStorage").GotStar:FireServer(unpack(args))
-    wait(1)        
+    game:GetService("ReplicatedStorage").GotStar:FireServer(unpack(args))   
 end
 end
 
