@@ -3,24 +3,24 @@ local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Magic Clicker|", HidePrem
 
 --values
 
-_G.AutoClicker = true
-_G.SelectRebirth = "1"
-_G.AutoRebirth = true
-_G.AutoUpgrade = true
-_G.SelectUpgrade = "clicksMultiplier"
-_G.AutoHatch = true
-_G.AutoHatch3 = true
-_G.SelectEgg = "1"
-_G.SelectEgg3 = "1"
+getgenv().AutoClicker = true
+getgenv().SelectRebirth = "1"
+getgenv().AutoRebirth = true
+getgenv().AutoUpgrade = true
+getgenv().SelectUpgrade = "clicksMultiplier"
+getgenv().AutoHatch = true
+getgenv().AutoHatch3 = true
+getgenv().SelectEgg = "1"
+getgenv().SelectEgg3 = "1"
 
 --functions
 
 function AutoHatch3()
-    while _G.AutoHatch3 == true do
+    while AutoHatch3 == true do
         local args = {
-            [1] = _G.SelectEgg3,
+            [1] = SelectEgg3,
             [2] = 3,
-            [3] = workspace.Eggs:FindFirstChild("0"):FindFirstChild(_G.SelectEgg3)
+            [3] = workspace.Eggs:FindFirstChild("0"):FindFirstChild(SelectEgg3)
         }
         game:GetService("ReplicatedStorage").Remotes.BuyEgg:FireServer(unpack(args))
         wait()
@@ -28,11 +28,11 @@ function AutoHatch3()
 end
 
 function AutoHatch()
-    while _G.AutoHatch == true do
+    while AutoHatch == true do
         local args = {
-            [1] = _G.SelectEgg,
+            [1] = SelectEgg,
             [2] = 1,
-            [3] = workspace.Eggs:FindFirstChild("0"):FindFirstChild(_G.SelectEgg)
+            [3] = workspace.Eggs:FindFirstChild("0"):FindFirstChild(SelectEgg)
         }
         game:GetService("ReplicatedStorage").Remotes.BuyEgg:FireServer(unpack(args))
         wait()
@@ -40,9 +40,9 @@ function AutoHatch()
 end
 
 function AutoUpgrade()
-    while _G.AutoUpgrade == true do
+    while AutoUpgrade == true do
         local args = {
-            [1] = (_G.SelectUpgrade)
+            [1] = (SelectUpgrade)
         }
         game:GetService("ReplicatedStorage").Remotes.BuyUpgradeEvent:FireServer(unpack(args))
         wait()
@@ -50,9 +50,9 @@ function AutoUpgrade()
 end
     
 function AutoRebirth()
-    while _G.AutoRebirth == true do
+    while AutoRebirth == true do
         local args = {
-            [1] =(_G.SelectRebirth)
+            [1] =(SelectRebirth)
         }
         game:GetService("ReplicatedStorage").Remotes.BuyRebirth:FireServer(unpack(args))
         wait()
@@ -60,7 +60,7 @@ function AutoRebirth()
 end
 
 function AutoClicker()
-    while _G.AutoClicker == true do
+    while AutoClicker == true do
         game:GetService("ReplicatedStorage").Remotes.CheckClick:FireServer()
         wait(0.0000000000000001)
     end
@@ -135,7 +135,7 @@ AutoFarm:AddToggle({
 	Name = "Auto Clicker",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoClicker = Value
+        AutoClicker = Value
         AutoClicker()
 	end    
 })
@@ -158,7 +158,7 @@ AutoFarm:AddToggle({
 	Name = "Auto Rebirth",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoRebirth = Value
+        AutoRebirth = Value
         AutoRebirth()
 	end    
 })
@@ -176,7 +176,7 @@ Upgrade:AddToggle({
 	Name = "Auto Rebirth",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoUpgrade = Value
+        AutoUpgrade = Value
         AutoUpgrade()
 	end    
 })
@@ -190,7 +190,7 @@ Eggs:AddDropdown({
 	Default = 1,
 	Options = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
 	Callback = function(Value)
-        _G.SelectEgg = Value
+        SelectEgg = Value
 	end    
 })
 
@@ -198,7 +198,7 @@ Eggs:AddToggle({
 	Name = "Auto Hatch",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoHatch = Value
+        AutoHatch = Value
         AutoHatch()
 	end    
 })
@@ -212,7 +212,7 @@ Eggs:AddDropdown({
 	Default = 1,
 	Options = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
 	Callback = function(Value)
-        _G.SelectEgg3 = Value
+        SelectEgg3 = Value
 	end    
 })
 
@@ -220,7 +220,7 @@ Eggs:AddToggle({
 	Name = "Auto Hatch Triple",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoHatch3 = Value
+        AutoHatch3 = Value
         AutoHatch3()
 	end    
 })

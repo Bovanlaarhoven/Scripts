@@ -3,12 +3,12 @@ local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Victory Jump|", HidePremi
 
 --values
 
-_G.Autowin = true
+getgenv().Autowin = true
 
 --functions
 
 function Autowin()
-    while _G.Autowin == true do
+    while Autowin == true do
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10.875, 984929.625, 72.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
         wait(1)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10.875, 602596.125, 72.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
@@ -60,7 +60,7 @@ AutoFarm:AddToggle({
 	Name = "Auto Win",
 	Default = false,
 	Callback = function(Value)
-		_G.Autowin = Value
+		Autowin = Value
         Autowin()
 	end    
 })

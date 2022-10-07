@@ -21,9 +21,6 @@ local GameTable = {
     [10118559731] = "https://raw.githubusercontent.com/Robobo2022/script/main/nico'snextbot.lua";
 }
 
-
-
-
 if GameTable[game.PlaceId] == nil then
     CoreGui:SetCore("SendNotification", {
         Title = "Game not supported :(";

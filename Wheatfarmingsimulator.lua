@@ -3,12 +3,12 @@ local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Wheat Farming Simulator",
 
 --values
 
-_G.autoteleport = true
+getgenv().autoteleport = true
 
 --functions
 
 function autoteleport()
-    while _G.autoteleport == true do
+    while autoteleport == true do
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(272.0797119140625, 46.373172760009766, -332.0052490234375)
         wait()
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(297.1512756347656, 46.373172760009766, -331.2381896972656)
@@ -128,7 +128,7 @@ AutoFarm:AddToggle({
 	Name = "AutoFarm",
 	Default = false,
 	Callback = function(Value)
-        _G.autoteleport = Value
+        autoteleport = Value
         autoteleport()
 	end    
 })

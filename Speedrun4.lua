@@ -2,14 +2,14 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local Window = OrionLib:MakeWindow({Name = "Hydra Hub|Speed Run 4|", HidePremium = false, IntroText = "Speed Run 4", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --values
-_G.GetAllLvls = true
-_G.getstars = true
+getgenv().GetAllLvls = true
+getgenv().getstars = true
 
 
 --functions
 
 function GetAllLvls()
-while _G.GetAllLvls == true do task.wait(0.5)
+while GetAllLvls == true do task.wait(0.5)
     local args = {
         [1] = 1660243517.868455,
         [2] = "Level 1",
@@ -21,7 +21,7 @@ end
 end
 
 function GetAllStars()
-while _G.getstars == true do task.wait()
+while getstars == true do task.wait()
     local args = {
         [1] = "Level 1"
     } 
@@ -51,7 +51,7 @@ Autofarm:AddToggle({
 Name = "Get All LVLS (Switch Dimension When lvl 30)",
 Default = false,
 Callback = function(Value)
-    _G.GetAllLvls = Value
+    GetAllLvls = Value
     GetAllLvls()
 end 
 })
@@ -60,7 +60,7 @@ Autofarm:AddToggle({
 Name = "Get Free Stars",
 Default = false,
 Callback = function(Value)
-    _G.getstars = Value
+    getstars = Value
     GetAllStars()
 end    
 })

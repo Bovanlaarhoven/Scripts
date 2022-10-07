@@ -3,24 +3,24 @@ local Window = OrionLib:MakeWindow({Name = "Hydra Hub|Tapping Simulator!|", Hide
 
 --Values
 
-_G.autoclick = true
-_G.AutoRebirth = true
-_G.SelectRebirth = "1"
-_G.AutoHatch = true
-_G.EggSelect = "Starter"
+getgenv().autoclick = true
+getgenv().AutoRebirth = true
+getgenv().SelectRebirth = "1"
+getgenv().AutoHatch = true
+getgenv().EggSelect = "Starter"
 
 --functions
 
 function AutoRebirth()
-    while _G.AutoRebirth == true do
-        local args = {[1] = _G.SelectRebirth}
+    while AutoRebirth == true do
+        local args = {[1] = SelectRebirth}
         game:GetService("ReplicatedStorage").Events.Rebirth:FireServer(unpack(args))
         wait(1)
     end
 end
 
 function autoclick()
-    while _G.autoclick == true do
+    while autoclick == true do
         game:GetService("ReplicatedStorage").Events.Tap:FireServer()
         game:GetService("ReplicatedStorage").Events.GetAutoReconnectEnabled:InvokeServer()
         Wait()
@@ -28,10 +28,10 @@ function autoclick()
 end
 
 function AutoHatch()
-    while _G.AutoHatch == true do
+    while AutoHatch == true do
         local args = {
             [1] = {},
-            [2] = (_G.EggSelect),
+            [2] = (EggSelect),
             [3] = 1
         }
         game:GetService("ReplicatedStorage").Events.HatchEgg:InvokeServer(unpack(args))
@@ -73,7 +73,7 @@ farmsy:AddToggle({
     Name = "Auto Click",
     Default = false,
     Callback = function(Value)
-        _G.autoclick = Value
+        autoclick = Value
         autoclick()
     end    
 })
@@ -88,7 +88,7 @@ farmsy:AddToggle({
 	Name = "Auto Rebirth",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoRebirth = Value
+        AutoRebirth = Value
         AutoRebirth()
 	end    
 })
@@ -98,8 +98,7 @@ farmsy:AddDropdown({
 	Default = "1",
 	Options = {"1", "5", "10", "20", "100", "500", "2000", "4500", "8000", "12500", "18000", "24500", "32000", "40500", "50000"},
 	Callback = function(Value)
-		_G.SelectRebirth = Value
-        print(_G.SelectRebirth)
+		SelectRebirth = Value
 	end    
 })
 
@@ -107,7 +106,7 @@ Eggs:AddToggle({
 	Name = "Auto Hatch",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoHatch = Value
+        AutoHatch = Value
         AutoHatch()
 	end    
 })
@@ -117,7 +116,7 @@ Eggs:AddDropdown({
 	Default = "Starter",
 	Options = {"Starter", "Wood Egg", "Jungle Egg", "Forest Egg", "Bee Egg", "Swamp Egg", "Snow Egg", "Desert Egg", "Death Egg", "Beach Egg", "Mine Egg", "Cloud Egg"},
 	Callback = function(Value)
-        _G.EggSelect = Value
+        EggSelect = Value
 	end    
 })
 

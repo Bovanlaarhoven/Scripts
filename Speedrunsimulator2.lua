@@ -3,18 +3,18 @@ local Window = OrionLib:MakeWindow({Name = "Hydra Hub|Speed Run Simulator|", Hid
 
 --Values
 
-_G.AutoSpeed = true
-_G.AutoRebirth = true
-_G.AutoLoop = true
-_G.EggSelect = "EggOne"
-_G.AutoHatch = true
+getgenv().AutoSpeed = true
+getgenv().AutoRebirth = true
+getgenv().AutoLoop = true
+getgenv().EggSelect = "EggOne"
+getgenv().AutoHatch = true
 
 --functions
 
 function AutoHatch()
-    while _G.AutoHatch == true do
+    while AutoHatch == true do
         local args = {
-            [1] = (_G.EggSelect),
+            [1] = (EggSelect),
             [2] = false
         }
         game:GetService("ReplicatedStorage").Remotes.CanBuyEgg:InvokeServer(unpack(args))
@@ -23,7 +23,7 @@ function AutoHatch()
 end
 
 function AutoLoop()
-    while _G.AutoLoop == true do
+    while AutoLoop == true do
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(9806.25684, 220.202744, -368.565826, -1, 0, -0, 0, 0, -1, 0, -1, -0)
         wait()
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(9881.34668, 225.628845, -599.266602, 8.10623169e-05, 1, 8.10623169e-05, 8.10623169e-05, 8.10623169e-05, -1, -1, 8.10623169e-05, -8.10623169e-05)
@@ -76,14 +76,14 @@ function AutoLoop()
 end
 
 function AutoRebirth()
-    while _G.AutoRebirth == true do
+    while AutoRebirth == true do
         game:GetService("ReplicatedStorage").Remotes.Rebirth:FireServer()
         wait()
     end
 end
 
 function AutoSpeed()
-    while _G.AutoSpeed == true do
+    while AutoSpeed == true do
         game:GetService("ReplicatedStorage").Remotes.AddSpeed:FireServer()
         wait()
     end
@@ -115,7 +115,7 @@ AutoFarm:AddToggle({
 	Name = "Auto speed",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoSpeed = Value
+        AutoSpeed = Value
         AutoSpeed()
 	end    
 })
@@ -124,7 +124,7 @@ AutoFarm:AddToggle({
 	Name = "Rebirth",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoRebirth = Value
+        AutoRebirth = Value
         AutoRebirth()
 	end    
 })
@@ -133,7 +133,7 @@ AutoFarm:AddToggle({
 	Name = "Auto Hoops",
 	Default = false,
 	Callback = function(Value)
-        _G.AutoLoop = Value
+        AutoLoop = Value
         AutoLoop()
 	end    
 })
@@ -143,8 +143,7 @@ Eggs:AddDropdown({
 	Default = "EggOne",
 	Options = {"EggOne", "EggTwo", "EggThree", "EggFour", "EggSix", "EggSeven", "EggEight", "Eggnine", "EggTen", "EggTwelve", "EggThirteen"},
 	Callback = function(Value)
-		_G.EggSelect = Value
-        print(_G.EggSelect)
+		EggSelect = Value
 	end    
 })
 
@@ -152,7 +151,7 @@ Eggs:AddToggle({
 	Name = "Auto Hatch",
 	Default = false,
 	Callback = function(Value)
-		_G.AutoHatch = Value
+		AutoHatch = Value
         AutoHatch()
 	end    
 })

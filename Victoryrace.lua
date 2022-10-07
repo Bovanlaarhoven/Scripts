@@ -4,12 +4,12 @@
 
 --values
 
-_G.autowin = true
+getgenv().autowin = true
 
 --functions
 
 function Autowon()
-    while _G.autowin == true do
+    while autowin == true do
         wait(1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(4.91300011, 59002.1602, -512093.25)
 wait(2)
@@ -104,7 +104,7 @@ AutoFarm:AddToggle({
 	Name = "Auto Win",
 	Default = false,
 	Callback = function(Value)
-		_G.autowin = Value
+		autowin = Value
         Autowon()
 	end    
 })

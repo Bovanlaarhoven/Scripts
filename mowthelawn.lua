@@ -2,13 +2,13 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local Window = OrionLib:MakeWindow({Name = "Hydra Hub |Mow The Lawn!|", HidePremium = false, IntroText = "Mow the lawn", SaveConfig = false, ConfigFolder = "OrionTest"})
 
 --values
-_G.autoMowlawn = true
-_G.AutoRefill = true
+getgenv().autoMowlawn = true
+getgenv().AutoRefill = true
 
 --functions
 
 function AutoRefill()
-while _G.AutoRefill == true do
+while AutoRefill == true do
     local args = {
         [1] = workspace.Map.Zones:FindFirstChild("1"):FindFirstChild("1").GasStation.GasPumps,
         [2] = true
@@ -19,7 +19,7 @@ end
 end
 
 function autoMowlawn()
-while _G.autoMowlawn == true do
+while autoMowlawn == true do
     local args = {
         [1] = "1"
     }
@@ -49,7 +49,7 @@ Autofarm:AddToggle({
     Name = "Auto Mown Lawn (only mowns the first lvl grass)",
     Default = false,
     Callback = function(Value)
-        _G.autoMowlawn = Value
+        autoMowlawn = Value
         autoMowlawn()
     end    
 })
@@ -58,7 +58,7 @@ Autofarm:AddToggle({
     Name = "Auto FIll (turn on and off)",
     Default = false,
     Callback = function(Value)
-        _G.AutoRefill = Value
+        AutoRefill = Value
         AutoRefill()
     end    
 })
