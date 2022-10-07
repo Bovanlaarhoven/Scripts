@@ -1,12 +1,17 @@
+local StarterPlayer = game:GetService("StarterPlayer")
+local Workspace = game:GetService("Workspace")
+local Light = game:GetService("Lighting")
+local players = game.Players:GetPlayers()
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+Library:SetWatermark('Hydra Network | Redbox2 v2.0')
 
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Rootpart = 50
-getgenv().Disabled = true
+getgenv().Disabled = false
 
 game:GetService('RunService').RenderStepped:connect(function()
     if Disabled then
@@ -52,8 +57,10 @@ local Tabs = {
 }
 local Sliders = Tabs.Main:AddLeftGroupbox('Hitbox Sliders')
 local ColorWheel = Tabs.Main:AddRightGroupbox('Color Wheel')
+local Hitbox = Tabs.Main:AddRightGroupbox('Toggles')
 local Modifieres = Tabs.Main1:AddLeftGroupbox('Slider Modifieres')
 local Modifieres1 = Tabs.Main1:AddLeftGroupbox('Keybind Modifieres')
+local Modifieres2 = Tabs.Main1:AddRightGroupbox('Button Modifieres')
 
 Sliders:AddSlider('HitboxHead', {
     Text = 'Hitbox Slider (head)',
@@ -118,6 +125,19 @@ Options.Jump:OnChanged(function()
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Options.Jump.Value
 end)
 
+Modifieres:AddSlider('Fov', {
+    Text = 'Fov slider',
+    Default = 70,
+    Min = 0,
+    Max = 120,
+    Rounding = 1,
+    Compact = false,
+})
+
+Options.Fov:OnChanged(function()
+    game:GetService'Workspace'.Camera.FieldOfView = Options.Fov.Value
+end)
+
 Modifieres1:AddLabel('Inf Ammo'):AddKeyPicker('KeyPicker', {
     Default = 'R',
     SyncToggleState = false, 
@@ -168,6 +188,34 @@ task.spawn(function()
         end
         if Library.Unloaded then break end
     end
+end)
+
+local MyButton = Modifieres2:AddButton('Full Bright', function()
+    Light.Ambient = Color3.new(1, 1, 1)
+    Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+    Light.ColorShift_Top = Color3.new(1, 1, 1)
+    game.Lighting.FogEnd = 100000
+    game.Lighting.FogStart = 0
+    game.Lighting.Brightness = 5
+    game.Lighting.GlobalShadows = false
+end)
+
+local MyButton = Modifieres2:AddButton('Turn off watermark', function()
+    Library:SetWatermarkVisibility(false)
+end)
+
+local MyButton = Modifieres2:AddButton('Turn on watermark', function()
+    Library:SetWatermarkVisibility(true)
+end)
+
+Hitbox:AddToggle('Disa', {
+    Text = 'Hitbox Toggle',
+    Default = false,
+    Tooltip = 'Toggles the hitbox',
+})
+
+Toggles.Disa:OnChanged(function(Value)
+    Disabled = Value
 end)
 
 
