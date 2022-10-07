@@ -150,6 +150,7 @@ Options.KeyPicker:OnClick(function()
     KeyPicker:GetState()
 end)
 
+
 task.spawn(function()
     while true do
         wait(0.1)
@@ -208,6 +209,14 @@ local MyButton = Modifieres2:AddButton('Turn on watermark', function()
     Library:SetWatermarkVisibility(true)
 end)
 
+local MyButton = Modifieres2:AddButton('Turn on Keybind Gui', function()
+    Library.KeybindFrame.Visible = true;
+end)
+
+local MyButton = Modifieres2:AddButton('Turn off Keybind Gui', function()
+    Library.KeybindFrame.Visible = false;
+end)
+
 Hitbox:AddToggle('Disa', {
     Text = 'Hitbox Toggle',
     Default = false,
@@ -217,8 +226,6 @@ Hitbox:AddToggle('Disa', {
 Toggles.Disa:OnChanged(function(Value)
     Disabled = Value
 end)
-
-
 
 --some functions
 game:GetService("RunService").RenderStepped:Connect(function()
