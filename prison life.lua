@@ -34,12 +34,13 @@ MainTab:AddDropdown({
 })
 
 PlayerTab:AddSlider({
-	Name = "Speed",
+	Name = "Walk Speed",
 	Min = 0,
 	Max = 500,
 	Default = 16,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
+	ValueName = "WalkSpeed",
 	Callback = function(WalkSpeed)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeed
 	end   
@@ -53,6 +54,7 @@ PlayerTab:AddSlider({
 	Default = 50.145,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
+	ValueName = "Jump Power",
 	Callback = function(JumpPower)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = JumpPower
     end
@@ -65,6 +67,7 @@ PlayerTab:AddSlider({
 	Default = 0,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
+	ValueName = "Hip Height",
 	Callback = function(JumpHeight)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = JumpHeight
     end
@@ -77,6 +80,7 @@ PlayerTab:AddSlider({
 	Default = 70,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
+	ValueName = "Fov",
 	Callback = function(Fov)
         game:GetService'Workspace'.Camera.FieldOfView = Fov
     end
@@ -89,6 +93,7 @@ PlayerTab:AddSlider({
 	Default = 196.2,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
+	ValueName = "Gravity",
 	Callback = function(Gravity)
         Workspace.Gravity = Gravity
     end
@@ -101,6 +106,7 @@ PlayerTab:AddSlider({
 	Default = 14,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 0.1,
+	ValueName = "Time",
 	Callback = function(Time)
         game.Lighting.ClockTime = Time
     end
