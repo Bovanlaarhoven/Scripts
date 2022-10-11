@@ -33,16 +33,17 @@ MainTab:AddDropdown({
 	end    
 })
 
+local TargetWalkspeed
 PlayerTab:AddSlider({
-	Name = "Walk Speed",
+	Name = "Speed (MoveDirection)",
 	Min = 0,
 	Max = 500,
-	Default = 16,
+	Default = 0,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
-	ValueName = "WalkSpeed",
-	Callback = function(WalkSpeed)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeed
+	ValueName = "Walk Speed",
+	Callback = function(Value)
+		TargetWalkspeed = Value
 	end   
 })
 
@@ -111,3 +112,11 @@ PlayerTab:AddSlider({
         game.Lighting.ClockTime = Time
     end
 })
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/500)
+        end
+    end)
+end)
