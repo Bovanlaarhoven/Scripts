@@ -2,7 +2,7 @@ local GuiService = game:GetService("GuiService")
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Hydra network Keysystem", HidePremium = false, IntroText = "Key System", SaveConfig = false, ConfigFolder = "OrionTest"})
 
-getgenv().Key = "SZDKLSDFHWIUHZK"
+getgenv().Key = "SDLFKJWOIDJFOIJWOIJFDLSKJSDF"
 getgenv().Keyinput = "string"
 
 function MakeScript()

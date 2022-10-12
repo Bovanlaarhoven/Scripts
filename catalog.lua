@@ -1,5 +1,5 @@
 
-local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
+local decalsyeeted = true
 local g = game
 local w = g.Workspace
 local l = g.Lighting
