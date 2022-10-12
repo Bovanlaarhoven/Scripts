@@ -6,7 +6,24 @@ local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 getgenv().Color = BrickColor
 getgenv().HeadSize = 10
 getgenv().Rootpart = 50
-getgenv().Disabled = true
+getgenv().Disabled = false
+
+game:GetService('RunService').RenderStepped:connect(function()
+if Disabled == false then
+    for i,v in next, game:GetService('Players'):GetPlayers() do
+        if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+        pcall(function()
+        v.Character.Head.Size = Vector3.new(1,1,1)
+        v.Character.HumanoidRootPart.Size = Vector3.new(2,2,2)
+        v.Character.Head.Transparency = 0
+        v.Character.HumanoidRootPart.Transparency = 0
+        v.Character.Head.Material = "Plastic"
+        v.Character.HumanoidRootPart.Material = "Plastic"
+    end)
+end
+end
+end
+end)
 
 game:GetService('RunService').RenderStepped:connect(function()
     if Disabled then
@@ -53,12 +70,12 @@ local Tabs = {
 local Sliders = Tabs.Main:AddLeftGroupbox('Hitbox Sliders')
 local ColorWheel = Tabs.Main:AddRightGroupbox('Color Wheel')
 local Modifieres = Tabs.Main1:AddLeftGroupbox('Slider Modifieres')
-local Modifieres1 = Tabs.Main1:AddLeftGroupbox('Other Modifieres')
+
 
 Sliders:AddSlider('HitboxHead', {
     Text = 'Hitbox Slider (head)',
-    Default = 0,
-    Min = 0,
+    Default = 1,
+    Min = 1,
     Max = 5,
     Rounding = 1,
     Compact = false,
@@ -83,7 +100,7 @@ end)
 
 
 ColorWheel:AddLabel('Hitbox Color'):AddColorPicker('ColorPicker', {
-    Default = Color3.new(0, 1, 0),
+    Default = Color3.new(1, 1, 1),
     Title = 'Hitbox Color',
 })
 
@@ -107,7 +124,7 @@ end)
 
 Modifieres:AddSlider('Jump', {
     Text = 'Jump slider',
-    Default = 0,
+    Default = 50,
     Min = 0,
     Max = 250,
     Rounding = 1,
@@ -127,36 +144,16 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end)
 end)
 
-Modifieres1:AddLabel('Fly'):AddKeyPicker('NoFall', {
-    Default = 'K',
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'Auto lockpick safes',
-    NoUI = false,
+Sliders:AddToggle('HitboxToggle', {
+    Text = 'Hitbox Toggle',
+    Default = false,
+    Tooltip = 'Toggles the Hitbox',
 })
 
-Options.NoFall:OnClick(function()
-    NoFall:GetState()
+Toggles.HitboxToggle:OnChanged(function()
+    Disabled = Toggles.HitboxToggle.Value
 end)
 
-task.spawn(function()
-    while true do
-        wait(0.1)
-        local state = Options.NoFall:GetState()
-        if state then
-            local humanoid = game.Players.LocalPlayer.Character.Humanoid
-function state()
-    humanoid:ChangeState(Enum.HumanoidStateType.Swimming)
-end
-
-while true do
-    state()
-    wait()
-end
-        end
-        if Library.Unloaded then break end
-    end
-end)
 
 --settings
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
