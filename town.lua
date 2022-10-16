@@ -59,7 +59,7 @@ game:GetService('RunService').RenderStepped:connect(function()
     end)
 
 local Window = Library:CreateWindow({
-    Title = 'HitBox Expander',
+    Title = 'Town',
     Center = true, 
     AutoShow = true,
 })
