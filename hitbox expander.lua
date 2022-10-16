@@ -14,7 +14,7 @@ if Disabled == false then
         if v.Name ~= game:GetService('Players').LocalPlayer.Name then
         pcall(function()
         v.Character.Head.Size = Vector3.new(1,1,1)
-        v.Character.HumanoidRootPart.Size = Vector3.new(2,2,2)
+        v.Character.HumanoidRootPart.Size = Vector3.new(1,1,1)
         v.Character.Head.Transparency = 0
         v.Character.HumanoidRootPart.Transparency = 0
         v.Character.Head.Material = "Plastic"

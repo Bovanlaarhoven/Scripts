@@ -172,9 +172,9 @@ local SpeedSection = SliderTab:AddSection({
 
 SliderTab:AddSlider({
 	Name = "Hip Height",
-	Min = 1.7999993562698364,
+	Min = 0,
 	Max = 100,
-	Default = 1.7999993562698364,
+	Default = 0,
 	Color = Color3.fromRGB(255,255,255),
 	Increment = 1,
 	Callback = function(JumpHeight)
