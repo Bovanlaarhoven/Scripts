@@ -184,7 +184,7 @@ local Esp = Modifieres1:AddButton('Player esp', function()
         Chams = true,
         Chams_Color = Color3.fromRGB(255, 255, 255),
         Chams_Transparency = 0.9,
-        Chams_Glow_Color = Color3.fromRGB(255, 238, 238)
+        Chams_Glow_Color = Color3.fromRGB(0, 0, 0)
     }
     
     function destroy_chams(char)
