@@ -1,18 +1,4 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-OrionLib:MakeNotification({
-    Name = "Hydra Network",
-    Content = "Hydra Network is Loading.",
-    Image = "rbxassetid://4483345998",
-    Time = 4
-})
-wait(4)
-OrionLib:MakeNotification({
-    Name = "Hydra Network",
-    Content = "Hydra Network is Ready!",
-    Image = "rbxassetid://4483345998",
-    Time = 2
-})
-wait(1)
 local Window = OrionLib:MakeWindow({Name = "Hydra Network |Nico's Nextbots|", HidePremium = false, IntroText = "Nico's Nextbots", SaveConfig = true, ConfigFolder = "OrionTest"})
 
 --tables
