@@ -2,7 +2,7 @@ repeat wait() until game:IsLoaded() wait(1)
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local ownerId = game.CreatorId
 
-local notif = Notification.new("success", "Executor Type", identifyexecutor()..)
+local notif = Notification.new("success", "Executor Type", identifyexecutor().."")
 notif:deleteTimeout(3)
 
 game.Players.PlayerAdded:Connect(function(player)
