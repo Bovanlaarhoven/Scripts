@@ -147,6 +147,8 @@ task.spawn(function()
     end
 end)
 
+Library:Notify("Notify", 2)
+
 Options.KeyPicker:SetValue({ 'MB2', 'Toggle' }) 
 
 Library:SetWatermarkVisibility(true)
