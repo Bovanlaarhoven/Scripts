@@ -1,3 +1,4 @@
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/Project-Hydra/main/anticheatbypass.lua"), true))()
 repeat wait() until game:IsLoaded() wait(1)
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local notif1 = Notification.new("success", "Executor Type", identifyexecutor().."")
@@ -35,4 +36,3 @@ local button = section:Button({Name = "Player join notif", Callback = function()
  local button = section:Button({Name = "Unlock Shiftlock", Callback = function()
     game:GetService('Players').LocalPlayer.DevEnableMouseLock = true
  end})
-
