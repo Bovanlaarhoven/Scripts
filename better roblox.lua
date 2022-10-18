@@ -5,49 +5,53 @@ local Players = game:GetService("Players")
     local notif1 = Notification.new("success", "Executor Type", identifyexecutor().."")
     notif1:deleteTimeout(2.5)
     wait(3)
-    local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/ui-libraries/main/venus/source.lua", true))()
-    local main = library:Load({Name = "Better Roblox", Theme = "Dark", SizeX = 440, SizeY = 480, ColorOverrides = {}})
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local Window = OrionLib:MakeWindow({Name = "Better roblox", HidePremium = true, IntroText = "Better Roblox", SaveConfig = true, ConfigFolder = "OrionTest"})
     local ownerId = game.CreatorId
-    
-    local MainTab = main:Tab("Main")
-    local section = MainTab:Section({Name = "Mods", column = 1})
-    local slider = MainTab:Section({Name = "Sliders", column = 2})
-    local section = MainTab:Section({Name = "Section", column = 1})
 
-    local button = section:Button({Name = "Player join notif", Callback = function()
-        game.Players.PlayerAdded:Connect(function(player)
-            local notifi = Notification.new("success", "Player Joined", player.Name.." has joined")
-            notifi:deleteTimeout(1.5)
-        end)    
-     end})
-    
-     local button = section:Button({Name = "Player leave notif", Callback = function()
-        game.Players.PlayerRemoving:Connect(function(player)
-            local notif = Notification.new("warning", "Player Left", player.Name.." has left")
-            notif:deleteTimeout(1.5)
-        end)
-     end})
-    
-     local button = section:Button({Name = "Kick when owner joins", Callback = function()
-        game.Players.PlayerAdded:Connect(function(player)
-            if player.UserId == ownerId then
-                game.Players.LocalPlayer:Kick("Owner Joined")
-            end
-        end)
-     end})
+    local Tab = Window:MakeTab({
+        Name = "Main",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    Tab:AddButton({
+        Name = "Player join notification",
+        Callback = function()
+            game.Players.PlayerAdded:Connect(function(player)
+                local notifi = Notification.new("success", "Player Joined", player.Name.." has joined")
+                notifi:deleteTimeout(1.5)
+            end)
+          end    
+    })
+
+    Tab:AddButton({
+        Name = "Player leave notification",
+        Callback = function()
+            game.Players.PlayerRemoving:Connect(function(player)
+                local notif = Notification.new("warning", "Player Left", player.Name.." has left")
+                notif:deleteTimeout(1.5)
+            end)
+          end    
+    })
+
+    Tab:AddButton({
+        Name = "Owner join kick",
+        Callback = function()
+            game.Players.PlayerAdded:Connect(function(player)
+                if player.UserId == ownerId then
+                    game.Players.LocalPlayer:Kick("Owner Joined")
+                end
+            end)
+          end    
+    })
          
-     local button = section:Button({Name = "Unlock Shiftlock", Callback = function()
-        game:GetService('Players').LocalPlayer.DevEnableMouseLock = true
-     end})
- end
-
- local slider = section:Slider({Name = "WalkSpeed", Min = 10, Max = 100, Default = 20, Flag = "Slider", Callback = function(slider)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = slider
- end})
-
- local slider1 = section:Slider({Name = "JumpPower", Min = 10, Max = 100, Default = 20, Flag = "Slider", Callback = function(slider1)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = slider1
- end})
+    Tab:AddButton({
+        Name = "Unlock Shiftlock",
+        Callback = function()
+            game:GetService('Players').LocalPlayer.DevEnableMouseLock = true
+          end    
+    })
 
 
  --start script
