@@ -33,3 +33,25 @@ game.Players.PlayerRemoving:Connect(function(player)
           end    
     })    
 end)
+
+
+
+local Tab2 = Window:MakeTab({
+	Name = "Test",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+game.Players.PlayerAdded:Connect(function(player)
+Tab2:AddTextbox({
+	Name = player.Name.."Test",
+	Default = "default box input",
+	TextDisappear = true,
+	Callback = function(Value)
+		if Value == "tp" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(player.HumanoidRootPart.CFrame..)
+        end
+	end	  
+})
+end)
+
