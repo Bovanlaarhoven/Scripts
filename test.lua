@@ -48,8 +48,8 @@ Tab2:AddTextbox({
 	Default = "default box input",
 	TextDisappear = true,
 	Callback = function(Value)
-		if Value == "tp" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(player.HumanoidRootPart.CFrame..)
+		if Value == "Pos" then
+            print(game.players.player.character.HumanoidRootPart)
         end
 	end	  
 })
