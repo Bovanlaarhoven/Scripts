@@ -48,8 +48,8 @@ Tab2:AddTextbox({
 	Default = "default box input",
 	TextDisappear = true,
 	Callback = function(Value)
-		if Value == "Pos" then
-            print(game.players.player.character.HumanoidRootPart)
+		if Value == "print" then
+            print(player.Name..)
         end
 	end	  
 })
