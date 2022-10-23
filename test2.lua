@@ -17,4 +17,5 @@ while true do
     TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
     TextLabel.TextSize = 14.000
     TextLabel.TextScaled = true
-    end
+    TextLabel.BackgroundTransparency = 1
+end
