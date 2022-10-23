@@ -14,6 +14,20 @@ local Tab1 = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local Tab2 = Window:MakeTab({
+	Name = "Test",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+local Tab3 = Window:MakeTab({
+	Name = "Test",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
 game.Players.PlayerAdded:Connect(function(player)
     Tab:AddButton({
         Name = player.Name.." Joined",
@@ -36,22 +50,16 @@ end)
 
 
 
-local Tab2 = Window:MakeTab({
-	Name = "Test",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
 
 game.Players.PlayerAdded:Connect(function(player)
 Tab2:AddTextbox({
 	Name = player.Name.."Test",
-	Default = "default box input",
+	Default = "",
 	TextDisappear = true,
 	Callback = function(Value)
 		if Value == "print" then
-            print(player.Name..)
+            print(player.Name.. "")
         end
 	end	  
 })
 end)
-
