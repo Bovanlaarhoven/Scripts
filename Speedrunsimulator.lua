@@ -14,7 +14,7 @@ getgenv().AutoHatch = true
 function AutoHatch()
     while AutoHatch == true do
         local args = {
-            [1] = (_G.EggSelect),
+            [1] = (EggSelect),
             [2] = false
         }
         game:GetService("ReplicatedStorage").Remotes.CanBuyEgg:InvokeServer(unpack(args))
