@@ -59,7 +59,6 @@ local GetDownedPlr = function()
         end
     end
 end
-
 local revive = function()
     local downedplr = GetDownedPlr()
     if downedplr ~= nil and downedplr:FindFirstChild('HumanoidRootPart') then
