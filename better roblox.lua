@@ -158,7 +158,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
 end
 local function chattedEvent(player)
     player.Chatted:Connect(function(msg)
-        if string.lower(msg) == "+" then
+        if string.lower(msg) == "btr" then
             PlayerChatted(player)
         end
     end)
