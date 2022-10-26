@@ -95,8 +95,6 @@ function library:CreateWindow(name)
     return HydraLib
 end
 
-return library
-
 local main = library:CreateWindow("Noob")
 
 main:CreateButton("test", function()
