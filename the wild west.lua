@@ -18,8 +18,8 @@ local Window = Rayfield:CreateWindow({
 	}
 })
 
-local T1 = Window:CreateTab("Animal ESP(billboard)")
-local T2 = Window:CreateTab("Animal ESP(highlight)")
+local T1 = Window:CreateTab("Animal Esp(billboard)")
+local T2 = Window:CreateTab("Animal Esp(highlight)")
 
 local Button = T1:CreateButton({
 	Name = "Bear Esp",
