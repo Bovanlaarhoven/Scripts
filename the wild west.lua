@@ -9,7 +9,7 @@ local Window = Rayfield:CreateWindow({
 		Enabled = true,
 		FileName = "Big Hub"
 	},
-	KeySystem = false, -- Set this to true to use our key system
+	KeySystem = false,
 	KeySettings = {
 		Title = "Sirius Hub",
 		Subtitle = "Key System",
@@ -47,4 +47,80 @@ local Button = T1:CreateButton({
 	end,
 })
 
+local Button = T1:CreateButton({
+	Name = "Bison Esp",
+	Callback = function()
+        for i,v in pairs(game.Workspace:GetDescendants()) do
+            if v.ClassName == "Model" and v.Parent.Name == "Bison" then
+            local BillboardGui = Instance.new("BillboardGui")
+            local TextLabel = Instance.new("TextLabel")
+            
+            BillboardGui.Parent = v.Parent
+            BillboardGui.AlwaysOnTop = true
+            BillboardGui.LightInfluence = 1
+            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+            BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+            
+            TextLabel.Parent = BillboardGui
+            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.Size = UDim2.new(1, 0, 1, 0)
+            TextLabel.Text = "Bison"
+            TextLabel.TextColor3 = Color3.new(1, 0, 0)
+            TextLabel.TextScaled = true
+            end
+        end
+	end,
+})
 
+local Button = T1:CreateButton({
+	Name = "Deer Esp",
+	Callback = function()
+        for i,v in pairs(game.Workspace:GetDescendants()) do
+            if v.ClassName == "Model" and v.Parent.Name == "Deer" then
+            local BillboardGui = Instance.new("BillboardGui")
+            local TextLabel = Instance.new("TextLabel")
+            
+            BillboardGui.Parent = v.Parent
+            BillboardGui.AlwaysOnTop = true
+            BillboardGui.LightInfluence = 1
+            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+            BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+            
+            TextLabel.Parent = BillboardGui
+            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.Size = UDim2.new(1, 0, 1, 0)
+            TextLabel.Text = "Deer"
+            TextLabel.TextColor3 = Color3.new(1, 0, 0)
+            TextLabel.TextScaled = true
+            end
+        end
+	end,
+})
+
+local Button = T1:CreateButton({
+	Name = "Gator Esp",
+	Callback = function()
+        for i,v in pairs(game.Workspace:GetDescendants()) do
+            if v.ClassName == "Model" and v.Parent.Name == "Gator" then
+            local BillboardGui = Instance.new("BillboardGui")
+            local TextLabel = Instance.new("TextLabel")
+            
+            BillboardGui.Parent = v.Parent
+            BillboardGui.AlwaysOnTop = true
+            BillboardGui.LightInfluence = 1
+            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+            BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+            
+            TextLabel.Parent = BillboardGui
+            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.Size = UDim2.new(1, 0, 1, 0)
+            TextLabel.Text = "Gator"
+            TextLabel.TextColor3 = Color3.new(1, 0, 0)
+            TextLabel.TextScaled = true
+            end
+        end
+	end,
+})
