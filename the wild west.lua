@@ -189,11 +189,41 @@ local Button = T2:CreateButton({
 })
 
 local Button = T3:CreateButton({
-	Name = "Struken tree Esp",
+	Name = "Bear Esp",
 	Callback = function()
         game:GetService("Workspace")["WORKSPACE_Entities"].Animals.ChildAdded:Connect(function(child)
             for i,v in pairs(game.Workspace:GetDescendants()) do
-                if v.ClassName == "ParticleEmitter" and v.Parent.Name == "Strike2" then
+                if v.ClassName == "Model" and v.Parent.Name == "Bear" then
+                    if v.ClassName == "NumberValue" and v.Health.NumberValue > 800 then
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                        TextLabel.Text = "Bear"
+                        TextLabel.TextColor3 = Color3.new(0.545098, 0.345098, 0.003921)
+                        TextLabel.TextScaled = true
+                    end
+                end
+            end
+        end)
+	end,
+})
+
+local Button = T3:CreateButton({
+	Name = "Button Example",
+	Callback = function()
+        for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
+            local health = v:WaitForChild("Health")
+            if health and health.Value > 800 then 
                 local BillboardGui = Instance.new("BillboardGui")
                 local TextLabel = Instance.new("TextLabel")
                 
@@ -207,11 +237,11 @@ local Button = T3:CreateButton({
                 TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
                 TextLabel.BackgroundTransparency = 1
                 TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                TextLabel.Text = "Tree"
-                TextLabel.TextColor3 = Color3.new(0, 1, 0.117647)
+                TextLabel.Text = "Bear"
+                TextLabel.TextColor3 = Color3.new(0.545098, 0.345098, 0.003921)
                 TextLabel.TextScaled = true
-                end
             end
-        end)
+        end
 	end,
 })
+

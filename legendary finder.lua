@@ -1,3 +1,4 @@
+
 coroutine.wrap(function()
     local script = [[
         repeat wait() until game:GetService("Players") ~= nil and game:GetService("Players").LocalPlayer ~= nil
