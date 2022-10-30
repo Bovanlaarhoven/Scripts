@@ -190,7 +190,7 @@ local Button = T2:CreateButton({
 })
 
 local Button = T3:CreateButton({
-	Name = "Horse Esp",
+	Name = "Horse Esp (billboard)",
 	Callback = function()
         game:GetService("Workspace")["WORKSPACE_Entities"].Animals.ChildAdded:Connect(function(child)
             for i,v in pairs(game.Workspace:GetDescendants()) do
@@ -218,7 +218,7 @@ local Button = T3:CreateButton({
 })
 
 local Button = T3:CreateButton({
-	Name = "Horse Esp",
+	Name = "Horse Esp (highlight)",
 	Callback = function()
         game:GetService("Workspace")["WORKSPACE_Entities"].Animals.ChildAdded:Connect(function(child)
             for i,v in pairs(game.Workspace:GetDescendants()) do
