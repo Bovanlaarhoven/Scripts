@@ -18,7 +18,7 @@ local Extra = Instance.new("Frame")
 local UICorner_4 = Instance.new("UICorner")
 local Lookingat = Instance.new("TextLabel")
 
-mouse.move:Connect(function()
+mouse.move:Connect(function(noob)
 	local closestplr
 	local closestpos = 1e+100
 	for i,v in pairs(game.Players:GetPlayers()) do
@@ -111,7 +111,7 @@ mouse.move:Connect(function()
             _100.Size = UDim2.new(0, 54, 0, 23)
             _100.ZIndex = 3
             _100.Font = Enum.Font.SourceSans
-            _100.Text = "/100"
+            _100.Text = "/" ..closestplr.Character.Humanoid.MaxHealth
             _100.TextColor3 = Color3.fromRGB(255, 255, 255)
             _100.TextSize = 25.000
             _100.TextWrapped = true
@@ -134,7 +134,7 @@ mouse.move:Connect(function()
             Distance.Size = UDim2.new(0, 41, 0, 41)
             Distance.ZIndex = 3
             Distance.Font = Enum.Font.SourceSans
-            Distance.Text = math.floor(closestpos.."")
+            Distance.Text = closestplr.Character.Humanoid.RigType.Name..""
             Distance.TextColor3 = Color3.fromRGB(255, 255, 255)
             Distance.TextSize = 30.000
             Distance.TextWrapped = true
@@ -161,12 +161,12 @@ mouse.move:Connect(function()
             Lookingat.TextSize = 37.000
             Lookingat.TextWrapped = true
 
-            if closestplr.Character.Humanoid.Health < 50 then
+            if closestplr.Character.Humanoid.Health < 75 then
                 Bar.BackgroundColor3 = Color3.fromRGB(255, 162, 0)
                 Bar.Size = UDim2.new(0, 77, 0, 26)
             end
 
-            if closestplr.Character.Humanoid.Health < 20 then
+            if closestplr.Character.Humanoid.Health < 35 then
                 Bar.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
                 Bar.Size = UDim2.new(0, 30, 0, 26)
             end
@@ -174,11 +174,7 @@ mouse.move:Connect(function()
             if closestplr.Character.Humanoid.Health == 0 then
                 Bar.BackgroundTransparency = 1
             end
-
         end
     end
 end)
-
-
-
 
