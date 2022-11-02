@@ -7,19 +7,22 @@ mouse.move:Connect(function()
 	local closestpos = 1e+100
 	for i,v in pairs(game.Players:GetPlayers()) do
         if v.Character ~= game.Players.LocalPlayer.Character then
-            if v.Character then
-                local mag = (mouse.Hit.p - v.Character.HumanoidRootPart.CFrame.Position).Magnitude
-                if  mag < closestpos then
-                    closestplr = v
-                    closestpos = mag
+            if v.team ~= plr.team then
+                if v.Character then
+                    local mag = (mouse.Hit.p - v.Character.HumanoidRootPart.CFrame.Position).Magnitude
+                    if  mag < closestpos then
+                        closestplr = v
+                        closestpos = mag
+                    end
                 end
             end
-        end
-        
-        if closestplr then
-            highlight.Parent = closestplr.Character
-            highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            highlight.FillColor = Color3.new(0.917647, 0, 1)
+            
+            if closestplr then
+                highlight.Parent = closestplr.Character
+                highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.FillColor = Color3.new(0.917647, 0, 1)
+            end
         end
     end
 end)
+
