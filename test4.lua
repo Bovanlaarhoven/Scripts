@@ -16,7 +16,7 @@ mouse.move:Connect(function()
                     end
                 end
             end
-            
+                
             if closestplr then
                 highlight.Parent = closestplr.Character
                 highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -25,4 +25,7 @@ mouse.move:Connect(function()
         end
     end
 end)
+
+
+
 
