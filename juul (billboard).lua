@@ -14,6 +14,9 @@ local Health = Instance.new("TextLabel")
 local _100 = Instance.new("TextLabel")
 local Arrow = Instance.new("ImageLabel")
 local Distance = Instance.new("TextLabel")
+local Extra = Instance.new("Frame")
+local UICorner_4 = Instance.new("UICorner")
+local Lookingat = Instance.new("TextLabel")
 
 mouse.move:Connect(function()
 	local closestplr
@@ -32,11 +35,12 @@ mouse.move:Connect(function()
         if closestplr then
             highlight.Parent = closestplr.Character
             highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            highlight.FillColor = Color3.new(0.917647, 0, 1)
+            highlight.FillColor = Color3.new(84, 85, 86)
             BillboardGui.Parent = closestplr.Character.Head
             BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
             BillboardGui.Active = true
-            BillboardGui.LightInfluence = 1.000
+            BillboardGui.LightInfluence = 0
+            BillboardGui.AlwaysOnTop = true
             BillboardGui.Size = UDim2.new(0, 500, 0, 500)
 
             Main.Name = "Main"
@@ -134,6 +138,28 @@ mouse.move:Connect(function()
             Distance.TextColor3 = Color3.fromRGB(255, 255, 255)
             Distance.TextSize = 30.000
             Distance.TextWrapped = true
+            Extra.Name = "Extra"
+            Extra.Parent = BillboardGui
+            Extra.BackgroundColor3 = Color3.fromRGB(68, 70, 71)
+            Extra.BackgroundTransparency = 0.5
+            Extra.BorderColor3 = Color3.fromRGB(52, 53, 54)
+            Extra.Position = UDim2.new(0.401771754, 0, 0.0209999997, -15)
+            Extra.Size = UDim2.new(0, 159, 0, 59)
+            Extra.ZIndex = 2
+
+            UICorner_4.Parent = Extra
+
+            Lookingat.Name = "Looking at"
+            Lookingat.Parent = Extra
+            Lookingat.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Lookingat.BackgroundTransparency = 1.000
+            Lookingat.Position = UDim2.new(0.0472772941, 0, 0.127101064, 0)
+            Lookingat.Size = UDim2.new(0, 142, 0, 37)
+            Lookingat.Font = Enum.Font.SourceSans
+            Lookingat.Text = "Looking at"
+            Lookingat.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Lookingat.TextSize = 37.000
+            Lookingat.TextWrapped = true
         end
     end
 end)
