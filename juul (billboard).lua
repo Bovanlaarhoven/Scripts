@@ -160,6 +160,21 @@ mouse.move:Connect(function()
             Lookingat.TextColor3 = Color3.fromRGB(255, 255, 255)
             Lookingat.TextSize = 37.000
             Lookingat.TextWrapped = true
+
+            if closestplr.Character.Humanoid.Health < 50 then
+                Bar.BackgroundColor3 = Color3.fromRGB(255, 162, 0)
+                Bar.Size = UDim2.new(0, 77, 0, 26)
+            end
+
+            if closestplr.Character.Humanoid.Health < 20 then
+                Bar.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                Bar.Size = UDim2.new(0, 30, 0, 26)
+            end
+
+            if closestplr.Character.Humanoid.Health == 0 then
+                Bar.BackgroundTransparency = 1
+            end
+
         end
     end
 end)
