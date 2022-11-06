@@ -24,7 +24,7 @@ mouse.move:Connect(function()
 	for i,v in pairs(game.Players:GetPlayers()) do
         if v.Character ~= game.Players.LocalPlayer.Character then
             if v.Character then
-                local mag = (mouse.Hit.p - v.Character.HumanoidRootPart.CFrame.Position).Magnitude
+                local mag = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.position - v.Character.HumanoidRootPart.CFrame.Position).Magnitude
                 if  mag < closestpos then
                     closestplr = v
                     closestpos = mag
