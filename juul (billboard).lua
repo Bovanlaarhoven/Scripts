@@ -24,7 +24,7 @@ mouse.move:Connect(function(noob)
 	for i,v in pairs(game.Players:GetPlayers()) do
         if v.Character ~= game.Players.LocalPlayer.Character then
             if v.Character then
-                local mag = (mouse.Hit.p - v.Character.HumanoidRootPart.CFrame.Position).Magnitude
+                local mag = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.position - v.Character.HumanoidRootPart.Position).Magnitude
                 if  mag < closestpos then
                     closestplr = v
                     closestpos = mag
@@ -134,7 +134,7 @@ mouse.move:Connect(function(noob)
             Distance.Size = UDim2.new(0, 41, 0, 41)
             Distance.ZIndex = 3
             Distance.Font = Enum.Font.SourceSans
-            Distance.Text = closestplr.Character.Humanoid.RigType.Name..""
+            Distance.Text = math.floor(closestpos.."")
             Distance.TextColor3 = Color3.fromRGB(255, 255, 255)
             Distance.TextSize = 30.000
             Distance.TextWrapped = true
