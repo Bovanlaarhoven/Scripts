@@ -35,7 +35,7 @@ mouse.move:Connect(function(noob)
         if closestplr then
             highlight.Parent = closestplr.Character
             highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            highlight.FillColor = Color3.new(84, 85, 86)
+            highlight.FillColor = Color3.new(77, 255, 104)
             BillboardGui.Parent = closestplr.Character.Head
             BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
             BillboardGui.Active = true
@@ -164,15 +164,18 @@ mouse.move:Connect(function(noob)
             if closestplr.Character.Humanoid.Health < 75 then
                 Bar.BackgroundColor3 = Color3.fromRGB(255, 162, 0)
                 Bar.Size = UDim2.new(0, 77, 0, 26)
+                highlight.FillColor = Color3.new(255, 162, 0)
             end
 
             if closestplr.Character.Humanoid.Health < 35 then
                 Bar.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
                 Bar.Size = UDim2.new(0, 30, 0, 26)
+                highlight.FillColor = Color3.new(255, 0, 0)
             end
 
             if closestplr.Character.Humanoid.Health == 0 then
                 Bar.BackgroundTransparency = 1
+                highlight.FillColor = Color3.new(0, 0, 0)
             end
         end
     end
