@@ -175,7 +175,7 @@ mouse.move:Connect(function(noob)
 
             if closestplr.Character.Humanoid.Health == 0 then
                 Bar.BackgroundTransparency = 1
-                highlight.FillColor = Color3.new(0, 0, 0)
+                highlight.Transparency = 1
             end
         end
     end
