@@ -18,7 +18,7 @@ local Extra = Instance.new("Frame")
 local UICorner_4 = Instance.new("UICorner")
 local Lookingat = Instance.new("TextLabel")
 
-mouse.move:Connect(function(noob)
+mouse.move:Connect(function()
 	local closestplr
 	local closestpos = 1e+100
 	for i,v in pairs(game.Players:GetPlayers()) do
@@ -98,7 +98,7 @@ mouse.move:Connect(function(noob)
             Health.Size = UDim2.new(0, 54, 0, 23)
             Health.ZIndex = 3
             Health.Font = Enum.Font.SourceSans
-            Health.Text = math.floor(closestplr.Character.Humanoid.Health.."")
+            Health.Text = math.floor(closestplr.."")
             Health.TextColor3 = Color3.fromRGB(255, 255, 255)
             Health.TextSize = 30.000
             Health.TextWrapped = true
@@ -134,7 +134,7 @@ mouse.move:Connect(function(noob)
             Distance.Size = UDim2.new(0, 41, 0, 41)
             Distance.ZIndex = 3
             Distance.Font = Enum.Font.SourceSans
-            Distance.Text = math.floor(closestpos.."")
+            Distance.Text = math.floor(plr - closestplr.."")
             Distance.TextColor3 = Color3.fromRGB(255, 255, 255)
             Distance.TextSize = 30.000
             Distance.TextWrapped = true
