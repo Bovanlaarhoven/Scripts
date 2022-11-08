@@ -37,6 +37,7 @@ mouse.move:Connect(function()
         if closestplr then
             Gui.Name = "Gui"
             Gui.Parent = CoreGui:FindFirstChild("RobloxGui")
+            Gui.ResetOnSpawn = false
             highlight.Parent = closestplr.Character
             highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
             highlight.FillColor = Color3.fromRGB(34, 255, 10)
@@ -46,7 +47,6 @@ mouse.move:Connect(function()
             Main.BackgroundTransparency = 0.500
             Main.Position = UDim2.new(0.40356642, 0, -0.000619233353, 0)
             Main.Size = UDim2.new(0, 311, 0, 93)
-
             Time.Name = "Time"
             Time.Parent = Main
             Time.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -232,8 +232,9 @@ mouse.move:Connect(function()
 
             if closestplr.Character.Humanoid.Health == 0 then
                 Hp.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                Hp.BackgroundTransparency = 1
                 Hp.Size = UDim2.new(0, 0, 0, 0)
-                highlight.Enabled = false
+                highlight.FillColor = Color3.fromRGB(0, 0, 0)
             end
 
         end
