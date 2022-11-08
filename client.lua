@@ -38,6 +38,7 @@ mouse.move:Connect(function()
             Gui.Name = "Gui"
             Gui.Parent = CoreGui:FindFirstChild("RobloxGui")
             Gui.ResetOnSpawn = false
+
             highlight.Parent = closestplr.Character
             highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
             highlight.FillColor = Color3.fromRGB(34, 255, 10)
@@ -59,6 +60,7 @@ mouse.move:Connect(function()
             Time.TextSize = 18.000
             Time.TextWrapped = true
             
+
             MaxHealth.Name = "MaxHealth"
             MaxHealth.Parent = Main
             MaxHealth.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -77,7 +79,7 @@ mouse.move:Connect(function()
             Health.Position = UDim2.new(0.738774836, 0, 0.500336766, 0)
             Health.Size = UDim2.new(0, 47, 0, 49)
             Health.Font = Enum.Font.SourceSans
-            Health.Text = closestplr.Character.Humanoid.Health..""
+            Health.Text = math.floor(closestplr.Character.Humanoid.Health.."")
             Health.TextColor3 = Color3.fromRGB(0, 0, 0)
             Health.TextSize = 26.000
             
