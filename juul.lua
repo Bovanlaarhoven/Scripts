@@ -83,7 +83,7 @@ mouse.move:Connect(function()
             Lookingat.Position = UDim2.new(0.0472772941, 0, 0.127101064, 0)
             Lookingat.Size = UDim2.new(0, 142, 0, 37)
             Lookingat.Font = Enum.Font.SourceSans
-            Lookingat.Text = "Looking at"
+            Lookingat.Text = closestplr.UserId..""
             Lookingat.TextColor3 = Color3.fromRGB(255, 255, 255)
             Lookingat.TextSize = 37.000
             Lookingat.TextWrapped = true
