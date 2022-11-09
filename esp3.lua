@@ -25,7 +25,7 @@ end
 
 dwRunService.Heartbeat:Connect(function()
     if settings_tbl.ESP_Enabled then
-        for k,v in next, dwEntities:GetPlayers() do 
+        for k,v in next, dwEntities:GetPlayers() do
             if v ~= dwLocalPlayer then
                 if v.Character and
                 v.Character:FindFirstChild("HumanoidRootPart") and 
