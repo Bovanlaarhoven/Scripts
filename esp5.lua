@@ -2,16 +2,20 @@ local esp = Instance.new("SelectionBox")
 local Players = game:GetService("Players"):GetChildren()
 local SelectionBox = Instance.new("SelectionBox")
 local RunService = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
 
 for i,v in pairs(Players) do
     repeat wait() until v.Character
     if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("SelectionBox") then
-        local espclone = esp:Clone()
-        espclone.Adornee = v.Character
-        espclone.Parent = v.Character:findFirstChild("HumanoidRootPart")
-        espclone.Name = "SelectionBox"
+        if v.Character ~= LocalPlayer then
+            local espclone = esp:Clone()
+            espclone.Adornee = v.Character
+            espclone.Parent = v.Character:findFirstChild("HumanoidRootPart")
+            espclone.Name = "SelectionBox"
+        end
     end
 end
+
 
 game:GetService("Players"):Connect(function(player)
     repeat wait() until player.Character
@@ -31,10 +35,12 @@ RunService.Heartbeat:Connect(function()
     for i,v in pairs(Players) do
         repeat wait() until v.Character
         if not v.Character:FindFirstChild("HumanoidRootPart"):findFirstChild("SelectionBox") then
-            local espclone = esp:Clone()
-            espclone.Adornee = v.Character
-            espclone.Parent = v.Character:findFirstChild("HumanoidRootPart")
-            espclone.Name = "SelectionBox"
+            if v.Character ~= LocalPlayer then
+                local espclone = esp:Clone()
+                espclone.Adornee = v.Character
+                espclone.Parent = v.Character:findFirstChild("HumanoidRootPart")
+                espclone.Name = "SelectionBox"
+            end
         end
     end
 end)
