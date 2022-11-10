@@ -202,7 +202,7 @@ local FullBright = LeftGroupBoxx:AddButton('Full Bright', function()
     game.Lighting.FogEnd = 100000
     game.Lighting.FogStart = 0
     game.Lighting.ClockTime = 14
-    game.Lighting.Brightness = 10
+    game.Lighting.Brightness = 5
     game.Lighting.GlobalShadows = false
 end)
 
@@ -418,12 +418,3 @@ end)
             end
         end
     end
-
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    pcall(function()
-        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
-        end
-    end)
-end)
