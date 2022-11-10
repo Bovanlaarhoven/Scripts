@@ -155,19 +155,6 @@ RightGroupBox:AddSlider('FOV', {
 
 Options.FOV:SetValue(280)
 
-RightGroupBox:AddSlider('Thickness', {
-    Text = 'FOV Thickness',
-
-    Default = 0,
-    Min = 0,
-    Max = 10,
-    Rounding = 1,
-
-    Compact = false,
-});
-
-Options.Thickness:SetValue(0)
-
 RightGroupBox:AddSlider('FOVTrans', {
     Text = 'FOV Transparency',
     Default = 0.8,
@@ -239,11 +226,9 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
         
         circle = Drawing.new("Circle")
         circle.Color = Color3.fromRGB(173,216,230)
-        circle.Thickness = 5
         circle.NumSides = 732
         circle.Transparency = 0.8
         game:GetService("RunService").RenderStepped:Connect(function()
-        circle.Thickness = Options.Thickness.Value
         circle.Radius = Options.FOV.Value
         circle.Visible = Toggles.FOVToggle.Value
         circle.Transparency = Options.FOVTrans.Value
