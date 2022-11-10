@@ -4,6 +4,7 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
+
 local Window = Library:CreateWindow({
     Title = 'Angel.lua',
     Center = true, 
@@ -11,12 +12,15 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-    Main = Window:AddTab('Target'), 
+    Main = Window:AddTab('Target'),  
+    Extra = Window:AddTab('Extra'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Target')
+local LeftGroupBoxx = Tabs.Extra:AddLeftGroupbox('Extra')
 local RightGroupBox = Tabs.Main:AddRightGroupbox('Target Settings')
+
 
 LeftGroupBox:AddToggle('Showdot', {
     Text = 'ShowBox',
@@ -177,6 +181,36 @@ RightGroupBox:AddSlider('FOVTrans', {
 
     Compact = false,
 });
+
+LeftGroupBoxx:AddSlider('fov', {
+    Text = 'Fov',
+    Default = 70,
+    Min = 0,
+    Max = 120,
+    Rounding = 1,
+    Compact = false,
+})
+
+Options.fov:OnChanged(function()
+    game:GetService'Workspace'.Camera.FieldOfView = Options.fov.Value
+end)
+
+local FullBright = LeftGroupBoxx:AddButton('Full Bright', function()
+    Light.Ambient = Color3.new(1, 1, 1)
+    Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+    Light.ColorShift_Top = Color3.new(1, 1, 1)
+    game.Lighting.FogEnd = 100000
+    game.Lighting.FogStart = 0
+    game.Lighting.ClockTime = 14
+    game.Lighting.Brightness = 10
+    game.Lighting.GlobalShadows = false
+end)
+
+local Rejoin = LeftGroupBoxx:AddButton('Rejoin', function()
+    local ts = game:GetService("TeleportService")
+    local p = game:GetService("Players").LocalPlayer
+    ts:Teleport(game.PlaceId, p)
+end)
 
 Library:SetWatermarkVisibility(true)
 
@@ -384,3 +418,12 @@ end)
             end
         end
     end
+
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
+        end
+    end)
+end)
