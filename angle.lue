@@ -220,7 +220,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
             Cylinder = Enum.PartType.Cylinder
         }
         
-        --variables                 
+        --variables   
         local Tracer = Instance.new("Part", game.Workspace)
         Tracer.Name = "gay"	
         Tracer.Anchored = true		
@@ -276,12 +276,11 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
             
         --
         if getgenv().valiansh == true then
-                            game.StarterGui:SetCore("SendNotification", {
-                       Title = "angel.lua",
-                       Text = "Already Loaded!",
-                       Duration = 5
-            
-                       })
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "angel.lua",
+                Text = "Already Loaded!",
+                Duration = 5
+             })
             return
         end
         
@@ -294,7 +293,6 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
                if (keygo.KeyCode == getgenv().Key) then
                    if getgenv().Target == true then
                    Locking = not Locking
-                   
                    if Locking then
                    Plr =  getClosestPlayerToCursor()
                     if getgenv().ChatMode then
@@ -335,7 +333,7 @@ end)
             end
             return closestPlayer
         end
-    --
+
     if getgenv().PartMode then
         game:GetService"RunService".Stepped:connect(function()
             if Locking and Plr.Character and Plr.Character:FindFirstChild("LowerTorso") then
