@@ -232,7 +232,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
         Tracer.Transparency = Options.MySlider.Value
         Tracer.Color = Options.ColorPicker.Value
         end)
-        --
+
         local plr = game.Players.LocalPlayer
         local mouse = plr:GetMouse()
         local Runserv = game:GetService("RunService")
