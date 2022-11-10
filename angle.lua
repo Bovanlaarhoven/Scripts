@@ -341,9 +341,8 @@ end)
             end
         end)
     end
-    
-        
-        
+
+            
         --
         local rawmetatable = getrawmetatable(game)
         local old = rawmetatable.__namecall
