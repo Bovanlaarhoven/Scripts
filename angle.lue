@@ -217,7 +217,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
         getgenv().Types = {
             Ball = Enum.PartType.Ball,
             Block = Enum.PartType.Block, 
-            Cylinder = Enum.PartType.Cylinder
+            Cylinder = Enum.PartType.Cylinder,
         }
         
         --variables   
@@ -272,9 +272,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
         local CC = game:GetService"Workspace".CurrentCamera
         local LocalMouse = game.Players.LocalPlayer:GetMouse()
         local Locking = false
-        
             
-        --
         if getgenv().valiansh == true then
             game.StarterGui:SetCore("SendNotification", {
                 Title = "angel.lua",
