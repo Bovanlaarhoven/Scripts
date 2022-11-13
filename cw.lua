@@ -2,8 +2,7 @@ local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-local localplayer = game:GetService("Players").PlayerCharacters.LocalPlayer
-local getup = true
+getgenv().getup = true
 
 local Window = Library:CreateWindow({
     Title = '[Combat warriors] atomic v0.01 by hydra#8270',
@@ -32,11 +31,16 @@ Toggles.getup:OnChanged(function()
     getup = Toggles.getup.Value
 end)
 
-if getup == true then
-    local A_1 = false
-    local Event = localplayer.Humanoid.RagdollRemoteEvent
-    Event:FireServer(A_1)
-end
+task.spawn(function()
+    while task.wait(0.1) do
+        if getup == true then
+            local A_1 = false
+            local Event = game:GetService("Workspace").PlayerCharacters.fksdjhfskjhf.Humanoid.RagdollRemoteEvent
+            Event:FireServer(A_1)
+        end
+    end
+end)
+
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
