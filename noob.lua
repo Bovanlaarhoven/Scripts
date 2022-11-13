@@ -6,7 +6,6 @@ local players = game:GetService("Players")
 if enabled == true then
     for i,v in pairs(game:GetService("Players"):GetChildren()) do
         local highlightclone = highlight:Clone()
-        highlightclone.Name = v
         highlightclone.Adornee = v.Character
         highlightclone.Parent = v.Character
         highlightclone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -16,7 +15,6 @@ end
 players.PlayerAdded:Connect(function()
     for i,v in pairs(game:GetService("Players"):GetChildren()) do
         local highlightclone = highlight:Clone()
-        highlightclone.Name = v
         highlightclone.Adornee = v.Character
         highlightclone.Parent = v.Character
         highlightclone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -26,7 +24,3 @@ end)
 players.PlayerRemoving:Connect(function(playerRemoved)
     playerRemoved.Character:FindFirstChild("HumanoidRootPart").Highlight:destroy()
 end)
-
-if enabled == false then
-    players.Character:FindFirstChild("HumanoidRootPart").Highlight:destroy()
-end
