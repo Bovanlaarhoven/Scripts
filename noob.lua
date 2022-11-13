@@ -26,3 +26,7 @@ end)
 players.PlayerRemoving:Connect(function(playerRemoved)
     playerRemoved.Character:FindFirstChild("HumanoidRootPart").Highlight:destroy()
 end)
+
+if enabled == false then
+    players.Character:FindFirstChild("HumanoidRootPart").Highlight:destroy()
+end
