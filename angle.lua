@@ -195,6 +195,69 @@ Options.fov:OnChanged(function()
     game:GetService'Workspace'.Camera.FieldOfView = Options.fov.Value
 end)
 
+
+local FullBright = LeftGroupBoxx:AddButton('Chat spy', function()
+
+    enabled = true
+    spyOnMyself = false
+    public = false
+    publicItalics = true
+    privateProperties = {
+        Color = Color3.fromRGB(0,255,255); 
+        Font = Enum.Font.SourceSansBold;
+        TextSize = 18;
+    }
+    local StarterGui = game:GetService("StarterGui")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+    local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+    local instance = (_G.chatSpyInstance or 0) + 1
+    _G.chatSpyInstance = instance
+    
+    local function onChatted(p,msg)
+        if _G.chatSpyInstance == instance then
+            if p==player and msg:lower():sub(1,4)=="/spy" then
+                enabled = not enabled
+                wait(0.3)
+                privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+                StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+            elseif enabled and (spyOnMyself==true or p~=player) then
+                msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+                local hidden = true
+                local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                    if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                        hidden = false
+                    end
+                end)
+                wait(1)
+                conn:Disconnect()
+                if hidden and enabled then
+                    if public then
+                        saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                    else
+                        privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                        StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                    end
+                end
+            end
+        end
+    end
+    
+    for _,p in ipairs(Players:GetPlayers()) do
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end
+    Players.PlayerAdded:Connect(function(p)
+        p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    end)
+    privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+    local chatFrame = player.PlayerGui.Chat.Frame
+    chatFrame.ChatChannelParentFrame.Visible = true
+    chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+end)
+
+
 local FullBright = LeftGroupBoxx:AddButton('Full Bright', function()
     Light.Ambient = Color3.new(1, 1, 1)
     Light.ColorShift_Bottom = Color3.new(1, 1, 1)
@@ -206,6 +269,7 @@ local FullBright = LeftGroupBoxx:AddButton('Full Bright', function()
     game.Lighting.GlobalShadows = false
 end)
 
+
 local Rejoin = LeftGroupBoxx:AddButton('Rejoin', function()
     local ts = game:GetService("TeleportService")
     local p = game:GetService("Players").LocalPlayer
@@ -216,32 +280,17 @@ Library:SetWatermarkVisibility(true)
 
 Library:SetWatermark('Angel.Lua Modded')
 
-Library:OnUnload(function()
-    print('Unloaded!')
-    Library.Unloaded = true
-end)
-
-
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
-
 Library.ToggleKeybind = Options.MenuKeybind 
-
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
-
-
 SaveManager:IgnoreThemeSettings() 
-
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
-
 ThemeManager:SetFolder('MyScriptHub')
 SaveManager:SetFolder('MyScriptHub/specific-game')
-
 SaveManager:BuildConfigSection(Tabs['UI Settings']) 
-
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 
 -- Toggle
@@ -256,7 +305,7 @@ ThemeManager:ApplyToTab(Tabs['UI Settings'])
         
         --variables   
         local Tracer = Instance.new("Part", game.Workspace)
-        Tracer.Name = "gay"	
+        Tracer.Name = "Part"	
         Tracer.Anchored = true		
         Tracer.CanCollide = false
         Tracer.Parent = game.Workspace	
@@ -418,3 +467,5 @@ end)
             end
         end
     end
+
+    print(Plr.Character.Humanoid.DisplayName)
