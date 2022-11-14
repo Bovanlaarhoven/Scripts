@@ -14,6 +14,7 @@ local BotCo = Color3.fromRGB(255, 0, 0)
 local BotNaCO = Color3.fromRGB(255, 255, 255)
 
 local Tab8 = Window:MakeTab({
+	Name = "Esp Player",
 	Icon = "rbxassetid://8217650131",
 	PremiumOnly = false
 })
