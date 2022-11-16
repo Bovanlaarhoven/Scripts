@@ -257,7 +257,7 @@ Tab6:AddTextbox({
 		game.Players.LocalPlayer.leaderstats["best time"].Value = Value
 	end	  
 })
-
+	
 Tab6:AddButton({
 	Name = "Enable Speed",
 	Callback = function()
