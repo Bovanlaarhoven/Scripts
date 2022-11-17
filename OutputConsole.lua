@@ -1,3 +1,15 @@
+local pages = game:GetService("AssetService"):GetGamePlacesAsync()
+local places = {}
+while true do
+for _,v in next, pages:GetCurrentPage() do
+places[v.Name] = v.PlaceId
+end
+if pages.IsFinished then
+break
+end
+pages:AdvanceToNextPageAsync()
+end
+
 local InputService = game:GetService('UserInputService')
 local CoreGui = game:GetService('CoreGui')
 local Logger = Instance.new("ScreenGui")
@@ -12,8 +24,18 @@ local UICorner_2 = Instance.new("UICorner")
 local Template = Instance.new("TextLabel")
 local UIListLayout = Instance.new("UIListLayout")
 
+local Id = Instance.new("ScreenGui")
+local Idsfilling = Instance.new("Frame")
+local UICorner4 = Instance.new("UICorner")
+local Padding = Instance.new("Frame")
+local UIListLayout1 = Instance.new("UIListLayout")
+local UICorner_3 = Instance.new("UICorner")
+local TextButton = Instance.new("TextButton")
+local Title1 = Instance.new("TextLabel")
+
 Logger.Name = "Logger"
 Logger.Parent = CoreGui
+Logger.ResetOnSpawn = false
 
 Main.Name = "Main"
 Main.Parent = Logger
@@ -167,8 +189,65 @@ local function LTKUN_fake_script()
 end
 coroutine.wrap(LTKUN_fake_script)()
 
+
+Id.Name = "Id"
+Id.Parent = CoreGui
+Id.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Id.ResetOnSpawn = false
+
+Idsfilling.Name = "Idsfilling"
+Idsfilling.Parent = Id
+Idsfilling.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Idsfilling.Position = UDim2.new(0.879475594, 0, 0.0266821384, 0)
+Idsfilling.Size = UDim2.new(0, 146, 0, 616)
+
+UICorner4.CornerRadius = UDim.new(0, 6)
+UICorner4.Parent = Idsfilling
+
+Padding.Name = "Padding"
+Padding.Parent = Idsfilling
+Padding.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Padding.Position = UDim2.new(0.0958904102, 0, 0.0890052319, 0)
+Padding.Size = UDim2.new(0, 117, 0, 540)
+
+UIListLayout1.Parent = Padding
+
+UICorner_3.CornerRadius = UDim.new(0, 6)
+UICorner_3.Parent = Padding
+
+for i,v in next, places do
+	local TextbuttonClone = TextButton:Clone()
+	TextbuttonClone.Parent = Padding
+	TextbuttonClone.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	TextbuttonClone.Size = UDim2.new(0, 117, 0, 50)
+	TextbuttonClone.ZIndex = 2
+	TextbuttonClone.Text = v..""
+	TextbuttonClone.Font = Enum.Font.SourceSans
+	TextbuttonClone.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextbuttonClone.TextSize = 14.000
+	TextbuttonClone.MouseButton1Click:Connect(function()
+		game:GetService("TeleportService"):Teleport(v)
+	end)
+end
+
+
+Title1.Name = "Title1"
+Title1.Parent = Idsfilling
+Title1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title1.BackgroundTransparency = 1.000
+Title1.Position = UDim2.new(0.30458802, 0, 0.0220089555, 0)
+Title1.Size = UDim2.new(0, 56, 0, 25)
+Title1.Font = Enum.Font.GothamBold
+Title1.Text = "Placeids"
+Title1.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title1.TextSize = 14.000
+Title1.TextXAlignment = Enum.TextXAlignment.Left
+
 InputService.InputBegan:Connect(function(Input, Processed)
     if Input.KeyCode == Enum.KeyCode.F1 or (Input.KeyCode == Enum.KeyCode.Insert and (not Processed)) then
         Main.Visible = not Main.Visible
+		Idsfilling.Visible = not Idsfilling.Visible
     end
 end)
+
+
