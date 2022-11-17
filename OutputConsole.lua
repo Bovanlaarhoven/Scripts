@@ -11,6 +11,7 @@ pages:AdvanceToNextPageAsync()
 end
 
 local highlight = Instance.new("Highlight")
+local selectionbox = Instance.new("SelectionBox")
 local InputService = game:GetService('UserInputService')
 local CoreGui = game:GetService('CoreGui')
 local Logger = Instance.new("ScreenGui")
@@ -375,9 +376,10 @@ for i, player in pairs(Players:GetPlayers()) do
 	TextbuttonClone1.TextSize = 18.000
 	TextbuttonClone1.MouseButton1Click:Connect(function()
 		highlight.Parent = player.Character
+		selectionbox.Adornee = player.Character
+		selectionbox.Parent = player.Character
 	end)
 end
-
 
 Title4.Name = "Title4"
 Title4.Parent = Filling
