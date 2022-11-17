@@ -146,48 +146,66 @@ local function CRYDRVK_fake_script()
 	LogService.MessageOut:Connect(onMessageOut)
 end
 coroutine.wrap(CRYDRVK_fake_script)()
-local function LTKUN_fake_script()
+
+local function SPQJXF_fake_script() -- Main.Dragify 
 	local script = Instance.new('LocalScript', Main)
 
-	local UIS = game:GetService("UserInputService")
-	function dragify(Frame)
-		dragToggle = nil
-		dragSpeed = 0.15
-		dragInput = nil
-		dragStart = nil
-		dragPos = nil
-		function updateInput(input)
-			Delta = input.Position - dragStart
-			Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-			game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.15), {Position = Position}):Play()
-		end
-		Frame.InputBegan:Connect(function(input)
-			if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
-				dragToggle = true
-				dragStart = input.Position
-				startPos = Frame.Position
-				input.Changed:Connect(function()
-					if input.UserInputState == Enum.UserInputState.End then
-						dragToggle = false
-					end
-				end)
-			end
-		end)
-		Frame.InputChanged:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-				dragInput = input
-			end
-		end)
-		game:GetService("UserInputService").InputChanged:Connect(function(input)
-			if input == dragInput and dragToggle then
-				updateInput(input)
-			end
-		end)
-	end
-	dragify(script.Parent)
+	local UserInputService = game:GetService("UserInputService")
+	local runService = (game:GetService("RunService"));
 	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	function Lerp(a, b, m)
+		return a + (b - a) * m
+	end;
+	
+	local lastMousePos
+	local lastGoalPos
+	local DRAG_SPEED = (10);
+	function Update(dt)
+		if not (startPos) then return end;
+		if not (dragging) and (lastGoalPos) then
+			gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
+			return 
+		end;
+	
+		local delta = (lastMousePos - UserInputService:GetMouseLocation())
+		local xGoal = (startPos.X.Offset - delta.X);
+		local yGoal = (startPos.Y.Offset - delta.Y);
+		lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
+		gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+	end;
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+			lastMousePos = UserInputService:GetMouseLocation()
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	runService.Heartbeat:Connect(Update)
 end
-coroutine.wrap(LTKUN_fake_script)()
+coroutine.wrap(SPQJXF_fake_script)()
+
 
 
 Id.Name = "Id"
@@ -243,7 +261,7 @@ Title1.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title1.TextSize = 14.000
 Title1.TextXAlignment = Enum.TextXAlignment.Left
 
-local function BMRDXRL_fake_script() 
+local function BMRDXRL_fake_script() -- Idsfilling.Dragify 
 	local script = Instance.new('LocalScript', Idsfilling)
 
 	local UserInputService = game:GetService("UserInputService")
@@ -262,7 +280,7 @@ local function BMRDXRL_fake_script()
 	
 	local lastMousePos
 	local lastGoalPos
-	local DRAG_SPEED = (8); -- // The speed of the UI darg.
+	local DRAG_SPEED = (10);
 	function Update(dt)
 		if not (startPos) then return end;
 		if not (dragging) and (lastGoalPos) then
