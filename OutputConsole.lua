@@ -10,6 +10,7 @@ end
 pages:AdvanceToNextPageAsync()
 end
 
+local highlight = Instance.new("Highlight")
 local InputService = game:GetService('UserInputService')
 local CoreGui = game:GetService('CoreGui')
 local Logger = Instance.new("ScreenGui")
@@ -35,12 +36,13 @@ local Title1 = Instance.new("TextLabel")
 
 local PlayerList = Instance.new("ScreenGui")
 local Filling = Instance.new("Frame")
-local UICorner4 = Instance.new("UICorner")
+local UICorner5 = Instance.new("UICorner")
 local padsing = Instance.new("Frame")
 local UIListLayout2 = Instance.new("UIListLayout")
 local UICorner_5 = Instance.new("UICorner")
 local TextButton1 = Instance.new("TextButton")
 local Title4 = Instance.new("TextLabel")
+local ScrollingFrame = Instance.new("ScrollingFrame")
 
 Logger.Name = "Logger"
 Logger.Parent = CoreGui
@@ -330,37 +332,52 @@ end
 coroutine.wrap(BMRDXRL_fake_script)()
 
 PlayerList.Name = "PlayerList"
-PlayerList.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+PlayerList.Parent = CoreGui
 PlayerList.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Filling.Name = "Filling"
 Filling.Parent = PlayerList
 Filling.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Filling.Position = UDim2.new(0.00622848049, 0, 0.0266821347, 0)
-Filling.Size = UDim2.new(0, 261, 0, 816)
+Filling.Position = UDim2.new(0.00683454098, 0, 0.00812064949, 0)
+Filling.Size = UDim2.new(0, 261, 0, 855)
 
-UICorner4.CornerRadius = UDim.new(0, 6)
-UICorner4.Parent = Filling
+UICorner5.CornerRadius = UDim.new(0, 6)
+UICorner5.Parent = Filling
 
 padsing.Name = "padsing"
 padsing.Parent = Filling
 padsing.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-padsing.Position = UDim2.new(0.0920589641, 0, 0.0853287503, 0)
-padsing.Size = UDim2.new(0, 212, 0, 704)
+padsing.Position = UDim2.new(0.0882275477, 0, 0.0638099611, 0)
+padsing.Size = UDim2.new(0, 212, 0, 785)
 
-UIListLayout2.Parent = padsing
+UIListLayout2.Parent = ScrollingFrame
 
 UICorner_5.CornerRadius = UDim.new(0, 6)
 UICorner_5.Parent = padsing
 
-TextButton1.Parent = padsing
-TextButton1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
-TextButton1.BorderColor3 = Color3.fromRGB(35, 35, 35)
-TextButton1.Size = UDim2.new(0, 212, 0, 50)
-TextButton1.ZIndex = 2
-TextButton1.Font = Enum.Font.SourceSansBold
-TextButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextButton1.TextSize = 18.000
+ScrollingFrame.Parent = padsing
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+ScrollingFrame.BorderColor3 = Color3.fromRGB(35, 35, 35)
+ScrollingFrame.Size = UDim2.new(0, 212, 0, 785)
+
+local Players = game:GetService("Players")
+for i, player in pairs(Players:GetPlayers()) do
+	local TextbuttonClone1 = TextButton1:Clone()
+	TextbuttonClone1.Parent = ScrollingFrame
+	TextbuttonClone1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+	TextbuttonClone1.BorderColor3 = Color3.fromRGB(35, 35, 35)
+	TextbuttonClone1.Size = UDim2.new(0, 212, 0, 50)
+	TextbuttonClone1.Text = player.Name..""
+	TextbuttonClone1.ZIndex = 2
+	TextbuttonClone1.Font = Enum.Font.SourceSansBold
+	TextbuttonClone1.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextbuttonClone1.TextSize = 18.000
+	TextbuttonClone1.MouseButton1Click:Connect(function()
+		highlight.Parent = player.Character
+	end)
+end
+
 
 Title4.Name = "Title4"
 Title4.Parent = Filling
