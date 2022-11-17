@@ -1,9 +1,11 @@
+local InputService = game:GetService('UserInputService')
+local CoreGui = game:GetService('CoreGui');
 local Output = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
 local TextOuput = Instance.new("TextLabel")
 
 Output.Name = "Output"
-Output.Parent = game.Players.LocalPlayer:WaitForChild("CoreGui")
+Output.Parent = CoreGui
 
 Main.Name = "Main"
 Main.Parent = Output
@@ -54,3 +56,9 @@ local function RIWMFBW_fake_script() -- TextOuput.LocalScript
 	LogService.MessageOut:Connect(onMessageOut)
 end
 coroutine.wrap(RIWMFBW_fake_script)()
+
+InputService.InputBegan:Connect(function(Input, Processed)
+    if Input.KeyCode == Enum.KeyCode.F1 or (Input.KeyCode == Enum.KeyCode.Insert and (not Processed)) then
+        Main.Visible = not Main.Visible
+    end
+end)
