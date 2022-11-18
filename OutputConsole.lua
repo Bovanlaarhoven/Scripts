@@ -1,13 +1,13 @@
 local pages = game:GetService("AssetService"):GetGamePlacesAsync()
 local places = {}
-while true do
-for _,v in next, pages:GetCurrentPage() do
-places[v.Name] = v.PlaceId
-end
-if pages.IsFinished then
-break
-end
-pages:AdvanceToNextPageAsync()
+	while true do
+		for _,v in next, pages:GetCurrentPage() do
+		places[v.Name] = v.PlaceId
+	end
+		if pages.IsFinished then
+		break
+	end
+	pages:AdvanceToNextPageAsync()
 end
 
 local highlight = Instance.new("Highlight")
