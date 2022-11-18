@@ -249,6 +249,7 @@ for i,v in next, places do
 	local TextbuttonClone = TextButton:Clone()
 	TextbuttonClone.Parent = Padding
 	TextbuttonClone.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	TextbuttonClone.BorderColor3 = Color3.fromRGB(35, 35, 35)
 	TextbuttonClone.Size = UDim2.new(0, 117, 0, 50)
 	TextbuttonClone.ZIndex = 2
 	TextbuttonClone.Text = v..""
@@ -367,7 +368,7 @@ for i, player in pairs(Players:GetPlayers()) do
 	local TextbuttonClone1 = TextButton1:Clone()
 	TextbuttonClone1.Parent = ScrollingFrame
 	TextbuttonClone1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
-	TextbuttonClone1.BorderColor3 = Color3.fromRGB(35, 35, 35)
+	TextbuttonClone1.BorderColor3 = Color3.fromRGB(49, 49, 49)
 	TextbuttonClone1.Size = UDim2.new(0, 212, 0, 50)
 	TextbuttonClone1.Text = player.Name..""
 	TextbuttonClone1.ZIndex = 2
@@ -454,6 +455,9 @@ local function DQVSVDW_fake_script() -- Filling.Dragify
 end
 coroutine.wrap(DQVSVDW_fake_script)()
 
+Main.Visible = false
+Idsfilling.Visible = false
+Filling.Visible = false
 
 InputService.InputBegan:Connect(function(Input, Processed)
     if Input.KeyCode == Enum.KeyCode.F1 or (Input.KeyCode == Enum.KeyCode.Insert and (not Processed)) then
