@@ -1,3 +1,6 @@
+repeat wait()
+until game:IsLoaded()
+
 local pages = game:GetService("AssetService"):GetGamePlacesAsync()
 local places = {}
 	while true do
@@ -11,7 +14,6 @@ local places = {}
 end
 
 local highlight = Instance.new("Highlight")
-local selectionbox = Instance.new("SelectionBox")
 local InputService = game:GetService('UserInputService')
 local CoreGui = game:GetService('CoreGui')
 local Logger = Instance.new("ScreenGui")
@@ -377,8 +379,24 @@ for i, player in pairs(Players:GetPlayers()) do
 	TextbuttonClone1.TextSize = 18.000
 	TextbuttonClone1.MouseButton1Click:Connect(function()
 		highlight.Parent = player.Character
-		selectionbox.Adornee = player.Character
-		selectionbox.Parent = player.Character
+	end)
+end
+
+for i, player in pairs(Players:GetPlayers()) do
+	player.CharacterAdded:Connect(function()
+		local TextbuttonClone1 = TextButton1:Clone()
+		TextbuttonClone1.Parent = ScrollingFrame
+		TextbuttonClone1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+		TextbuttonClone1.BorderColor3 = Color3.fromRGB(49, 49, 49)
+		TextbuttonClone1.Size = UDim2.new(0, 212, 0, 50)
+		TextbuttonClone1.Text = player.Name..""
+		TextbuttonClone1.ZIndex = 2
+		TextbuttonClone1.Font = Enum.Font.SourceSansBold
+		TextbuttonClone1.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextbuttonClone1.TextSize = 18.000
+		TextbuttonClone1.MouseButton1Click:Connect(function()
+			highlight.Parent = player.Character
+		end)
 	end)
 end
 
