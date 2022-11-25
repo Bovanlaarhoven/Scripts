@@ -1,39 +1,46 @@
+game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+wait(1)
 local WorkspacePlayers = game:GetService("Workspace").Game.Players
 local Players = game:GetService('Players')
 local localplayer = Players.LocalPlayer
 local GuiService = game:GetService("GuiService")
 local Light = game:GetService("Lighting")
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-OrionLib:MakeNotification({
-    Name = "Hydra Network",
-    Content = "Hydra Network is Loading.",
-    Image = "rbxassetid://4483345998",
-    Time = 4
-})
-game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-wait(4)
-OrionLib:MakeNotification({
-    Name = "Hydra Network",
-    Content = "Hydra Network is Ready!",
-    Image = "rbxassetid://4483345998",
-    Time = 2
-})
-local Window = OrionLib:MakeWindow({Name = "Hydra Network |Evade|", HidePremium = false,IntroText = "Evade V2.8", SaveConfig = false, ConfigFolder = "OrionTest"})
-local ownerId = game.CreatorId
-game.Players.PlayerAdded:Connect(function(player)
-    if player.UserId == ownerId then
-        game.Players.LocalPlayer:Kick("Owner Joined")
-    end
-end)
+local Time = os.clock()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
+local Window = Rayfield:CreateWindow({
+	Name = "Evade",
+	LoadingTitle = "Hydra Network",
+	LoadingSubtitle = "by hydra#8270",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = nil,
+		FileName = "Big Hub"
+	},
+        Discord = {
+        	Enabled = true,
+        	Invite = "YvwEyH2W6t",
+        	RememberJoins = true 
+        },
+	KeySystem = true,
+	KeySettings = {
+		Title = "Hydra Network",
+		Subtitle = "Key System",
+		Note = "Key link copied in clipboard!",
+		FileName = "SiriusKey",
+		SaveKey = false,
+		GrabKeyFromSite = true,
+		Key = "https://pastebin.com/raw/KcaMdP0i"
+	}
+})
 
---functions and shit
-getgenv().money = true
-getgenv().revivedie = true
-getgenv().autowistle = true
-getgenv().autochat = true
-getgenv().AutoDrink = true
-getgenv().NoCameraShake = true
+getgenv().Fakemoney = false
+getgenv().revivedie = false
+getgenv().autowistle = false
+getgenv().autochat = false
+getgenv().AutoDrink = false
 getgenv().Settings = {
     moneyfarm = false,
     afkfarm = false,
@@ -59,6 +66,7 @@ local GetDownedPlr = function()
         end
     end
 end
+
 local revive = function()
     local downedplr = GetDownedPlr()
     if downedplr ~= nil and downedplr:FindFirstChild('HumanoidRootPart') then
@@ -118,460 +126,342 @@ task.spawn(function()
     end
 end)
 
-function camerashake()
-    while NoCameraShake == true do task.wait()
-        localplayer.PlayerScripts.CameraShake.Value = CFrame.new(0,0,0) * CFrame.new(0,0,0)
+task.spawn(function()
+    while task.wait(6) do
+        if AutoDrink == true then
+            local ohString1 = "Cola"
+            game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
+        end
     end
-end
+end)
 
-function autodrink()
-	while AutoDrink == true do
-		local ohString1 = "Cola"
-		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
-		wait(6)
-	end
-end
-
-function SpamChat()
-    while autochat == true do
-        local ohString1 = "Hydra Network on top"
-        local ohString2 = "All"
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(ohString1, ohString2)
-        wait(1)
-    end
-end
-
-function autowistlefunction()
-    while autowistle == true do
+task.spawn(function()
+    while task.wait(5) do
+       if autowistle == true then
         local ohString1 = "Whistle"
         local ohBoolean2 = true
         game:GetService("Players").LocalPlayer.PlayerScripts.Events.KeybindUsed:Fire(ohString1, ohBoolean2)
         game:GetService("ReplicatedStorage").Events.Whistle:FireServer()
-        wait(5)
+       end 
     end
-end
+end)
 
-function god()
-    while revivedie == true do
-        game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-        wait()
-    end
-end
-            
-function dofullbright()
-    Light.Ambient = Color3.new(1, 1, 1)
-    Light.ColorShift_Bottom = Color3.new(1, 1, 1)
-    Light.ColorShift_Top = Color3.new(1, 1, 1)
-    game.Lighting.FogEnd = 100000
-    game.Lighting.FogStart = 0
-    game.Lighting.ClockTime = 14
-    game.Lighting.Brightness = 2
-    game.Lighting.GlobalShadows = false
-end
-
-function freemoney()
-    while money == true do
+task.spawn(function()
+    while task.wait(1) do
+       if Fakemoney == true then
         local ohString1 = "Free money <font color=\"rgb(100,255,100)\">($99999)</font>"
         game:GetService("Players").LocalPlayer.PlayerGui.HUD.Messages.Use:Fire(ohString1)
-        wait(5)
+       end 
     end
-end
+end)
 
-OrionLib:MakeNotification({
-    Name = "Welcome To Hydra Network",
-    Content = "Thanks for using Hydra Network!",
-    Image = "rbxassetid://4483345998",
-    Time = 5
-})
-    
+task.spawn(function()
+    while task.wait(1) do
+        if autochat == true then
+            local ohString1 = "Hydra Network on top"
+            local ohString2 = "All"
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(ohString1, ohString2)
+        end
+    end
+end)
 
-function RandomEmote()
-    OrionLib:MakeNotification({
-        Name = "Random Emoting...",
-        Content = "You pressed the Random Emote keybind",
-        Image = "rbxassetid://4483345998",
-        Time = 5
-    })
-end
---tabs
+local T1 = Window:CreateTab("Main")
+local T2 = Window:CreateTab("Misc")
+local T3 = Window:CreateTab("Esp")
+local T4 = Window:CreateTab("Tp")
+local T5 = Window:CreateTab("Fun")
+local T6 = Window:CreateTab("Farms")
+local T7 = Window:CreateTab("Credits")
 
-local MainTab= Window:MakeTab({
-	Name = "Main features",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local MiscTab= Window:MakeTab({
-	Name = "Extra",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local ESPTab = Window:MakeTab({
-    Name =  "Esp",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-local TeleportTab= Window:MakeTab({
-    Name = "Teleport",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local FunTab= Window:MakeTab({
-    Name = "Fun",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local CreditsTab = Window:MakeTab({
-	Name = "Credits",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = true
-})
-
-local MiscTab3 = MainTab:AddSection({
-	Name = "Auto Farms"
-})
-
-MainTab:AddToggle({
-	Name = "Money Farm",
-	Default = false,
-	Callback = function(Value)
-		Settings.moneyfarm = Value
-	end    
-})
-
-MainTab:AddToggle({
+local Toggle = T6:CreateToggle({
 	Name = "Afk Farm",
-	Default = false,
+	CurrentValue = false,
+	Flag = "Toggle1", 
 	Callback = function(Value)
         Settings.afkfarm = Value
-	end    
+	end,
 })
 
-MainTab:AddToggle({
+local Toggle = T6:CreateToggle({
+	Name = "Money farm",
+	CurrentValue = false,
+	Flag = "Toggle1", 
+	Callback = function(Value)
+        Settings.Money = Value
+	end,
+})
+
+local Toggle = T6:CreateToggle({
 	Name = "Ticket Farm",
-	Default = false,
+	CurrentValue = false,
+	Flag = "Toggle1", 
 	Callback = function(Value)
         Settings.TicketFarm = Value
-	end    
-})
-
---sliders
-local MainTab3 = MainTab:AddSection({
-	Name = "Sliders"
-})
-
-local Misctab5 = MiscTab:AddSection({
-	Name = "Sliders"
+	end,
 })
 
 local TargetWalkspeed
-MainTab:AddSlider({
-	Name = "Speed",
-	Min = 0,
-	Max = 250,
-	Default = 0,
-	Color = Color3.fromRGB(128, 128, 128),
+local Slider = T1:CreateSlider({
+	Name = "WalkSpeed Slider",
+	Range = {0, 250},
 	Increment = 1,
-	ValueName = "Walk Speed",
+	Suffix = "WalkSpeed",
+	CurrentValue = 0,
+	Flag = "Slider1",
 	Callback = function(Value)
-		TargetWalkspeed = Value
-	end   
+        TargetWalkspeed = Value
+	end,
 })
 
-MainTab:AddSlider({
-    Name = "Hip height",
-    Min = -1.40,
-    Max = 100,
-    Default = -1.40,
-    Color = Color3.fromRGB(128, 128, 128),
-    Increment = 1,
-	ValueName = "Hip Height",
-    Callback = function(HipValue)
+local Slider = T1:CreateSlider({
+	Name = "HipHeight Slider",
+	Range = {-1.40, 250},
+	Increment = 1,
+	Suffix = "HipHeight",
+	CurrentValue = -1.40,
+	Flag = "Slider1",
+	Callback = function(HipValue)
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = HipValue
-    end    
+	end,
 })
 
-MainTab:AddSlider({
+local Slider = T1:CreateSlider({
 	Name = "Fov Slider",
-	Min = 1,
-	Max = 120,
-	Default = 70,
-	Color = Color3.fromRGB(128, 128, 128),
+	Range = {0, 120},
 	Increment = 1,
-	ValueName = "Fov",
-	Callback = function(Fov)
+	Suffix = "Fov",
+	CurrentValue = 70,
+	Flag = "Slider1",
+	Callback = function(FovValue)
         local ohString1 = "FieldOfView"
-        local ohNumber2 = Fov
+        local ohNumber2 = FovValue
         game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohNumber2)
-    end
+	end,
 })
 
-MainTab:AddSlider({
-	Name = "Jump Power",
-	Min = 0,
-	Max = 120,
-	Default = 3,
-	Color = Color3.fromRGB(128, 128, 128),
+local Slider = T1:CreateSlider({
+	Name = "JumpPower Slider",
+	Range = {0, 120},
 	Increment = 1,
-	ValueName = "Jump",
-	Callback = function(Value)
-		Settings.Jump = Value
-    end
+	Suffix = "JumpPower",
+	CurrentValue = 3,
+	Flag = "Slider1",
+	Callback = function(JumpValue)
+        Settings.Jump = JumpValue
+	end,
 })
 
-MiscTab:AddSlider({
-	Name = "Day & night Slider",
-	Min = 0,
-	Max = 24,
-	Default = 14,
-	Color = Color3.fromRGB(128, 128, 128),
+local Slider = T1:CreateSlider({
+	Name = "Time Slider",
+	Range = {0, 24},
 	Increment = 0.1,
-	ValueName = "Time",
-	Callback = function(Time)
-        game.Lighting.ClockTime = Time
-    end
+	Suffix = "Time",
+	CurrentValue = 14,
+	Flag = "Slider1",
+	Callback = function(TimeValue)
+        game.Lighting.ClockTime = TimeValue
+	end,
 })
 
---toggles
-
-local FunTab2 = FunTab:AddSection({
-	Name = "Toggles"
-})
-
-local MiscTab3 = MainTab:AddSection({
-	Name = "Toggles"
-})
-
-MainTab:AddToggle({
-	Name = "No Camera Shake",
-	Default = false,
+local Toggle = T1:CreateToggle({
+	Name = "No CameraShake",
+	CurrentValue = false,
+	Flag = "Toggle1",
 	Callback = function(Value)
-        NoCameraShake = Value
-        camerashake()
-	end    
+        Settings.NoCameraShake = Value
+	end,
 })
 
-MainTab:AddToggle({
-	Name = "Auto Drink Cola (drinks everytime it runs out)",
-	Default = false,
-	Callback = function(Value)
-		AutoDrink = Value
-		autodrink()
-	end    
-})
-
-FunTab:AddToggle({
-	Name = "Spam Chat",
-	Default = false,
-	Callback = function(Value)
-        autochat = Value
-        SpamChat()
-	end    
-})
-
-FunTab:AddToggle({
-	Name = "fake money giver",
-	Default = false,
-	Callback = function(Value)
-        money = Value
-        freemoney()
-	end    
-})
-
-MainTab:AddToggle({
-	Name = "auto respawn (you respawn when you get downed)",
-	Default = false,
+local Toggle = T1:CreateToggle({
+	Name = "Auto respawn",
+	CurrentValue = false,
+	Flag = "Toggle1",
 	Callback = function(Value)
         Settings.AutoRespawn = Value
-	end    
+	end,
 })
 
-FunTab:AddToggle({
-	Name = "Auto Wistle",
-	Default = false,
+local Toggle = T2:CreateToggle({
+	Name = "Auto Drink Cola",
+	CurrentValue = false,
+	Flag = "Toggle1",
 	Callback = function(Value)
-		autowistle = Value
-        autowistlefunction()
-	end    
+        AutoDrink = Value
+	end,
 })
 
---buttons
-local FunTab3 = FunTab:AddSection({
-	Name = "Buttons"
+local Toggle = T2:CreateToggle({
+	Name = "Auto wistle",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+        autowistle = Value
+	end,
 })
 
-local MiscTab2 = MiscTab:AddSection({
-	Name = "Buttons"
+local Toggle = T5:CreateToggle({
+	Name = "Give fake money",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+        Fakemoney = Value
+	end,
 })
 
-MiscTab:AddButton({
-    Name = "Chat Spy",
-    Callback = function()
+local Button = T2:CreateButton({
+	Name = "Chat Spy",
+	Callback = function()
         enabled = true
-spyOnMyself = false
-public = false
-publicItalics = true
-privateProperties = {
-	Color = Color3.fromRGB(0,255,255); 
-	Font = Enum.Font.SourceSansBold;
-	TextSize = 18;
-}
-local StarterGui = game:GetService("StarterGui")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
-local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
-local instance = (_G.chatSpyInstance or 0) + 1
-_G.chatSpyInstance = instance
+        spyOnMyself = false
+        public = false
+        publicItalics = true
+        privateProperties = {
+            Color = Color3.fromRGB(0,255,255); 
+            Font = Enum.Font.SourceSansBold;
+            TextSize = 18;
+        }
+        local StarterGui = game:GetService("StarterGui")
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+        local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+        local instance = (_G.chatSpyInstance or 0) + 1
+        _G.chatSpyInstance = instance
 
-local function onChatted(p,msg)
-	if _G.chatSpyInstance == instance then
-		if p==player and msg:lower():sub(1,4)=="/spy" then
-			enabled = not enabled
-			wait(0.3)
-			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
-			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-		elseif enabled and (spyOnMyself==true or p~=player) then
-			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
-			local hidden = true
-			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
-				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
-					hidden = false
-				end
-			end)
-			wait(1)
-			conn:Disconnect()
-			if hidden and enabled then
-				if public then
-					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
-				else
-					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
-					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-				end
-			end
-		end
-	end
-end
+        local function onChatted(p,msg)
+            if _G.chatSpyInstance == instance then
+                if p==player and msg:lower():sub(1,4)=="/spy" then
+                    enabled = not enabled
+                    wait(0.3)
+                    privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+                    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                elseif enabled and (spyOnMyself==true or p~=player) then
+                    msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+                    local hidden = true
+                    local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                        if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                            hidden = false
+                        end
+                    end)
+                    wait(1)
+                    conn:Disconnect()
+                    if hidden and enabled then
+                        if public then
+                            saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                        else
+                            privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                            StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                        end
+                    end
+                end
+            end
+        end
 
-for _,p in ipairs(Players:GetPlayers()) do
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
-end
-Players.PlayerAdded:Connect(function(p)
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
-end)
-privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
-StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-local chatFrame = player.PlayerGui.Chat.Frame
-chatFrame.ChatChannelParentFrame.Visible = true
-chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
-OrionLib:MakeNotification({
-	Name = "Hydra Network",
-	Content = "Pressed on the Chat Spy Button",
-	Image = "rbxassetid://4483345998",
-	Time = 2
-})    
-      end    
+        for _,p in ipairs(Players:GetPlayers()) do
+            p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+        end
+        Players.PlayerAdded:Connect(function(p)
+            p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+        end)
+        privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+        StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+        local chatFrame = player.PlayerGui.Chat.Frame
+        chatFrame.ChatChannelParentFrame.Visible = true
+        chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+	end,
 })
 
-ESPTab:AddButton({
+local Button = T3:CreateButton({
 	Name = "Player Esp",
 	Callback = function()
-		local c = workspace.CurrentCamera
-		local ps = game:GetService("Players")
-		local lp = ps.LocalPlayer
-		local rs = game:GetService("RunService")
-		local function getdistancefc(part)
-			return (part.Position - c.CFrame.Position).Magnitude
-		end
-		local function esp(p, cr)
-			local h = cr:WaitForChild("Humanoid")
-			local hrp = cr:WaitForChild("HumanoidRootPart")
-			local text = Drawing.new("Text")
-			text.Visible = false
-			text.Center = true
-			text.Outline = true
-			text.Font = 2
-			text.Color = Color3.fromRGB(255, 255, 255)
-			text.Size = 17
-			local c1
-			local c2
-			local c3
-			local function dc()
-				text.Visible = false
-				text:Remove()
-				if c1 then
-					c1:Disconnect()
-					c1 = nil
-				end
-				if c2 then
-					c2:Disconnect()
-					c2 = nil
-				end
-				if c3 then
-					c3:Disconnect()
-					c3 = nil
-				end
-			end
-			c2 =
-				cr.AncestryChanged:Connect(
-				function(_, parent)
-					if not parent then
-						dc()
-					end
-				end
-			)
-			c3 =
-				h.HealthChanged:Connect(
-				function(v)
-					if (v <= 0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
-						dc()
-					end
-				end
-			)
-			c1 =
-				rs.RenderStepped:Connect(
-				function()
-					local hrp_pos, hrp_os = c:WorldToViewportPoint(hrp.Position)
-					if hrp_os then
-						text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y)
-						text.Text = p.Name .. " (" .. tostring(math.floor(getdistancefc(hrp))) .. " m)"
-						text.Visible = true
-					else
-						text.Visible = false
-					end
-				end
-			)
-		end
-		local function p_added(p)
-			if p.Character then
-				esp(p, p.Character)
-			end
-			p.CharacterAdded:Connect(
-				function(cr)
-					esp(p, cr)
-				end
-			)
-		end
-		for i, p in next, ps:GetPlayers() do
-			if p ~= lp then
-				p_added(p)
-			end
-		end
-		ps.PlayerAdded:Connect(p_added)
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Player Esp Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-  	end    
+        local dwEntities = game:GetService("Players")
+        local dwLocalPlayer = dwEntities.LocalPlayer 
+        local dwRunService = game:GetService("RunService")
+        
+        local settings_tbl = {
+            ESP_Enabled = true,
+            ESP_TeamCheck = false,
+            Chams = true,
+            Chams_Color = Color3.fromRGB(255, 255, 255),
+            Chams_Transparency = 0.9,
+            Chams_Glow_Color = Color3.fromRGB(0, 0, 0)
+        }
+        
+        function destroy_chams(char)
+            for k,v in next, char:GetChildren() do 
+                if v:IsA("BasePart") and v.Transparency ~= 1 then
+                    if v:FindFirstChild("Glow") and 
+                    v:FindFirstChild("Chams") then
+                        v.Glow:Destroy()
+                        v.Chams:Destroy() 
+                    end 
+                end 
+            end 
+        end
+        
+        dwRunService.Heartbeat:Connect(function()
+            if settings_tbl.ESP_Enabled then
+                for k,v in next, dwEntities:GetPlayers() do 
+                    if v ~= dwLocalPlayer then
+                        if v.Character and
+                        v.Character:FindFirstChild("HumanoidRootPart") and 
+                        v.Character:FindFirstChild("Humanoid") and 
+                        v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+                            if settings_tbl.ESP_TeamCheck == false then
+                                local char = v.Character 
+                                for k,b in next, char:GetChildren() do 
+                                    if b:IsA("BasePart") and 
+                                    b.Transparency ~= 1 then
+                                        if settings_tbl.Chams then
+                                            if not b:FindFirstChild("Glow") and
+                                            not b:FindFirstChild("Chams") then
+                                                local chams_box = Instance.new("BoxHandleAdornment", b)
+                                                chams_box.Name = "Chams"
+                                                chams_box.AlwaysOnTop = true 
+                                                chams_box.ZIndex = 4 
+                                                chams_box.Adornee = b 
+                                                chams_box.Color3 = settings_tbl.Chams_Color
+                                                chams_box.Transparency = settings_tbl.Chams_Transparency
+                                                chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
+                                                local glow_box = Instance.new("BoxHandleAdornment", b)
+                                                glow_box.Name = "Glow"
+                                                glow_box.AlwaysOnTop = false 
+                                                glow_box.ZIndex = 3 
+                                                glow_box.Adornee = b 
+                                                glow_box.Color3 = settings_tbl.Chams_Glow_Color
+                                                glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
+                                            end
+                                        else
+                                            destroy_chams(char)
+                                        end
+                                    end
+                                end
+                            else
+                                if v.Team == dwLocalPlayer.Team then
+                                    destroy_chams(v.Character)
+                                end
+                            end
+                        else
+                            destroy_chams(v.Character)
+                        end
+                    end
+                end
+            else 
+                for k,v in next, dwEntities:GetPlayers() do 
+                    if v ~= dwLocalPlayer and 
+                    v.Character and 
+                    v.Character:FindFirstChild("HumanoidRootPart") and 
+                    v.Character:FindFirstChild("Humanoid") and 
+                    v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+                        destroy_chams(v.Character)
+                    end
+                end
+            end
+        end)
+	end,
 })
 
-MiscTab:AddButton({
+local Button = T2:CreateButton({
 	Name = "Inf Jump",
 	Callback = function()
         local InfiniteJumpEnabled = true
@@ -580,423 +470,236 @@ MiscTab:AddButton({
                 game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
             end
         end)
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Inf Jump Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-  	end    
+	end,
 })
 
-MiscTab:AddButton({
-	Name = "V to Teleport",
+
+local Button = T2:CreateButton({
+	Name = "Q to teleport",
 	Callback = function()
         plr = game.Players.LocalPlayer 
         hum = plr.Character.HumanoidRootPart 
         mouse = plr:GetMouse()
         mouse.KeyDown:connect(function(key)
-            if key == "v" then
+            if key == "q" then
             if mouse.Target then
                 hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
                 end
             end
         end)
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Q To Teleport Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-  	end    
+	end,
 })
 
-MiscTab:AddButton({
-	Name = "Full Bright",
+local Button = T2:CreateButton({
+	Name = "Fullbright",
 	Callback = function()
-        dofullbright()
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Full Bright Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-  	end    
+        Light.Ambient = Color3.new(1, 1, 1)
+        Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+        Light.ColorShift_Top = Color3.new(1, 1, 1)
+        game.Lighting.FogEnd = 100000
+        game.Lighting.FogStart = 0
+        game.Lighting.ClockTime = 14
+        game.Lighting.Brightness = 2
+        game.Lighting.GlobalShadows = false
+	end,
 })
 
-MiscTab:AddButton({
-	Name = "Third Person",
+local Button = T2:CreateButton({
+	Name = "Third person",
 	Callback = function()
         local ohString1 = "ThirdPerson"
         local ohBoolean2 = true
         game:GetService("Players").LocalPlayer.PlayerScripts.Events.KeybindUsed:Fire(ohString1, ohBoolean2)
-  	end    
+	end,
 })
 
-MainTab:AddButton({
-	Name = "Ticket esp (BillboardGui)",
-	Callback = function()
-        while true do
-            repeat wait() until game.Workspace.Game.Effects.Tickets.Ticket1
-            local BillboardGui = Instance.new("BillboardGui")
-            local TextLabel = Instance.new("TextLabel")
-            BillboardGui.Parent = game.Workspace.Game.Effects.Tickets.Ticket1
-            BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-            BillboardGui.Active = true
-            BillboardGui.AlwaysOnTop = true
-            BillboardGui.ExtentsOffset = Vector3.new(0, 3, 0)
-            BillboardGui.LightInfluence = 1.000
-            BillboardGui.Size = UDim2.new(0, 200, 0, 50)
-            TextLabel.Parent = BillboardGui
-            TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            TextLabel.Size = UDim2.new(0, 200, 0, 50)
-            TextLabel.Font = Enum.Font.SourceSans
-            TextLabel.Text = "Ticket"
-            TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
-            TextLabel.TextSize = 14.000
-            TextLabel.TextScaled = true
-            TextLabel.BackgroundTransparency = 1
-        end
-  	end    
-})
 
-MainTab:AddButton({
-	Name = "Ticket esp (highlight)",
+
+local Button = T3:CreateButton({
+	Name = "Ticket Esp",
 	Callback = function()
         while true do
             repeat wait() until game.Workspace.Game.Effects.Tickets.Ticket1
             local esp = Instance.new("Highlight")
             esp.Parent = game.Workspace.Game.Effects.Tickets.Ticket1
         end
-  	end    
+	end,
 })
 
-MiscTab:AddButton({
-	Name = "Return Too Main Menu",
+local Button = T2:CreateButton({
+	Name = "Test Emote (Permanant)",
 	Callback = function()
-        game:GetService("ReplicatedStorage").Events.ReturnToMenu:FireServer()
-  	end    
+        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
+	end,
 })
 
-MiscTab:AddButton({
+local Keybind = T2:CreateKeybind({
+	Name = "Rejoin Server",
+	CurrentKeybind = "P",
+	HoldToInteract = false,
+	Flag = "Keybind1",
+	Callback = function(Keybind)
+        local ts = game:GetService("TeleportService")
+        local p = game:GetService("Players").LocalPlayer
+        ts:Teleport(game.PlaceId, p)
+	end,
+})
+
+local Keybind = T2:CreateKeybind({
+	Name = "Respawn",
+	CurrentKeybind = "R",
+	HoldToInteract = false,
+	Flag = "Keybind1",
+	Callback = function(Keybind)
+        game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+	end,
+})
+
+local Keybind = T2:CreateKeybind({
+	Name = "Drink Cola",
+	CurrentKeybind = "H",
+	HoldToInteract = false,
+	Flag = "Keybind1",
+	Callback = function(Keybind)
+		local ohString1 = "Cola"
+		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
+	end,
+})
+
+local Button = T2:CreateButton({
 	Name = "Low Quality",
 	Callback = function()
         local ohString1 = "LowQuality"
         local ohBoolean2 = true
         game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohBoolean2)
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Low Quality Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-  	end    
+	end,
 })
 
-FunTab:AddButton({
-    Name = "Free cam (shift + P)",
-    Callback = function()
+local Button = T5:CreateButton({
+	Name = "Free Cam (shift + P)",
+	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/script/main/Freecam.lua"))()
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Free cam Button",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Main Game",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Main game",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 9872472334
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-
-TeleportTab:AddButton({
-    Name = "Casual",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Casual",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 10662542523
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Social Space",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Social space",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 10324347967
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Big Team",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Big team",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 10324346056
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Team DeathMatch",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Team deathmatch",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 110539706691
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Vc Only",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Vc only",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 10808838353
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-TeleportTab:AddButton({
-    Name = "Infection",
-    Callback = function()
-        local TeleportService = game:GetService('TeleportService')
-        GameId = 11353532384
-        TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
-})
-
-TeleportTab:AddButton({
-    Name = "Pro",
-    Callback = function()
+local Button = T4:CreateButton({
+	Name = "Pro",
+	Callback = function()
         local TeleportService = game:GetService('TeleportService')
         GameId = 11353528705
         TeleportService:Teleport(GameId, game.Players.LocalPlayer)
-      end    
+	end,
 })
 
-local MiscTab2 = MiscTab:AddSection({
-	Name = "Item Giver"
-})
-
-MiscTab:AddButton({
-	Name = "Test Emote (Permanant)",
+local Button = T4:CreateButton({
+	Name = "Infection",
 	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
-  	end    
+        local TeleportService = game:GetService('TeleportService')
+        GameId = 11353532384
+        TeleportService:Teleport(GameId, game.Players.LocalPlayer)
+	end,
 })
 
---keybinds
-
-local MiscTab1 = MiscTab:AddSection({
-	Name = "KeyBinds"
+local Button = T5:CreateButton({
+	Name = "Spawm chat",
+	Callback = function(Value)
+        autochat = Value
+	end,
 })
 
-local FunTab1 = FunTab:AddSection({
-	Name = "KeyBinds"
-})
 
-MiscTab:AddBind({
-	Name = "Drink Cola",
-	Default = Enum.KeyCode.H,
-	Hold = false,
-	Callback = function()
-		local ohString1 = "Cola"
-		game:GetService("ReplicatedStorage").Events.UseUsable:FireServer(ohString1)
-	end    
-})
-
-MiscTab:AddBind({
-	Name = "Rejoin Server",
-	Default = Enum.KeyCode.P,
-	Hold = false,
-	Callback = function()
-        OrionLib:MakeNotification({
-            Name = "You Pressed the Rejoin Keybind.",
-            Content = "Rejoining in 5 seconds",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        wait(1)
-        OrionLib:MakeNotification({
-            Name = "Hydra Network",
-            Content = "Rejoining in 4 seconds",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        wait(1)
-        OrionLib:MakeNotification({
-            Name = "Hydra Network",
-            Content = "Rejoining in 3 seconds",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        wait(1)
-        OrionLib:MakeNotification({
-            Name = "Hydra Network",
-            Content = "Rejoining in 2 seconds",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        wait(1)
-        OrionLib:MakeNotification({
-            Name = "Hydra Network",
-            Content = "Rejoining in 1 seconds",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        wait(1)
-        OrionLib:MakeNotification({
-            Name = "Hydra Network",
-            Content = "Rejoining",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-        local ts = game:GetService("TeleportService")
-        local p = game:GetService("Players").LocalPlayer
-        ts:Teleport(game.PlaceId, p)
-	end    
-})
-
-MiscTab:AddBind({
-	Name = "Random Vote",
-	Default = Enum.KeyCode.X,
-	Hold = false,
-	Callback = function()
-        local RandomVote = math.random(3)
-		local ohNumber1 = (RandomVote)
-        game:GetService("ReplicatedStorage").Events.Vote:FireServer(ohNumber1)
-        OrionLib:MakeNotification({
-			Name = "Hydra Network",
-			Content = "Pressed on the Random Vote Keybind",
-			Image = "rbxassetid://4483345998",
-			Time = 2
-		}) 
-	end    
-})
-
-MiscTab:AddBind({
-	Name = "Respawn",
-	Default = Enum.KeyCode.R,
-	Hold = false,
-	Callback = function()
-		game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-		OrionLib:MakeNotification({
-			Name = "Respawning...",
-			Content = "You pressed the respawn keybind",
-			Image = "rbxassetid://4483345998",
-			Time = 5
-			})
-	end    
-})
-
-FunTab:AddBind({
-	Name = "Random Emote",
-	Default = Enum.KeyCode.Z,
-	Hold = false,
-	Callback = function()
+local Keybind = T5:CreateKeybind({
+	Name = "Random emote",
+	CurrentKeybind = "Z",
+	HoldToInteract = false,
+	Flag = "Keybind1",
+	Callback = function(Keybind)
         local number = math.random(4)
         local ohString1 = (number)
         game:GetService("ReplicatedStorage").Events.Emote:FireServer(ohString1)
-        RandomEmote()
-	end    
-})
---test
-
-ESPTab:AddToggle({
-    Name = "Bots tracers",
-    Default = true,
-    Callback = function(Value)
-        getgenv().toggleespmpt = Value
-    end    
+	end,
 })
 
-ESPTab:AddColorpicker({
-    Name = "Colour",
-    Default = Color3.fromRGB(255, 255, 255),
-    Callback = function(Value)
-        getgenv().mptespcolour = Value
-    end  
+local Keybind = T5:CreateKeybind({
+	Name = "Random Vote",
+	CurrentKeybind = "X",
+	HoldToInteract = false,
+	Flag = "Keybind1",
+	Callback = function(Keybind)
+        local RandomVote = math.random(4)
+        local ohNumber1 = (RandomVote)
+        game:GetService("ReplicatedStorage").Events.Vote:FireServer(ohNumber1)
+	end,
 })
 
---credits
-
-CreditsTab:AddParagraph("Owner/Main Dev","hydra#8270")
-CreditsTab:AddParagraph("Credits","Felix and ss.spooky.ss")
-CreditsTab:AddParagraph("Credits","xCLY And batusd")
-CreditsTab:AddParagraph("Credits","Truncated Cuboctahedron")
-
-
-local cam = workspace.CurrentCamera
-local rs = game:GetService'RunService'
-
-getgenv().toggleespmpt = true
-function esp(plr)
-   if game:GetService'Players':GetPlayerFromCharacter(plr) == nil then
-    local rat = Drawing.new("Line")
-        rs.RenderStepped:Connect(function()
-            if plr:FindFirstChild'HumanoidRootPart' then
-                local vector,screen = cam:WorldToViewportPoint(plr.HumanoidRootPart.Position)
-                if screen then
-                    rat.Visible = toggleespmpt
-                    rat.From = Vector2.new(cam.ViewportSize.X / 2,cam.ViewportSize.Y / 1)
-                    rat.To = Vector2.new(vector.X,vector.Y)
-                    rat.Color = getgenv().mptespcolour
-                    rat.Thickness = getgenv().mptespthickness
-                    else
-                        rat.Visible = false
-                end
-                else
-                    pcall(function()
-                    rat.Visible = false
-                    end)
-            end
-                if not plr:FindFirstChild'HumanoidRootPart' or not plr:FindFirstChild'HumanoidRootPart':IsDescendantOf(game:GetService'Workspace') then
-                    pcall(function()
-                    rat:Remove()
-                    end)
-            end
-        end)
-   end
-end
-
-for i,v in pairs(game:GetService'Workspace'.Game.Players:GetChildren()) do
-    esp(v)
-end
-
-game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
-    esp(plr)
-end)
-
-local old
-old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
-    local Args = {...}
-    local method = getnamecallmethod()
-    if tostring(self) == 'Communicator' and method == "InvokeServer" and Args[1] == "update" then
-        return Settings.Speed, Settings.Jump 
-    end
-    return old(self,...)
-end))
-
-setclipboard("https://discord.gg/k9a4zym5uG")
-
-OrionLib:MakeNotification({
-Name = "Join Discord",
-Content = "Join the Discord Copied in your clip Board",
-Image = "rbxassetid://4483345998",
-Time = 5
-})
+local Paragraph = T7:CreateParagraph({Title = "Owner/Main Dev", Content = "hydra#8270"})
+local Paragraph = T7:CreateParagraph({Title = "Credits", Content = "FeIix and ss.spooky.ss"})
+local Paragraph = T7:CreateParagraph({Title = "Credits", Content = "xCLY And batusd"})
+local Paragraph = T7:CreateParagraph({Title = "Credits", Content = "Truncated Cuboctahedron"})
 
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
         if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
         end
     end)
 end)
 
-OrionLib:Init()
+local notif = Notification.new("success", "Success", "Noobhub took " .. math.round(os.clock() - Time) .. "s to load!")
+notif:deleteTimeout(3)
+
+Rayfield:LoadConfiguration()
