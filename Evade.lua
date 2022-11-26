@@ -24,7 +24,7 @@ local Window = Rayfield:CreateWindow({
         	Invite = "YvwEyH2W6t",
         	RememberJoins = true 
         },
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
