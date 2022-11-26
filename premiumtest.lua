@@ -7,7 +7,7 @@ for _,whitelisted in pairs(WhitelistedHWIDs) do
  if hwidval == whitelisted then
      return true
  elseif hwidval ~= whitelisted then
-            loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
+        return false
        end
     end
 end
@@ -15,5 +15,9 @@ end
 qNVAKkuwxNpqruLjSRHg = CheckHWID(HWID)
 
 if qNVAKkuwxNpqruLjSRHg == true then
-    print("HWID is whitelisted!")
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Bloxfruits.lua"), true))()
+end
+
+if qNVAKkuwxNpqruLjSRHg == false then
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
 end
