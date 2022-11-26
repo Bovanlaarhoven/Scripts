@@ -15,7 +15,7 @@ end
 qNVAKkuwxNpqruLjSRHg = CheckHWID(HWID)
 
 if qNVAKkuwxNpqruLjSRHg == true then
-    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/Bloxfruits.lua"), true))()
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/JumpSimulator.lua"), true))()
 end
 
 if qNVAKkuwxNpqruLjSRHg == false then
