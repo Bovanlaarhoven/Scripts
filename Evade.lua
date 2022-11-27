@@ -1,3 +1,4 @@
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/Fun/main/noobtest.lua"), true))()
 game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 wait(1)
 local WorkspacePlayers = game:GetService("Workspace").Game.Players
@@ -23,7 +24,7 @@ local Window = Rayfield:CreateWindow({
         	Invite = "YvwEyH2W6t",
         	RememberJoins = true 
         },
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
