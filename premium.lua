@@ -24,4 +24,3 @@ if has_value(WhitelistedHWIDs, HWID) then
 else
     loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
 end
-
