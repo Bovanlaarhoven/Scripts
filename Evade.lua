@@ -6,6 +6,7 @@ local localplayer = Players.LocalPlayer
 local GuiService = game:GetService("GuiService")
 local Light = game:GetService("Lighting")
 local Time = os.clock()
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/Fun/main/noobtest.lua"), true))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
