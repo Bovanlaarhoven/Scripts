@@ -23,7 +23,7 @@ local Window = Rayfield:CreateWindow({
         	Invite = "YvwEyH2W6t",
         	RememberJoins = true 
         },
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
@@ -38,66 +38,12 @@ local Window = Rayfield:CreateWindow({
 getgenv().Fakemoney = false
 getgenv().revivedie = false
 getgenv().autowistle = false
-getgenv().autochat = false
 getgenv().AutoDrink = false
 getgenv().Settings = {
-    moneyfarm = false,
     afkfarm = false,
     NoCameraShake = false,
     Speed = 1450,
-    Jump = 3,
-    reviveTime = 3,
-    TicketFarm = false,
 }
-
-local FindAI = function()
-    for _,v in pairs(WorkspacePlayers:GetChildren()) do
-        if not Players:FindFirstChild(v.Name) then
-            return v
-        end
-    end
-end
-
-local GetDownedPlr = function()
-    for i,v in pairs(WorkspacePlayers:GetChildren()) do
-        if v:GetAttribute("Downed") then
-            return v
-        end
-    end
-end
-
-local revive = function()
-    local downedplr = GetDownedPlr()
-    if downedplr ~= nil and downedplr:FindFirstChild('HumanoidRootPart') then
-        task.spawn(function()
-            while task.wait() do
-                if localplayer.Character then
-                    workspace.Game.Settings:SetAttribute("ReviveTime", 2.2)
-                    localplayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(downedplr:FindFirstChild('HumanoidRootPart').Position.X, downedplr:FindFirstChild('HumanoidRootPart').Position.Y + 3, downedplr:FindFirstChild('HumanoidRootPart').Position.Z)
-                    task.wait()
-                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), false)
-                    task.wait(4.5)
-                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
-                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
-                    game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(tostring(downedplr), true)
-                    break
-                end
-            end
-        end)
-    end
-end
-
-task.spawn(function()
-    while task.wait() do
-        if Settings.TicketFarm then
-            for i,v in pairs(game:GetService("Workspace").Game.Effects.Tickets:GetChildren()) do
-                if game.Players.LocalPlayer:GetAttribute('InMenu') ~= true then
-                    localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(v:WaitForChild('HumanoidRootPart').Position)
-                end
-            end
-        end
-    end
-end)
 
 task.spawn(function()
     while task.wait() do
@@ -110,16 +56,7 @@ task.spawn(function()
         if Settings.NoCameraShake then
             localplayer.PlayerScripts.CameraShake.Value = CFrame.new(0,0,0) * CFrame.new(0,0,0)
         end
-        if Settings.moneyfarm then
-            if localplayer.Character and localplayer.Character:GetAttribute("Downed") then
-                game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
-                task.wait(3)
-            else
-                revive()
-                task.wait(1)
-            end
-        end
-        if Settings.moneyfarm == false and Settings.afkfarm and localplayer.Character:FindFirstChild('HumanoidRootPart') ~= nil then
+        if Settings.afkfarm and localplayer.Character:FindFirstChild('HumanoidRootPart') ~= nil then
             localplayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(6007, 7005, 8005)
         end
     end
@@ -148,8 +85,9 @@ end)
 task.spawn(function()
     while task.wait(1) do
        if Fakemoney == true then
-        local ohString1 = "Free money <font color=\"rgb(100,255,100)\">($99999)</font>"
-        game:GetService("Players").LocalPlayer.PlayerGui.HUD.Messages.Use:Fire(ohString1)
+        local ohString1 = "Money Given!"
+        local ohString2 = "Success"
+        game:GetService("Players").LocalPlayer.PlayerGui.Menu.Messages.Use:Fire(ohString1, ohString2)
        end 
     end
 end)
@@ -166,7 +104,6 @@ end)
 
 local T1 = Window:CreateTab("Main")
 local T2 = Window:CreateTab("Misc")
-local T3 = Window:CreateTab("Esp")
 local T4 = Window:CreateTab("Tp")
 local T5 = Window:CreateTab("Fun")
 local T6 = Window:CreateTab("Farms")
@@ -178,24 +115,6 @@ local Toggle = T6:CreateToggle({
 	Flag = "Toggle1", 
 	Callback = function(Value)
         Settings.afkfarm = Value
-	end,
-})
-
-local Toggle = T6:CreateToggle({
-	Name = "Money farm",
-	CurrentValue = false,
-	Flag = "Toggle1", 
-	Callback = function(Value)
-        Settings.Money = Value
-	end,
-})
-
-local Toggle = T6:CreateToggle({
-	Name = "Ticket Farm",
-	CurrentValue = false,
-	Flag = "Toggle1", 
-	Callback = function(Value)
-        Settings.TicketFarm = Value
 	end,
 })
 
@@ -235,18 +154,6 @@ local Slider = T1:CreateSlider({
         local ohString1 = "FieldOfView"
         local ohNumber2 = FovValue
         game:GetService("ReplicatedStorage").Events.UpdateSetting:FireServer(ohString1, ohNumber2)
-	end,
-})
-
-local Slider = T1:CreateSlider({
-	Name = "JumpPower Slider",
-	Range = {0, 120},
-	Increment = 1,
-	Suffix = "JumpPower",
-	CurrentValue = 3,
-	Flag = "Slider1",
-	Callback = function(JumpValue)
-        Settings.Jump = JumpValue
 	end,
 })
 
@@ -370,96 +277,6 @@ local Button = T2:CreateButton({
 	end,
 })
 
-local Button = T3:CreateButton({
-	Name = "Player Esp",
-	Callback = function()
-        local dwEntities = game:GetService("Players")
-        local dwLocalPlayer = dwEntities.LocalPlayer 
-        local dwRunService = game:GetService("RunService")
-        
-        local settings_tbl = {
-            ESP_Enabled = true,
-            ESP_TeamCheck = false,
-            Chams = true,
-            Chams_Color = Color3.fromRGB(255, 255, 255),
-            Chams_Transparency = 0.9,
-            Chams_Glow_Color = Color3.fromRGB(0, 0, 0)
-        }
-        
-        function destroy_chams(char)
-            for k,v in next, char:GetChildren() do 
-                if v:IsA("BasePart") and v.Transparency ~= 1 then
-                    if v:FindFirstChild("Glow") and 
-                    v:FindFirstChild("Chams") then
-                        v.Glow:Destroy()
-                        v.Chams:Destroy() 
-                    end 
-                end 
-            end 
-        end
-        
-        dwRunService.Heartbeat:Connect(function()
-            if settings_tbl.ESP_Enabled then
-                for k,v in next, dwEntities:GetPlayers() do 
-                    if v ~= dwLocalPlayer then
-                        if v.Character and
-                        v.Character:FindFirstChild("HumanoidRootPart") and 
-                        v.Character:FindFirstChild("Humanoid") and 
-                        v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-                            if settings_tbl.ESP_TeamCheck == false then
-                                local char = v.Character 
-                                for k,b in next, char:GetChildren() do 
-                                    if b:IsA("BasePart") and 
-                                    b.Transparency ~= 1 then
-                                        if settings_tbl.Chams then
-                                            if not b:FindFirstChild("Glow") and
-                                            not b:FindFirstChild("Chams") then
-                                                local chams_box = Instance.new("BoxHandleAdornment", b)
-                                                chams_box.Name = "Chams"
-                                                chams_box.AlwaysOnTop = true 
-                                                chams_box.ZIndex = 4 
-                                                chams_box.Adornee = b 
-                                                chams_box.Color3 = settings_tbl.Chams_Color
-                                                chams_box.Transparency = settings_tbl.Chams_Transparency
-                                                chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
-                                                local glow_box = Instance.new("BoxHandleAdornment", b)
-                                                glow_box.Name = "Glow"
-                                                glow_box.AlwaysOnTop = false 
-                                                glow_box.ZIndex = 3 
-                                                glow_box.Adornee = b 
-                                                glow_box.Color3 = settings_tbl.Chams_Glow_Color
-                                                glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
-                                            end
-                                        else
-                                            destroy_chams(char)
-                                        end
-                                    end
-                                end
-                            else
-                                if v.Team == dwLocalPlayer.Team then
-                                    destroy_chams(v.Character)
-                                end
-                            end
-                        else
-                            destroy_chams(v.Character)
-                        end
-                    end
-                end
-            else 
-                for k,v in next, dwEntities:GetPlayers() do 
-                    if v ~= dwLocalPlayer and 
-                    v.Character and 
-                    v.Character:FindFirstChild("HumanoidRootPart") and 
-                    v.Character:FindFirstChild("Humanoid") and 
-                    v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-                        destroy_chams(v.Character)
-                    end
-                end
-            end
-        end)
-	end,
-})
-
 local Button = T2:CreateButton({
 	Name = "Inf Jump",
 	Callback = function()
@@ -509,26 +326,6 @@ local Button = T2:CreateButton({
         local ohString1 = "ThirdPerson"
         local ohBoolean2 = true
         game:GetService("Players").LocalPlayer.PlayerScripts.Events.KeybindUsed:Fire(ohString1, ohBoolean2)
-	end,
-})
-
-
-
-local Button = T3:CreateButton({
-	Name = "Ticket Esp",
-	Callback = function()
-        while true do
-            repeat wait() until game.Workspace.Game.Effects.Tickets.Ticket1
-            local esp = Instance.new("Highlight")
-            esp.Parent = game.Workspace.Game.Effects.Tickets.Ticket1
-        end
-	end,
-})
-
-local Button = T2:CreateButton({
-	Name = "Test Emote (Permanant)",
-	Callback = function()
-        game:GetService("ReplicatedStorage").Events.UI.Purchase:InvokeServer("Emotes", "Test")
 	end,
 })
 
@@ -653,14 +450,6 @@ local Button = T4:CreateButton({
 	end,
 })
 
-local Button = T5:CreateButton({
-	Name = "Spawm chat",
-	Callback = function(Value)
-        autochat = Value
-	end,
-})
-
-
 local Keybind = T5:CreateKeybind({
 	Name = "Random emote",
 	CurrentKeybind = "Z",
@@ -698,7 +487,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end)
 end)
 
-local notif = Notification.new("success", "Success", "Noobhub took " .. math.round(os.clock() - Time) .. "s to load!")
+local notif = Notification.new("success", "Success", "HydraNetworkv2 took " .. math.round(os.clock() - Time) .. "s to load!")
 notif:deleteTimeout(3)
 
 Rayfield:LoadConfiguration()
