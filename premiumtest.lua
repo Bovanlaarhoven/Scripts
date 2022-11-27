@@ -16,8 +16,6 @@ qNVAKkuwxNpqruLjSRHg = CheckHWID(HWID)
 
 if qNVAKkuwxNpqruLjSRHg == true then
     loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/JumpSimulator.lua"), true))()
-end
-
-if qNVAKkuwxNpqruLjSRHg == false then
+else
     loadstring(game:HttpGet(("https://raw.githubusercontent.com/Robobo2022/script/main/EVADE.lua"), true))()
 end
