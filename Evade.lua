@@ -1,4 +1,3 @@
-local RaceField = loadstring(game:HttpGet('https://raw.githubusercontent.com/Robobo2022/Fun/main/noobtest.lua'))()
 game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 wait(1)
 local WorkspacePlayers = game:GetService("Workspace").Game.Players
