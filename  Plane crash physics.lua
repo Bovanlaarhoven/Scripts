@@ -1,10 +1,11 @@
+local Time = os.clock()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 getgenv().money = false
 
 task.spawn(function()
-    while task.wait() do
+    while task.wait(0) do
         if getgenv().money == true then
             game:GetService("ReplicatedStorage").GetCash:FireServer()
         end
@@ -40,7 +41,7 @@ local Window = Rayfield:CreateWindow({
 local Tab = Window:CreateTab("Main", 4483362458)
 
 local Toggle = Tab:CreateToggle({
-	Name = "Fast money",
+	Name = "Fast money(may cause lag)",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
