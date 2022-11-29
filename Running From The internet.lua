@@ -17,6 +17,7 @@ local Window = Rayfield:CreateWindow({
 	LoadingTitle = "Hydra Network v2",
 	LoadingSubtitle = "by hydra#8270",
 	ConfigurationSaving = {
+		Enabled = true,
 		FolderName = nil, 
 		FileName = "Big Hub"
 	},
