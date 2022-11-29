@@ -1,4 +1,15 @@
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+getgenv().money = false
+
+task.spawn(function()
+    while task.wait() do
+        if getgenv().money == true then
+            game:GetService("ReplicatedStorage").GetCash:FireServer()
+        end
+    end
+end)
 
 local Window = Rayfield:CreateWindow({
 	Name = "Plane crash physics",
@@ -29,10 +40,13 @@ local Window = Rayfield:CreateWindow({
 local Tab = Window:CreateTab("Main", 4483362458)
 
 local Toggle = Tab:CreateToggle({
-	Name = "Toggle Example",
+	Name = "Fast money",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
-        game:GetService("ReplicatedStorage").GetCash:FireServer()
+        money = Value
 	end,
 })
+
+local notif = Notification.new("success", "Success", "HydraNetworkv2 took " .. math.round(os.clock() - Time) .. "s to load!")
+notif:deleteTimeout(3)
