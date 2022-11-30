@@ -7,7 +7,7 @@ getgenv().Drink = false
 getgenv().Eat = false
 getgenv().Drop = false
 getgenv().autothrow = false
-
+getgenv().ChooseThrow = false
 local x = 0
 local y = 0
 local z = 0
@@ -44,11 +44,14 @@ task.spawn(function()
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowLandmine:InvokeServer(ohVector31)
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowCrate:InvokeServer(ohVector31)
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowBanana:InvokeServer(ohVector31)
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowGravityGrenade:InvokeServer(ohVector31)
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowWaterBalloon:InvokeServer(ohVector31)
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowStinkBomb:InvokeServer(ohVector31)
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowFireWorks:InvokeServer(ohVector31)
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowToilet:InvokeServer(ohVector31)
 		end
 	end
 end)
-
-
 
 
 local Window = Rayfield:CreateWindow({
@@ -186,7 +189,7 @@ local Label2 = T4:CreateLabel("y cords are 0")
 local Label3 = T4:CreateLabel("z cords are 0")
 
 local Toggle = T4:CreateToggle({
-	Name = "Auto Throw",
+	Name = "Auto Throw (all)",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
