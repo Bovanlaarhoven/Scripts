@@ -3,6 +3,7 @@ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 getgenv().Drink = false
+getgenv().Eat = false
 
 task.spawn(function()
     while task.wait() do
@@ -11,6 +12,15 @@ task.spawn(function()
         end
     end
 end)
+
+task.spawn(function()
+	while task.wait() do
+		if getgenv().Eat then
+			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.HealBurger:InvokeServer()
+		end
+	end
+end)
+
 
 local Window = Rayfield:CreateWindow({
 	Name = "RUNNING FROM THE INTERNET!",
@@ -86,6 +96,16 @@ local Toggle = T2:CreateToggle({
         Drink = Value
 	end,
 })
+
+local Toggle = T2:CreateToggle({
+	Name = "Insta ChezBurger",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+        Eat = Value
+	end,
+})
+
 
 local Toggle = T2:CreateToggle({
 	Name = "Disable Ragdoll",
