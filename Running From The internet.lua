@@ -100,10 +100,10 @@ local Slider = T1:CreateSlider({
 
 local Slider = T1:CreateSlider({
 	Name = "FieldOfView Slider",
-	Range = {70, 120},
+	Range = {75, 120},
 	Increment = 1,
 	Suffix = "FOV",
-	CurrentValue = 70,
+	CurrentValue = 75,
 	Flag = "Slider1",
 	Callback = function(View)
 		game:GetService("Workspace").CurrentCamera.FieldOfView = View
