@@ -5,6 +5,15 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shle
 
 getgenv().Drink = false
 getgenv().Eat = false
+getgenv().Drop = false
+
+task.spawn(function()
+	while task.wait() do
+		if getgenv().Drop then
+			game:GetService("ReplicatedStorage").Assets.RemoteEvents.Items.DropItem:FireServer()
+		end
+	end
+end)
 
 task.spawn(function()
     while task.wait() do
@@ -51,6 +60,7 @@ local Window = Rayfield:CreateWindow({
 
 local T1 = Window:CreateTab("Player", 4483362458)
 local T2 = Window:CreateTab("Power-ups", 4483362458)
+local T3 = Window:CreateTab("Fun", 4483362458)
 
 local TargetWalkspeed
 local Slider = T1:CreateSlider({
@@ -117,6 +127,15 @@ local Toggle = T2:CreateToggle({
 	end,
 })
 
+local Toggle = T3:CreateToggle({
+	Name = "Drop Items",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+		Drop = Value
+	end,
+})
+
 local Button = T1:CreateButton({
 	Name = "Fullbright",
 	Callback = function()
@@ -129,6 +148,7 @@ local Button = T1:CreateButton({
         game.Lighting.GlobalShadows = false
 	end,
 })
+
 
 
 
