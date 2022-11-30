@@ -1,3 +1,5 @@
+getgenv().spinSpeed = 20
+local Spin = Instance.new("BodyAngularVelocity")
 local Light = game:GetService("Lighting")
 local Time = os.clock()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
@@ -11,6 +13,15 @@ getgenv().ChooseThrow = false
 local x = 0
 local y = 0
 local z = 0
+
+function spin()
+	local Spin = Instance.new("BodyAngularVelocity")
+	Spin.Name = "Spinning"
+	Spin.Parent = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	Spin.MaxTorque = Vector3.new(0, math.huge, 0)
+	Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
+end
+
 
 task.spawn(function()
 	while task.wait() do
@@ -229,6 +240,30 @@ local Input = T4:CreateInput({
 
 local Label = T4:CreateLabel("Recommend turning on 'Disable Ragdoll'")
 
+local Slider = T3:CreateSlider({
+	Name = "SpinSpeed",
+	Range = {0, 50},
+	Increment = 1,
+	Suffix = "Speed",
+	CurrentValue = 1,
+	Flag = "Slider1",
+	Callback = function(Value)
+		spinSpeed = Value
+	end,
+})
+
+local Toggle = T3:CreateToggle({
+	Name = "Spin-bot",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+		if Value then
+			spin()
+		else
+			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Spinning:Destroy()
+		end
+	end,
+})
 
 
 
