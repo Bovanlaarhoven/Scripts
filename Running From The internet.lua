@@ -2,8 +2,7 @@ local Time = os.clock()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
-
-getgenv().Drink = true
+getgenv().Drink = false
 
 task.spawn(function()
     while task.wait() do
@@ -93,16 +92,10 @@ local Toggle = T2:CreateToggle({
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
-        
+        game:GetService("Players").LocalPlayer.Character.Player.Parkour.Ragdoll.Disabled = Value
 	end,
 })
 
-local Button = T1:CreateButton({
-	Name = "Button Example",
-	Callback = function()
-        game:GetService("Workspace").LocalPlayer.Player.Parkour.Ragdoll.LocalScript.Disabled = true
-	end,
-})
 
 
 
