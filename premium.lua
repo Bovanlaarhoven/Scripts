@@ -8,8 +8,6 @@ local WhitelistedHWIDs = {
     "97D90E0D-A9AE-46AD-81AE-BFD46417F57D",
 }
 
-local qNVAKkuwxNpqruLjSRHg = false
-
 function has_value (tab, val)
     for index, value in ipairs(tab) do
         if value == val then
