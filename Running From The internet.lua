@@ -1,3 +1,4 @@
+local Light = game:GetService("Lighting")
 local Time = os.clock()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
@@ -48,8 +49,8 @@ local Window = Rayfield:CreateWindow({
 	}
 })
 
-local T1 = Window:CreateTab("Main", 4483362458)
-local T2 = Window:CreateTab("Misc", 4483362458)
+local T1 = Window:CreateTab("Player", 4483362458)
+local T2 = Window:CreateTab("Power-ups", 4483362458)
 
 local TargetWalkspeed
 local Slider = T1:CreateSlider({
@@ -116,6 +117,18 @@ local Toggle = T2:CreateToggle({
 	end,
 })
 
+local Button = T1:CreateButton({
+	Name = "Fullbright",
+	Callback = function()
+        Light.Ambient = Color3.new(1, 1, 1)
+        Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+        Light.ColorShift_Top = Color3.new(1, 1, 1)
+        game.Lighting.FogEnd = 100000
+        game.Lighting.FogStart = 0
+        game.Lighting.Brightness = 1
+        game.Lighting.GlobalShadows = false
+	end,
+})
 
 
 
