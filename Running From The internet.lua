@@ -89,6 +89,7 @@ local Toggle = T2:CreateToggle({
 })
 
 local Toggle = T2:CreateToggle({
+	Name = "Disable Ragdoll",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
