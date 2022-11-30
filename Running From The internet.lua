@@ -39,6 +39,7 @@ end)
 task.spawn(function()
 	while task.wait() do
 		if getgenv().autothrow then
+			local ohVector31 = Vector3.new(x, y, z)
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowBomb:InvokeServer(ohVector31)
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowLandmine:InvokeServer(ohVector31)
 			game:GetService("ReplicatedStorage").Assets.RemoteFunctions.Items.ThrowCrate:InvokeServer(ohVector31)
