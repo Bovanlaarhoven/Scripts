@@ -172,17 +172,6 @@ local Button = T1:CreateButton({
 	end,
 })
 
-local Toggle = T3:CreateToggle({
-	Name = "Auto Throw (all)",
-	CurrentValue = false,
-	Flag = "Toggle1",
-	Callback = function(Value)
-		autothrow = Value
-	end,
-})
-
-local Label = T3:CreateLabel("Recommend turning on 'Disable Ragdoll'")
-
 local Slider = T3:CreateSlider({
 	Name = "SpinSpeed",
 	Range = {0, 50},
