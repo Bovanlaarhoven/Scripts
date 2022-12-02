@@ -109,7 +109,7 @@ local T2 = Window:CreateTab("Misc")
 local T4 = Window:CreateTab("Tp")
 local T5 = Window:CreateTab("Fun")
 local T6 = Window:CreateTab("Farms")
-local T8 = Window:CreateTab("Farms")
+local T8 = Window:CreateTab("Bot ESP")
 local T7 = Window:CreateTab("Credits")
 
 local Toggle = T8:CreateToggle({
