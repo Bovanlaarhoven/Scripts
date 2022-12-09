@@ -82,7 +82,7 @@ local Toggle = T1:CreateToggle({
             autowalk = true
             game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 1000
         else
-            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 1000
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 20
             autowalk = false
             autoclick = false
         end
