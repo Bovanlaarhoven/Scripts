@@ -54,14 +54,14 @@ task.spawn(function()
 
             wait(1)
             if number == number then
-               print("same number")
-            else
                Rayfield:Notify({
                   Title = "Generated Number",
                   Content = "Generated Number: " .. number,
                   Duration = 6.5,
                   Image = 11866433904,
                })
+            else
+               print("same number")
                
             end
 
