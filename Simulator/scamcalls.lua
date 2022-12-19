@@ -1,15 +1,10 @@
 repeat wait() until game:IsLoaded()
 
-for i,v in pairs(game:GetService("Workspace").Tycoons:GetDescendants()) do
-    if not v.Name == "TycoonOwner" and v.ClassName == "StringValue" and v.Value == game:GetService("Players").LocalPlayer.Name.."" then
-         for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-            if v.Name == "Claim" and v.ClassName == "Part" and v.Transparency == 0 then
-                  game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-            end
-         end
-    end
+for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+   if v.Name == "Claim" and v.ClassName == "Part" and v.Transparency == 0 then
+      game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+   end
 end
-
 
 --game:GetService("Players").LocalPlayer.PlayerGui.Notifications:Destroy()
 game:GetService("Players").LocalPlayer.PlayerGui.PCGUI.Frame.Upgrades.Update:Fire()
@@ -47,11 +42,48 @@ local Window = Rayfield:CreateWindow({
 local Tab = Window:CreateTab("Auto Farm", 11866433904)
 
 getgenv().AutoFarm = false
+getgenv().FasterScamming = false
+getgenv().TransferSpeed = false
+getgenv().ScamValue = false
 
-local ScamSpeed = game:GetService("Players").LocalPlayer.Data.TransferSpeed.Value
+local TransferSpeed = game:GetService("Players").LocalPlayer.Data.TransferSpeed.Value
+local fasterscamming = game:GetService("Players").LocalPlayer.Data.ScamSpeedLevel.Value
+local transferspeed = game:GetService("Players").LocalPlayer.Data.TransferSpeedLevel.Value
+local scamvalue = game:GetService("Players").LocalPlayer.Data.ScamValueLevel.Value
 
 task.spawn(function()
-	while task.wait(ScamSpeed) do
+   while task.wait() do
+      if FasterScamming == true then
+         local ohString1 = "ScamSpeed"
+         local ohNumber2 = (fasterscamming)
+         game:GetService("ReplicatedStorage").Events.UpgradeItem:FireServer(ohString1, ohNumber2)
+      end
+   end
+end)
+
+task.spawn(function()
+   while task.wait() do
+      if TransferSpeed == true then
+         local ohString1 = "TransferSpeed"
+         local ohNumber2 = (transferspeed)
+         game:GetService("ReplicatedStorage").Events.UpgradeItem:FireServer(ohString1, ohNumber2)
+      end
+   end
+end)
+
+task.spawn(function()
+   while task.wait() do
+      if ScamValue == true then
+         local ohString1 = "ScamValue"
+         local ohNumber2 = (scamvalue)
+         game:GetService("ReplicatedStorage").Events.UpgradeItem:FireServer(ohString1, ohNumber2)
+      end
+   end
+end)
+
+
+task.spawn(function()
+	while task.wait(TransferSpeed) do
 		if getgenv().AutoFarm == true then
             local number = game:GetService("Players").LocalPlayer.GeneratedNumber.Value
             local ohNumber1 = (number)
@@ -74,6 +106,13 @@ task.spawn(function()
 	end
 end)
 
+
+
+local ohString1 = "ScamSpeed"
+local ohNumber2 = 4
+
+game:GetService("ReplicatedStorage").Events.UpgradeItem:FireServer(ohString1, ohNumber2)
+
 local Toggle = Tab:CreateToggle({
    Name = "Scam call Auto Farm",
    Info = "Does the scam call for you",
@@ -84,6 +123,39 @@ local Toggle = Tab:CreateToggle({
    end,
 })
 
+local Label = Tab:CreateLabel("Upgrade")
+
+local Toggle = Tab:CreateToggle({
+   Name = "Faster Scamming",
+   Info = "Auto buys the upgrade called 'Faster Scamming'",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      FasterScamming = Value
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Transfer Speed",
+   Info = "Auto buys the upgrade called 'Transfer Speed'",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      TransferSpeed = Value
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Scam Value",
+   Info = "Auto buys the upgrade called 'Scam Value'",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      ScamValue = Value
+   end,
+})
+
+local Label = Tab:CreateLabel("Other")
 local Toggle = Tab:CreateToggle({
    Name = "Turn on Sprint",
    Info = "Disables sprinting buy promt",
