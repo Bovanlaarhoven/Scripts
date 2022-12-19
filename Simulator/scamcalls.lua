@@ -43,8 +43,10 @@ local Tab = Window:CreateTab("Auto Farm", 4483362458)
 
 getgenv().AutoFarm = false
 
+local ScamSpeed = game:GetService("Players").LocalPlayer.Data.TransferSpeed.Value
+
 task.spawn(function()
-	while task.wait() do
+	while task.wait(ScamSpeed) do
 		if getgenv().AutoFarm == true then
             local number = game:GetService("Players").LocalPlayer.GeneratedNumber.Value
             local ohNumber1 = (number)
