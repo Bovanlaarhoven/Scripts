@@ -53,13 +53,17 @@ task.spawn(function()
             game:GetService("ReplicatedStorage").Events.CheckNumber:FireServer(ohNumber1)
 
             wait(1)
-            Rayfield:Notify({
-               Title = "Generated Number",
-               Content = "Generated Number: " .. number,
-               Duration = 6.5,
-               Image = 11866433904,
-            })
-            
+            if number == number then
+               print("same number")
+            else
+               Rayfield:Notify({
+                  Title = "Generated Number",
+                  Content = "Generated Number: " .. number,
+                  Duration = 6.5,
+                  Image = 11866433904,
+               })
+               
+            end
 
         end
 	end
