@@ -6,7 +6,7 @@ for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
     end
 end
 
-game:GetService("Players").LocalPlayer.PlayerGui.Notifications.Enabled = false
+game:GetService("Players").LocalPlayer.PlayerGui.Notifications:Destroy()
 game:GetService("Players").LocalPlayer.PlayerGui.PCGUI.Frame.Upgrades.Update:Fire()
 game:GetService("ReplicatedStorage").Events.GenerateNumber:FireServer()
 wait(2)
@@ -62,3 +62,29 @@ local Toggle = Tab:CreateToggle({
         AutoFarm = Value
    end,
 })
+
+local Toggle = Tab:CreateToggle({
+   Name = "Turn on Sprint",
+   Info = "Disables sprinting buy promt",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      if Value == true then
+         game:GetService("Players").LocalPlayer.Data.Sprint.Value = 1
+      else
+         game:GetService("Players").LocalPlayer.Data.Sprint.Value = 0
+      end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Inf Double Money",
+   Info = "Just for the funny (probably dont even work)",
+   Interact = 'Changable',
+   Callback = function()
+      game:GetService("Players").LocalPlayer.Data.DoubleMoney.Value = math.huge
+   end,
+})
+
+
+
