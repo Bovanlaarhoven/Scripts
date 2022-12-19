@@ -2,10 +2,11 @@ repeat wait() until game:IsLoaded()
 
 for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
     if v.Name == "Claim" and v.ClassName == "Part" and v.Transparency == 0 then
-       game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
     end
 end
 
+game:GetService("Players").LocalPlayer.PlayerGui.Notifications.Enabled = false
 game:GetService("Players").LocalPlayer.PlayerGui.PCGUI.Frame.Upgrades.Update:Fire()
 game:GetService("ReplicatedStorage").Events.GenerateNumber:FireServer()
 wait(2)
@@ -38,9 +39,6 @@ local Window = Rayfield:CreateWindow({
     }
  })
 
-game:GetService("Players").LocalPlayer.PlayerGui.Notifications.Enabled = false
-local value = game:GetService("Players").LocalPlayer.GeneratedNumber.Value
-
 local Tab = Window:CreateTab("Auto Farm", 4483362458)
 
 getgenv().AutoFarm = false
@@ -51,7 +49,7 @@ task.spawn(function()
             local number = game:GetService("Players").LocalPlayer.GeneratedNumber.Value
             local ohNumber1 = (number)
             game:GetService("ReplicatedStorage").Events.CheckNumber:FireServer(ohNumber1)
-		end
+        end
 	end
 end)
 
@@ -64,18 +62,3 @@ local Toggle = Tab:CreateToggle({
         AutoFarm = Value
    end,
 })
-
-
-
-value:GetPropertyChangedSignal("Value"):Connect(function()
-Rayfield:Notify({
-	Title = "Generated Number...",
-	Content = value.Value.." is the new bank number",
-	Duration = 6.5,
-	Image = 4483362458,
-	Actions = {
-		Ignore = {
-		},
-	},
-})
-end)
