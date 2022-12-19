@@ -1,10 +1,15 @@
 repeat wait() until game:IsLoaded()
 
-for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-    if v.Name == "Claim" and v.ClassName == "Part" and v.Transparency == 0 then
-        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+for i,v in pairs(game:GetService("Workspace").Tycoons:GetDescendants()) do
+    if not v.Name == "TycoonOwner" and v.ClassName == "StringValue" and v.Value == game:GetService("Players").LocalPlayer.Name.."" then
+         for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+            if v.Name == "Claim" and v.ClassName == "Part" and v.Transparency == 0 then
+                  game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+            end
+         end
     end
 end
+
 
 --game:GetService("Players").LocalPlayer.PlayerGui.Notifications:Destroy()
 game:GetService("Players").LocalPlayer.PlayerGui.PCGUI.Frame.Upgrades.Update:Fire()
@@ -52,7 +57,7 @@ task.spawn(function()
             local ohNumber1 = (number)
             game:GetService("ReplicatedStorage").Events.CheckNumber:FireServer(ohNumber1)
 
-            wait(1)
+            wait(5)
             if number == number then
                Rayfield:Notify({
                   Title = "Generated Number",
@@ -60,7 +65,7 @@ task.spawn(function()
                   Duration = 6.5,
                   Image = 11866433904,
                })
-            else
+            elseif number ~= number then
                print("same number")
                
             end
