@@ -6,7 +6,7 @@ for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
     end
 end
 
-game:GetService("Players").LocalPlayer.PlayerGui.Notifications:Destroy()
+--game:GetService("Players").LocalPlayer.PlayerGui.Notifications:Destroy()
 game:GetService("Players").LocalPlayer.PlayerGui.PCGUI.Frame.Upgrades.Update:Fire()
 game:GetService("ReplicatedStorage").Events.GenerateNumber:FireServer()
 wait(2)
@@ -39,7 +39,7 @@ local Window = Rayfield:CreateWindow({
     }
  })
 
-local Tab = Window:CreateTab("Auto Farm", 4483362458)
+local Tab = Window:CreateTab("Auto Farm", 11866433904)
 
 getgenv().AutoFarm = false
 
@@ -51,6 +51,16 @@ task.spawn(function()
             local number = game:GetService("Players").LocalPlayer.GeneratedNumber.Value
             local ohNumber1 = (number)
             game:GetService("ReplicatedStorage").Events.CheckNumber:FireServer(ohNumber1)
+
+            wait(1)
+            Rayfield:Notify({
+               Title = "Generated Number",
+               Content = "Generated Number: " .. number,
+               Duration = 6.5,
+               Image = 11866433904,
+            })
+            
+
         end
 	end
 end)
@@ -87,6 +97,3 @@ local Button = Tab:CreateButton({
       game:GetService("Players").LocalPlayer.Data.DoubleMoney.Value = math.huge
    end,
 })
-
-
-
