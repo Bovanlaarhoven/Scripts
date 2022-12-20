@@ -81,7 +81,6 @@ task.spawn(function()
    end
 end)
 
-
 task.spawn(function()
 	while task.wait() do
 		if getgenv().AutoFarm == true then
