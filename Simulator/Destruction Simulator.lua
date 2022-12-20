@@ -56,8 +56,6 @@ local Button = Tab:CreateButton({
         rs.Burst = 10
         rs.ShotgunAmount = 10
         rs.BurstWait = 0
-
-        --Update advanced modding tab
    end,
 })
 
@@ -70,7 +68,7 @@ local Button = Tab:CreateButton({
         game:GetService("ReplicatedStorage").Remotes.generateBoost:FireServer("Coins", 480, 10000000)
     end,
  })
-
+ 
 local Toggle = Tab:CreateToggle({
    Name = "Auto-Sell",
    Info = "Auto sells your items",
@@ -80,6 +78,33 @@ local Toggle = Tab:CreateToggle({
         AutoSell = Value
    end,
 })
+
+local Slider= Tab:CreateSlider({
+    Name = "Walk-Speed",
+    Info = "Changes your walkspeed",
+    Range = {0, 250},
+    Increment = 1,
+    Suffix = "Amount",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end,
+})
+
+local Slider= Tab:CreateSlider({
+    Name = "Jump-Power",
+    Info = "Changes your JumpPower",
+    Range = {0, 250},
+    Increment = 1,
+    Suffix = "Amount",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
+    end,
+})
+
 
 local Label = Tab1:CreateLabel("Some Things might lag your game!")
 
