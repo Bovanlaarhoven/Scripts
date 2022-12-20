@@ -56,6 +56,8 @@ local Button = Tab:CreateButton({
         rs.Burst = 10
         rs.ShotgunAmount = 10
         rs.BurstWait = 0
+
+        --Update advanced modding tab
    end,
 })
 
@@ -79,74 +81,110 @@ local Toggle = Tab:CreateToggle({
    end,
 })
 
+local Label = Tab1:CreateLabel("Some Things might lag your game!")
 
-local Label = Tab:CreateLabel("Some Things might lag your game!")
-
-local Slider = Tab1:CreateSlider({
+local Slider1 = Tab1:CreateSlider({
    Name = "Cooldown",
    Info = "Changes the cooldown of your weapon",
    Range = {0, 10},
    Increment = 1,
    Suffix = "CoolDown",
-   CurrentValue = 1,
+   CurrentValue = 10,
    Flag = "Slider1", 
    Callback = function(Value)
         rs.Cooldown = Value
    end,
 })
 
-local Slider = Tab1:CreateSlider({
-    Name = "RocketSpeed",
-    Info = "Changes the RockSpeed of your weapon",
-    Range = {0, 1000},
-    Increment = 1,
-    Suffix = "Speed",
-    CurrentValue = 1,
-    Flag = "Slider1", 
-    Callback = function(Value)
-        rs.RocketSpeed = Value
-    end,
-})
-
-local Slider = Tab1:CreateSlider({
+local Slider2 = Tab1:CreateSlider({
     Name = "BurstWait",
     Info = "Changes the BurstWait of your weapon",
     Range = {0, 10},
     Increment = 1,
     Suffix = "BurstWait",
-    CurrentValue = 1,
+    CurrentValue = 10,
     Flag = "Slider1", 
     Callback = function(Value)
         rs.BurstWait = Value
     end,
 })
 
-local Slider = Tab1:CreateSlider({
+local Slider3 = Tab1:CreateSlider({
+    Name = "RocketSpeed",
+    Info = "Changes the RockSpeed of your weapon",
+    Range = {0, 1000},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        rs.RocketSpeed = Value
+    end,
+})
+
+local Slider4 = Tab1:CreateSlider({
     Name = "BlastRadius",
     Info = "Changes the BlastRadius of your weapon",
     Range = {0, 1000},
     Increment = 1,
     Suffix = "Radius",
-    CurrentValue = 1,
+    CurrentValue = 10,
     Flag = "Slider1", 
     Callback = function(Value)
         rs.BlastRadius = Value
     end,
 })
 
-local Slider = Tab1:CreateSlider({
+local Slider5 = Tab1:CreateSlider({
     Name = "ShotgunSpread",
     Info = "Changes the ShotgunSpread of your weapon",
     Range = {0, 1000},
     Increment = 1,
     Suffix = "Spread",
-    CurrentValue = 1,
+    CurrentValue = 10,
     Flag = "Slider1", 
     Callback = function(Value)
         rs.ShotgunSpread = Value
     end,
 })
 
+local Slider6 = Tab1:CreateSlider({
+    Name = "BlastForce",
+    Info = "Changes the BlastForce of your weapon",
+    Range = {0, 1000},
+    Increment = 1,
+    Suffix = "Force",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        rs.BlastForce = Value
+    end,
+})
 
+local Slider7 = Tab1:CreateSlider({
+    Name = "Burst",
+    Info = "Changes the Burst of your weapon",
+    Range = {0, 1000},
+    Increment = 1,
+    Suffix = "Burst",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        rs.Burst = Value
+    end,
+})
+
+local Slider8 = Tab1:CreateSlider({
+    Name = "ShotgunAmount",
+    Info = "Changes the ShotgunAmount of your weapon",
+    Range = {0, 1000},
+    Increment = 1,
+    Suffix = "Amount",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        rs.ShotgunAmount = Value
+    end,
+})
 
 
