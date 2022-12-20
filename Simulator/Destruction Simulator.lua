@@ -38,6 +38,7 @@ task.spawn(function()
     while task.wait(4) do
        if AutoSell == true then
             game:GetService("ReplicatedStorage").Remotes.sellBricks:FireServer()
+        end
     end
 end)
 
