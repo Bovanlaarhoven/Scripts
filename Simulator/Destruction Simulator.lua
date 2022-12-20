@@ -101,7 +101,7 @@ local Slider= Tab:CreateSlider({
     CurrentValue = 10,
     Flag = "Slider1", 
     Callback = function(Value)
-        game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
+        game:GetService("Players").LocalPlayer.Character.Humanoid.JumpHeight = Value
     end,
 })
 
