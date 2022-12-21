@@ -1,6 +1,6 @@
 local players = game:GetService("Players")
 local plr = players.LocalPlayer
-local mouse plr:GetMouse()
+local mouse = plr:GetMouse()
 local camera = game:GetService("Workspace").CurrentCamera
 
 function ClosestPlayerToMouse()
@@ -9,7 +9,7 @@ function ClosestPlayerToMouse()
     for i,v in pairs(players:GetPlayers()) do
         if v ~= plr and v.Character and v.Character:FindFirstChild("Head") then
             local screenpoint = camera:WorldToScreenPoint(v.Character.Head.Position)
-            local check = (Vector2.new(mouse.X,mouse.Y)-Vector2.new(screenpoint.X,screenpoint.Y)).magnitude
+            local check = (Vector2.new(mouse.X,mouse.Y)-Vector2.new(screenpoint.X,screenpoint.Y)).Magnitude
             if check < dist then
                 check = dist
                 target = v
