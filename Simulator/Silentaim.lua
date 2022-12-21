@@ -6,7 +6,6 @@ local camera = game:GetService("Workspace").CurrentCamera
 function ClosestPlayerToMouse()
     local dist = math.huge
     local target = nil
-
     for i,v in pairs(players:GetPlayers()) do
         if v ~= plr and v.Character and v.Character:FindFirstChild("Head") then
             local screenpoint = camera:WorldToScreenPoint(v.Character.Head.Position)
@@ -27,9 +26,8 @@ local namecall = mt.__namecall
 mt.__namecall = function(self,...)
     local args = {...}
     local method = getnamecallmethod()
-    if tostring(self) == "hitBullet" and tostring(method) == "FireServer" then
-        args[1] = ClosestPlayerToMouse().Character.Head
-        args[2] = ClosestPlayerToMouse().Character.Head.Position
+    if tostring(self) == "fire" and tostring(method) == "FireServer" then
+        args[1] = ClosestPlayerToMouse().Character.Head.Position
         return self.FireServer(self,unpack(args))
     end
     return namecall(self,...)
