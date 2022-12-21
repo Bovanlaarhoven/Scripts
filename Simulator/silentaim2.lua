@@ -8,7 +8,7 @@ function ClosestPlayerToMouse()
     local target = nil
     for i,v in pairs(players:GetPlayers()) do
         if v ~= plr and v.Character and v.Character:FindFirstChild("Head") then
-            local screenpoint = camera.WorldToScreenPoint(camera,position)
+            local screenpoint = camera.WorldToScreenPoint(camera.Position)
             local check = (Vector2.new(mouse.X,mouse.Y)-Vector2.new(screenpoint.X,screenpoint.Y)).Magnitude
             if check < dist then
                 check = dist
@@ -24,7 +24,7 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
     local method = getnamecallmethod()
     local args = {...}
     if not checkcaller() and tostring(self) == "fire" and method == "FireServer" then
-        args[2][1] = Vector3.new(5,0,0)
+        args[2][1] = Vector3.new(ClosestPlayerToMouse().Position)
         return old(self, unpack(args)) 
     end 
     return old(self, ...)
