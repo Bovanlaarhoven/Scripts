@@ -25,7 +25,7 @@ function getPlayerClosestToMouse()
     local maxDist = math.huge
     for _,v in pairs(plrs:GetPlayers()) do
         if v.Character then
-            if v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") and v.TeamColor ~= plr.TeamColor then
+            if v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") then
                 local pos, vis = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
                 local dist = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(pos.X, pos.Y)).magnitude
                 if dist < maxDist and vis then
