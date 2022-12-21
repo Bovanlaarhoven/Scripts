@@ -32,3 +32,18 @@ mt.__namecall = function(self,...)
     end
     return namecall(self,...)
 end
+
+local OldIndex = nil
+local OldNameCall = nil
+
+OldIndex = hookmetamethod(game, "__index", newcclosure(function(...)
+    local Self, Key = ...
+    return OldIndex(...)
+end))
+
+OldNameCall = hookmetamethod(game, "__namecall", newcclosure(function(...)
+    local Self = ...
+    local NamecallMethod = getnamecallmethod()
+
+    return OldNameCall(...)
+end))
