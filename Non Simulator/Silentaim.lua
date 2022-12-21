@@ -5,7 +5,7 @@ local camera = game:GetService("Workspace").CurrentCamera
 
 function notBehindWall(target)
     local ray = Ray.new(plr.Character.Head.Position, (target.Position - plr.Character.Head.Position).Unit * 300)
-    local part, position = game:GetService("Workspace"):FindPartOnRayWithIgnoreList(ray, {plr.Character}, false, true)
+    local part, position = game:GetService("Workspace"):FindPartOnRayWithIgnoreList(ray, {plr.Character}, false)
     if part then
         local humanoid = part.Parent:FindFirstChildOfClass("Humanoid")
         if not humanoid then
@@ -55,7 +55,7 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
     local method = getnamecallmethod()
     local args = {...}
     if tostring(self) == "fire" and method == "FireServer" then
-        args[2][1] = Vector3.new(getPlayerClosestToMouse())
+        args[2][1] = Vector3.new(getPlayerClosestToMouse().Position)
         return old(self, unpack(args)) 
     end 
     return old(self, ...)

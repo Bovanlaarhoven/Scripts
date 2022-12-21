@@ -23,7 +23,7 @@ local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
     local method = getnamecallmethod()
     local args = {...}
-    if not checkcaller() and tostring(self) == "fire" and method == "FireServer" then
+    if tostring(self) == "fire" and method == "FireServer" then
         args[2][1] = Vector3.new(ClosestPlayerToMouse().Position)
         return old(self, unpack(args)) 
     end 
