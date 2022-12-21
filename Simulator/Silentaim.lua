@@ -6,6 +6,7 @@ local camera = game:GetService("Workspace").CurrentCamera
 function ClosestPlayerToMouse()
     local dist = math.huge
     local target = nil
+
     for i,v in pairs(players:GetPlayers()) do
         if v ~= plr and v.Character and v.Character:FindFirstChild("Head") then
             local screenpoint = camera:WorldToScreenPoint(v.Character.Head.Position)
