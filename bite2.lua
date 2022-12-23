@@ -151,11 +151,11 @@ local Toggle = Tab:CreateToggle({
  })
 
 local Slider = Tab:CreateSlider({
-    Name = "Water Transparency",
+    Name = "Teeth Exploit Delay",
     Range = {0, 100},
-    Increment = 10,
-    Suffix = "WaterTransparency",
-    CurrentValue = 10,
+    Increment = 1,
+    Suffix = "Delay",
+    CurrentValue = 1,
     Flag = "Slider1",
     Callback = function(Value)
         teethExploitDelay = Value
@@ -244,7 +244,7 @@ local Slider = Tab1:CreateSlider({
     Name = "Mag Size",
     Range = {0, 2000},
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Size",
     CurrentValue = 0,
     Flag = "Slider1",
     Callback = function(Value)
