@@ -242,7 +242,7 @@ local Slider = Tab1:CreateSlider({
 
 local Slider = Tab1:CreateSlider({
     Name = "Mag Size",
-    Range = {0, 2000},
+    Range = {0, 20000},
     Increment = 1,
     Suffix = "Size",
     CurrentValue = 0,
