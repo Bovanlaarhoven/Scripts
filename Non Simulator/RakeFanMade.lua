@@ -2,9 +2,10 @@ game:GetService("Players").LocalPlayer.PlayerScripts.FallDamage.Disabled = true
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Light = game:GetService("Lighting")
+local esp = Instance.new("Highlight")
 
 local Window = Rayfield:CreateWindow({
-    Name = "3008",
+    Name = "The Rake: Fan Remake",
     LoadingTitle = "Hydra Network",
     LoadingSubtitle = "by Hydra#8270",
     ConfigurationSaving = {
@@ -68,6 +69,29 @@ local Button = Tab:CreateButton({
         game.Lighting.Brightness = 2
         game.Lighting.GlobalShadows = false
 	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Rake Esp",
+	Callback = function()
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+            if v.Name == "Rake" then
+                esp.Parent = v
+                esp.Adornee = v
+            end
+        end
+	end,
+})
+
+local Button = Tab:CreateButton({
+    Name = "Teleport to Flare",
+    Callback = function()
+        for i,v in pairs(game:GetService("Workspace").FlareGuns:GetDescendants()) do
+            if v.Name == "Flare" then
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+            end
+        end
+    end,
 })
 
 
