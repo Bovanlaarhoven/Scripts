@@ -4,7 +4,7 @@ while not game:GetService("Players").LocalPlayer do
 end
 
 if DebugMode then
-	warn("DomainX - Starting")
+	warn("DomainZ - Starting")
 end
 local UserHWID = nil
 ExecutorAutomatic = false
@@ -12,23 +12,23 @@ if not game:IsLoaded() then
 	wait(0.5)
 	if game:IsLoaded() then
 		if DebugMode then
-			warn("DomainX - AutoExec Detection false")
+			warn("DomainZ - AutoExec Detection false")
 		end
 		return
 	else
 		ExecutorAutomatic = true
 		if DebugMode then
-			warn("DomainX - AutoExec Detection true")
+			warn("DomainZ - AutoExec Detection true")
 		end
 	end
 end
 if DebugMode then
-	warn("DomainX - Game Loaded")
+	warn("DomainZ - Game Loaded")
 end
 local KeySys = game:GetObjects("rbxassetid://8065404628")[1]
 
 if DebugMode then
-	warn("DomainX - Loaded KeyUI")
+	warn("DomainZ - Loaded KeyUI")
 end
 
 if not gethui then
@@ -58,7 +58,7 @@ for _, ui in ipairs(game:GetService("CoreGui"):GetChildren()) do
 end
 
 if DebugMode then
-	warn("DomainX - Protected KeyUI")
+	warn("DomainZ - Protected KeyUI")
 end
 
 local http_request = http_request;
@@ -81,7 +81,7 @@ end
 local Domain = game:GetObjects("rbxassetid://7924540022")[1]
 
 if DebugMode then
-	warn("DomainX - Loaded Main UI")
+	warn("DomainZ - Loaded Main UI")
 end
 
 local protected = false
@@ -102,7 +102,7 @@ else
 end
 
 if DebugMode then
-	warn("DomainX - Protected Main UI")
+	warn("DomainZ - Protected Main UI")
 end
 
 Domain.Parent = parent
@@ -120,7 +120,7 @@ local DiscordLink2 = "YvwEyH2W6t"
 local NotificationDuration = 7
 local DomainEnabled = true
 local Price = "Free"
-local CustomFolderName = "DomainX Custom Scripts"
+local CustomFolderName = "DomainZ Custom Scripts"
 local KeyWaitTime = 60
 
 local MlemixMode = false
@@ -137,12 +137,12 @@ local homedb = false
 local db = false
 local Keybind = DefaultKeybind
 if writefile and isfile and readfile and delfile then
-	if isfile("DomainX Keybind.txt") then
-		if readfile("DomainX Keybind.txt") then
-			if readfile("DomainX Keybind.txt") then
-				Keybind = readfile("DomainX Keybind.txt")
+	if isfile("DomainZ Keybind.txt") then
+		if readfile("DomainZ Keybind.txt") then
+			if readfile("DomainZ Keybind.txt") then
+				Keybind = readfile("DomainZ Keybind.txt")
 			else
-				delfile("DomainX Keybind.txt")
+				delfile("DomainZ Keybind.txt")
 			end
 		end
 	else
@@ -167,7 +167,7 @@ local inventorywasopen = false
 local SnowHubSupported = false
 local plrconopen = false
 local CustomScripts = {}
-local DomainXLoaded = false
+local DomainZLoaded = false
 local playerservice = game:GetService("Players")
 local plrlistopen = false
 local baropen = false
@@ -296,10 +296,10 @@ local DetectionScripts = {
 	},
 	DBR = {
 		Name = "Dragon Ball Rage",
-		Description = "A DomainX exclusive, by our developer, Urbanstorm",
+		Description = "A DomainZ exclusive, by our developer, Urbanstorm",
 		Games = {71315343},
 		Premium = false,
-		Loadstring = "https://raw.githubusercontent.com/Urbanstorms/DomainX/main/DBR.lua",
+		Loadstring = "https://raw.githubusercontent.com/Urbanstorms/DomainZ/main/DBR.lua",
 	},
 	Vega = {
 		Name = "Vega Remover",
@@ -1041,8 +1041,8 @@ function AddPlayer(Player)
 	end
 	NewPlr.ESP.ImageTransparency = 0.5
 	NewPlr.SName.Text = Player.Name
-	if Player.OsPlatform == "DomainX" then
-		NewPlr.SName.Text = Player.Name.." - Using DomainX"
+	if Player.OsPlatform == "DomainZ" then
+		NewPlr.SName.Text = Player.Name.." - Using DomainZ"
 	end
 
 	NewPlr.Kill.MouseButton1Click:Connect(function()
@@ -2563,11 +2563,11 @@ function ChangeWallpaper(WallpaperFileName)
 			Domain.Home.Wallpaper.ImageTransparency = 1
 			if getsynasset then
 				Domain.Home.Wallpaper.Image = getsynasset(WallpaperFileName)
-				writefile("DomainX Wallpaper.txt",WallpaperFileName)
+				writefile("DomainZ Wallpaper.txt",WallpaperFileName)
 				Toast("Sucessfully changed wallpaper to "..WallpaperFileName)
 			elseif getcustomasset then
 				Domain.Home.Wallpaper.Image = getcustomasset(WallpaperFileName)
-				writefile("DomainX Wallpaper.txt",WallpaperFileName)
+				writefile("DomainZ Wallpaper.txt",WallpaperFileName)
 				Toast("Sucessfully changed wallpaper to "..WallpaperFileName)
 			else
 				Toast("Missing getcustomasset function")
@@ -2583,8 +2583,8 @@ end
 
 Domain.Home.WallpaperManage.None.Interact.MouseButton1Click:Connect(function()
 	if CheckWritefile() then
-		if isfile("DomainX Wallpaper.txt") then
-			delfile("DomainX Wallpaper.txt")
+		if isfile("DomainZ Wallpaper.txt") then
+			delfile("DomainZ Wallpaper.txt")
 			Domain.Home.WallpaperManage.WBG.WBox.Text = ""
 		end
 	end
@@ -3520,7 +3520,7 @@ function dec(data)
 end
 
 function StartAntiKick()
-	hookfunction(LocalPlayer.Kick,(function() Notify("Anti Kick","DomainX has avoided the game kicking you locally",4400697855) wait(9e9) end))
+	hookfunction(LocalPlayer.Kick,(function() Notify("Anti Kick","DomainZ has avoided the game kicking you locally",4400697855) wait(9e9) end))
 end
 
 function StartAntiIdle()
@@ -3538,9 +3538,9 @@ end
 
 function LoadThemes()
 	if DebugMode then
-		warn("DomainX - Loading Themes")
+		warn("DomainZ - Loading Themes")
 	end
-	Toast("Loading "..Theme.Name.." theme to DomainX")
+	Toast("Loading "..Theme.Name.." theme to DomainZ")
 	for _, obj in ipairs(Domain:GetDescendants()) do
 		if obj.ClassName == "TextButton" or obj.ClassName == "TextLabel" or obj.ClassName == "TextBox" then
 			if Theme.Font ~= "" then
@@ -3584,7 +3584,7 @@ function LoadThemes()
 end
 
 function FirstCheck()
-	if isfile("DomainX Version.txt") or isfile("DomainX Keybind.txt") then
+	if isfile("DomainZ Version.txt") or isfile("DomainZ Keybind.txt") then
 		firsttime = false
 	else
 		firsttime = true
@@ -3593,27 +3593,27 @@ end
 
 function VersionCheck()
 	if DebugMode then
-		warn("DomainX - Starting Version Check")
+		warn("DomainZ - Starting Version Check")
 	end
-	if isfile("DomainX Version.txt") then
+	if isfile("DomainZ Version.txt") then
 		if DebugMode then
-			warn("DomainX - Version File Existent")
+			warn("DomainZ - Version File Existent")
 		end
-		if tostring(readfile("DomainX Version.txt")) ~= tostring(Release) then
-			Notify("Update installed","DomainX was updated to "..ReleaseType.." "..Release,4400701828)
+		if tostring(readfile("DomainZ Version.txt")) ~= tostring(Release) then
+			Notify("Update installed","DomainZ was updated to "..ReleaseType.." "..Release,4400701828)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
 			end
-			writefile("DomainX Version.txt",tostring(Release))
+			writefile("DomainZ Version.txt",tostring(Release))
 			if DebugMode then
-				warn("DomainX - New Version, writing over")
+				warn("DomainZ - New Version, writing over")
 			end
 			local HttpService = game:GetService("HttpService")
 			local RequestEnabled = (syn and syn.request) or (http and http.request) or http_request
 			if RequestEnabled and not UserIsPremium then
 				if DebugMode then
-					warn("DomainX - Joining Discord")
+					warn("DomainZ - Joining Discord")
 				end
 				RequestEnabled({
 					Url = 'http://127.0.0.1:6463/rpc?v=1',
@@ -3632,23 +3632,23 @@ function VersionCheck()
 		end
 	else
 		if DebugMode then
-			warn("DomainX - No Version File")
+			warn("DomainZ - No Version File")
 		end
 		if not firsttime then
 			if DebugMode then
-				warn("DomainX - Not First Time, notifying")
+				warn("DomainZ - Not First Time, notifying")
 			end
-			Notify("Update installed","DomainX was updated to "..ReleaseType.." "..Release,4400701828)
+			Notify("Update installed","DomainZ was updated to "..ReleaseType.." "..Release,4400701828)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
 				if DebugMode then
-					warn("DomainX - Prompting Premium")
+					warn("DomainZ - Prompting Premium")
 				end
 			end
 		end
 		if DebugMode then
-			warn("DomainX - Could be first time, continuing")
+			warn("DomainZ - Could be first time, continuing")
 		end
 		local HttpService = game:GetService("HttpService")
 		local RequestEnabled = (syn and syn.request) or (http and http.request) or http_request
@@ -3667,15 +3667,15 @@ function VersionCheck()
 				})
 			})
 			if DebugMode then
-				warn("DomainX - Joining Discord")
+				warn("DomainZ - Joining Discord")
 			end
 		end
 		if DebugMode then
-			warn("DomainX - Starting writefile")
+			warn("DomainZ - Starting writefile")
 		end
-		writefile("DomainX Version.txt",tostring(Release))
+		writefile("DomainZ Version.txt",tostring(Release))
 		if DebugMode then
-			warn("DomainX - Writing new version file")
+			warn("DomainZ - Writing new version file")
 		end
 	end
 end
@@ -3683,13 +3683,13 @@ end
 function ContinueBoot()
 	DMNReady = true
 	if DebugMode then
-		warn("DomainX - Continuing Boot Process (begun)")
+		warn("DomainZ - Continuing Boot Process (begun)")
 	end
 	Domain.Premium.Robux.Text = "or 2899 Robux"
 	FirstCheck()
 	VersionCheck()
 	if DebugMode then
-		warn("DomainX - Checked Version success")
+		warn("DomainZ - Checked Version success")
 	end
 
 	if getconnections then
@@ -3697,7 +3697,7 @@ function ContinueBoot()
 			v:Disable()
 		end
 		if DebugMode then
-			warn("DomainX - Disabled ScriptContext Errors")
+			warn("DomainZ - Disabled ScriptContext Errors")
 		end
 	end
 	for _, ob in ipairs(Domain:GetDescendants()) do
@@ -3706,13 +3706,13 @@ function ContinueBoot()
 		end
 	end
 	if DebugMode then
-		warn("DomainX - Increasing ZIndex")
+		warn("DomainZ - Increasing ZIndex")
 	end
 	if UserIsPro and ThemeEnabled then
 		LoadThemes()
 	end
 	if DebugMode then
-		warn("DomainX - Loading Themes (if any)")
+		warn("DomainZ - Loading Themes (if any)")
 	end
 	if ThemeEnabled and not UserIsPro then
 		Toast("You must be Pro to use Themes")
@@ -3721,7 +3721,7 @@ function ContinueBoot()
 
 	StartPopUpFramework()
 	if DebugMode then
-		warn("DomainX - Starting pop up framework")
+		warn("DomainZ - Starting pop up framework")
 	end
 	StartAntiKick()
 	StartAntiIdle()
@@ -3743,7 +3743,7 @@ function ContinueBoot()
 	Domain.Main.Visible = true
 
 	if DebugMode then
-		warn("DomainX - Started AntiKick and AntiIdle")
+		warn("DomainZ - Started AntiKick and AntiIdle")
 	end
 
 	if not IgnorePlayerData then
@@ -3757,41 +3757,41 @@ function ContinueBoot()
 		end
 		Domain.Home.User.Avatar.Image = game:GetService("Players"):GetUserThumbnailAsync(LocalPlayer.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size420x420)
 		if DebugMode then
-			warn("DomainX - Finished Player Data")
+			warn("DomainZ - Finished Player Data")
 		end	
 	end
 	if not Connected then
-		Toast("Unable to connect to DomainX server","GothamBold")
+		Toast("Unable to connect to DomainZ server","GothamBold")
 		UserIsPremium = false
 		UserIsPro = false
 	end	
 	if not ExecutorAutomatic or firsttime then
 		if DebugMode then
-			warn("DomainX - First time or not autoexec")
+			warn("DomainZ - First time or not autoexec")
 		end
 		local sound = Instance.new("Sound")
 		sound.Parent = Domain
 		sound.SoundId = "rbxassetid://"..6958727243
 		sound.Name = "boot"
 		if DebugMode then
-			warn("DomainX - Instance Success!")
+			warn("DomainZ - Instance Success!")
 		end
 		sound.Volume = 10
 		sound.PlayOnRemove = true
 		if DebugMode then
-			warn("DomainX - Waiting for sound load")
+			warn("DomainZ - Waiting for sound load")
 		end
 		sound:Destroy()
 		if DebugMode then
-			warn("DomainX - Destroyed sound (loaded)")
+			warn("DomainZ - Destroyed sound (loaded)")
 		end
 		wait(0.75)
 		if DebugMode then
-			warn("DomainX - Preparing effect")
+			warn("DomainZ - Preparing effect")
 		end
 		if workspace.CurrentCamera.FieldOfView <= 71 and workspace.CurrentCamera.FieldOfView >= 70  then
 			if DebugMode then
-				warn("DomainX - FOV 70 ~")
+				warn("DomainZ - FOV 70 ~")
 			end
 			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 			local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 67})
@@ -3804,19 +3804,19 @@ function ContinueBoot()
 		wait(0.6)
 		Domain.Main.KeybindNote.Visible = false
 		if DebugMode then
-			warn("DomainX - Keybind Note false")
+			warn("DomainZ - Keybind Note false")
 		end
 		if DebugMode then
-			warn("DomainX - Opening main")
+			warn("DomainZ - Opening main")
 		end
 		OpenMain()
 		if DebugMode then
-			warn("DomainX - Opened Main")
+			warn("DomainZ - Opened Main")
 		end
 
 	else
 		if DebugMode then
-			warn("DomainX - Autoexec")
+			warn("DomainZ - Autoexec")
 		end
 		wait(1)
 		Domain.Main.KeybindNote.Text = "tap "..Keybind.." to start"
@@ -3828,7 +3828,7 @@ function ContinueBoot()
 		Toast("Successfully upgraded license","GothamBlack")
 	end
 
-	Toast("Welcome to DomainX v"..Release.. ", "..LocalPlayer.DisplayName,"GothamBold")
+	Toast("Welcome to DomainZ v"..Release.. ", "..LocalPlayer.DisplayName,"GothamBold")
 
 	--if protected then
 	--	if Client ~= "Universal" then
@@ -3838,16 +3838,16 @@ function ContinueBoot()
 	--	end
 	--end
 	if CheckWritefile() then
-		if isfile("DomainX Wallpaper.txt") then
-			if isfile(readfile("DomainX Wallpaper.txt")) then
+		if isfile("DomainZ Wallpaper.txt") then
+			if isfile(readfile("DomainZ Wallpaper.txt")) then
 				if getsynasset then
 					Domain.Home.Wallpaper.Visible = true
-					Domain.Home.Wallpaper.Image = getsynasset(readfile("DomainX Wallpaper.txt"))
-					Domain.Home.WallpaperManage.WBG.WBox.Text = readfile("DomainX Wallpaper.txt")
+					Domain.Home.Wallpaper.Image = getsynasset(readfile("DomainZ Wallpaper.txt"))
+					Domain.Home.WallpaperManage.WBG.WBox.Text = readfile("DomainZ Wallpaper.txt")
 				else
 					Domain.Home.Wallpaper.Visible = true
-					Domain.Home.Wallpaper.Image = getcustomasset(readfile("DomainX Wallpaper.txt"))
-					Domain.Home.WallpaperManage.WBG.WBox.Text = readfile("DomainX Wallpaper.txt")
+					Domain.Home.Wallpaper.Image = getcustomasset(readfile("DomainZ Wallpaper.txt"))
+					Domain.Home.WallpaperManage.WBG.WBox.Text = readfile("DomainZ Wallpaper.txt")
 				end
 			end
 		end
@@ -3937,14 +3937,14 @@ end
 
 function CheckLatest()
 	if DebugMode then
-		warn("DomainX - Checking version")
+		warn("DomainZ - Checking version")
 	end
-	--loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/domainx/main/routine',true))()
-	--local ver = game:HttpGet('https://raw.githubusercontent.com/shlexware/domainx/main/latest')
+	--loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/DomainZ/main/routine',true))()
+	--local ver = game:HttpGet('https://raw.githubusercontent.com/shlexware/DomainZ/main/latest')
 	--print(ver)
 	--if tonumber(ver) > Release then
 	--	Connected = false
-	--	warn("Not up to date, needs to be on "..tostring(game:HttpGet('https://raw.githubusercontent.com/shlexware/domainx/main/latest')))
+	--	warn("Not up to date, needs to be on "..tostring(game:HttpGet('https://raw.githubusercontent.com/shlexware/DomainZ/main/latest')))
 	--	return false
 	--else
 	Connected = true
@@ -3953,14 +3953,14 @@ end
 
 
 
-function BootDomainX()
+function BootDomainZ()
 	if DebugMode then
-		warn("DomainX - Beginning Boot Process")
+		warn("DomainZ - Beginning Boot Process")
 	end
 	Domain.Main.Visible = true
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.05, 0)
 	Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-	Domain.Main.KeybindNote.Text = "Loading DomainX"
+	Domain.Main.KeybindNote.Text = "Loading DomainZ"
 	Domain.Main.KeybindNote.Visible = true
 	Domain.Main.Buttons.ModulesButton.Visible = false
 	Domain.Main.KeybindNote.TextTransparency = 0.4
@@ -3985,11 +3985,11 @@ function BootDomainX()
 	end
 
 	if DebugMode then
-		warn("DomainX - Continuing Boot Process")
+		warn("DomainZ - Continuing Boot Process")
 	end
 	ContinueBoot()
 
-	DomainXLoaded = true
+	DomainZLoaded = true
 end
 
 
@@ -4362,7 +4362,7 @@ function ChangeKeybind(Key)
 	Domain.Home.Keybind.KeyBG.KeyBox.Text = Keybind
 	Domain.Home.Keybind.KeyBG.KeyBox:ReleaseFocus()
 	if CheckWritefile() then
-		writefile("DomainX Keybind.txt",tostring(NewKeyNoEnum))
+		writefile("DomainZ Keybind.txt",tostring(NewKeyNoEnum))
 		Toast("Successfully changed Keybind to "..tostring(NewKeyNoEnum))
 	else
 		Toast("Successfully changed Keybind to "..tostring(NewKeyNoEnum)..", however we're unable to save for next use")
@@ -4412,7 +4412,7 @@ game.Players.PlayerAdded:Connect(function(Player)
 	end
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	if Player.Name == "shlexius" then
-		Toast("The developer of DomainX, shlex, has joined your server")
+		Toast("The developer of DomainZ, shlex, has joined your server")
 	end
 	if LocalPlayer:IsFriendsWith(Player.UserId) then
 		Notify("Friend Joined",Player.Name..", your friend, has joined your server",4335480896)
@@ -4853,7 +4853,7 @@ function CheckTime()
 	end
 end
 
-BootDomainX()
+BootDomainZ()
 
 coroutine.wrap(function()
 	Domain.Main.Time.Text = tostring(GetDate():format("#h:#m"))
@@ -4916,7 +4916,7 @@ end)()
 
 coroutine.wrap(function()
 	wait(1000)
-	Toast("Enjoying DomainX? Let us know in our Discord!")
+	Toast("Enjoying DomainZ? Let us know in our Discord!")
 	Toast(DiscordLink,"GothamBold")
 end)()
 
