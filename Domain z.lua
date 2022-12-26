@@ -115,7 +115,7 @@ Domain.Main.KeybindNote.TextTransparency = 0.4
 wait(0.2)
 
 local DefaultKeybind = "K"
-local DiscordLink = "discord.gg/sirius"
+local DiscordLink = "discord.gg/YvwEyH2W6t"
 local DiscordLink2 = "sirius"
 local NotificationDuration = 7
 local DomainEnabled = true
@@ -132,14 +132,7 @@ local ReleaseType = "Release"
 local Public = true
 local Beta = false
 
-
-
-
-
 local NewPremiumSystem = true
-
-
-
 
 local Connected = false
 local homedb = false
@@ -3534,7 +3527,7 @@ function dec(data)
 end
 
 function StartAntiKick()
-	--hookfunction(LocalPlayer.Kick,(function() Notify("Anti Kick","DomainX has avoided the game kicking you locally",4400697855) wait(9e9) end))
+	hookfunction(LocalPlayer.Kick,(function() Notify("Anti Kick","DomainX has avoided the game kicking you locally",4400697855) wait(9e9) end))
 end
 
 function StartAntiIdle()
@@ -3759,7 +3752,6 @@ function ContinueBoot()
 	if DebugMode then
 		warn("DomainX - Started AntiKick and AntiIdle")
 	end
-
 
 	if not IgnorePlayerData then
 		for _, Player in ipairs(game.Players:GetChildren()) do
