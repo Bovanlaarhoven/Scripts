@@ -30,12 +30,14 @@ local Window = Rayfield:CreateWindow({
 getgenv().AutoHoop = false
 
 task.spawn(function()
-    while task.wait(0) do
+    while task.wait() do
         if getgenv().AutoHoop == true then
             while true do task.wait()
                 for i,v in pairs(game:GetService("Workspace").Hoops:GetChildren()) do
                     if v.Name == "Hoop" then
                         v.CFrame = game:GetService("Players").LocalPlayer.Character.Head.CFrame
+					else
+						v:Destroy()
                     end
                 end
             end
