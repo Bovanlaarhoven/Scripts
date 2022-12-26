@@ -997,23 +997,10 @@ function ESP(Player)
 	local target = plr[Player.Name]
 	local targett = target.Name
 	if target then
-		local a = Instance.new("BillboardGui",target)
+		local a = Instance.new("Highlight",target)
 		a.Size = UDim2.new(3,0, 3,0)
 		a.Name = "A"
 		a.AlwaysOnTop = true
-		local b = Instance.new("Frame",a)
-		b.Size = UDim2.new(1.3,0, 2,0)
-		b.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		b.BackgroundTransparency = 0.4
-		b.BorderSizePixel = 0
-		local lol = Instance.new("UICorner",b)
-		local c = Instance.new("TextLabel",b)
-		c.Text = targett
-		c.Size = UDim2.new(1,0, 1,0)
-		c.Font = "GothamBold"
-		c.TextColor3 = Color3.fromRGB(34, 34, 34)
-		c.BackgroundTransparency = 1
-		c.BorderSizePixel = 0
 	end
 end
 function UnESP(Player)
@@ -1021,8 +1008,8 @@ function UnESP(Player)
 	local target = plr[Player.Name]
 	local targett = target.Name
 	if target then
-		if target:FindFirstChildWhichIsA("BillboardGui") then
-			target:FindFirstChildWhichIsA("BillboardGui"):Destroy()
+		if target:FindFirstChildWhichIsA("Highlight") then
+			target:FindFirstChildWhichIsA("Highlight"):Destroy()
 		end
 	end
 end
@@ -1042,7 +1029,7 @@ function AddPlayer(Player)
 	else 
 		NewPlr.SName.Font = "GothamSemibold"
 	end
-	if Player.Name ~= "shlexius" and Player.name ~= "fvllex" then
+	if Player.Name ~= "RoBobo2008" and Player.name ~= "Roboboalt1" then
 		NewPlr.PremiumBar.Visible = false
 	else 
 		NewPlr.PremiumBar.Text.Text = "Developer"
