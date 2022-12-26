@@ -224,11 +224,17 @@ local UniversalScripts = {
 		Loadstring = "https://pastebin.com/raw/fPP8bZ8Z",
 		Colour = Color3.fromRGB(120, 170, 160),
 	},
-    HydraNetwork = {
-		Name = "Hydra Network",
+    HydraNetworkV2 = {
+		Name = "Hydra Network V2",
 		Author = "Hydra",
-		Loadstring = "https://pastebin.com/raw/HYk759u2",
+		Loadstring = "https://raw.githubusercontent.com/Robobo2022/script/main/Main.lua",
 		Colour = Color3.fromRGB(137, 207, 240),
+	},
+    HydraNetworkV3 = {
+		Name = "Hydra Network V3",
+		Author = "Hydra",
+		Loadstring = "https://raw.githubusercontent.com/Robobo2022/Hydra-Network-v3/main/Loader.lua",
+		Colour = Color3.fromRGB(128,0,128),
 	},
 
 }
