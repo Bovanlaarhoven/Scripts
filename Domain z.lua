@@ -976,12 +976,14 @@ function God()
 end
 
 function Teleport(Player)
-	if game.Players:FindFirstChild(Player.Name) then
+	if game.Players:FindFirstChild(Player.Name) ~= game.Players:FindFirstChild(LocalPlayer.Name) then
 		Toast("Attempting to teleport you to "..Player.Name)
 		local targetplayer = game.Workspace:FindFirstChild(Player.Name).HumanoidRootPart
 		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetplayer.Position.X, targetplayer.Position.Y, targetplayer.Position.Z)
-	else
-		Toast(Player.Name.." has left the server")
+	elseif game.Players:FindFirstChild(Player.Name) == game.Players:FindFirstChild(LocalPlayer.Name) then
+		Toast("Cant Teleport to yourself")
+    else
+        Toast("Player not found")
 	end
 end
 
@@ -3830,13 +3832,13 @@ function ContinueBoot()
 
 	Toast("Welcome to DomainZ v"..Release.. ", "..LocalPlayer.DisplayName,"GothamBold")
 
-	if protected then
-		if Client ~= "Universal" then
-			Toast(Client.." has protected the interface from detection")
-		else
-			Toast("Your executor has protected the interface from detection")
-		end
-	end
+	--if protected then
+	--	if Client ~= "Universal" then
+	--		Toast(Client.." has protected the interface from detection")
+	--	else
+	--		Toast("Your executor has protected the interface from detection")
+	--	end
+	--end
 	if CheckWritefile() then
 		if isfile("DomainX Wallpaper.txt") then
 			if isfile(readfile("DomainX Wallpaper.txt")) then
