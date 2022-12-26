@@ -242,6 +242,12 @@ local UniversalScripts = {
 		Loadstring = "https://pastebin.com/raw/fPP8bZ8Z",
 		Colour = Color3.fromRGB(120, 170, 160),
 	},
+    HydraNetwork = {
+		Name = "Hydra Network",
+		Author = "Hydra",
+		Loadstring = "https://pastebin.com/raw/HYk759u2",
+		Colour = Color3.fromRGB(137, 207, 240),
+	},
 
 }
 
