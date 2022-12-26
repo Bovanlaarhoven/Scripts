@@ -415,6 +415,13 @@ local DetectionScripts = {
 		Premium = false,
 		Loadstring = "https://pastebin.com/raw/Q4qQh4MS",
 	},
+    Evade = {
+		Name = "Evade",
+		Description = "Best Evade script out there",
+		Games = {9872472334},
+		Premium = false,
+		Loadstring = "https://raw.githubusercontent.com/Robobo2022/script/main/Bloxfruits.lua",
+	},
 }
 
 
@@ -998,9 +1005,8 @@ function ESP(Player)
 	local targett = target.Name
 	if target then
 		local a = Instance.new("Highlight",target)
-		a.Size = UDim2.new(3,0, 3,0)
 		a.Name = "A"
-		a.AlwaysOnTop = true
+		a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 	end
 end
 function UnESP(Player)
