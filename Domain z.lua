@@ -991,10 +991,12 @@ function ESP(Player)
 	local plr = game:GetService("Workspace")
 	local target = plr[Player.Name]
 	local targett = target.Name
-	if target then
+	if target ~= LocalPlayer.Name then
 		local a = Instance.new("Highlight",target)
 		a.Name = "A"
 		a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    else
+        Toast("Player not found")
 	end
 end
 function UnESP(Player)
