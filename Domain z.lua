@@ -73,8 +73,6 @@ if http_request == nil then
 	return
 end
 
-
-
 -- DMNX
 
 
@@ -768,7 +766,6 @@ function elegance(check)
 		end
 	end
 end
-
 
 Domain.Main.MouseEnter:Connect(function()
 	PreviousElegance()
@@ -4914,14 +4911,6 @@ coroutine.wrap(function()
 		Domain.Home.Friends.InServer.FriendsInGame.Text = tostring(FriendsInGame).." users"
 	end
 	pcall(CheckFriends)
-end)()
-
-
-
-coroutine.wrap(function()
-	wait(1000)
-	Toast("Enjoying DomainX? Let us know in our Discord!")
-	Toast(DiscordLink,"GothamBold")
 end)()
 
 while true do
