@@ -116,7 +116,7 @@ wait(0.2)
 
 local DefaultKeybind = "K"
 local DiscordLink = "discord.gg/YvwEyH2W6t"
-local DiscordLink2 = "sirius"
+local DiscordLink2 = "YvwEyH2W6t"
 local NotificationDuration = 7
 local DomainEnabled = true
 local Price = "$7.99"
