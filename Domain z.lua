@@ -119,17 +119,15 @@ local DiscordLink = "discord.gg/YvwEyH2W6t"
 local DiscordLink2 = "YvwEyH2W6t"
 local NotificationDuration = 7
 local DomainEnabled = true
-local Price = "$7.99"
+local Price = "Free"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
 
 local MlemixMode = false
-
-
 local Release = 1.96
 local KeySystemEnabled = false
 local ReleaseType = "Release"
-local Public = true
+local Public = false
 local Beta = false
 
 local NewPremiumSystem = true
@@ -416,11 +414,6 @@ local DetectionScripts = {
 		Loadstring = "https://raw.githubusercontent.com/Robobo2022/script/main/Bloxfruits.lua",
 	},
 }
-
-
-
-
-
 
 function figureNotifs(Stack,Container)
 	local stacksize = 1
@@ -1714,7 +1707,7 @@ function PromptPremium()
 	end
 	local cl = false
 	Domain.Premium.Size = UDim2.new(0.222, 0, 0.19, 0)
-	Domain.Premium.Position = UDim2.new(0.5, 0, 0.53, 0)
+	Domain.1.Position = UDim2.new(0.5, 0, 0.53, 0)
 	Domain.Premium.UIGradient.Offset = Vector2.new(1,0)
 	Domain.Premium.BackgroundTransparency = 1
 	Domain.Premium.Dollars.Text = Price
