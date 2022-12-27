@@ -1060,7 +1060,6 @@ function AddPlayer(Player)
 	else
 		CurrentListPosition = CurrentListPosition + 0.3
 	end
-	NewPlr.ESP.ImageTransparency = 0.5
 	NewPlr.SName.Text = Player.Name
 	if Player.OsPlatform == "DomainZ" then
 		NewPlr.SName.Text = Player.Name.." - Using DomainZ"
