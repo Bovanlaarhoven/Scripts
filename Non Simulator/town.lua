@@ -94,19 +94,19 @@ end)
 
 game:GetService('RunService').RenderStepped:connect(function()
     if Disabled then
-        for i,v in next, game:GetService('Players'):GetPlayers() do
-            if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-                pcall(function()
-                    v.Character.HumanoidRootPart.Size = Vector3.new(Rootpart,Rootpart,Rootpart)
-                    v.Character.HumanoidRootPart.Transparency = 0.2
-                    v.Character.HumanoidRootPart.BrickColor = BrickColor.new(Color)
-                    v.Character.HumanoidRootPart.Material = "ForceField"
-                    v.Character.HumanoidRootPart.CanCollide = false
-                end)
-            end
-        end
+    for i,v in next, game:GetService('Players'):GetPlayers() do
+    if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+    pcall(function()
+    v.Character.HumanoidRootPart.Size = Vector3.new(Rootpart,Rootpart,Rootpart)
+    v.Character.HumanoidRootPart.Transparency = 0.2
+    v.Character.HumanoidRootPart.BrickColor = BrickColor.new(Color)
+    v.Character.HumanoidRootPart.Material = "ForceField"
+    v.Character.HumanoidRootPart.CanCollide = false
+    end)
     end
-end)
+    end
+    end
+    end)
 
 local Window = Library:CreateWindow({
     Title = 'Town',
