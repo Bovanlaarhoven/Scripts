@@ -984,16 +984,26 @@ function God()
 	end
 end
 
-function Teleport(Player)
-	if game.Players:FindFirstChild(Player.Name) ~= game.Players:FindFirstChild(LocalPlayer.Name) then
-		Toast("Attempting to teleport you to "..Player.Name)
-		local targetplayer = game.Workspace:FindFirstChild(Player.Name).HumanoidRootPart
-		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetplayer.Position.X, targetplayer.Position.Y, targetplayer.Position.Z)
-	elseif game.Players:FindFirstChild(Player.Name) == game.Players:FindFirstChild(LocalPlayer.Name) then
-		Toast("Cant Teleport to yourself")
-    else
+local function Teleport(Player)
+    if Player == LocalPlayer then
+        Toast("Cant Teleport to yourself")
+        return
+    end
+    
+    local player = game.Players:FindFirstChild(Player.Name)
+    if not player then
         Toast("Player not found")
-	end
+        return
+    end
+    
+    local targetplayer = game.Workspace:FindFirstChild(Player.Name).HumanoidRootPart
+    if not targetplayer then
+        Toast("Player not found")
+        return
+    end
+    
+    Toast("Attempting to teleport you to "..Player.Name)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetplayer.Position.X, targetplayer.Position.Y, targetplayer.Position.Z)
 end
 
 function ESP(Player)
