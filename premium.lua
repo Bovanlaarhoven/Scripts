@@ -1,6 +1,5 @@
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId();
-
-local WhitelistedHWIDs = {
+local HWID = game:GetService("RbxAnalyticsService"):GetClientId(); --gets your computer's unique id
+local WhitelistedHWIDs = { --a table of whitelisted HWIDs
     "6b3062c5-7287-4c5b-80d5-50694afae8f9",
     "4F69CA78-86D0-4721-8F2A-256ACBBBD7C4", 
     "0C89E70A-A834-4E9D-9119-A81DCD9076DD", 
