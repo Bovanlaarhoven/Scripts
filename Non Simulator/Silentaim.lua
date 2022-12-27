@@ -55,7 +55,7 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
     local method = getnamecallmethod()
     local args = {...}
     if tostring(self) == "fire" and method == "FireServer" and typeof(args[2][1]) == "Vector3" then
-        args[2][1] = getPlayerClosestToMouse()
+        args[2][1] = getPlayerClosestToMouse().Position.CFrame
         return old(self, unpack(args)) 
     end 
     return old(self, ...)
