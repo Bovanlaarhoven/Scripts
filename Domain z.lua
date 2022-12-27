@@ -810,19 +810,23 @@ UserInputService.WindowFocusReleased:Connect(function()
 end)
 
 function Respawn()
-
-	Notify("Respawn","We're respawning your character, this can take a moment",4335476290,true)
-	local Character = LocalPlayer.Character
-	if Character:FindFirstChildOfClass("Humanoid") then 
-		Character:FindFirstChildOfClass("Humanoid"):ChangeState(15) 
-	end
-	Character:ClearAllChildren()
-	local newChar = Instance.new("Model")
-	newChar.Parent = workspace
-	LocalPlayer.Character = newChar
-	wait()
-	LocalPlayer.Character = Character
-	newChar:Destroy()
+    Notify("Respawn","We're respawning your character, this can take a moment",4335476290,true)
+    local Character = LocalPlayer.Character
+    if Character:FindFirstChildOfClass("Humanoid") then 
+        Character:FindFirstChildOfClass("Humanoid"):ChangeState(15) 
+    end
+    Character:ClearAllChildren()
+    local newChar = Instance.new("Model")
+    newChar.Parent = workspace
+    LocalPlayer.Character = newChar
+    local success, err = pcall(function()
+        wait()
+        LocalPlayer.Character = Character
+        newChar:Destroy()
+    end)
+    if not success then
+        warn("Respawn failed with error: " .. err)
+    end
 end
 
 function Unfly()
@@ -4916,7 +4920,7 @@ local function CheckTime()
 		Domain.Home.Friends.InServer.FriendsInGame.Text = tostring(FriendsInGame).." users"
 	end
 	pcall(CheckFriends)
-end)()
+end
 
 while true do
 	wait(0.2)
