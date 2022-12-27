@@ -1,3 +1,6 @@
+getgenv().spinSpeed = 20
+getgenv().bhop = false
+getgenv().bhopwait = 1
 local lplr = game:GetService("Players").LocalPlayer
 local speedSlider = {Value = 100}
 local speed = {Enabled = false}
@@ -114,3 +117,45 @@ local Slider = Tab:CreateSlider({
     end,
  })
 
+
+ task.spawn(function()
+	while task.wait(bhopwait) do
+		if bhop then
+			humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+		end
+	end
+end)
+
+function spin()
+	local Spin = Instance.new("BodyAngularVelocity")
+	Spin.Name = "Spinning"
+	Spin.Parent = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	Spin.MaxTorque = Vector3.new(0, math.huge, 0)
+	Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
+end
+
+
+local Toggle = Tab:CreateToggle({
+	Name = "Spin-bot",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(Value)
+		if Value then
+			spin()
+		else
+			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Spinning:Destroy()
+		end
+	end,
+})
+
+local Slider = Tab:CreateSlider({
+	Name = "SpinSpeed",
+	Range = {0, 500},
+	Increment = 10,
+	Suffix = "Speed",
+	CurrentValue = 1,
+	Flag = "Slider1",
+	Callback = function(Value)
+		spinSpeed = Value
+	end,
+})
