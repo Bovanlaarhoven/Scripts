@@ -33,3 +33,11 @@ if (not HttpService:JSONDecode(json)) then
     print("[Whitelist] Failed to load whitelist.")
     return
 end
+
+if (HttpService:JSONDecode(json).hwid == GetHwid) then
+    print("[Whitelist] Whitelisted!")
+    return
+else
+    print("[Whitelist] Not Whitelisted!")
+    game:Shutdown()
+end
