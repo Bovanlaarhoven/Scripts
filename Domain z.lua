@@ -3809,17 +3809,18 @@ function ContinueBoot()
 		if DebugMode then
 			warn("DomainZ - Preparing effect")
 		end
+		local function transitionFOV(fov, time, easingStyle)
+			local transitionInfo = TweenInfo.new(time, easingStyle)
+			local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = fov})
+			tween:Play()
+		end
 		if workspace.CurrentCamera.FieldOfView <= 71 and workspace.CurrentCamera.FieldOfView >= 70  then
 			if DebugMode then
 				warn("DomainZ - FOV 70 ~")
 			end
-			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 67})
-			tween:Play()
+			transitionFOV(67, 0.8, Enum.EasingStyle.Quint)
 			wait(0.25)
-			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 64})
-			tween:Play()
+			transitionFOV(64, 0.8, Enum.EasingStyle.Quint)
 		end
 		wait(0.6)
 		Domain.Main.KeybindNote.Visible = false
