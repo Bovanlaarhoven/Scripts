@@ -4877,12 +4877,11 @@ coroutine.wrap(function()
 			else
 				Domain.Home.Data.data.File.Text = "Data File: <b>Loaded</b>"
 			end	
-
-
 		end
-
-		pcall(updstuff)
-
+		local success, err = pcall(updstuff)
+		if not success then
+			warn(err)
+		end
 	end
 	local function CheckFriends()
 		local friendsId = LocalPlayer.UserId
