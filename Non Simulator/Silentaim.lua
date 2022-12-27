@@ -33,7 +33,7 @@ function getPlayerClosestToMouse()
                     local torsoDist = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(torsoPos.X, torsoPos.Y)).magnitude
                     local headPos = camera:WorldToViewportPoint(v.Character.Head.Position)
                     local headDist = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(headPos.X, headPos.Y)).magnitude
-                    if torsoDist > headDist then
+                    if torsoDist < headDist then
                         if notBehindWall(v.Character.Head) then
                             target = v.Character.Head
                         end
