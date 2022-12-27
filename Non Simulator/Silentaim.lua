@@ -51,47 +51,12 @@ function getPlayerClosestToMouse()
 end
 
 local old
-local function getArgs(...)
+old = hookmetamethod(game, "__namecall", function(self, ...)
+    local method = getnamecallmethod()
     local args = {...}
-    return args
-end
-local function checkArgs(args)
-    return typeof(args[2][1]) == "Vector3"
-end
-local function fixArgs(args)
-    args[2][1] = getPlayerClosestToMouse().CFrame
-    return args
-end
-local function checkMethod(method)
-    return tostring(self) == "fire" and method == "FireServer"
-end
-local function checkObject(object)
-    return tostring(object) == "fire"
-end
-local function checkHook()
-    return old == nil
-end
-local function hook()
-    old = hookmetamethod(game, "__namecall", function(self, ...)
-        local method = getnamecallmethod()
-        local args = getArgs(...)
-        if checkObject(self) then
-            if checkMethod(method) then
-                if checkArgs(args) then
-                    args = fixArgs(args)
-                end
-            end
-        end
-        return old(self, unpack(args))
-    end)
-end
-local function checkUnhook()
-    return old ~= nil
-end
-local function unhook()
-    old = unhookmetamethod(game, "__namecall", old)
-end
-hook()
-if checkUnhook() then
-    unhook()
-end
+    if tostring(self) == "fire" and method == "FireServer" and typeof(args[2][1]) == "Vector3" then
+        args[2][1] = getPlayerClosestToMouse().CFrame
+        return old(self, unpack(args)) 
+    end 
+    return old(self, ...)
+end)
