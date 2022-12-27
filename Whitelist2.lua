@@ -30,6 +30,24 @@ for i,v in pairs(keys) do
             else
                 json = readfile(filename)
             end
+            
+            if (not json) then
+                print("[Whitelist] Failed to load whitelist.")
+                return
+            end
+            
+            if (not HttpService:JSONDecode(json)) then
+                print("[Whitelist] Failed to load whitelist.")
+                return
+            end
+            
+            print("[Whitelist] Loading...")
+            wait(0.2)
+            print("[Whitelist] ".. identifyexecutor())
+            wait(0.2)
+            
+            print("[Whitelist] Checking Whitelist...")
+
             keyCheck = _G.Key
             keys = ""
         else
@@ -47,19 +65,3 @@ while true do
     wait()
 end
 
-if (not json) then
-    print("[Whitelist] Failed to load whitelist.")
-    return
-end
-
-if (not HttpService:JSONDecode(json)) then
-    print("[Whitelist] Failed to load whitelist.")
-    return
-end
-
-print("[Whitelist] Loading...")
-wait(0.2)
-print("[Whitelist] ".. identifyexecutor())
-wait(0.2)
-
-print("[Whitelist] Checking Whitelist...")
