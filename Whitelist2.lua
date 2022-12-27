@@ -40,7 +40,7 @@ end
 
 while true do
     if _G.Key == keyCheck then
-        print("not spoofed")
+        --nothing
     else
         game.Players.LocalPlayer:Kick("Do not try and spoof your key!")
     end
