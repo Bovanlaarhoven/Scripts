@@ -1007,27 +1007,25 @@ local function Teleport(Player)
 end
 
 function ESP(Player)
-	local plr = game:GetService("Workspace")
-	local target = plr[Player.Name]
-	local targett = target.Name
-	if target ~= LocalPlayer.Name then
-		local a = Instance.new("Highlight",target)
-		a.Name = "A"
-		a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    local target = workspace[Player.Name]
+    if target then
+        local a = Instance.new("Highlight", target)
+        a.Name = "A"
+        a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
     else
         Toast("Player not found")
-	end
+    end
 end
+
 function UnESP(Player)
-	local plr = game:GetService("Workspace")
-	local target = plr[Player.Name]
-	local targett = target.Name
-	if target then
-		if target:FindFirstChildWhichIsA("Highlight") then
-			target:FindFirstChildWhichIsA("Highlight"):Destroy()
-		end
-	end
+    local target = workspace[Player.Name]
+    if target then
+        if target:FindFirstChildWhichIsA("Highlight") then
+            target:FindFirstChildWhichIsA("Highlight"):Destroy()
+        end
+    end
 end
+
 function AddPlayer(Player)
 
 	local template = Domain.Playerlist.List.Template
