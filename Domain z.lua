@@ -963,21 +963,25 @@ function God()
 	local Cam = workspace.CurrentCamera
 	local Pos, Char = Cam.CFrame, LocalPlayer.Character
 	local Human = Char and Char.FindFirstChildWhichIsA(Char, "Humanoid")
-	local nHuman = Human.Clone(Human)
-	nHuman.Parent, LocalPlayer.Character = Char, nil
-	nHuman.SetStateEnabled(nHuman, 15, false)
-	nHuman.SetStateEnabled(nHuman, 1, false)
-	nHuman.SetStateEnabled(nHuman, 0, false)
-	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
-	LocalPlayer.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, wait() and Pos
-	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-	local Script = Char.FindFirstChild(Char, "Animate")
-	if Script then
-		Script.Disabled = true
-		wait()
-		Script.Disabled = false
+	if Human then
+		local nHuman = Human.Clone(Human)
+		nHuman.Parent, LocalPlayer.Character = Char, nil
+		nHuman.SetStateEnabled(nHuman, 15, false)
+		nHuman.SetStateEnabled(nHuman, 1, false)
+		nHuman.SetStateEnabled(nHuman, 0, false)
+		nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
+		LocalPlayer.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, wait() and Pos
+		nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+		local Script = Char.FindFirstChild(Char, "Animate")
+		if Script then
+			Script.Disabled = true
+			wait()
+			Script.Disabled = false
+		end
+		nHuman.Health = nHuman.MaxHealth
+	else
+		Toast("You don't have a Humanoid")
 	end
-	nHuman.Health = nHuman.MaxHealth
 end
 
 function Teleport(Player)
