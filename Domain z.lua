@@ -4862,7 +4862,7 @@ end
 
 BootDomainZ()
 
-coroutine.wrap(function()
+local function CheckTime()
 	Domain.Main.Time.Text = tostring(GetDate():format("#h:#m"))
 	wait(1)
 	if Domain then
