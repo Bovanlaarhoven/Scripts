@@ -96,10 +96,10 @@ local Slider = Tab:CreateSlider({
  })
 
  local Slider = Tab:CreateSlider({
-    Name = "walkspeed",
+    Name = "JumpPower",
     Range = {0, 100},
     Increment = 1,
-    Suffix = "Speed",
+    Suffix = "Jump Power",
     CurrentValue = 5,
     Flag = "Slider1",
     Callback = function(val)
