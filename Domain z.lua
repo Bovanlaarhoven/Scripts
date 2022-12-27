@@ -4843,19 +4843,20 @@ end)
 
 
 function CheckTime()
-
-	if tonumber(GetDate():format("#h")) > 12 then
+	local hour = tonumber(GetDate():format("#h"))
+	if hour > 12 then
 		Domain.Home.Welcome.Text = "Evening, "..LocalPlayer.DisplayName
-	else
+	elseif hour == 0 then
+		Domain.Home.Welcome.Text = "Late night, "..LocalPlayer.DisplayName
+	elseif hour >= 1 then
 		Domain.Home.Welcome.Text = "Morning, "..LocalPlayer.DisplayName
 	end
-	if tonumber(GetDate():format("#h")) == 0 then
-		Domain.Home.WelcomeSub.Text = "Remember to smile!"
-	elseif tonumber(GetDate():format("#h")) >= 1 then
-		Domain.Home.WelcomeSub.Text = "Up bright and early!"
-	end
-	if tonumber(GetDate():format("#h")) > 19 then
+	if hour > 19 then
 		Domain.Home.WelcomeSub.Text = "It's getting late.."
+	elseif hour == 0 then
+		Domain.Home.WelcomeSub.Text = "Remember to smile!"
+	else
+		Domain.Home.WelcomeSub.Text = "Up bright and early!"
 	end
 end
 
