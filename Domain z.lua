@@ -75,7 +75,6 @@ end
 
 -- DMNX
 
-
 local Domain = game:GetObjects("rbxassetid://7924540022")[1]
 
 if DebugMode then
@@ -125,7 +124,7 @@ local MlemixMode = false
 local Release = 1.96
 local KeySystemEnabled = false
 local ReleaseType = "Release"
-local Public = false
+local Public = true
 local Beta = false
 
 local NewPremiumSystem = true
