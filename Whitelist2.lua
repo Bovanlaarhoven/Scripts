@@ -1,4 +1,3 @@
-
 _G.Key = "Key1"
 
 local keys = {
@@ -16,12 +15,21 @@ local Decoded = game:GetService('HttpService'):JSONDecode(Body)
 local GetHwid = Decoded.headers["Sw-Fingerprint"];
 local Time = os.clock()
 local counter = 1
+
+
+
 local keyCheck
 for i,v in pairs(keys) do
     if counter == #keys then
     print("Not a valid key!")
     keys = ""
-    game.Players.LocalPlayer:Kick("Not a valid key!")
+    if (HttpService:JSONDecode(json).hwid == GetHwid) then
+        print("[Whitelist] Whitelisted!")
+        return
+    else
+        print("[Whitelist] Not Whitelisted!")
+        game:Shutdown()
+    end
     else
         if v == _G.Key then
             if (writefile) then
@@ -30,7 +38,7 @@ for i,v in pairs(keys) do
             else
                 json = readfile(filename)
             end
-            
+
             if (not json) then
                 print("[Whitelist] Failed to load whitelist.")
                 return
@@ -48,14 +56,6 @@ for i,v in pairs(keys) do
             
             print("[Whitelist] Checking Whitelist...")
 
-            if (HttpService:JSONDecode(json).hwid == GetHwid) then
-                print("[Whitelist] Whitelisted!")
-                return
-            else
-                print("[Whitelist] Not Whitelisted!")
-                game:Shutdown()
-            end
-
             keyCheck = _G.Key
             keys = ""
         else
@@ -63,13 +63,3 @@ for i,v in pairs(keys) do
         end
     end
 end
-
-while true do
-    if _G.Key == keyCheck then
-        --nothing
-    else
-        game.Players.LocalPlayer:Kick("Do not try and spoof your key!")
-    end
-    wait()
-end
-
