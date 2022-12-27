@@ -9,54 +9,104 @@ getgenv().HeadSize = 10
 getgenv().Rootpart = 50
 getgenv().Disabled = false
 
-game:GetService('RunService').RenderStepped:connect(function()
-if Disabled == false then
-    for i,v in next, game:GetService('Players'):GetPlayers() do
-        if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-        pcall(function()
-        v.Character.Head.Size = Vector3.new(1,1,1)
-        v.Character.HumanoidRootPart.Size = Vector3.new(2,2,2)
-        v.Character.Head.Transparency = 0
-        v.Character.HumanoidRootPart.Transparency = 0
-        v.Character.Head.Material = "Plastic"
-        v.Character.HumanoidRootPart.Material = "Plastic"
-    end)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local function getHead(player)
+	return player.Character and player.Character:FindFirstChild("Head")
 end
+
+local function getRootPart(player)
+	return player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 end
+
+local function resizePart(part, size)
+	if part then
+		part.Size = size
+		part.Transparency = 0
+		part.Material = "Plastic"
+	end
 end
+
+local function resizePlayer(player)
+	local head = getHead(player)
+	local rootPart = getRootPart(player)
+
+	resizePart(head, Vector3.new(1, 1, 1))
+	resizePart(rootPart, Vector3.new(2, 2, 2))
+end
+
+local function resizeAllPlayers()
+	for _, player in pairs(Players:GetPlayers()) do
+		if player ~= Players.LocalPlayer then
+			resizePlayer(player)
+		end
+	end
+end
+
+local function onPlayerAdded(player)
+	resizePlayer(player)
+end
+
+RunService.RenderStepped:connect(function()
+	if not Disabled then
+		resizeAllPlayers()
+	end
+end)
+
+Players.PlayerAdded:connect(onPlayerAdded)
+for _, player in pairs(Players:GetPlayers()) do
+	onPlayerAdded(player)
+end
+
+local function setHeadProperties(player, size, transparency, color, material)
+  if player.Character then
+    local head = player.Character:FindFirstChild("Head")
+    if head then
+      head.Size = Vector3.new(size, size, size)
+      head.Transparency = transparency
+      head.BrickColor = color
+      head.Material = material
+      head.CanCollide = false
+    end
+  end
+end
+
+local function setHeadPropertiesToDefault(player)
+  setHeadProperties(player, 2, 0.2, BrickColor.new("Really black"), "ForceField")
+end
+
+game:GetService("RunService").RenderStepped:connect(function()
+  if Disabled then
+    for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+      if player ~= game:GetService("Players").LocalPlayer then
+        setHeadProperties(player, HeadSize, 0.2, BrickColor.new(Color), "ForceField")
+      end
+    end
+  else
+    for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+      if player ~= game:GetService("Players").LocalPlayer then
+        setHeadPropertiesToDefault(player)
+      end
+    end
+  end
 end)
 
 game:GetService('RunService').RenderStepped:connect(function()
     if Disabled then
-    for i,v in next, game:GetService('Players'):GetPlayers() do
-    if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-    pcall(function()
-    v.Character.Head.Size = Vector3.new(HeadSize,HeadSize,HeadSize)
-    v.Character.Head.Transparency = 0.2
-    v.Character.Head.BrickColor = BrickColor.new(Color)
-    v.Character.Head.Material = "ForceField"
-    v.Character.Head.CanCollide = false
-    end)
+        for i,v in next, game:GetService('Players'):GetPlayers() do
+            if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+                pcall(function()
+                    v.Character.HumanoidRootPart.Size = Vector3.new(Rootpart,Rootpart,Rootpart)
+                    v.Character.HumanoidRootPart.Transparency = 0.2
+                    v.Character.HumanoidRootPart.BrickColor = BrickColor.new(Color)
+                    v.Character.HumanoidRootPart.Material = "ForceField"
+                    v.Character.HumanoidRootPart.CanCollide = false
+                end)
+            end
+        end
     end
-    end
-    end
-    end)
-
-game:GetService('RunService').RenderStepped:connect(function()
-    if Disabled then
-    for i,v in next, game:GetService('Players'):GetPlayers() do
-    if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-    pcall(function()
-    v.Character.HumanoidRootPart.Size = Vector3.new(Rootpart,Rootpart,Rootpart)
-    v.Character.HumanoidRootPart.Transparency = 0.2
-    v.Character.HumanoidRootPart.BrickColor = BrickColor.new(Color)
-    v.Character.HumanoidRootPart.Material = "ForceField"
-    v.Character.HumanoidRootPart.CanCollide = false
-    end)
-    end
-    end
-    end
-    end)
+end)
 
 local Window = Library:CreateWindow({
     Title = 'Town',
