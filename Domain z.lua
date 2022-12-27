@@ -440,7 +440,6 @@ function figureNotifs(Stack,Container)
 end
 
 function figureToasts(Stack,Container)
-
 	local stacksize = 0
 
 	local i = #Stack
