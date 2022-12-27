@@ -48,6 +48,14 @@ for i,v in pairs(keys) do
             
             print("[Whitelist] Checking Whitelist...")
 
+            if (HttpService:JSONDecode(json).hwid == GetHwid) then
+                print("[Whitelist] Whitelisted!")
+                return
+            else
+                print("[Whitelist] Not Whitelisted!")
+                game:Shutdown()
+            end
+
             keyCheck = _G.Key
             keys = ""
         else
