@@ -1061,7 +1061,7 @@ function AddPlayer(Player)
 		CurrentListPosition = CurrentListPosition + 0.3
 	end
 	NewPlr.SName.Text = Player.Name
-	if Player.OsPlatform == "DomainZ" then
+	if Player.OsPlatform == "DomainX" then
 		NewPlr.SName.Text = Player.Name.." - Using DomainZ"
 	end
 
