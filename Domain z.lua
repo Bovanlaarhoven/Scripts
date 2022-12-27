@@ -4878,6 +4878,7 @@ coroutine.wrap(function()
 				Domain.Home.Data.data.File.Text = "Data File: <b>Loaded</b>"
 			end	
 		end
+
 		local success, err = pcall(updstuff)
 		if not success then
 			warn(err)
