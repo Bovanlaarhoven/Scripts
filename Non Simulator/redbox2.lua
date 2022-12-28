@@ -206,6 +206,10 @@ local MyButton = Modifieres2:AddButton('Full Bright', function()
     game.Lighting.GlobalShadows = false
 end)
 
+local MyButton = Modifieres2:AddButton('unArrest', function()
+    game:GetService("Workspace").Characters[localname].Arrested.Value = false
+end)
+
 local MyButton = Modifieres2:AddButton('Turn off watermark', function()
     Library:SetWatermarkVisibility(false)
 end)
