@@ -1,7 +1,5 @@
-local StarterPlayer = game:GetService("StarterPlayer")
-local Workspace = game:GetService("Workspace")
+local localname = game:GetService("Players").LocalPlayer.Name
 local Light = game:GetService("Lighting")
-local players = game.Players:GetPlayers()
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
