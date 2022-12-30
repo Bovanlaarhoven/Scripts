@@ -1,3 +1,4 @@
+local localname = game:GetService("Players").LocalPlayer.Name
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
 
 getgenv().Heard_gun = false
@@ -125,7 +126,7 @@ local Button = Tab:CreateButton({
 local Button = Tab:CreateButton({
 	Name = "Inf Stamina",
 	Callback = function()
-        game:GetService("Workspace").Criminals.LocalPlayer.Stamina.Value = math.huge
+        game:GetService("Workspace").Criminals[localname].Stamina.Value = math.huge
 	end,
 })
 
