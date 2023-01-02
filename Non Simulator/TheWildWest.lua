@@ -642,7 +642,7 @@ local Toggle = T6:CreateToggle({
         else
             for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
                 if v.Name == "Deer" then
-                    v.Highlight:Destroy()
+                    v.BillboardGui:Destroy()
                 end
             end
         end
@@ -665,7 +665,153 @@ local Toggle = T6:CreateToggle({
         else
             for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
                 if v.Name == "Gator" then
-                    v.Highlight:Destroy()
+                    v.BillboardGui:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Section = T6:CreateSection("BillboardGui")
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Bear (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bear" then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    local TextLabel = Instance.new("TextLabel")
+                    BillboardGui.Parent = v
+                    BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+                    BillboardGui.Active = true
+                    BillboardGui.AlwaysOnTop = true
+                    BillboardGui.LightInfluence = 1.000
+                    BillboardGui.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Parent = BillboardGui
+                    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Font = Enum.Font.SourceSans
+                    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    TextLabel.TextSize = 14.000
+                    TextLabel.Text = "Bear"
+                    TextLabel.BackgroundTransparency = 1
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bear" then
+                    v.BillboardGui:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Bison (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bison" then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    local TextLabel = Instance.new("TextLabel")
+                    BillboardGui.Parent = v
+                    BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+                    BillboardGui.Active = true
+                    BillboardGui.AlwaysOnTop = true
+                    BillboardGui.LightInfluence = 1.000
+                    BillboardGui.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Parent = BillboardGui
+                    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Font = Enum.Font.SourceSans
+                    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    TextLabel.TextSize = 14.000
+                    TextLabel.Text = "Bison"
+                    TextLabel.BackgroundTransparency = 1
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bison" then
+                    v.BillboardGui:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Deer (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Deer" then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    local TextLabel = Instance.new("TextLabel")
+                    BillboardGui.Parent = v
+                    BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+                    BillboardGui.Active = true
+                    BillboardGui.AlwaysOnTop = true
+                    BillboardGui.LightInfluence = 1.000
+                    BillboardGui.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Parent = BillboardGui
+                    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Font = Enum.Font.SourceSans
+                    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    TextLabel.TextSize = 14.000
+                    TextLabel.Text = "Deer"
+                    TextLabel.BackgroundTransparency = 1
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Deer" then
+                    v.BillboardGui:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Gator (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Gator" then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    local TextLabel = Instance.new("TextLabel")
+                    BillboardGui.Parent = v
+                    BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+                    BillboardGui.Active = true
+                    BillboardGui.AlwaysOnTop = true
+                    BillboardGui.LightInfluence = 1.000
+                    BillboardGui.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Parent = BillboardGui
+                    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.Size = UDim2.new(0, 200, 0, 50)
+                    TextLabel.Font = Enum.Font.SourceSans
+                    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    TextLabel.TextSize = 14.000
+                    TextLabel.Text = "Gator"
+                    TextLabel.BackgroundTransparency = 1
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Gator" then
+                    v.BillboardGui:Destroy()
                 end
             end
         end
