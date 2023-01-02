@@ -139,7 +139,7 @@ local Button = T4:CreateButton({
 
 
 local Keybind = T1:CreateKeybind({
-    Name = "Break Free",
+    Name = "Instant break free",
     CurrentKeybind = "Q",
     HoldToInteract = false,
     Flag = "Keybind1",
