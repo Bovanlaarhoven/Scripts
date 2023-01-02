@@ -578,7 +578,7 @@ local Toggle = T7:CreateToggle({
     end,
 })
 
-local Section = T5:CreateSection("one at the time disable other when using other ore (highlight)")
+local Section = T6:CreateSection("one at the time disable other when using other ore (highlight)")
 
 local Toggle = T6:CreateToggle({
     Name = "Esp Bear (highlight)",
