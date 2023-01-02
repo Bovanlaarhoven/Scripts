@@ -36,6 +36,18 @@ local T4 = Window:CreateTab("Respawn/Teleport", 12006546050)
 local T5 = Window:CreateTab("Esp (ore)", 12006560770)
 local T6 = Window:CreateTab("Esp (Animal)", 12006560770)
 
+local Slider = T2:CreateSlider({
+    Name = "TimeSpeed",
+    Range = {1, 100},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 1,
+    Flag = "Slider1",
+    Callback = function(Value)
+        game:GetService("ReplicatedStorage").LightingSettings.TimeSpeed.Value = Value
+    end,
+})
+
 local Toggle = T2:CreateToggle({
     Name = "Blood moon",
     CurrentValue = false,
