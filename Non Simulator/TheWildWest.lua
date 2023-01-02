@@ -466,7 +466,7 @@ local Toggle = T5:CreateToggle({
 local Section = T5:CreateSection("BillboardGui")
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Coal (highlight)",
+    Name = "Esp Coal (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -498,7 +498,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Copper (highlight)",
+    Name = "Esp Copper (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -530,7 +530,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Gold (highlight)",
+    Name = "Esp Gold (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -562,7 +562,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Iron (highlight)",
+    Name = "Esp Iron (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -594,7 +594,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Limestone (highlight)",
+    Name = "Esp Limestone (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -626,7 +626,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Silver (highlight)",
+    Name = "Esp Silver (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -658,7 +658,7 @@ local Toggle = T5:CreateToggle({
 })
 
 local Toggle = T5:CreateToggle({
-    Name = "Esp Zinc (highlight)",
+    Name = "Esp Zinc (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -701,6 +701,10 @@ local Toggle = T7:CreateToggle({
                     v.ReloadSpeed = 1000000
                     v.LoadSpeed = 1000
                     v.LoadEndSpeed = 1000
+                else
+                    v.ReloadSpeed = 1
+                    v.LoadSpeed = 1
+                    v.LoadEndSpeed = 1
                 end
             end
         end
@@ -716,21 +720,6 @@ local Toggle = T7:CreateToggle({
             for i,v in next, getgc(true) do
                 if type(v) == "table" and rawget(v, "BaseRecoil") then
                     v.BaseRecoil = 0
-                end
-            end
-        end
-    end,
-})
-
-local Toggle = T7:CreateToggle({
-    Name = "Dont Drop gun",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        if Value == true then
-            for i,v in next, getgc(true) do
-                if type(v) == "table" and rawget(v, "BaseRecoil") then
-                    v.Droppable = true
                 end
             end
         end
