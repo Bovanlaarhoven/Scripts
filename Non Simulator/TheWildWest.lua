@@ -139,7 +139,7 @@ local Button = T4:CreateButton({
 
 
 local Keybind = T1:CreateKeybind({
-    Name = "Instant break free",
+    Name = "Break Free",
     CurrentKeybind = "Q",
     HoldToInteract = false,
     Flag = "Keybind1",
@@ -708,14 +708,29 @@ local Toggle = T7:CreateToggle({
 })
 
 local Toggle = T7:CreateToggle({
-    Name = "Instant Reload",
+    Name = "no recoil",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
         if Value == true then
             for i,v in next, getgc(true) do
                 if type(v) == "table" and rawget(v, "BaseRecoil") then
+                    v.BaseRecoil = 0
+                end
+            end
+        end
+    end,
+})
 
+local Toggle = T7:CreateToggle({
+    Name = "Dont Drop gun",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for i,v in next, getgc(true) do
+                if type(v) == "table" and rawget(v, "BaseRecoil") then
+                    v.Droppable = true
                 end
             end
         end
