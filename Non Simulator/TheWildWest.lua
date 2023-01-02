@@ -725,3 +725,19 @@ local Toggle = T7:CreateToggle({
         end
     end,
 })
+
+local Toggle = T7:CreateToggle({
+    Name = "Fire speed",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for i,v in next, getgc(true) do
+                if type(v) == "table" and rawget(v, "BaseRecoil") then
+                    v.FireSpeed = 100
+                end
+            end
+        end
+    end,
+})
+
