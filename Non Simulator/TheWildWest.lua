@@ -578,3 +578,96 @@ local Toggle = T7:CreateToggle({
     end,
 })
 
+local Section = T5:CreateSection("one at the time disable other when using other ore (highlight)")
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Bear (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bear" then
+                    local esp = Instance.new("Highlight")
+                    esp.Parent = v
+                    esp.Adornee = v
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bear" then
+                    v.Highlight:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Bison (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bison" then
+                    local esp = Instance.new("Highlight")
+                    esp.Parent = v
+                    esp.Adornee = v
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Bison" then
+                    v.Highlight:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Deer (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Deer" then
+                    local esp = Instance.new("Highlight")
+                    esp.Parent = v
+                    esp.Adornee = v
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Deer" then
+                    v.Highlight:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+    Name = "Esp Gator (highlight)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value == true then
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Gator" then
+                    local esp = Instance.new("Highlight")
+                    esp.Parent = v
+                    esp.Adornee = v
+                end
+            end
+        else
+            for _,v in pairs(game:GetService("Workspace").WORKSPACE_Entities.Animals:GetChildren()) do
+                if v.Name == "Gator" then
+                    v.Highlight:Destroy()
+                end
+            end
+        end
+    end,
+})
