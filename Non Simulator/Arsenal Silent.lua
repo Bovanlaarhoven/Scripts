@@ -161,12 +161,3 @@ local Dropdown = tab:CreateDropdown({
         silentAimHitPart = Option
     end,
 })
-
-local Toggle = tab:CreateToggle({
-    Name = "Wallbang",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        wallbangEnabled = Value
-    end,
- })
