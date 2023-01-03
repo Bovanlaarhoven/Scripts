@@ -253,7 +253,7 @@ local Slider = tab1:CreateSlider({
     end,
 })
 
-local Toggle = tab:CreateToggle({
+local Toggle = tab1:CreateToggle({
     Name = "Auto Fire",
     CurrentValue = false,
     Flag = "Toggle1",
