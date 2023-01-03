@@ -21,7 +21,7 @@ local Window = Rayfield:CreateWindow({
        Invite = "ABCD",
        RememberJoins = true
     },
-    KeySystem = true,
+    KeySystem = false,
     KeySettings = {
        Title = "Sirius Hub",
        Subtitle = "Key System",
@@ -33,8 +33,12 @@ local Window = Rayfield:CreateWindow({
     }
  })
 
-local tab = Window:CreateTab("main", 4483362458) -- Title, Image
+local tab = Window:CreateTab("main", 4483362458)
+local tab1 = Window:CreateTab("Gun mods", 4483362458)
 
+local arsenal = {
+    Weapons = require(lplr.PlayerGui.GUI.Client.Functions.Weapons),
+}
 
 local silentAimMode = "Legit"
 local wallbangEnabled = false
@@ -120,7 +124,6 @@ task.spawn(function()
     end)();
 end)
 
-
 local Toggle = tab:CreateToggle({
     Name = "Silent aim",
     CurrentValue = false,
@@ -128,7 +131,7 @@ local Toggle = tab:CreateToggle({
     Callback = function(Value)
         silentAimEnabled = Value
     end,
- })
+})
 
 local Dropdown = tab:CreateDropdown({
     Name = "SilentAim Mode",
@@ -144,7 +147,7 @@ local Dropdown = tab:CreateDropdown({
     Name = "Fov Value",
     Range = {1, 900},
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Fov",
     CurrentValue = 120,
     Flag = "Slider1",
     Callback = function(Value)
@@ -159,5 +162,107 @@ local Dropdown = tab:CreateDropdown({
     Flag = "Dropdown1",
     Callback = function(Option)
         silentAimHitPart = Option
+    end,
+})
+
+local vals = {
+    FireRate = 20,
+    Recoil = 0,
+    Auto = true
+}
+
+local oldVals = {}
+local oldFunc = arsenal.Weapons.getammo
+local gunModsEnabled
+local Toggle = tab1:CreateToggle({
+    Name = "Gun mods",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(callback)
+        if callback then
+            arsenal.Weapons.getammo = function()
+                task.delay(.5, function()
+                    lplr.PlayerGui.GUI.Client.Variables.ammocount.Value = 999
+                end)
+                return 1000
+            end
+            for _,v in next, game.ReplicatedStorage.Weapons:GetChildren() do
+                oldVals[v.Name] = {
+                    FireRate = (v:FindFirstChild("FireRate") and v:FindFirstChild("FireRate").Value or nil),
+                    Recoil = (v:FindFirstChild("RecoilControl") and v:FindFirstChild("RecoilControl").Value or nil),
+                    Auto = (v:FindFirstChild("Auto") and v:FindFirstChild("Auto").Value or nil),
+                    EquipTime = (v:FindFirstChild("EquipTime") and v:FindFirstChild("EquipTime").Value or nil)
+                }
+                if v:FindFirstChild("EquipTime") then v.EquipTime.Value = .02 end
+                if v:FindFirstChild("FireRate") then v.FireRate.Value = vals.FireRate/1000 end
+                if v:FindFirstChild("RecoilControl") then v.RecoilControl.Value = vals.Recoil/100 end
+                if v:FindFirstChild("Auto") then v.Auto.Value = vals.Auto end
+            end
+        else
+            arsenal.Weapons.getammo = oldFunc
+            for _,v in next, game.ReplicatedStorage.Weapons:GetChildren() do
+                local oldVal = oldVals[v.Name]
+                if v:FindFirstChild("FireRate") and oldVal.FireRate then
+                    v.FireRate.Value = math.clamp(oldVal.FireRate, 0.02, math.huge)
+                end
+                if v:FindFirstChild("RecoilControl") and oldVal.Recoil then
+                    v.RecoilControl.Value = oldVal.Recoil
+                end
+                if v:FindFirstChild("Auto") and oldVal.Auto then
+                    v.Auto.Value = oldVal.Auto
+                end
+                if v:FindFirstChild("EquipTime") and oldVal.EquipTime then
+                    v.EquipTime.Value = oldVal.EquipTime
+                end
+            end
+        end
+    end,
+})
+
+local Slider = tab1:CreateSlider({
+    Name = "FireRate",
+    Range = {20, 500},
+    Increment = 1,
+    Suffix = "Fire rate",
+    CurrentValue = 20,
+    Flag = "Slider1",
+    Callback = function(val)
+        if gunModsEnabled then
+            for _,v in next, game.ReplicatedStorage.Weapons:GetChildren() do
+                if v:FindFirstChild("FireRate") then v.FireRate.Value = val/1000 end
+            end
+        end
+        vals.FireRate = val
+    end,
+})
+
+local Slider = tab1:CreateSlider({
+    Name = "Recoil",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "Fire rate",
+    CurrentValue = 0,
+    Flag = "Slider1",
+    Callback = function(val)
+        if gunModsEnabled then
+            for _,v in next, game.ReplicatedStorage.Weapons:GetChildren() do
+                if v:FindFirstChild("RecoilControl") then v.RecoilControl.Value = val/100 end
+            end
+        end
+        vals.Recoil = val
+    end,
+})
+
+local Toggle = tab:CreateToggle({
+    Name = "Auto Fire",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(callback)
+        if gunModsEnabled then
+            for _,v in next, game.ReplicatedStorage.Weapons:GetChildren() do
+                if v:FindFirstChild("Auto") then v.Auto.Value = vals.Auto end
+            end
+        end
+        vals.Auto = callback
     end,
 })
