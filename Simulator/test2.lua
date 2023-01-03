@@ -8,27 +8,27 @@ local Players = Entities
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Rayfield Example Window",
+    Name = "Silent aim",
     LoadingTitle = "Rayfield Interface Suite",
     LoadingSubtitle = "by Sirius",
     ConfigurationSaving = {
        Enabled = true,
-       FolderName = nil, -- Create a custom folder for your hub/game
+       FolderName = nil,
        FileName = "Big Hub"
     },
     Discord = {
        Enabled = false,
-       Invite = "ABCD", -- The Discord invite code, do not include discord.gg/
-       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+       Invite = "ABCD",
+       RememberJoins = true
     },
-    KeySystem = true, -- Set this to true to use our key system
+    KeySystem = true,
     KeySettings = {
        Title = "Sirius Hub",
        Subtitle = "Key System",
        Note = "Join the discord (discord.gg/sirius)",
        FileName = "SiriusKey",
        SaveKey = true,
-       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       GrabKeyFromSite = false,
        Key = "Hello"
     }
  })
@@ -133,9 +133,40 @@ local Toggle = tab:CreateToggle({
 local Dropdown = tab:CreateDropdown({
     Name = "SilentAim Mode",
     Options = {"Legit","Blatant"},
-    CurrentOption = "Option ",
+    CurrentOption = "Legit",
     Flag = "Dropdown1",
     Callback = function(Option)
         silentAimMode = Option
+    end,
+})
+
+ local Slider = tab:CreateSlider({
+    Name = "Fov Value",
+    Range = {1, 900},
+    Increment = 1,
+    Suffix = "Bananas",
+    CurrentValue = 120,
+    Flag = "Slider1",
+    Callback = function(Value)
+        fovValue = Value
+    end,
+})
+
+local Dropdown = tab:CreateDropdown({
+    Name = "HitPart",
+    Options = {"Head","HumanoidRootPart", "Random"},
+    CurrentOption = "Head",
+    Flag = "Dropdown1",
+    Callback = function(Option)
+        silentAimHitPart = Option
+    end,
+})
+
+local Toggle = tab:CreateToggle({
+    Name = "Wallbang",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        wallbangEnabled = Value
     end,
  })
