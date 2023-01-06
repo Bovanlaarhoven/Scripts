@@ -1,32 +1,33 @@
 local player = game:GetService("Players").LocalPlayer
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
-local Window = Rayfield:CreateWindow({
-    Name = "The Wild West",
-    LoadingTitle = "Hydra Network",
-    LoadingSubtitle = "by Hydra#8270",
-    ConfigurationSaving = {
-       Enabled = true,
-       FolderName = nil,
-       FileName = "Big Hub"
-    },
-    Discord = {
-       Enabled = true,
-       Invite = "YvwEyH2W6t",
-       RememberJoins = true 
-    },
-    KeySystem = false,
-    KeySettings = {
-       Title = "Sirius Hub",
-       Subtitle = "Key System",
-       Note = "Join the discord (discord.gg/sirius)",
-       FileName = "SiriusKey",
-       SaveKey = true,
-       GrabKeyFromSite = false,
-       Key = "Hello"
-    }
- })
+setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
+local Window = Rayfield:CreateWindow({
+	Name = "The Wild West",
+	LoadingTitle = "Hydra Network",
+	LoadingSubtitle = "by hydra#8270",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = nil,
+		FileName = "Big Hub"
+	},
+        Discord = {
+        	Enabled = true,
+        	Invite = "YvwEyH2W6t",
+        	RememberJoins = true 
+        },
+	KeySystem = true,
+	KeySettings = {
+		Title = "Hydra Network",
+		Subtitle = "Key System",
+		Note = "Key link copied in clipboard!",
+		FileName = "SiriusKey",
+		SaveKey = false,
+		GrabKeyFromSite = true,
+		Key = "https://pastebin.com/raw/rfFkzXWN"
+	}
+})
 
 local T1 = Window:CreateTab("Player", 4483362458)
 local T7 = Window:CreateTab("Gun Mods", 4483362458)
