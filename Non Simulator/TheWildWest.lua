@@ -676,7 +676,7 @@ local Toggle = T6:CreateToggle({
 local Section = T6:CreateSection("BillboardGui")
 
 local Toggle = T6:CreateToggle({
-    Name = "Esp Bear (highlight)",
+    Name = "Esp Bear (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -712,7 +712,7 @@ local Toggle = T6:CreateToggle({
 })
 
 local Toggle = T6:CreateToggle({
-    Name = "Esp Bison (highlight)",
+    Name = "Esp Bison (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -748,7 +748,7 @@ local Toggle = T6:CreateToggle({
 })
 
 local Toggle = T6:CreateToggle({
-    Name = "Esp Deer (highlight)",
+    Name = "Esp Deer (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -784,7 +784,7 @@ local Toggle = T6:CreateToggle({
 })
 
 local Toggle = T6:CreateToggle({
-    Name = "Esp Gator (highlight)",
+    Name = "Esp Gator (BillboardGui)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
