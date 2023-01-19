@@ -1,4 +1,5 @@
 local player = game:GetService("Players").LocalPlayer
+local localname = player.Name
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 setclipboard("https://link-hub.net/488828/key-for-hydra-network")
@@ -17,7 +18,7 @@ local Window = Rayfield:CreateWindow({
         	Invite = "YvwEyH2W6t",
         	RememberJoins = true 
         },
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
@@ -141,7 +142,7 @@ local Button = T4:CreateButton({
 
 local Keybind = T1:CreateKeybind({
     Name = "Instant-Break Free",
-    CurrentKeybind = "Q",
+    CurrentKeybind = "L",
     HoldToInteract = false,
     Flag = "Keybind1",
     Callback = function(Keybind)
@@ -149,14 +150,32 @@ local Keybind = T1:CreateKeybind({
     end,
  })
 
-
-local Button = T1:CreateButton({
-    Name = "Reset",
-    Callback = function()
+local Keybind = T1:CreateKeybind({
+    Name = "Suicide",
+    CurrentKeybind = "X",
+    HoldToInteract = false,
+    Flag = "Keybind1",
+    Callback = function(Keybind)
         local ohNumber1 = 100
         game:GetService("ReplicatedStorage").Communication.Events.DamageSelf:FireServer(ohNumber1)
     end,
-})
+ })
+
+
+
+local Keybind = T1:CreateKeybind({
+    Name = "Ragdoll",
+    CurrentKeybind = "Z",
+    HoldToInteract = false,
+    Flag = "Keybind1",
+    Callback = function(Keybind)
+        local ohBoolean1 = true
+        local ohInstance2 = workspace.WORKSPACE_Entities.Players[localname]
+        game:GetService("ReplicatedStorage").Communication.Events.EnterRagdoll:FireServer(ohBoolean1, ohInstance2)
+    end,
+ })
+
+
 
 local Button = T1:CreateButton({
     Name = "Inf Zoomdistance",
