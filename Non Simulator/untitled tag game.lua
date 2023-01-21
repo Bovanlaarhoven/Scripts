@@ -42,3 +42,24 @@ local Slider = Tab:CreateSlider({
    end,
 })
 
+local TargetWalkspeed
+local Slider = Tab:CreateSlider({
+   Name = "Walkspeed",
+   Info = "Speaks for itself",
+   Range = {0, 500},
+   Increment = 1,
+   Suffix = "walkspeed",
+   CurrentValue = "0",
+   Flag = "Slider1",
+   Callback = function(Value)
+         TargetWalkspeed = Value
+   end,
+})
+
+game:GetService("RunService").RenderStepped:Connect(function()
+   pcall(function()
+       if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+           game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/250)
+       end
+   end)
+end)
