@@ -1,6 +1,7 @@
 local esp = Instance.new("Highlight")
 local oldfog
 local oldfog2
+local localplayer = game:GetService("Players").LocalPlayer.Name
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local Window = Rayfield:CreateWindow({
@@ -103,10 +104,38 @@ local Keybind = Tab:CreateKeybind({
     end,
  })
 
+local Toggle = Tab:CreateToggle({
+    Name = "Disable Invis walls",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value then
+            for i,v in pairs(game:GetService("Workspace").Filter.InvisibleWalls:GetChildren()) do
+                v.CanCollide = false
+            end
+        else
+            for i,v in pairs(game:GetService("Workspace").Filter.InvisibleWalls:GetChildren()) do
+                v.CanCollide = true
+            end
+        end
+    end,
+ })
+
+
+ local Button = Tab:CreateButton({
+    Name = "Third Person",
+    Callback = function()
+        game:GetService("Workspace")[localplayer].RagdollTime.RagdollSwitch.Value = true
+        wait(0.5)
+        game:GetService("Workspace")[localplayer].RagdollTime.RagdollSwitch.Value = false
+    end,
+ })
+
+
+
 local Label = Tab:CreateLabel(" Left")
 
 while wait() do
     Label:Set(game:GetService("ReplicatedStorage").Timer.Value .. " Left")
 end
 
- 
