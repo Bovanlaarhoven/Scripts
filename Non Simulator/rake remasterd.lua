@@ -1,5 +1,6 @@
 local esp = Instance.new("Highlight")
 local oldfog
+local oldfog2
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local Window = Rayfield:CreateWindow({
@@ -36,18 +37,24 @@ local Toggle = Tab:CreateToggle({
     Flag = "Toggle1",
     Callback = function(Value)
         if Value then
-            if game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value then
+            if game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value or game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value then
                 oldfog = game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value
+                oldfog2 = game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value
                 game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value = math.huge
+                game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value = math.huge
             else
                 oldfog = game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value
+                oldfog2 = game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value
                 game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value = oldfog
+                game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value = oldfog2
             end
         else
-            if oldfog then
-                if game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value then
+            if oldfog or oldfog2 then
+                if game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value or game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value then
+                    game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value = oldfog2
                     game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value = oldfog
                 else
+                    game:GetService("ReplicatedStorage").CurrentLightingProperties2.FogEnd.Value = oldfog2
                     game:GetService("ReplicatedStorage").CurrentLightingProperties.FogEnd.Value = oldfog
                 end
             end
@@ -56,7 +63,7 @@ local Toggle = Tab:CreateToggle({
  })
 
 local Slider = Tab:CreateSlider({
-    Name = "Brithness",
+    Name = "brightness",
     Range = {0, 10},
     Increment = 10,
     Suffix = "Value",
@@ -79,8 +86,7 @@ local Slider = Tab:CreateSlider({
             end
         end
     end,
- })
-
+})
 
 
 local Keybind = Tab:CreateKeybind({
