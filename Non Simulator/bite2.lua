@@ -8,7 +8,7 @@ local Players = Entities
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Destruction Simulator",
+    Name = "Shark bite 2",
     LoadingTitle = "Hydra Network",
     LoadingSubtitle = "by Hydra#8270",
     ConfigurationSaving = {
