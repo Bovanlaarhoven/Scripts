@@ -110,58 +110,6 @@ local Toggle = Tab:CreateToggle({
     end,
 })
 
-local function kill(shark, plr)
-    pcall(function()
-        game:GetService("ReplicatedStorage").EventsFolder.Shark.Kill:InvokeServer(table.unpack({
-            [1] = plr.Character,
-            [2] = shark,
-        }))
-    end)
-end
-
-local teethExploitDelay = 10
-local teethExploitEnabled = false
-local Toggle = Tab:CreateToggle({
-    Name = "Teeth Exploit",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(callback)
-        if callback then
-            teethExploitEnabled = true
-            coroutine.wrap(function()
-                repeat
-                    local shark = workspace.Sharks:GetChildren()[1]
-                    for _,v in next, game.Players:GetPlayers() do
-                        pcall(function()
-                            if (shark.PrimaryPart.Position - v.Character.HumanoidRootPart.Position).Magnitude < 100 and lplr.Team == game.Teams.Shark then
-                                coroutine.wrap(function()
-                                    kill(shark, v)
-                                end)()
-                                task.wait(teethExploitDelay/100)
-                            end
-                        end)
-                    end
-                    task.wait()
-                until teethExploitEnabled == false
-            end)()
-        else
-            teethExploitEnabled = false
-        end
-    end,
- })
-
-local Slider = Tab:CreateSlider({
-    Name = "Teeth Exploit Delay",
-    Range = {0, 100},
-    Increment = 1,
-    Suffix = "Delay",
-    CurrentValue = 1,
-    Flag = "Slider1",
-    Callback = function(Value)
-        teethExploitDelay = Value
-    end,
-})
-
 local fireRate = math.huge
 local spread = 0
 local magSize = 9e9
@@ -261,7 +209,7 @@ local Slider = Tab1:CreateSlider({
     Name = "Spread",
     Range = {0, 10},
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Spread",
     CurrentValue = 0,
     Flag = "Slider1",   
     Callback = function(Value)
