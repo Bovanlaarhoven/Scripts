@@ -42,21 +42,6 @@ local sb = {
     HitRemote = debug.getupvalue(debug.getupvalue(debug.getupvalue(require(lplr.PlayerScripts.ProjectilesClient.WeaponScript.HitScanFire).Fire, 8), 4), 2),
 }
 
-local oldVals = {}
-local Slider = Tab:CreateSlider({
-   Name = "Water Transparency",
-   Range = {0, 100},
-   Increment = 1,
-   Suffix = "WaterTransparency",
-   CurrentValue = 10,
-   Flag = "Slider1",
-   Callback = function(Value)
-        workspace.Terrain.WaterTransparency = (Value/100)
-   end,
-})
-
-
-
 local sharkAutoFarm = true
 local Toggle = Tab:CreateToggle({
     Name = "Shark Auto Farm",
