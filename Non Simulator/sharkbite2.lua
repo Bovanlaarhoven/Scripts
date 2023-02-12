@@ -43,11 +43,11 @@ local sb = {
 }
 
 local yoffset = 20
-local Slider = Tab1:CreateSlider({
+local Slider = Tab:CreateSlider({
     Name = "Y Offset",
     Range = {0, 100},
     Increment = 1,
-    Suffix = "Time",
+    Suffix = "Offset",
     CurrentValue = 20,
     Flag = "Slider1",
     Callback = function(Value)
