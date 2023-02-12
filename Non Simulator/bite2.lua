@@ -46,7 +46,7 @@ local oldVals = {}
 local Slider = Tab:CreateSlider({
    Name = "Water Transparency",
    Range = {0, 100},
-   Increment = 10,
+   Increment = 1,
    Suffix = "WaterTransparency",
    CurrentValue = 10,
    Flag = "Slider1",
@@ -55,26 +55,7 @@ local Slider = Tab:CreateSlider({
    end,
 })
 
-local sharkTPEnabled = false
-local Toggle = Tab:CreateToggle({
-   Name = "SharkTP",
-   CurrentValue = false,
-   Flag = "Toggle1",
-   Callback = function(callback)
-        if callback then
-            sharkTPEnabled = true
-            repeat
-                local shark = workspace.Sharks:GetChildren()[1]
-                if shark then
-                    lplr.Character.HumanoidRootPart.CFrame = (shark.PrimaryPart.CFrame + Vector3.new(0,20,0))
-                end
-                task.wait()
-            until sharkTPEnabled == false
-        else
-            sharkTPEnabled = false
-        end
-   end,
-})
+
 
 local sharkAutoFarm = true
 local Toggle = Tab:CreateToggle({
@@ -190,7 +171,7 @@ local Slider = Tab1:CreateSlider({
 
 local Slider = Tab1:CreateSlider({
     Name = "Mag Size",
-    Range = {0, 20000},
+    Range = {0, 5000},
     Increment = 1,
     Suffix = "Size",
     CurrentValue = 0,
