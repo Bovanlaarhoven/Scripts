@@ -42,6 +42,20 @@ local sb = {
     HitRemote = debug.getupvalue(debug.getupvalue(debug.getupvalue(require(lplr.PlayerScripts.ProjectilesClient.WeaponScript.HitScanFire).Fire, 8), 4), 2),
 }
 
+local yoffset = 20
+local Slider = Tab1:CreateSlider({
+    Name = "Y Offset",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "Time",
+    CurrentValue = 20,
+    Flag = "Slider1",
+    Callback = function(Value)
+        yoffset = Value
+    end,
+})
+
+
 local sharkAutoFarm = true
 local Toggle = Tab:CreateToggle({
     Name = "Shark Auto Farm",
@@ -63,7 +77,7 @@ local Toggle = Tab:CreateToggle({
                     end
                 end)
                 if shark and lplr.Team == game.Teams.Survivor then
-                    lplr.Character.HumanoidRootPart.CFrame = (shark.PrimaryPart.CFrame + Vector3.new(0,20,0))
+                    lplr.Character.HumanoidRootPart.CFrame = (shark.PrimaryPart.CFrame + Vector3.new(0,yoffset,0))
                     coroutine.wrap(function()
                         sb.HitRemote:FireServer(shark)
                     end)()
