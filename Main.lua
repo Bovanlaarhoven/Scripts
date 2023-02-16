@@ -43,6 +43,5 @@ else
         Text = "We would appreciate if you joined our discord (Copied)";
         Duration = 10;
     })
-    setclipboard("https://discord.gg/g95ZbGH4M8")
     loadstring(game:HttpGet(GameTable[game.PlaceId]))()
 end
