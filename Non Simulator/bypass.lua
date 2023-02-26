@@ -18,6 +18,8 @@ old = hookmetamethod(game,"__namecall",function(self,...)
         return
     elseif self == ACDTRequest and method == "FireServer" then
         return
+    elseif self == ErrorLog and method == "FireServer" then
+        return
     end
     return old(self,...)
 end)
