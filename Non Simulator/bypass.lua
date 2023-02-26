@@ -6,11 +6,17 @@ for _, v in next, getconnections(game:GetService("ScriptContext").Error) do
     v:Disable()
 end
 
-local AntiExploit = game:GetService("ReplicatedStorage").Remotes.AntiExploit
+local random = math.random(1, 100000000000)
+local ACDTResponse = game:GetService("ReplicatedStorage").Communication.Events.ACDTResponse
+local ACDTRequest = game:GetService("ReplicatedStorage").Communication.Events.ACDTRequest
+local ErrorLog = game:GetService("ReplicatedStorage").ErrorLoggerRemote
 local old
 old = hookmetamethod(game,"__namecall",function(self,...)
     local method = getnamecallmethod()
-    if self == AntiExploit and method == "FireServer" then
+    local args = {...}
+    if self == ACDTResponse and method == "FireServer" then
+        return
+    elseif self == ACDTRequest and method == "FireServer" then
         return
     end
     return old(self,...)
