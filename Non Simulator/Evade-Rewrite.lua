@@ -1,7 +1,8 @@
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
-local WebhookUrl = nil
-local WebhookSendinfo = false
+local camera =  workspace.CurrentCamera
+local runservice = game:GetService("RunService")
+local WebhookSendinfo, WebhookUrl = false, nil
 
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
@@ -56,7 +57,8 @@ local Settings = {
     FearFov = false,
     AutoRespawn = false,
     WebhookOnImportant = false,
-    ReviveFarm = false
+    ReviveFarm = false,
+    LeverEsp = false
 }
 
 local T1 = Window:CreateTab("Main")
@@ -125,9 +127,44 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if WebhookSendinfo then
-            if lplr.PlayerGui.HUD.Center.Vote.Info.Read.Timer.Text == "0:00" then
-                Util.Webhook:Embed(WebhookUrl, "Info", "Gained", "You have got " .. lplr.PlayerGui.Leaderboard.Center.Leaderboard.Selector.ScrollingFrame[lplr.Name].Revives.Text .. "Revives")
+        if Settings.LeverEsp then
+            function esp(Object)
+                local text = Drawing.new("Text")
+                text.Visible = true
+                text.Center = true
+                text.Outline = true
+                text.Color = Color3.new(0.933333, 0.933333, 0.933333)
+                text.OutlineColor = Color3.new(0, 0, 0)
+                text.Size = 18
+            
+                local renderstepped 
+                renderstepped = runservice.RenderStepped:Connect(function()
+                    if Object then
+                        local vector, onScreen
+                        if Object.Name then
+                            vector, onScreen = camera:WorldToViewportPoint(Object.Position)
+                            local distance = (Object.Position - lplr.Character.HumanoidRootPart.Position).magnitude
+                            text.Text = string.format("%s\nDistance: %.2f Studs", Object.Name, distance)
+                        end
+                        if onScreen then
+                            text.Position = Vector2.new(vector.X, vector.Y)
+                            text.Visible = true
+                        else
+                            text.Visible = false
+                        end
+                    else
+                        text.Visible = false
+                        text:Remove()
+                        renderstepped:Disconnect()
+                    end
+                end)
+                for _,v in pairs(workspace:GetDescendants()) do
+                    if v.Name == "Switch" then
+                        if v:FindFirstChild("Switch") then
+                            esp(v)
+                        end
+                    end
+                end
             end
         end
     end
@@ -251,8 +288,19 @@ local Toggle = T6:CreateToggle({
 	end,
 })
 
+local Toggle = T2:CreateToggle({
+    Name = "Lever Esp",
+    Info = "Puts a text esp on levers",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.LeverEsp = Value
+    end,
+})
+
 --settings
 
+local Label2 = T8:CreateLabel("Sending no information for now ):")
 local Label = T8:CreateLabel("Webhook not Set")
 
 local Input = T8:CreateInput({
