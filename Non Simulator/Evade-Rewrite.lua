@@ -3,22 +3,19 @@ local lplr = plrs.LocalPlayer
 local WebhookUrl = nil
 local WebhookSendinfo = false
 
-local oldTokens = lplr.PlayerGui.Menu.Left.Tokens.Cash.Text
-
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 end
 
 for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
-    if v.Name == "Menu" then
+    if v.Name == "Menu" ~= nil then
         Respawn()
-    elseif lplr.Character:GetAttribute("Downed") then
+    elseif lplr.Character:GetAttribute("Downed") ~= nil then
         Respawn()
     else
-        print("Loading")
+        print("working")
     end
 end
-
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
@@ -129,11 +126,8 @@ end)
 task.spawn(function()
     while task.wait() do
         if WebhookSendinfo then
-            if lplr.PlayerGui.Menu.Center.Main.Vote.Info.Read.Timer.Text == "0:00" then
-                local newTokens = lplr.PlayerGui.Menu.Left.Tokens.Cash.Text
-                if newTokens ~= oldTokens then
-                    Util.Webhook:Embed(WebhookUrl, "Info", "Gained", "You have gained "..newTokens - oldTokens.." tokens")
-                end
+            if lplr.PlayerGui.HUD.Center.Vote.Info.Read.Timer.Text == "0:00" then
+                Util.Webhook:Embed(WebhookUrl, "Info", "Gained", "You have got " .. lplr.PlayerGui.Leaderboard.Center.Leaderboard.Selector.ScrollingFrame[lplr.Name].Revives.Text .. "Revives")
             end
         end
     end
@@ -288,7 +282,7 @@ local Button = T8:CreateButton({
     end,
 })
 
-local Toggle = T1:CreateToggle({
+local Toggle = T8:CreateToggle({
     Name = "Webhook Send info",
     Info = "Sends some info to the webhook",
     CurrentValue = false,
