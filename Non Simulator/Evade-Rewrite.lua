@@ -1,5 +1,10 @@
+local plrs = game:GetService("Players")
+local lplr = plrs.LocalPlayer
 local WebhookUrl = nil
-local oldFov
+local WebhookSendinfo = false
+
+local oldTokens = lplr.PlayerGui.Menu.Left.Tokens.Cash.Text
+
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 end
@@ -7,13 +12,13 @@ end
 for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
     if v.Name == "Menu" then
         Respawn()
+    elseif lplr.Character:GetAttribute("Downed") then
+        Respawn()
     else
         print("Loading")
     end
 end
 
-local plrs = game:GetService("Players")
-local lplr = plrs.LocalPlayer
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
@@ -116,6 +121,19 @@ task.spawn(function()
         if Settings.AutoRespawn then
             if lplr.Character:GetAttribute("Downed") then
                 Respawn()
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if WebhookSendinfo then
+            if lplr.PlayerGui.Menu.Center.Main.Vote.Info.Read.Timer.Text == "0:00" then
+                local newTokens = lplr.PlayerGui.Menu.Left.Tokens.Cash.Text
+                if newTokens ~= oldTokens then
+                    Util.Webhook:Embed(WebhookUrl, "Info", "Gained", "You have gained "..newTokens - oldTokens.." tokens")
+                end
             end
         end
     end
@@ -266,6 +284,16 @@ local Button = T8:CreateButton({
     Info = "Will send a webhook Request",
     Interact = 'Press',
     Callback = function()
-        Util.Webhook:Embed(WebhookUrl, "", "Test", "Testing webhook")
+        Util.Webhook:Embed(WebhookUrl, "Testing", "Test", "Testing webhook")
     end,
- })
+})
+
+local Toggle = T1:CreateToggle({
+    Name = "Webhook Send info",
+    Info = "Sends some info to the webhook",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        WebhookSendinfo = Value
+    end,
+})
