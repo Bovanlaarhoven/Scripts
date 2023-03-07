@@ -89,6 +89,16 @@ task.spawn(function()
     end
 end)
 
+task.spawn(function()
+    while task.wait() do
+        if Settings.CrouchEnabled then
+            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
+        else
+            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
+        end
+    end
+end)
+
 local Toggle = T1:CreateToggle({
     Name = "Enable WalkSpeed",
     Info = "Enable/Disable WalkSpeed",
@@ -109,34 +119,6 @@ local Slider = T1:CreateSlider({
     Flag = "Slider1", 
     Callback = function(Value)
         Settings.WalkSpeed = Value
-    end,
-})
-
-local Toggle = T1:CreateToggle({
-    Name = "Enable CrouchSpeed",
-    Info = "Enable/Disable CrouchSpeed",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        Settings.CrouchEnabled = Value
-    end,
-})
-
-local Slider = T1:CreateSlider({
-    Name = "CrouchSpeed slider",
-    Info = "CrouchSpeed slider",
-    Range = {1, 100},
-    Increment = 1,
-    Suffix = "Power",
-    CurrentValue = 1,
-    Flag = "Slider1", 
-    Callback = function(Value)
-        Settings.CrouchSpeed = Value
-        if Value then
-            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = Value
-        else
-            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
-        end
     end,
 })
 
@@ -164,6 +146,17 @@ local Slider = T1:CreateSlider({
 })
 
 local Toggle = T1:CreateToggle({
+    Name = "Enable CrouchSpeed",
+    Info = "Makes your crouch speed the NORMAL walkspeed",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.CrouchEnabled = Value
+    end,
+})
+
+
+local Toggle = T1:CreateToggle({
     Name = "Disable Camera Shake",
     Info = "Disables your camera shake",
     CurrentValue = false,
@@ -172,7 +165,6 @@ local Toggle = T1:CreateToggle({
         Settings.CameraShake = Value
     end,
 })
-
 
 local Toggle = T1:CreateToggle({
     Name = "Disable Fear Fov Change",
