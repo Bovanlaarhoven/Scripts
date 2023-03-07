@@ -2,6 +2,8 @@ local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
 local camera =  workspace.CurrentCamera
 local runservice = game:GetService("RunService")
+local teleportservice = game:GetService("TeleportService")
+local Id = nil
 local WebhookSendinfo, WebhookUrl = false, nil
 
 local function Downed(plr)
@@ -20,7 +22,6 @@ end
 local function revive(plr, status)
     return game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(plr.Name, status)
 end
-
 
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
@@ -126,48 +127,9 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
-    while task.wait() do
-        if Settings.LeverEsp then
-            function esp(Object)
-                local text = Drawing.new("Text")
-                text.Visible = true
-                text.Center = true
-                text.Outline = true
-                text.Color = Color3.new(0.933333, 0.933333, 0.933333)
-                text.OutlineColor = Color3.new(0, 0, 0)
-                text.Size = 18
-            
-                local renderstepped 
-                renderstepped = runservice.RenderStepped:Connect(function()
-                    if Object then
-                        local vector, onScreen
-                        if Object.Name then
-                            vector, onScreen = camera:WorldToViewportPoint(Object.Position)
-                            local distance = (Object.Position - lplr.Character.HumanoidRootPart.Position).magnitude
-                            text.Text = string.format("%s\nDistance: %.2f Studs", Object.Name, distance)
-                        end
-                        if onScreen then
-                            text.Position = Vector2.new(vector.X, vector.Y)
-                            text.Visible = true
-                        else
-                            text.Visible = false
-                        end
-                    else
-                        text.Visible = false
-                        text:Remove()
-                        renderstepped:Disconnect()
-                    end
-                end)
-                for _,v in pairs(game:GetService("Workspace").Game.Map:GetDescendants()) do
-                    if v:FindFirstAncestor("Switch") then
-                        esp(v)
-                    end
-                end
-            end
-        end
-    end
-end)
+
+
+
 
 local Toggle = T1:CreateToggle({
     Name = "Enable WalkSpeed",
@@ -294,6 +256,43 @@ local Toggle = T2:CreateToggle({
     Flag = "Toggle1",
     Callback = function(Value)
         Settings.LeverEsp = Value
+    end,
+})
+
+local Dropdown = T4:CreateDropdown({
+    Name = "Teleport Choose",
+    Options = {"Main","BigTeam", "SocialSpace", "TeamDeathmatch", "Casual", "VcOnly", "Infection", "Pro", "PlayerNextbot"},
+    CurrentOption = "Main",
+    Flag = "Dropdown1",
+    Callback = function(Option)
+        if Option == "Main" then
+            Id = 9872472334
+        elseif Option == "BigTeam" then
+            Id = 10324346056
+        elseif Option == "SocialSpace" then
+            Id = 10324347967
+        elseif Option == "TeamDeathmatch" then
+            Id = 10539706691
+        elseif Option == "Casual" then
+            Id = 10662542523
+        elseif Option == "VcOnly" then
+            Id = 10808838353
+        elseif Option == "Infection" then
+            Id = 11353532384
+        elseif Option == "Pro" then
+            Id = 11353528705
+        elseif Option == "PlayerNextbot" then
+            Id = 11987867148
+        end
+    end,
+})
+
+local Button = T4:CreateButton({
+    Name = "Teleport To game",
+    Info = "Teleport to chosen game",
+    Interact = 'Teleport',
+    Callback = function()
+        teleportservice:Teleport(Id,lplr)
     end,
 })
 
