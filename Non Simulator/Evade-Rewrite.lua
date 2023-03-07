@@ -158,11 +158,9 @@ task.spawn(function()
                         renderstepped:Disconnect()
                     end
                 end)
-                for _,v in pairs(workspace:GetDescendants()) do
-                    if v.Name == "Switch" then
-                        if v:FindFirstChild("Switch") then
-                            esp(v)
-                        end
+                for _,v in pairs(game:GetService("Workspace").Game:GetDescendants()) do
+                    if v:FindFirstAncestor("Switch") then
+                        esp(v)
                     end
                 end
             end
