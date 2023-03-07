@@ -1,4 +1,4 @@
-
+local oldFov
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 end
@@ -47,7 +47,8 @@ local Settings = {
     WalkSpeed = 16,
     JumpEnabled = false,
     WalkEnabled = false,
-    CameraShake = false
+    CameraShake = false,
+    FearFov = false
 }
 
 local T1 = Window:CreateTab("Main")
@@ -65,6 +66,26 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
         return (Settings.WalkEnabled and Settings.JumpPower*100 or 1500), (Settings.WalkEnabled and Settings.WalkSpeed or 3)
     end
     return old(self,...)
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.CameraShake then
+            lplr.PlayerScripts.CameraShake.Value = CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1) * CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.FearFov then
+            if lplr.PlayerScripts.FOVAdjusters.Fear.Value then
+                lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
+            else
+                lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
+            end
+        end
+    end
 end)
 
 local Toggle = T1:CreateToggle({
@@ -119,6 +140,17 @@ local Toggle = T1:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
-        Settings.WalkEnabled = Value
+        Settings.CameraShake = Value
+    end,
+})
+
+
+local Toggle = T1:CreateToggle({
+    Name = "Disable Fear Fov Change",
+    Info = "Disables the change in fov when you are scared",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.FearFov = Value
     end,
 })
