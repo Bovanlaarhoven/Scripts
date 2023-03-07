@@ -9,7 +9,6 @@ local Light = game:GetService("Lighting")
 local Time = os.clock()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Jxereas/UI-Libraries/main/notification_gui_library.lua", true))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
-setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local Window = Rayfield:CreateWindow({
 	Name = "Evade",
@@ -25,7 +24,7 @@ local Window = Rayfield:CreateWindow({
         	Invite = "YvwEyH2W6t",
         	RememberJoins = true 
         },
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
