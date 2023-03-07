@@ -63,7 +63,7 @@ local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
     local args = {...}
     if (Settings.WalkEnabled or Settings.JumpPower) and self and self.Name == "Communicator" and args[1] == "update" then
-        return (Settings.WalkEnabled and Settings.JumpPower*100 or 1500), (Settings.WalkEnabled and Settings.WalkSpeed or 3)
+        return (Settings.WalkEnabled and Settings.WalkSpeed*100 or 1500), (Settings.JumpEnabled and Settings.JumpPower or 3)
     end
     return old(self,...)
 end)
