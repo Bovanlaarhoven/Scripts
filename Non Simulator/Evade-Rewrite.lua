@@ -1,3 +1,4 @@
+local WebhookUrl = nil
 local oldFov
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
@@ -14,6 +15,8 @@ end
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
 
+local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
+local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
 
 local Window = Rayfield:CreateWindow({
@@ -48,8 +51,10 @@ local Settings = {
     JumpEnabled = false,
     WalkEnabled = false,
     CameraShake = false,
-    CrouchEnabled = false,
-    FearFov = false
+    FearFov = false,
+    AutoRespawn = false,
+    WebhookOnImportant = false,
+    ReviveFarm = false
 }
 
 local T1 = Window:CreateTab("Main")
@@ -59,6 +64,23 @@ local T5 = Window:CreateTab("Fun")
 local T6 = Window:CreateTab("Farms")
 local T7 = Window:CreateTab("Bot ESP")
 local T8 = Window:CreateTab("Settings")
+
+local function isDowned(plr)
+    if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
+    return false
+end
+
+local function isCarried(plr)
+    local plr = workspace.Game.Players:FindFirstChild(plr.Name)
+    if plr then
+        return plr:FindFirstChild("CarriedBy") ~= nil
+    end
+    return false
+end
+
+local function revive(plr, status)
+    return game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(plr.Name, status)
+end
 
 local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
@@ -91,10 +113,10 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if Settings.CrouchEnabled then
-            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
-        else
-            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
+        if Settings.AutoRespawn then
+            if lplr.Character:GetAttribute("Downed") then
+                Respawn()
+            end
         end
     end
 end)
@@ -146,17 +168,6 @@ local Slider = T1:CreateSlider({
 })
 
 local Toggle = T1:CreateToggle({
-    Name = "Enable CrouchSpeed",
-    Info = "Makes your crouch speed the NORMAL walkspeed",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        Settings.CrouchEnabled = Value
-    end,
-})
-
-
-local Toggle = T1:CreateToggle({
     Name = "Disable Camera Shake",
     Info = "Disables your camera shake",
     CurrentValue = false,
@@ -175,3 +186,86 @@ local Toggle = T1:CreateToggle({
         Settings.FearFov = Value
     end,
 })
+
+local Toggle = T1:CreateToggle({
+    Name = "Auto Respawn",
+    Info = "Auto Respawns",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.AutoRespawn = Value
+    end,
+})
+
+local Toggle = T6:CreateToggle({
+	Name = "Revive AutoFarm",
+	CurrentValue = false,
+	Flag = "Toggle1", 
+	Callback = function(Value)
+        Settings.ReviveFarm = Value
+        if Value then
+            coroutine.wrap(function()
+                repeat
+                    local suc,res = pcall(function()
+                        for _,v in next, game.Players:GetPlayers() do
+                            if v and v ~= lplr and isDowned(v) and not isCarried(v) then
+                                plrs = v
+                                task.spawn(function()
+                                    for _ = 1,30 do
+                                        if isDowned(lplr) then Respawn() end
+                                        if plrs ~= v or not isDowned(v) or isCarried(v) then return end
+                                        if lplr and lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") and v and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                                            lplr.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                                        end
+                                        task.wait(.0866666667)
+                                    end
+                                end)
+                                task.wait(.2)
+                                revive(v, false)
+                                task.wait(2.2)
+                                for _ = 1,2 do
+                                    revive(v, true)
+                                    task.wait(.1)
+                                end
+                                task.wait(.3)
+                            end
+                        end
+                    end)
+                    if not suc then Lib:prompt("[ReviveAutoFarm Error]: "..res, 5) end
+                    task.wait()
+                until Settings.ReviveFarm == false
+            end)()
+        end
+	end,
+})
+
+--settings
+
+local Label = T8:CreateLabel("Webhook not Set")
+
+local Input = T8:CreateInput({
+    Name = "Webhook",
+    Info = "Webhook Input",
+    PlaceholderText = "Webhook here",
+    NumbersOnly = false, 
+    CharacterLimit = 1000,
+    OnEnter = true,
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        if Text:match("https://discord.com/api/webhooks/%d+/%w+") then
+            WebhookUrl = Text
+            Label:Set("Webhook Set")
+        else
+            Lib:prompt("Invalid Webhook", "Please enter a valid webhook", 5)
+        end
+    end,
+})
+
+local Button = T8:CreateButton({
+    Name = "Test Webhook",
+    Info = "Will send a webhook Request",
+    Interact = 'Press',
+    Callback = function()
+        Util.Webhook:Embed(WebhookUrl, "", "Test", "Testing webhook")
+    end,
+ })
