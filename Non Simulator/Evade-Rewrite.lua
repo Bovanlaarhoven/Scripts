@@ -4,6 +4,24 @@ local camera =  workspace.CurrentCamera
 local runservice = game:GetService("RunService")
 local WebhookSendinfo, WebhookUrl = false, nil
 
+local function Downed(plr)
+    if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
+    return false
+end
+
+local function isCarried(plr)
+    local plr = workspace.Game.Players:FindFirstChild(plr.Name)
+    if plr then
+        return plr:FindFirstChild("CarriedBy") ~= nil
+    end
+    return false
+end
+
+local function revive(plr, status)
+    return game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(plr.Name, status)
+end
+
+
 function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
 end
@@ -11,7 +29,7 @@ end
 for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
     if v.Name == "Menu" ~= nil then
         Respawn()
-    elseif lplr.Character:GetAttribute("Downed") ~= nil then
+    elseif Downed(lplr) ~= nil then
         Respawn()
     else
         print("working")
@@ -68,23 +86,6 @@ local T5 = Window:CreateTab("Fun")
 local T6 = Window:CreateTab("Farms")
 local T7 = Window:CreateTab("Bot ESP")
 local T8 = Window:CreateTab("Settings")
-
-local function isDowned(plr)
-    if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
-    return false
-end
-
-local function isCarried(plr)
-    local plr = workspace.Game.Players:FindFirstChild(plr.Name)
-    if plr then
-        return plr:FindFirstChild("CarriedBy") ~= nil
-    end
-    return false
-end
-
-local function revive(plr, status)
-    return game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(plr.Name, status)
-end
 
 local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
@@ -158,7 +159,7 @@ task.spawn(function()
                         renderstepped:Disconnect()
                     end
                 end)
-                for _,v in pairs(game:GetService("Workspace").Game:GetDescendants()) do
+                for _,v in pairs(game:GetService("Workspace").Game.Map:GetDescendants()) do
                     if v:FindFirstAncestor("Switch") then
                         esp(v)
                     end
@@ -255,12 +256,12 @@ local Toggle = T6:CreateToggle({
                 repeat
                     local suc,res = pcall(function()
                         for _,v in next, game.Players:GetPlayers() do
-                            if v and v ~= lplr and isDowned(v) and not isCarried(v) then
+                            if v and v ~= lplr and Downed(v) and not isCarried(v) then
                                 plrs = v
                                 task.spawn(function()
                                     for _ = 1,30 do
-                                        if isDowned(lplr) then Respawn() end
-                                        if plrs ~= v or not isDowned(v) or isCarried(v) then return end
+                                        if Downed(lplr) then Respawn() end
+                                        if plrs ~= v or not Downed(v) or isCarried(v) then return end
                                         if lplr and lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") and v and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                                             lplr.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
                                         end
