@@ -48,6 +48,7 @@ local Settings = {
     JumpEnabled = false,
     WalkEnabled = false,
     CameraShake = false,
+    CrouchEnabled = false,
     FearFov = false
 }
 
@@ -112,12 +113,40 @@ local Slider = T1:CreateSlider({
 })
 
 local Toggle = T1:CreateToggle({
+    Name = "Enable CrouchSpeed",
+    Info = "Enable/Disable CrouchSpeed",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.CrouchEnabled = Value
+    end,
+})
+
+local Slider = T1:CreateSlider({
+    Name = "CrouchSpeed slider",
+    Info = "CrouchSpeed slider",
+    Range = {1, 100},
+    Increment = 1,
+    Suffix = "Power",
+    CurrentValue = 1,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        Settings.CrouchSpeed = Value
+        if Value then
+            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = Value
+        else
+            game:GetService("Workspace").Game.Players[lplr.Name].StatChanges.Speed.Crouch.Value = 1
+        end
+    end,
+})
+
+local Toggle = T1:CreateToggle({
     Name = "Enable JumpPower",
     Info = "Enable/Disable JumpPower",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
-        Settings.WalkEnabled = Value
+        Settings.JumpEnabled = Value
     end,
 })
 
@@ -130,7 +159,7 @@ local Slider = T1:CreateSlider({
     CurrentValue = 20,
     Flag = "Slider1", 
     Callback = function(Value)
-        Settings.WalkSpeed = Value
+        Settings.JumpPower = Value
     end,
 })
 
