@@ -261,8 +261,8 @@ local Toggle = T2:CreateToggle({
 
 local Dropdown = T4:CreateDropdown({
     Name = "Teleport Choose",
-    Options = {"Main","BigTeam", "SocialSpace", "TeamDeathmatch", "Casual", "VcOnly", "Infection", "Pro", "PlayerNextbot"},
-    CurrentOption = "Main",
+    Options = {"Main", "BigTeam", "SocialSpace", "TeamDeathmatch", "Casual", "VcOnly", "Infection", "Pro", "PlayerNextbot"},
+    CurrentOption = "Choose a game",
     Flag = "Dropdown1",
     Callback = function(Option)
         if Option == "Main" then
