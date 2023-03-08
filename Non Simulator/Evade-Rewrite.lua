@@ -5,8 +5,8 @@ local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local OldFov
-local WebhookSendinfo, WebhookUrl = false, nil
-local EspText = {}
+local WebhookSendinfo = false
+local WebhookUrl = nil
 
 local function Downed(plr)
     if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
@@ -143,54 +143,42 @@ task.spawn(function()
 end)
 
 --Switch esp
-function esp(Object, draw)
-    local text = Drawing.new("Text")
-    text.Visible = false
-    text.Center = true
-    text.Outline = true
-    text.Color = Settings.EspColor
-    text.OutlineColor = Settings.EspColor
-    text.Size = 18
-
-    local renderstepped 
-    renderstepped = runservice.RenderStepped:Connect(function()
-        if Object and draw then
-            local allOnScreen = true
-            local avgPos = Vector3.new()
-            local count = 0
-            for _, part in pairs(Object:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    local vector, onScreen = camera:WorldToViewportPoint(part.Position)
-                    if not onScreen then
-                        allOnScreen = false
-                    end
-                    avgPos = avgPos + part.Position
-                    count = count + 1
+function esp(Object)
+    pcall(function()
+        local text = Drawing.new("Text")
+        text.Visible = true
+        text.Center = true
+        text.Outline = true
+        text.Color = Color3.new(0.933333, 0.933333, 0.933333)
+        text.OutlineColor = Color3.new(0, 0, 0)
+        text.Size = 18
+    
+        local renderstepped 
+        renderstepped = runservice.RenderStepped:Connect(function()
+            if Object then
+                local vector, onScreen
+                vector, onScreen = camera:WorldToViewportPoint(Object.Position)
+                local distance = (Object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                local distanceInMeters = distance * 0.282
+                text.Text = string.format("%s\nDistance: %.2f Meters", Object.Name, distanceInMeters)
+                if onScreen then
+                    text.Position = Vector2.new(vector.X, vector.Y)
+                    text.Visible = Settings.LeverEsp
+                else
+                    text.Visible = false
                 end
-            end
-            if count > 0 then
-                avgPos = avgPos / count
-            end
-            if allOnScreen and count > 0 then
-                local distance = (avgPos - lplr.Character.HumanoidRootPart.Position).magnitude
-                text.Text = string.format("%s\nDistance: %.2f Studs", Object.Name, distance)
-                local vector, _ = camera:WorldToViewportPoint(avgPos)
-                text.Position = Vector2.new(vector.X, vector.Y)
-                text.Visible = true
             else
                 text.Visible = false
+                text:Remove()
+                renderstepped:Disconnect()
             end
-        else
-            text.Visible = false
-        end
+        end)
     end)
-    return text
 end
 
 for _,v in pairs(game:GetService("Workspace").Game.Map:GetDescendants()) do
     if v.Name == "Switch" and v:FindFirstChild("Switch") then
-        local text = esp(v, false)
-        table.insert(EspText, text)
+        esp(v)
     end
 end
 
@@ -367,10 +355,7 @@ local Toggle = T2:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
-        Settings.LeverEsp = not Settings.LeverEsp
-        for _,v in ipairs(EspText) do
-            v.Visible = Settings.LeverEsp
-        end
+        Settings.LeverEsp = Value
     end,
 })
 
