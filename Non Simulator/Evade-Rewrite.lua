@@ -112,12 +112,15 @@ task.spawn(function()
     while task.wait() do
         if Settings.FearFov then
             if lplr.PlayerScripts.FOVAdjusters.Fear.Value then
+                old = lplr.PlayerScripts.FOVAdjusters.Fear.Value
                 lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
             else
                 lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
             end
-        elseif Settings.FearFov == false then
-            lplr.PlayerScripts.FOVAdjusters.Fear.Value
+        else
+            if old then
+                lplr.PlayerScripts.FOVAdjusters.Fear.Value = old
+            end
         end
     end
 end)
@@ -205,15 +208,18 @@ function BotEsp(plr)
                     line.Thickness = 2
                 else
                     line.Visible = false
+                    text.Visible = false
                 end
             else
                 pcall(function()
                     line.Visible = false
+                    text.Visible = false
                 end)
             end
             if not plr:FindFirstChild("HumanoidRootPart") or not plr:FindFirstChild("HumanoidRootPart"):IsDescendantOf(game:GetService("Workspace")) then
                 pcall(function()
                     line:Remove()
+                    text:Remove()
                 end)
             end
         end)
