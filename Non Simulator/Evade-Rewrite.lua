@@ -1,5 +1,3 @@
-local noclipConnection
-local oldParts = {}
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
 local camera =  workspace.CurrentCamera
@@ -7,7 +5,6 @@ local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local OldFov
-local OldHH
 local WebhookSendinfo = false
 local WebhookUrl = nil
 local lightning = game:GetService("Lighting")
@@ -100,8 +97,6 @@ local Window = Rayfield:CreateWindow({
 local Settings = {
     JumpPower = 20,
     WalkSpeed = 20,
-    HipHeight = -1.2,
-    HHEnabled = false,
     JumpEnabled = false,
     WalkEnabled = false,
     CameraShake = false,
@@ -315,73 +310,6 @@ local Slider = T1:CreateSlider({
 })
 
 local Toggle = T1:CreateToggle({
-    Name = "Enable HipHeight",
-    Info = "Enable/Disable HipHeight",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        Settings.HHEnabled = Value
-        if Value then
-            if lplr.Character.Humanoid.HipHeight then
-                OldHH = lplr.Character.Humanoid.HipHeight
-                lplr.Character.Humanoid.HipHeight = Settings.HipHeight
-            else
-                OldHH = lplr.Character.Humanoid.HipHeight
-                lplr.Character.Humanoid.HipHeight = Settings.HipHeight
-            end
-        else
-            if OldHH then
-                lplr.Character.Humanoid.HipHeight = OldHH
-            else
-                lplr.Character.Humanoid.HipHeight = OldHH
-            end
-        end
-    end,
-})
-
-local Slider = T1:CreateSlider({
-    Name = "HipHeight slider",
-    Info = "Hipheight slider",
-    Range = {lplr.Character.Humanoid.HipHeight, 100},
-    Increment = .1,
-    Suffix = "Height",
-    CurrentValue = lplr.Character.Humanoid.HipHeight,
-    Flag = "Slider1", 
-    Callback = function(Value)
-        Settings.HipHeight = Value
-    end,
-})
-
-local Toggle = T1:CreateToggle({
-    Name = "NoClip",
-    Info = "Lets you NoClip",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        if Value then
-            if noclipConnection then
-                noclipConnection:Disconnect()
-            end
-            noclipConnection = game.RunService.Stepped:Connect(function()
-                for _,v in pairs(lplr.Character:GetDescendants()) do
-                    if v:IsA("BasePart") and v.CanCollide == true then
-                        oldParts[v] = true
-                        v.CanCollide = false
-                    end
-                end
-            end)
-        else
-            if noclipConnection then
-                noclipConnection:Disconnect()
-            end
-            for i,v in next, oldParts do
-                i.CanCollide = v
-            end
-        end
-    end,
-})
-
-local Toggle = T1:CreateToggle({
     Name = "Disable Camera Shake",
     Info = "Disables your camera shake",
     CurrentValue = false,
@@ -390,7 +318,6 @@ local Toggle = T1:CreateToggle({
         Settings.CameraShake = Value
     end,
 })
-
 local Toggle = T1:CreateToggle({
     Name = "Disable Fear Fov Change",
     Info = "Disables the change in fov when you are scared",
