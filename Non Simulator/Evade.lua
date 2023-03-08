@@ -590,7 +590,7 @@ function esp(plr)
                 if not plr:FindFirstChild'HumanoidRootPart' or not plr:FindFirstChild'HumanoidRootPart':IsDescendantOf(game:GetService'Workspace') then
                     pcall(function()
                     rat:Remove()
-                    end)
+                end)
             end
         end)
    end

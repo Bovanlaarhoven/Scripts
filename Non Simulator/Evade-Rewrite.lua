@@ -7,6 +7,7 @@ local Id = nil
 local OldFov
 local WebhookSendinfo = false
 local WebhookUrl = nil
+local lightning = game:GetService("Lighting")
 
 local function Downed(plr)
     if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
@@ -82,6 +83,7 @@ local Settings = {
     LeverEsp = false,
     BotEsp = false,
     EspColor = Color3.fromRGB(0, 0, 0),
+    AfkFarm = false,
 }
 
 local T1 = Window:CreateTab("Main")
@@ -138,6 +140,14 @@ task.spawn(function()
             if lplr.Character:GetAttribute("Downed") then
                 Respawn()
             end
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.AfkFarm then
+            lplr.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(6007, 7005, 8005)
         end
     end
 end)
@@ -349,6 +359,16 @@ local Toggle = T6:CreateToggle({
 	end,
 })
 
+local Toggle = T6:CreateToggle({
+    Name = "Afk Farm",
+    Info = "Afk Farms for you",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.AfkFarm = Value
+    end,
+})
+
 local Toggle = T2:CreateToggle({
     Name = "Lever Esp",
     Info = "Puts a text esp on levers",
@@ -358,7 +378,6 @@ local Toggle = T2:CreateToggle({
         Settings.LeverEsp = Value
     end,
 })
-
 
 local Dropdown = T4:CreateDropdown({
     Name = "Teleport Choose",
@@ -403,6 +422,20 @@ local Toggle = T7:CreateToggle({
     Flag = "Toggle1",
     Callback = function(Value)
         Settings.BotEsp = Value
+    end,
+})
+
+local Slider = T2:CreateSlider({
+    Name = "brightness slider",
+    Info = "The one and only birghtness slider",
+    Range = {0, 10},
+    Increment = 1,
+    Suffix = "Brightness",
+    CurrentValue = 1,
+    Flag = "Slider1", 
+    Callback = function(Value)
+       lightning.Brightness = Value
+       lightning.ClockTime = 14
     end,
 })
 
