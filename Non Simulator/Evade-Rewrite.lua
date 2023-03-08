@@ -4,6 +4,7 @@ local camera =  workspace.CurrentCamera
 local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
+local OldFov
 local WebhookSendinfo, WebhookUrl = false, nil
 local EspText = {}
 
@@ -112,14 +113,20 @@ task.spawn(function()
     while task.wait() do
         if Settings.FearFov then
             if lplr.PlayerScripts.FOVAdjusters.Fear.Value then
-                old = lplr.PlayerScripts.FOVAdjusters.Fear.Value
-                lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
+                OldFov = lplr.PlayerScripts.FOVAdjusters.Fear.Value
+                OldFov.PlayerScripts.FOVAdjusters.Fear.Value = 1
             else
+                OldFov = lplr.PlayerScripts.FOVAdjusters.Fear.Value
                 lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
             end
         else
-            if old then
-                lplr.PlayerScripts.FOVAdjusters.Fear.Value = old
+            if OldFov then
+                if lplr.PlayerScripts.FOVAdjusters.Fear.Value then
+                    lplr.PlayerScripts.FOVAdjusters.Fear.Value = OldFov
+                else
+                    lplr.PlayerScripts.FOVAdjusters.Fear.Value = OldFov
+                end
+                
             end
         end
     end
