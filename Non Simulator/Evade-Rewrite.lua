@@ -116,6 +116,8 @@ task.spawn(function()
             else
                 lplr.PlayerScripts.FOVAdjusters.Fear.Value = 1
             end
+        elseif Settings.FearFov == false then
+            lplr.PlayerScripts.FOVAdjusters.Fear.Value
         end
     end
 end)
@@ -137,7 +139,7 @@ function esp(Object, draw)
     text.Center = true
     text.Outline = true
     text.Color = Settings.EspColor
-    text.OutlineColor = Color3.new(0, 0, 0)
+    text.OutlineColor = Settings.EspColor
     text.Size = 18
 
     local renderstepped 
