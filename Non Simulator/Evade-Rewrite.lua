@@ -1,4 +1,5 @@
-
+local noclipConnection
+local oldParts = {}
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
 local camera =  workspace.CurrentCamera
@@ -348,6 +349,35 @@ local Slider = T1:CreateSlider({
     Flag = "Slider1", 
     Callback = function(Value)
         Settings.HipHeight = Value
+    end,
+})
+
+local Toggle = T1:CreateToggle({
+    Name = "NoClip",
+    Info = "Lets you NoClip",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        if Value then
+            if noclipConnection then
+                noclipConnection:Disconnect()
+            end
+            noclipConnection = game.RunService.Stepped:Connect(function()
+                for _,v in pairs(lplr.Character:GetDescendants()) do
+                    if v:IsA("BasePart") and v.CanCollide == true then
+                        oldParts[v] = true
+                        v.CanCollide = false
+                    end
+                end
+            end)
+        else
+            if noclipConnection then
+                noclipConnection:Disconnect()
+            end
+            for i,v in next, oldParts do
+                i.CanCollide = v
+            end
+        end
     end,
 })
 
