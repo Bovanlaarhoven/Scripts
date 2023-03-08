@@ -1,10 +1,3 @@
-for _,v in next, getconnections(game:GetService("ScriptContext").Error) do
-    v:Disable()
-end
-
-for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
-    v:Disable()
-end
 
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
@@ -13,10 +6,12 @@ local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local OldFov
+local OldHH
 local WebhookSendinfo = false
 local WebhookUrl = nil
 local lightning = game:GetService("Lighting")
 local Time = os.clock()
+getgenv().Disabled = false
 
 local function Downed(plr)
     if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
@@ -35,17 +30,39 @@ local function revive(plr, status)
     return game:GetService("ReplicatedStorage").Events.Revive.RevivePlayer:FireServer(plr.Name, status)
 end
 
-function Respawn()
+local function Respawn()
     game:GetService("ReplicatedStorage").Events.Respawn:FireServer()
+end
+
+local function Disable()
+    for _,v in next, getconnections(game:GetService("ScriptContext").Error) do
+        v:Disable()
+    end
+    
+    for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
+        v:Disable()
+    end
 end
 
 for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
     if v.Name == "Menu" ~= nil then
         Respawn()
+        if getgenv().Disabled == false then
+            Disable()
+            getgenv().Disabled = true
+        end
     elseif Downed(lplr) ~= nil then
         Respawn()
+        if getgenv().Disabled == false then
+            Disable()
+            getgenv().Disabled = true
+        end
     else
         print("working")
+        if getgenv().Disabled == false then
+            Disable()
+            getgenv().Disabled = true
+        end
     end
 end
 
@@ -82,6 +99,8 @@ local Window = Rayfield:CreateWindow({
 local Settings = {
     JumpPower = 20,
     WalkSpeed = 20,
+    HipHeight = -1.2,
+    HHEnabled = false,
     JumpEnabled = false,
     WalkEnabled = false,
     CameraShake = false,
@@ -248,8 +267,6 @@ game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
     BotEsp(plr)
 end)
 
-
-
 local Toggle = T1:CreateToggle({
     Name = "Enable WalkSpeed",
     Info = "Enable/Disable WalkSpeed",
@@ -293,6 +310,44 @@ local Slider = T1:CreateSlider({
     Flag = "Slider1", 
     Callback = function(Value)
         Settings.JumpPower = Value
+    end,
+})
+
+local Toggle = T1:CreateToggle({
+    Name = "Enable HipHeight",
+    Info = "Enable/Disable HipHeight",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.HHEnabled = Value
+        if Value then
+            if lplr.Character.Humanoid.HipHeight then
+                OldHH = lplr.Character.Humanoid.HipHeight
+                lplr.Character.Humanoid.HipHeight = Settings.HipHeight
+            else
+                OldHH = lplr.Character.Humanoid.HipHeight
+                lplr.Character.Humanoid.HipHeight = Settings.HipHeight
+            end
+        else
+            if OldHH then
+                lplr.Character.Humanoid.HipHeight = OldHH
+            else
+                lplr.Character.Humanoid.HipHeight = OldHH
+            end
+        end
+    end,
+})
+
+local Slider = T1:CreateSlider({
+    Name = "HipHeight slider",
+    Info = "Hipheight slider",
+    Range = {lplr.Character.Humanoid.HipHeight, 100},
+    Increment = .1,
+    Suffix = "Height",
+    CurrentValue = lplr.Character.Humanoid.HipHeight,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        Settings.HipHeight = Value
     end,
 })
 
