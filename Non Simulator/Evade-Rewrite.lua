@@ -5,6 +5,7 @@ local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local WebhookSendinfo, WebhookUrl = false, nil
+local EspText = {}
 
 local function Downed(plr)
     if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
@@ -77,7 +78,9 @@ local Settings = {
     AutoRespawn = false,
     WebhookOnImportant = false,
     ReviveFarm = false,
-    LeverEsp = false
+    LeverEsp = false,
+    BotEsp = false,
+    EspColor = Color3.fromRGB(0, 0, 0),
 }
 
 local T1 = Window:CreateTab("Main")
@@ -127,7 +130,101 @@ task.spawn(function()
     end
 end)
 
+--Switch esp
+function esp(Object, draw)
+    local text = Drawing.new("Text")
+    text.Visible = false
+    text.Center = true
+    text.Outline = true
+    text.Color = Settings.EspColor
+    text.OutlineColor = Color3.new(0, 0, 0)
+    text.Size = 18
 
+    local renderstepped 
+    renderstepped = runservice.RenderStepped:Connect(function()
+        if Object and draw then
+            local allOnScreen = true
+            local avgPos = Vector3.new()
+            local count = 0
+            for _, part in pairs(Object:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    local vector, onScreen = camera:WorldToViewportPoint(part.Position)
+                    if not onScreen then
+                        allOnScreen = false
+                    end
+                    avgPos = avgPos + part.Position
+                    count = count + 1
+                end
+            end
+            if count > 0 then
+                avgPos = avgPos / count
+            end
+            if allOnScreen and count > 0 then
+                local distance = (avgPos - lplr.Character.HumanoidRootPart.Position).magnitude
+                text.Text = string.format("%s\nDistance: %.2f Studs", Object.Name, distance)
+                local vector, _ = camera:WorldToViewportPoint(avgPos)
+                text.Position = Vector2.new(vector.X, vector.Y)
+                text.Visible = true
+            else
+                text.Visible = false
+            end
+        else
+            text.Visible = false
+        end
+    end)
+    return text
+end
+
+for _,v in pairs(game:GetService("Workspace").Game.Map:GetDescendants()) do
+    if v.Name == "Switch" and v:FindFirstChild("Switch") then
+        local text = esp(v, false)
+        table.insert(EspText, text)
+    end
+end
+
+--bot esp
+
+function BotEsp(plr)
+    if plrs:GetPlayerFromCharacter(plr) == nil then
+        local line = Drawing.new("Line")
+        local text = Drawing.new("Text")
+        runservice.RenderStepped:Connect(function()
+            if plr:FindFirstChild("HumanoidRootPart") then
+                local Vector, OnScreen = camera:WorldToViewportPoint(plr.HumanoidRootPart.Position)
+                if OnScreen then
+                    local Distance = (plr.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).magnitude
+                    text.Visible = Settings.BotEsp
+                    line.Visible = Settings.BotEsp
+                    text.Text = string.format("%s\nDistance: %.2f Studs", plr.Name, Distance)
+                    text.Position = Vector2.new(Vector.X, Vector.Y)
+                    line.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+                    line.To = Vector2.new(Vector.X, Vector.Y)
+                    line.Color = Settings.EspColor
+                    line.Thickness = 2
+                else
+                    line.Visible = false
+                end
+            else
+                pcall(function()
+                    line.Visible = false
+                end)
+            end
+            if not plr:FindFirstChild("HumanoidRootPart") or not plr:FindFirstChild("HumanoidRootPart"):IsDescendantOf(game:GetService("Workspace")) then
+                pcall(function()
+                    line:Remove()
+                end)
+            end
+        end)
+    end
+end
+
+for _,v in pairs(game:GetService'Workspace'.Game.Players:GetChildren()) do
+    BotEsp(v)
+end
+
+game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
+    BotEsp(plr)
+end)
 
 
 
@@ -255,9 +352,13 @@ local Toggle = T2:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
-        Settings.LeverEsp = Value
+        Settings.LeverEsp = not Settings.LeverEsp
+        for _,v in ipairs(EspText) do
+            v.Visible = Settings.LeverEsp
+        end
     end,
 })
+
 
 local Dropdown = T4:CreateDropdown({
     Name = "Teleport Choose",
@@ -293,6 +394,15 @@ local Button = T4:CreateButton({
     Interact = 'Teleport',
     Callback = function()
         teleportservice:Teleport(Id,lplr)
+    end,
+})
+
+local Toggle = T7:CreateToggle({
+    Name = "Toggle Esp",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        Settings.BotEsp = Value
     end,
 })
 
