@@ -106,7 +106,7 @@ local Settings = {
     ReviveFarm = false,
     LeverEsp = false,
     BotEsp = false,
-    EspColor = Color3.fromRGB(0, 0, 0),
+    EspColor = Color3.fromRGB(255, 255, 255),
     AfkFarm = false,
 }
 
@@ -183,8 +183,8 @@ function esp(Object)
         text.Visible = true
         text.Center = true
         text.Outline = true
-        text.Color = Color3.new(0.933333, 0.933333, 0.933333)
-        text.OutlineColor = Color3.new(0, 0, 0)
+        text.Color = Settings.EspColor
+        text.OutlineColor = Settings.EspColor
         text.Size = 18
     
         local renderstepped 
@@ -229,6 +229,8 @@ function BotEsp(plr)
                     local Distance = (plr.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).magnitude
                     text.Visible = Settings.BotEsp
                     line.Visible = Settings.BotEsp
+                    text.Color = Settings.EspColor
+                    text.OutlineColor = Settings.EspColor
                     text.Text = string.format("%s\nDistance: %.2f Studs", plr.Name, Distance)
                     text.Position = Vector2.new(Vector.X, Vector.Y)
                     line.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
