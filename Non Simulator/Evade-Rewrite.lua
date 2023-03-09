@@ -97,6 +97,9 @@ local Window = Rayfield:CreateWindow({
 local Settings = {
     JumpPower = 20,
     WalkSpeed = 20,
+    FastRevive = false,
+    CrouchSpeed = 0.6,
+    CrouchEnabled = false,
     JumpEnabled = false,
     WalkEnabled = false,
     CameraShake = false,
@@ -121,7 +124,7 @@ local T8 = Window:CreateTab("Settings")
 local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
     local args = {...}
-    if (Settings.WalkEnabled or Settings.JumpPower) and self and self.Name == "Communicator" and args[1] == "update" then
+    if (Settings.WalkEnabled or Settings.JumpEnabled) and self and self.Name == "Communicator" and args[1] == "update" then
         return (Settings.WalkEnabled and Settings.WalkSpeed*100 or 1500), (Settings.JumpEnabled and Settings.JumpPower or 3)
     end
     return old(self,...)
