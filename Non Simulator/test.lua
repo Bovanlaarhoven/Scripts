@@ -35,7 +35,7 @@ do
             return;
         elseif (method == "FireServer" and self.Name == "SubmitCombo" and args[1] > 299) then
             args[1] = math.random(250, 299); --> Hudzell, please suck my cock :)
-        elseif (method == "TakeDamage" and self.ClassName == "Humanoid" and library.flags.god_mode) then
+        elseif (method == "TakeDamage" and self.ClassName == "Humanoid") then
             return;
         end;
     
@@ -44,7 +44,7 @@ do
 
     local idx;
     idx = hookmetamethod(game, "__index", newcclosure(function(self, key)
-        if (key == "PlaybackLoudness" and getfenv(2).script.Name == "RadioScript" and library.flags.audio_bypass) then
+        if (key == "PlaybackLoudness" and getfenv(2).script.Name == "RadioScript") then
             return 0;
         end;
 
