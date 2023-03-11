@@ -110,7 +110,6 @@ local Settings = {
     BotEsp = false,
     EspColor = Color3.fromRGB(255, 255, 255),
     AfkFarm = false,
-    Bhop = false,
 }
 
 local T1 = Window:CreateTab("Main")
@@ -128,16 +127,6 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
         return (Settings.WalkEnabled and Settings.WalkSpeed*100 or 1500), (Settings.JumpEnabled and Settings.JumpPower or 3)
     end
     return old(self,...)
-end)
-
-local namecall
-namecall = hookmetamethod(game,"__namecall", function(self,...)
-    local args = {...}
-    if not checkcaller() and self and self.Name == "Communicator" and args[1] == "JumpDone" and Settings.Bhop then
-        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-        return
-    end
-    return namecall(self,...)
 end)
 
 task.spawn(function()
@@ -350,29 +339,6 @@ local Toggle = T1:CreateToggle({
     Flag = "Toggle1",
     Callback = function(Value)
         Settings.AutoRespawn = Value
-    end,
-})
-
-local BhopToggle = T1:CreateToggle({
-    Name = "Bhop",
-    Info = "Broken asf",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(Value)
-        Settings.Bhop = Value
-        Window:Prompt({
-            Title = 'BROKEN',
-            SubTitle = 'Bhop',
-            Content = 'this feature is broken asf, so if you die untoggle and toggle it same with all other actions that reset your character',
-            Actions = {
-                Accept = {
-                    Name = 'Accept',
-                    Callback = function()
-                        -- You know what a callback is...
-                    end,
-                }
-            }
-        })
     end,
 })
 
