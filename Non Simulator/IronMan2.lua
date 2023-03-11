@@ -13,8 +13,8 @@ local Window = Rayfield:CreateWindow({
        FileName = "Big Hub"
     },
     Discord = {
-       Enabled = false,
-       Invite = "sirius",
+       Enabled = true,
+       Invite = "YvwEyH2W6t",
        RememberJoins = true 
     },
     KeySystem = false,
