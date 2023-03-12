@@ -92,9 +92,42 @@ local Settings = {
     chargecooldown = false,
     infwallboost = false,
     trickpass = false,
+    reset = false,
+    resetvalue = 10000,
 }
 
+task.spawn(function()
+    while task.wait() do
+        if Settings.autofarm then
+            if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
+                local pointsEnv = getsenv(lplr.PlayerScripts.Points);
+                pointsEnv.changeParkourRemoteParent(workspace);
+            
+                local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+            
+                scoreRemote:FireServer(encrypt("walljump"), {
+                    [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
+                    [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
+                });
+                wait(0.4);
+                scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
+                    [encrypt("combo")] = encrypt(tostring(1));
+                });
+                wait(math.random(1.25, 1.35));
+            end
+        end
+    end
+end)
 
+task.spawn(function()
+    while task.wait() do
+        if Settings.reset then
+            if lplr.leaderstats.Points.Value >= Settings.resetvalue then
+                game:GetService("ReplicatedStorage").Reset:InvokeServer()
+            end
+        end
+    end
+end)
 
 task.spawn(function()
     while task.wait() do
@@ -224,30 +257,6 @@ Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
 
-LeftGroupBox:AddLabel('Reset Ammo'):AddKeyPicker('ammoreset', {
-    Default = 'F',  
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'Reset Ammo',
-    NoUI = false,
-})
-
-task.spawn(function()
-    if Options.ammoreset then
-        while true do
-            wait()
-            local state = Options.ammoreset:GetState()
-            if state then
-                lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-                wait()
-                lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Seated")
-                wait(1)
-            end
-            if Library.Unloaded then break end
-        end
-    end
-end)
-
 LeftGroupBox:AddToggle('Charge', {
     Text = 'no charge cooldown',
     Default = false,
@@ -276,6 +285,39 @@ LeftGroupBox:AddToggle('tricking', {
 
 Toggles.tricking:OnChanged(function()
     Settings.trickpass = Toggles.tricking.Value
+end)
+
+RightGroupBox:AddToggle('farm', {
+    Text = 'autofarm',
+    Default = false,
+    Tooltip = 'auto farms point for you',
+})
+
+Toggles.farm:OnChanged(function()
+    Settings.autofarm = Toggles.farm.Value
+end)
+
+RightGroupBox:AddToggle('Reset', {
+    Text = 'Auto turn in points',
+    Default = false,
+    Tooltip = 'it turns in your points automatic', 
+})
+
+Toggles.Reset:OnChanged(function()
+    Settings.reset = Toggles.Reset.Value
+end)
+
+RightGroupBox:AddSlider('Resetvalue', {
+    Text = 'Points value',
+    Default = 10000,
+    Min = 10000,
+    Max = 1000000000,
+    Rounding = 0,
+    Compact = false,
+})
+
+Options.Resetvalue:OnChanged(function()
+    Settings.resetvalue = Options.Resetvalue.Value
 end)
 
 --Misc tab--
