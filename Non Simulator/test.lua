@@ -1,29 +1,30 @@
 local getupvalue = (getupvalue or debug.getupvalue);
-local getmetatable = (debug.getmetatable or getrawmetatable);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 
 repeat wait() until game:IsLoaded();
 local players = game:GetService("Players");
-local replicatedStorage = game:GetService("ReplicatedStorage");
-local scriptContext = game:GetService("ScriptContext");
 local client = players.LocalPlayer;
 local variables, mainEnv, encrypt;
 local runservice = game:GetService("RunService");
 
 do
     local banRemotes = {
-        "AttemptTeleport";
         "FireToDieInstantly";
-        "LandWithForceField";
         "LoadString";
         "FlyRequest";
         "FinishTimeTrial";
-        "Under3Seconds";
         "UpdateDunceList";
-        "HighCombo";
         "FF";
         "okbye";
         "Fling";
+        "ClientFling";
+        "hl";
+        "LCombo";
+        "SubmitCombo";
+        "GetCurrentCombo";
+        "MaxCombo";
+        "UpdateCombo";
+
     };
 
     local nc;
@@ -34,7 +35,7 @@ do
         if (method == "FireServer" and table.find(banRemotes, self.Name)) then
             return;
         elseif (method == "FireServer" and self.Name == "SubmitCombo" and args[1] > 299) then
-            args[1] = math.random(250, 299); --> Hudzell, please suck my cock :)
+            args[1] = math.random(250, 299);
         elseif (method == "TakeDamage" and self.ClassName == "Humanoid") then
             return;
         end;
@@ -68,6 +69,8 @@ do
     onCharacterAdded(client.Character);
     client.CharacterAdded:Connect(onCharacterAdded);
 end;
+
+print("loaded")
 
 local moves = {
   "slide";
