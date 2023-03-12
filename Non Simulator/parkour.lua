@@ -87,8 +87,8 @@ local Settings = {
     autocombo = false,
     combolvl = 1,
     Nofall = false,
-    slidespeed = false,
-    slidevalue = 1
+    Slidespeed = false,
+    slidevalue = 1,
 }
 
 task.spawn(function()
@@ -101,8 +101,8 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if Settings.slideToggle then
-            main.slidespeed = Settings.slidevalue    
+        if Settings.Slidespeed then
+            main.slidespeed = Settings.slidevalue
         end
     end
 end)
@@ -177,7 +177,7 @@ LeftGroupBox:AddToggle('slideToggle', {
 })
 
 Toggles.slideToggle:OnChanged(function()
-    Settings.slidetoggle = Toggles.slideToggle.Value
+    Settings.Slidespeed = Toggles.slideToggle.Value
 end)
 
 LeftGroupBox:AddSlider('slideValue', {
@@ -190,7 +190,7 @@ LeftGroupBox:AddSlider('slideValue', {
 })
 
 Options.slideValue:OnChanged(function()
-    Settings.slidevalue = Options.slidevalue.Value
+    Settings.slidevalue = Options.slideValue.Value
 end)
 
 --settings
