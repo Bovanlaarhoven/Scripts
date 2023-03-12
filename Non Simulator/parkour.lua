@@ -16,6 +16,22 @@ local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
 local runservice = game:GetService("RunService");
 
+local Settings = {
+    autofarm = false,
+    autocombo = false,
+}
+
+local moves = {
+    "slide";
+    "dropdown";
+    "ledgegrab";
+    "edgejump";
+    "longjump";
+    "vault";
+    "wallrun";
+    "springboard";
+}
+
 do
     local banRemotes = {
         "FireToDieInstantly";
@@ -27,7 +43,6 @@ do
         "okbye";
         "Fling";
         "ClientFling";
-        "hl";
         "LCombo";
         "SubmitCombo";
         "GetCurrentCombo";
@@ -71,3 +86,41 @@ do
     onCharacterAdded(lplr.Character);
     lplr.CharacterAdded:Connect(onCharacterAdded);
 end
+
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
+local Window = Library:CreateWindow({
+    Title = 'Parkour',
+    Center = true, 
+    AutoShow = true,
+})
+
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('QOL')
+
+LeftGroupBox:AddToggle('ComboToggle', {
+    Text = 'Combo Toggle',
+    Default = true,
+    Tooltip = 'Toggles the combo feature',
+})
+
+Toggles.ComboToggle:OnChanged(function()
+    Settings.autocombo = Toggles.ComboToggle.Value
+end)
+
+LeftGroupBox:AddSlider('Combo', {
+    Text = 'Combo',
+    Default = 1,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Compact = false,
+})
