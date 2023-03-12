@@ -89,6 +89,7 @@ local Settings = {
     Nofall = false,
     Slidespeed = false,
     slidevalue = 1,
+    chargecooldown = false
 }
 
 task.spawn(function()
@@ -107,6 +108,13 @@ task.spawn(function()
     end
 end)
 
+task.spawn(function()
+    while task.wait() do
+        if Settings.chargecooldown then
+            main.chargeCooldown = 0
+        end
+    end
+end)
 
 local Nofall
 Nofall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
@@ -136,9 +144,11 @@ local Tabs = {
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox('QOL')
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Exp')
+local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Settings')
 
-LeftGroupBox:AddToggle('ComboToggle', {
+RightGroupBox:AddToggle('ComboToggle', {
     Text = 'Combo',
     Default = false,
     Tooltip = 'Toggles the combo feature',
@@ -148,7 +158,7 @@ Toggles.ComboToggle:OnChanged(function()
     Settings.autocombo = Toggles.ComboToggle.Value
 end)
 
-LeftGroupBox:AddSlider('Combo', {
+RightGroupBox:AddSlider('Combo', {
     Text = 'Combo lvl',
     Default = 1,
     Min = 0,
@@ -203,20 +213,32 @@ LeftGroupBox:AddLabel('Reset Ammo'):AddKeyPicker('ammoreset', {
 })
 
 task.spawn(function()
-    while true do
-        local state = Options.ammoreset:GetState()
-        if state then
-            lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    if Options.ammoreset then
+        while true do
             wait()
-            lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Seated")
+            local state = Options.ammoreset:GetState()
+            if state then
+                lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+                wait()
+                lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Seated")
+                wait(1)
+            end
+            if Library.Unloaded then break end
         end
-        if Library.Unloaded then break end
     end
 end)
 
---Misc tab--
+LeftGroupBox:AddToggle('Charge', {
+    Text = 'no charge cooldown',
+    Default = false,
+    Tooltip = 'Toggles the no charge feature',
+})
 
-local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Settings')
+Toggles.Charge:OnChanged(function()
+    Settings.chargecooldown = Toggles.Charge.Value
+end)
+
+--Misc tab--
 
 LeftGroupBox1:AddToggle('KeybindShow', {
     Text = 'Keybind Frame',
