@@ -87,6 +87,8 @@ local Settings = {
     autocombo = false,
     combolvl = 1,
     Nofall = false,
+    slidespeed = false,
+    slidevalue = 1
 }
 
 task.spawn(function()
@@ -96,6 +98,15 @@ task.spawn(function()
         end
     end
 end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.slideToggle then
+            main.slidespeed = Settings.slidevalue    
+        end
+    end
+end)
+
 
 local Nofall
 Nofall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
@@ -157,6 +168,29 @@ LeftGroupBox:AddToggle('Nofall', {
 
 Toggles.Nofall:OnChanged(function()
     Settings.Nofall = Toggles.Nofall.Value
+end)
+
+LeftGroupBox:AddToggle('slideToggle', {
+    Text = 'Slide speed',
+    Default = false,
+    Tooltip = 'toggles slide speed feature',
+})
+
+Toggles.slideToggle:OnChanged(function()
+    Settings.slidetoggle = Toggles.slideToggle.Value
+end)
+
+LeftGroupBox:AddSlider('slideValue', {
+    Text = 'slide speed value',
+    Default = 0,
+    Min = 0,
+    Max = 1000,
+    Rounding = 0,
+    Compact = false,
+})
+
+Options.slideValue:OnChanged(function()
+    Settings.slidevalue = Options.slidevalue.Value
 end)
 
 --settings
