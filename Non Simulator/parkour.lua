@@ -6,31 +6,15 @@ for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
     v:Disable()
 end
 
-local main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack.Main).resetAmmo, 1)
 local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 
 repeat wait() until game:IsLoaded();
+local main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack.Main).resetAmmo, 1)
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
 local runservice = game:GetService("RunService");
-
-local Settings = {
-    autofarm = false,
-    autocombo = false,
-}
-
-local moves = {
-    "slide";
-    "dropdown";
-    "ledgegrab";
-    "edgejump";
-    "longjump";
-    "vault";
-    "wallrun";
-    "springboard";
-}
 
 do
     local banRemotes = {
@@ -87,6 +71,42 @@ do
     lplr.CharacterAdded:Connect(onCharacterAdded);
 end
 
+local moves = {
+    "slide";
+    "dropdown";
+    "ledgegrab";
+    "edgejump";
+    "longjump";
+    "vault";
+    "wallrun";
+    "springboard";
+}
+
+local Settings = {
+    autofarm = false,
+    autocombo = false,
+    combolvl = 1,
+    Nofall = false,
+}
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.autocombo then
+            main.comboLevel = Settings.combolvl    
+        end
+    end
+end)
+
+local Nofall
+Nofall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+    local args = {...}
+    local method = getnamecallmethod()
+    if (method == "TakeDamage" and self.ClassName == "Humanoid") and Settings.Nofall then
+        return
+    end
+    return Nofall(self, unpack(args))
+end))
+
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -107,8 +127,8 @@ local Tabs = {
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('QOL')
 
 LeftGroupBox:AddToggle('ComboToggle', {
-    Text = 'Combo Toggle',
-    Default = true,
+    Text = 'Combo',
+    Default = false,
     Tooltip = 'Toggles the combo feature',
 })
 
@@ -117,10 +137,46 @@ Toggles.ComboToggle:OnChanged(function()
 end)
 
 LeftGroupBox:AddSlider('Combo', {
-    Text = 'Combo',
+    Text = 'Combo lvl',
     Default = 1,
     Min = 0,
     Max = 5,
-    Rounding = 1,
+    Rounding = 0,
     Compact = false,
 })
+
+Options.Combo:OnChanged(function()
+    Settings.combolvl = Options.Combo.Value
+end)
+
+LeftGroupBox:AddToggle('Nofall', {
+    Text = 'No fall',
+    Default = false,
+    Tooltip = 'Toggles the No fall feature',
+})
+
+Toggles.Nofall:OnChanged(function()
+    Settings.Nofall = Toggles.Nofall.Value
+end)
+
+--settings
+Library:SetWatermark('Parkour By Hydra#8270')
+
+Library:OnUnload(function()
+    Library.Unloaded = true
+end)
+
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
