@@ -73,42 +73,41 @@ end;
 print("loaded")
 
 local moves = {
-  "slide";
-  "dropdown";
-  "ledgegrab";
-  "edgejump";
-  "longjump";
-  "vault";
-  "wallrun";
-  "springboard";
-};
-
-
+    "slide";
+    "dropdown";
+    "ledgegrab";
+    "edgejump";
+    "longjump";
+    "vault";
+    "wallrun";
+    "springboard";
+  };
+  
+  runservice.RenderStepped:Connect(function()
+    if (client.Backpack and client.Backpack:FindFirstChild("Main") and client.PlayerScripts:FindFirstChild("Points") and getsenv(client.Backpack.Main)) then
+      local pointsEnv = getsenv(client.PlayerScripts.Points);
+      pointsEnv.changeParkourRemoteParent(workspace);
+    
+      local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+    
+      scoreRemote:FireServer(encrypt("walljump"), {
+          [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
+          [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
+      });
+    
+      wait(0.4);
+    
+      scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
+          [encrypt("combo")] = encrypt(tostring(1));
+      });
+    
+      wait(math.random(1.25, 1.35));
+    end;
+    wait();
+  end)
+  
 while task.wait() do
     if main.comboLevel < 5 then
         main.comboLevel = 5
     end
 end
-
-runservice.RenderStepped:Connect(function()
-if (client.Backpack and client.Backpack:FindFirstChild("Main") and client.PlayerScripts:FindFirstChild("Points") and getsenv(client.Backpack.Main)) then
-    local pointsEnv = getsenv(client.PlayerScripts.Points);
-    pointsEnv.changeParkourRemoteParent(workspace);
-
-    local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
-
-    scoreRemote:FireServer(encrypt("walljump"), {
-        [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
-        [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
-    });
-
-    wait(0.4);
-
-    scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
-        [encrypt("combo")] = encrypt(tostring(1));
-    });
-
-    wait(math.random(1.25, 1.35));
-end;
-wait();
-end)
