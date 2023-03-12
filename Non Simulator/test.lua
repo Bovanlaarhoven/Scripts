@@ -21,9 +21,8 @@ do
         "Under3Seconds";
         "UpdateDunceList";
         "HighCombo";
-        "r";
-        "t";
         "FF";
+        "okbye";
     };
 
     local nc;
