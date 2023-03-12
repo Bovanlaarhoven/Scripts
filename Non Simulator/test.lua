@@ -23,6 +23,7 @@ do
         "HighCombo";
         "FF";
         "okbye";
+        "Fling";
     };
 
     local nc;
