@@ -97,8 +97,8 @@ local Settings = {
     reset = false,
     resetvalue = 10000,
     flow = false,
+    stimeject = false,
 }
-
 
 task.spawn(function()
     while task.wait() do
@@ -281,7 +281,7 @@ end)
 local MyButton = RightGroupBox:AddButton('Autofarm', function()
     runservice.RenderStepped:Connect(function()
         if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
-            local pointsEnv = getsenv(client.PlayerScripts.Points);
+            local pointsEnv = getsenv(lplr.PlayerScripts.Points);
             pointsEnv.changeParkourRemoteParent(workspace);
         
             local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
