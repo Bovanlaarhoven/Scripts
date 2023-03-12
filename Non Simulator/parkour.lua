@@ -131,7 +131,8 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-    Main = Window:AddTab('Main'), 
+    Main = Window:AddTab('Main'),
+    Misc = Window:AddTab('Misc'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
@@ -193,12 +194,47 @@ Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
 
+LeftGroupBox:AddLabel('Reset Ammo'):AddKeyPicker('ammoreset', {
+    Default = 'F',  
+    SyncToggleState = false, 
+    Mode = 'Hold',
+    Text = 'Reset Ammo',
+    NoUI = false,
+})
+
+task.spawn(function()
+    while true do
+        local state = Options.ammoreset:GetState()
+        if state then
+            lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+            wait()
+            lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Seated")
+        end
+        if Library.Unloaded then break end
+    end
+end)
+
+--Misc tab--
+
+local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Settings')
+
+LeftGroupBox1:AddToggle('KeybindShow', {
+    Text = 'Keybind Frame',
+    Default = false,
+    Tooltip = 'makes the keybind frame visible/invisible', 
+})
+
+Toggles.KeybindShow:OnChanged(function()
+    Library.KeybindFrame.Visible = Toggles.KeybindShow.Value
+end)
+
 --settings
 Library:SetWatermark('Parkour By Hydra#8270')
 
 Library:OnUnload(function()
     Library.Unloaded = true
 end)
+
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
