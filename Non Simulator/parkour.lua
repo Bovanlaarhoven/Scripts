@@ -10,7 +10,6 @@ local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 
 repeat wait() until game:IsLoaded();
-local main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack.Main).resetAmmo, 1)
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
@@ -62,6 +61,7 @@ do
         variables.adminLevel = 13
         getfenv().script = Main
         mainEnv = getsenv(Main)
+        main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).resetAmmo, 1)
         encrypt = function(string)
             local _, res = pcall(mainEnv.encrypt, string)
             return res
@@ -89,8 +89,28 @@ local Settings = {
     Nofall = false,
     Slidespeed = false,
     slidevalue = 1,
-    chargecooldown = false
+    chargecooldown = false,
+    infwallboost = false,
+    trickpass = false,
 }
+
+
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.trickpass then
+            main.hasTricksPass = Settings.trickpass
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infwallboost then
+            main.numWallclimb = math.huge
+        end
+    end
+end)
 
 task.spawn(function()
     while task.wait() do
@@ -146,7 +166,7 @@ local Tabs = {
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
 local RightGroupBox = Tabs.Main:AddRightGroupbox('Exp')
-local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Settings')
+local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Other')
 
 RightGroupBox:AddToggle('ComboToggle', {
     Text = 'Combo',
@@ -193,8 +213,8 @@ end)
 
 LeftGroupBox:AddSlider('slideValue', {
     Text = 'slide speed value',
-    Default = 0,
-    Min = 0,
+    Default = 34,
+    Min = 34,
     Max = 1000,
     Rounding = 0,
     Compact = false,
@@ -238,6 +258,26 @@ Toggles.Charge:OnChanged(function()
     Settings.chargecooldown = Toggles.Charge.Value
 end)
 
+LeftGroupBox:AddToggle('wallboost', {
+    Text = 'inf wallboost',
+    Default = false,
+    Tooltip = 'Toggles the inf wallboost feature',
+})
+
+Toggles.wallboost:OnChanged(function()
+    Settings.infwallboost = Toggles.wallboost.Value
+end)
+
+LeftGroupBox:AddToggle('tricking', {
+    Text = 'freerunnning pass',
+    Default = false,
+    Tooltip = 'gives freerunning pass features',
+})
+
+Toggles.tricking:OnChanged(function()
+    Settings.trickpass = Toggles.tricking.Value
+end)
+
 --Misc tab--
 
 LeftGroupBox1:AddToggle('KeybindShow', {
@@ -248,6 +288,15 @@ LeftGroupBox1:AddToggle('KeybindShow', {
 
 Toggles.KeybindShow:OnChanged(function()
     Library.KeybindFrame.Visible = Toggles.KeybindShow.Value
+end)
+
+local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
+    for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v.ClassName == "SpawnLocation" then
+            lplr.Character.HumanoidRootPart.CFrame = v.CFrame
+            wait(1)
+        end
+    end
 end)
 
 --settings
