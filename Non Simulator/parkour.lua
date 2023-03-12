@@ -37,8 +37,10 @@ do
     hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
         local args = {...}
         local method = getnamecallmethod()
-
         if (method == "FireServer" and table.find(banRemotes, self.Name)) then
+            return
+        end
+        if (method == "InvokeServer" and table.find(banRemotes, self.Name)) then
             return
         end
         return hook(self, unpack(args))
@@ -94,27 +96,16 @@ local Settings = {
     trickpass = false,
     reset = false,
     resetvalue = 10000,
+    flow = false,
 }
+
 
 task.spawn(function()
     while task.wait() do
-        if Settings.autofarm then
-            if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
-                local pointsEnv = getsenv(lplr.PlayerScripts.Points);
-                pointsEnv.changeParkourRemoteParent(workspace);
-            
-                local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
-            
-                scoreRemote:FireServer(encrypt("walljump"), {
-                    [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
-                    [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
-                });
-                wait(0.4);
-                scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
-                    [encrypt("combo")] = encrypt(tostring(1));
-                });
-                wait(math.random(1.25, 1.35));
-            end
+        if Settings.flow then
+            main.flowActive = true
+            main.flowDelta = 100
+            main.flowAlpha = 100
         end
     end
 end)
@@ -287,14 +278,30 @@ Toggles.tricking:OnChanged(function()
     Settings.trickpass = Toggles.tricking.Value
 end)
 
-RightGroupBox:AddToggle('farm', {
-    Text = 'autofarm',
-    Default = false,
-    Tooltip = 'auto farms point for you',
-})
-
-Toggles.farm:OnChanged(function()
-    Settings.autofarm = Toggles.farm.Value
+local MyButton = RightGroupBox:AddButton('Autofarm', function()
+    runservice.RenderStepped:Connect(function()
+        if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
+            local pointsEnv = getsenv(client.PlayerScripts.Points);
+            pointsEnv.changeParkourRemoteParent(workspace);
+        
+            local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+        
+            scoreRemote:FireServer(encrypt("walljump"), {
+                [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
+                [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
+            });
+        
+            wait(0.4);
+        
+            scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
+                [encrypt("combo")] = encrypt(tostring(1));
+            });
+        
+            wait(math.random(1.25, 1.35));
+        end;
+        wait();
+    end)
+    
 end)
 
 RightGroupBox:AddToggle('Reset', {
@@ -305,6 +312,16 @@ RightGroupBox:AddToggle('Reset', {
 
 Toggles.Reset:OnChanged(function()
     Settings.reset = Toggles.Reset.Value
+end)
+
+RightGroupBox:AddToggle('flow', {
+    Text = 'flow',
+    Default = false,
+    Tooltip = 'toggles flow', 
+})
+
+Toggles.flow:OnChanged(function()
+    Settings.flow = Toggles.flow.Value
 end)
 
 RightGroupBox:AddSlider('Resetvalue', {
