@@ -24,7 +24,6 @@ do
         "GetCurrentCombo";
         "MaxCombo";
         "UpdateCombo";
-        "GetCase";
     };
 
     local nc;
