@@ -294,6 +294,20 @@ local MyButton = RightGroupBox:AddButton('Autofarm', function()
                 scoreRemote:FireServer(encrypt("dropdown"), {
                     [encrypt("combo")] = encrypt(tostring(5));
                 });
+
+                scoreRemote:FireServer(encrypt("walljump"), {
+                    [encrypt("walljumpDelta")] = encrypt(tostring(3.55));
+                    [encrypt("combo")] = encrypt(tostring(5));
+                });
+    
+                scoreRemote:FireServer(encrypt("longjump"), {
+                    [encrypt("combo")] = encrypt(tostring(5));
+                });
+    
+                scoreRemote:FireServer(encrypt("dropdown"), {
+                    [encrypt("combo")] = encrypt(tostring(5));
+                });
+
             end
 
           
