@@ -74,15 +74,9 @@ do
 end
 
 local moves = {
-    "slide";
     "dropdown";
-    "ledgegrab";
-    "edgejump";
     "longjump";
-    "vault";
-    "wallrun";
-    "springboard";
-}
+};
 
 local Settings = {
     autofarm = false,
@@ -283,23 +277,48 @@ local MyButton = RightGroupBox:AddButton('Autofarm', function()
         if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
             local pointsEnv = getsenv(lplr.PlayerScripts.Points);
             pointsEnv.changeParkourRemoteParent(workspace);
-
+          
             local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
-            
+          
             scoreRemote:FireServer(encrypt("walljump"), {
-                [encrypt("walljumpDelta")] = encrypt(tostring(math.random(2.02, 3.55)));
-                [encrypt("combo")] = encrypt(tostring(math.random(4, 5)));
+                [encrypt("walljumpDelta")] = encrypt(tostring(3.55));
+                [encrypt("combo")] = encrypt(tostring(5));
             });
-            wait(0.4);
-            scoreRemote:FireServer(encrypt(moves[math.random(1, #moves)]), {
-                [encrypt("combo")] = encrypt(tostring(1));
+
+            scoreRemote:FireServer(encrypt("longjump"), {
+                [encrypt("combo")] = encrypt(tostring(5));
             });
-        
-            wait(math.random(1.25, 1.35));
-        end;
-        wait();
+
+            scoreRemote:FireServer(encrypt("dropdown"), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+          
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+
+          end;
     end)
-    
 end)
 
 RightGroupBox:AddToggle('Reset', {
@@ -326,7 +345,7 @@ RightGroupBox:AddSlider('Resetvalue', {
     Text = 'Points value',
     Default = 10000,
     Min = 10000,
-    Max = 1000000000,
+    Max = 10000000,
     Rounding = 0,
     Compact = false,
 })
