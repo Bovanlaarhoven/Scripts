@@ -109,7 +109,6 @@ local Support = {
     general9 = false,
     general17 = false,
     general41 = false,
-    general40 = false,
 }
 
 local SupportedMission = {
@@ -146,11 +145,6 @@ local SupportedMission = {
             end
         end
     end,
-    general40 = function()
-        if Support.general40 then
-            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("padfalldistance", 500)
-        end
-    end,
 }
 
 local function reset()
@@ -166,7 +160,6 @@ task.spawn(function()
     while task.wait() do
         if Settings.flow then
             main.flowActive = true
-            main.flowDelta = 100
             main.flowAlpha = 100
         end
     end
