@@ -162,6 +162,27 @@ task.spawn(function()
     end
 end)
 
+task.spawn(function()
+    while task.wait() do
+        if Settings.autoquest then
+            for _,v in pairs(game:GetService("Players"):GetDescendants()) do
+                if v.Name == "Title" and v.Text == "Impact Technique" then
+                    if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
+                        local pointsEnv = getsenv(lplr.PlayerScripts.Points);
+                        pointsEnv.changeParkourRemoteParent(workspace);
+                      
+                        local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+                
+                            scoreRemote:FireServer(encrypt("dropdown"), {
+                                [encrypt("combo")] = encrypt(tostring(5));
+                            });
+                    end;
+                end
+            end
+        end
+    end
+end)
+
 local Nofall
 Nofall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     local args = {...}
@@ -342,8 +363,8 @@ LeftGroupBox:AddToggle('quest', {
     Tooltip = 'Toggles the inf wallboost feature',
 })
 
-Toggles.wallboost:OnChanged(function()
-    Settings.infwallboost = Toggles.wallboost.Value
+Toggles.quest:OnChanged(function()
+    Settings.autoquest = Toggles.quest.Value
 end)
 
 
