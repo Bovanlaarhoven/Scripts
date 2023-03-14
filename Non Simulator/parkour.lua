@@ -10,7 +10,7 @@ local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 
 repeat wait() until game:IsLoaded();
-local number1 = 100
+local number1 = 112
 local number2 = 100
 local number3 = number1 ^ number2
 local players = game:GetService("Players");
@@ -95,7 +95,8 @@ local Settings = {
     resetvalue = 10000,
     flow = false,
     stimeject = false,
-    autoquest = false
+    autoquest = false,
+    infglidestamina = false,
 }
 
 local foundSupportedFolder = false
@@ -140,6 +141,7 @@ local function reset()
     for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
         if v.Name ~= Support[v.Name] then
             game:GetService("ReplicatedStorage").MissionReroll:FireServer(v.Name)
+            task.wait(0.1)
         end
     end
 end
@@ -200,6 +202,14 @@ task.spawn(function()
     while task.wait() do
         if Settings.chargecooldown then
             main.chargeCooldown = 0
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infglidestamina then
+            main.glideStamina = 0
         end
     end
 end)
@@ -401,11 +411,21 @@ end)
 RightGroupBox:AddToggle('quest', {
     Text = 'Auto Mission',
     Default = false,
-    Tooltip = 'Toggles the inf mission feature',
+    Tooltip = 'Toggles the auto mission feature',
 })
 
 Toggles.quest:OnChanged(function()
     Settings.autoquest = Toggles.quest.Value
+end)
+
+LeftGroupBox:AddToggle('glide', {
+    Text = 'inf glide stamina',
+    Default = false,
+    Tooltip = 'Toggles the inf glide stamina feature',
+})
+
+Toggles.glide:OnChanged(function()
+    Settings.infglidestamina = Toggles.glide.Value
 end)
 
 
