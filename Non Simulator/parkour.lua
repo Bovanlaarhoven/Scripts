@@ -200,7 +200,9 @@ end)
 task.spawn(function()
     while task.wait() do
         if Settings.infwallrun then
+            main.wallruntick = 0
             main.numWallrun = math.huge
+            main.recentWallruns = 0
         end
     end
 end)
