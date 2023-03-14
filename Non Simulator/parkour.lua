@@ -102,6 +102,34 @@ local Settings = {
     autoquest = false
 }
 
+local foundSupportedFolder = false
+
+local Support = {
+    general29 = false,
+    general11 = false,
+}
+
+local SupportedMission = {
+    general29 = function()
+        if Support.general29 then
+            for i = 1, 11 do
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("landms", math.random(50, 75))
+                wait(0.5)
+             end
+        end
+    end,
+    general11 = function()
+        if Support.general11 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("damage", 0, 85)
+        end
+    end
+}
+
+local function reset()
+    local defaultmission = game:GetService("ReplicatedStorage").PlayerData[lplr.Name].Generic.DefaultMission.Value
+    game:GetService("ReplicatedStorage").MissionReroll:FireServer("default" .. defaultmission)
+end
+
 task.spawn(function()
     while task.wait() do
         if Settings.flow then
@@ -165,20 +193,19 @@ end)
 task.spawn(function()
     while task.wait() do
         if Settings.autoquest then
-            for _,v in pairs(game:GetService("Players"):GetDescendants()) do
-                if v.Name == "Title" and v.Text == "Impact Technique" then
-                    if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
-                        local pointsEnv = getsenv(lplr.PlayerScripts.Points);
-                        pointsEnv.changeParkourRemoteParent(workspace);
-                      
-                        local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
-                
-                            scoreRemote:FireServer(encrypt("dropdown"), {
-                                [encrypt("combo")] = encrypt(tostring(5));
-                            });
-                    end;
+            for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
+                if v.ClassName == "Folder" and Support[v.name] ~= nil then
+                    Support[v.name] = true
+                    SupportedMission[v.name]()
+                    repeat task.wait() until not v:FindFirstChild("DisplayName")
+                        foundSupportedFolder = false
                 end
             end
+            if not foundSupportedFolder then
+                reset()
+            end
+        elseif not Settings.autoquest then
+            foundSupportedFolder = false
         end
     end
 end)
@@ -357,10 +384,10 @@ Options.Resetvalue:OnChanged(function()
     Settings.resetvalue = Options.Resetvalue.Value
 end)
 
-LeftGroupBox:AddToggle('quest', {
-    Text = 'Auto quest',
+RightGroupBox:AddToggle('quest', {
+    Text = 'Auto Mission',
     Default = false,
-    Tooltip = 'Toggles the inf wallboost feature',
+    Tooltip = 'Toggles the inf mission feature',
 })
 
 Toggles.quest:OnChanged(function()
