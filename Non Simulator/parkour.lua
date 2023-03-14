@@ -90,6 +90,7 @@ local Settings = {
     slidevalue = 1,
     chargecooldown = false,
     infwallboost = false,
+    infwallrun = false,
     trickpass = false,
     reset = false,
     resetvalue = 10000,
@@ -178,6 +179,14 @@ task.spawn(function()
     while task.wait() do
         if Settings.infwallboost then
             main.numWallclimb = math.huge
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infwallrun then
+            main.numWallrun = math.huge
         end
     end
 end)
@@ -340,6 +349,16 @@ LeftGroupBox:AddToggle('wallboost', {
 
 Toggles.wallboost:OnChanged(function()
     Settings.infwallboost = Toggles.wallboost.Value
+end)
+
+LeftGroupBox:AddToggle('wallrun', {
+    Text = 'inf Wallrun',
+    Default = false,
+    Tooltip = 'Toggles the inf wallrun feature',
+})
+
+Toggles.wallrun:OnChanged(function()
+    Settings.infwallrun = Toggles.wallrun.Value
 end)
 
 LeftGroupBox:AddToggle('tricking', {
