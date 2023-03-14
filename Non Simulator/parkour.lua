@@ -90,7 +90,6 @@ local Settings = {
     slidevalue = 1,
     chargecooldown = false,
     infwallboost = false,
-    infwallrun = false,
     trickpass = false,
     reset = false,
     resetvalue = 10000,
@@ -98,6 +97,8 @@ local Settings = {
     stimeject = false,
     autoquest = false,
     infglidestamina = false,
+    walkspeedvalue = 1,
+    walkspeedtoggle = false,
 }
 
 local foundSupportedFolder = false
@@ -199,19 +200,8 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if Settings.infwallrun then
-            main.recentWallruns = 0
-            main.maxWallrun = math.huge
-            main.wallruntick = 0
-            main.numWallrun = math.huge
-        end
-    end
-end)
-
-task.spawn(function()
-    while task.wait() do
         if Settings.autocombo then
-            main.comboLevel = Settings.combolvl    
+            main.comboLevel = Settings.combolvl
         end
     end
 end)
@@ -220,6 +210,16 @@ task.spawn(function()
     while task.wait() do
         if Settings.Slidespeed then
             main.slidespeed = Settings.slidevalue
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.walkspeedtoggle then
+            main.walkspeedMult = Settings.walkspeedvalue
+        elseif not Settings.walkspeedtoggle then
+            main.walkspeedMult = 1
         end
     end
 end)
@@ -348,6 +348,29 @@ Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
 
+LeftGroupBox:AddToggle('speedtogle', {
+    Text = 'walkspeed toggle',
+    Default = false,
+    Tooltip = 'toggles walkspeed feature',
+})
+
+Toggles.speedtogle:OnChanged(function()
+    Settings.walkspeedtoggle = Toggles.speedtogle.Value
+end)
+
+LeftGroupBox:AddSlider('runvalue', {
+    Text = 'walkspeed value',
+    Default = 1,
+    Min = 1,
+    Max = 100,
+    Rounding = 0,
+    Compact = false,
+})
+
+Options.runvalue:OnChanged(function()
+    Settings.walkspeedvalue = Options.runvalue.Value
+end)
+
 LeftGroupBox:AddToggle('Charge', {
     Text = 'no charge cooldown',
     Default = false,
@@ -366,16 +389,6 @@ LeftGroupBox:AddToggle('wallboost', {
 
 Toggles.wallboost:OnChanged(function()
     Settings.infwallboost = Toggles.wallboost.Value
-end)
-
-LeftGroupBox:AddToggle('wallrun', {
-    Text = 'inf Wallrun',
-    Default = false,
-    Tooltip = 'Toggles the inf wallrun feature',
-})
-
-Toggles.wallrun:OnChanged(function()
-    Settings.infwallrun = Toggles.wallrun.Value
 end)
 
 LeftGroupBox:AddToggle('tricking', {
