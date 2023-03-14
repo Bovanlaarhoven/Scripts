@@ -81,6 +81,10 @@ local moves = {
     "longjump";
 };
 
+local quest = {
+    "pLand";
+}
+
 local Settings = {
     autofarm = false,
     autocombo = false,
@@ -95,6 +99,7 @@ local Settings = {
     resetvalue = 10000,
     flow = false,
     stimeject = false,
+    autoquest = false
 }
 
 task.spawn(function()
@@ -294,7 +299,6 @@ local MyButton = RightGroupBox:AddButton('Autofarm', function()
                 scoreRemote:FireServer(encrypt(moves[#moves]), {
                     [encrypt("combo")] = encrypt(tostring(number3));
                 });
-                
           end;
     end)
 end)
@@ -331,6 +335,17 @@ RightGroupBox:AddSlider('Resetvalue', {
 Options.Resetvalue:OnChanged(function()
     Settings.resetvalue = Options.Resetvalue.Value
 end)
+
+LeftGroupBox:AddToggle('quest', {
+    Text = 'Auto quest',
+    Default = false,
+    Tooltip = 'Toggles the inf wallboost feature',
+})
+
+Toggles.wallboost:OnChanged(function()
+    Settings.infwallboost = Toggles.wallboost.Value
+end)
+
 
 --Misc tab--
 
