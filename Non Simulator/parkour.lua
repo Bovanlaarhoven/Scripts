@@ -112,7 +112,6 @@ local SupportedMission = {
         if Support.general29 then
             for i = 1, 15 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("landms", math.random(50, 75))
-                wait(0.5)
              end
         end
     end,
@@ -123,21 +122,26 @@ local SupportedMission = {
     end,
     general9 = function()
         if Support.general9 then
-            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
+            for i = 1, 15 do
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
+            end
         end
     end,
     general17 = function()
-        if Support.general9 then
+        if Support.general17 then
             for i = 1,55 do
-                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", 100)
             end
         end
     end,
 }
 
 local function reset()
-    local defaultmission = game:GetService("ReplicatedStorage").PlayerData[lplr.Name].Generic.DefaultMission.Value
-    game:GetService("ReplicatedStorage").MissionReroll:FireServer("default" .. defaultmission)
+    for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
+        if v.Name ~= Support[v.Name] then
+            game:GetService("ReplicatedStorage").MissionReroll:FireServer(v.Name)
+        end
+    end
 end
 
 task.spawn(function()
