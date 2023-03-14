@@ -107,6 +107,8 @@ local Support = {
     general11 = false,
     general9 = false,
     general17 = false,
+    general41 = false,
+    general40 = false,
 }
 
 local SupportedMission = {
@@ -134,6 +136,18 @@ local SupportedMission = {
             for i = 1,55 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", 100)
             end
+        end
+    end,
+    general41 = function()
+        if Support.general41 then
+            for i = 1,30 do
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("pLand")
+            end
+        end
+    end,
+    general40 = function()
+        if Support.general40 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("padfalldistance", 500)
         end
     end,
 }
