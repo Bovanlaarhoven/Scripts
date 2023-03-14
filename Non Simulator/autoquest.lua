@@ -84,10 +84,10 @@ local Support = {
 local SupportedMission = {
     general29 = function()
         if Support.general29 then
-            for i = 1,10 do
+            for i = 1, 10 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("landms", math.random(50, 75))
-                wait(0.1)
-            end
+                wait(0.5)
+             end
         end
     end,
 }
@@ -98,19 +98,14 @@ local function reset()
 end
 
 local foundSupportedFolder = false
-
-while not foundSupportedFolder do
-    for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
-        if v.ClassName == "Folder" and Support[v.name] ~= nil then
-            Support[v.name] = true
-            SupportedMission[v.name]()
-            foundSupportedFolder = true
-        end
+for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
+    if v.ClassName == "Folder" and Support[v.name] ~= nil then
+        Support[v.name] = true
+        SupportedMission[v.name]()
+        foundSupportedFolder = true
     end
-    if not foundSupportedFolder then
-        print("No supported mission found. Rerolling mission...")
-        reset()
-        wait(5) -- Wait 5 seconds before searching again
-    end
+end
+if not foundSupportedFolder then
+    reset()
 end
 
