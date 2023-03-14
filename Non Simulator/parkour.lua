@@ -81,10 +81,6 @@ local moves = {
     "longjump";
 };
 
-local quest = {
-    "pLand";
-}
-
 local Settings = {
     autofarm = false,
     autocombo = false,
@@ -107,12 +103,14 @@ local foundSupportedFolder = false
 local Support = {
     general29 = false,
     general11 = false,
+    general9 = false,
+    general17 = false,
 }
 
 local SupportedMission = {
     general29 = function()
         if Support.general29 then
-            for i = 1, 11 do
+            for i = 1, 15 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("landms", math.random(50, 75))
                 wait(0.5)
              end
@@ -122,7 +120,19 @@ local SupportedMission = {
         if Support.general11 then
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("damage", 0, 85)
         end
-    end
+    end,
+    general9 = function()
+        if Support.general9 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
+        end
+    end,
+    general17 = function()
+        if Support.general9 then
+            for i = 1,55 do
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
+            end
+        end
+    end,
 }
 
 local function reset()
