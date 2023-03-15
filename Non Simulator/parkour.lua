@@ -340,6 +340,7 @@ local Tabs = {
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
 local RightGroupBox = Tabs.Main:AddRightGroupbox('Exp')
+local RightGroupBox1 = Tabs.Main:AddRightGroupbox('AutoFarms')
 local LeftGroupBox1 = Tabs.Main:AddLeftGroupbox('Other')
 
 RightGroupBox:AddToggle('ComboToggle', {
@@ -451,26 +452,26 @@ Toggles.tricking:OnChanged(function()
     Settings.trickpass = Toggles.tricking.Value
 end)
 
-local MyButton = RightGroupBox:AddButton('Autofarm', function()
-    runservice.RenderStepped:Connect(function()
-        if (lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main)) then
+local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if Settings.autofarm and lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
             local pointsEnv = getsenv(lplr.PlayerScripts.Points);
             pointsEnv.changeParkourRemoteParent(workspace);
-          
-            local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
-          
-                scoreRemote:FireServer(encrypt("longjump"), {
-                    [encrypt("combo")] = encrypt(tostring(5));
-                });
     
-                scoreRemote:FireServer(encrypt("dropdown"), {
-                    [encrypt("combo")] = encrypt(tostring(5));
-                });
-
-                scoreRemote:FireServer(encrypt(moves[#moves]), {
-                    [encrypt("combo")] = encrypt(tostring(number3));
-                });
-          end;
+            local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+    
+            scoreRemote:FireServer(encrypt("longjump"), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+    
+            scoreRemote:FireServer(encrypt("dropdown"), {
+                [encrypt("combo")] = encrypt(tostring(5));
+            });
+    
+            scoreRemote:FireServer(encrypt(moves[#moves]), {
+                [encrypt("combo")] = encrypt(tostring(number3));
+            });
+        end
     end)
 end)
 
@@ -507,8 +508,7 @@ Toggles.flow:OnChanged(function()
     Settings.flow = Toggles.flow.Value
 end)
 
-
-RightGroupBox:AddToggle('quest', {
+RightGroupBox1:AddToggle('quest', {
     Text = 'Auto Mission',
     Default = false,
     Tooltip = 'Toggles the auto mission feature',
