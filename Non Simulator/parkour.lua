@@ -347,12 +347,13 @@ local Tabs = {
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
-local RightGroupBox = Tabs.Main:AddRightGroupbox('Exp')
-local RightGroupBox1 = Tabs.Main:AddRightGroupbox('AutoFarms')
-local LeftGroupBox1 = Tabs.Main:AddLeftGroupbox('Other')
+local Player = Tabs.Main:AddLeftGroupbox('Player')
+local Remove = Tabs.Main:AddLeftGroupbox('Remove')
+local Exp = Tabs.Main:AddRightGroupbox('Exp')
+local Inf = Tabs.Main:AddRightGroupbox('inf')
+local Other = Tabs.Main:AddLeftGroupbox('Other')
 
-RightGroupBox:AddToggle('ComboToggle', {
+Exp:AddToggle('ComboToggle', {
     Text = 'Combo',
     Default = false,
     Tooltip = 'Toggles the combo feature',
@@ -362,7 +363,7 @@ Toggles.ComboToggle:OnChanged(function()
     Settings.autocombo = Toggles.ComboToggle.Value
 end)
 
-RightGroupBox:AddSlider('Combo', {
+Exp:AddSlider('Combo', {
     Text = 'Combo lvl',
     Default = 1,
     Min = 0,
@@ -375,8 +376,8 @@ Options.Combo:OnChanged(function()
     Settings.combolvl = Options.Combo.Value
 end)
 
-LeftGroupBox:AddToggle('Nofall', {
-    Text = 'No fall',
+Remove:AddToggle('Nofall', {
+    Text = 'Remove fall Damage',
     Default = false,
     Tooltip = 'Toggles the No fall feature',
 })
@@ -385,7 +386,7 @@ Toggles.Nofall:OnChanged(function()
     Settings.Nofall = Toggles.Nofall.Value
 end)
 
-LeftGroupBox:AddToggle('slideToggle', {
+Player:AddToggle('slideToggle', {
     Text = 'Slide speed',
     Default = false,
     Tooltip = 'toggles slide speed feature',
@@ -395,7 +396,7 @@ Toggles.slideToggle:OnChanged(function()
     Settings.Slidespeed = Toggles.slideToggle.Value
 end)
 
-LeftGroupBox:AddSlider('slideValue', {
+Player:AddSlider('slideValue', {
     Text = 'slide speed value',
     Default = 34,
     Min = 34,
@@ -408,7 +409,7 @@ Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
 
-LeftGroupBox:AddToggle('speedtogle', {
+Player:AddToggle('speedtogle', {
     Text = 'walkspeed toggle',
     Default = false,
     Tooltip = 'toggles walkspeed feature',
@@ -418,7 +419,7 @@ Toggles.speedtogle:OnChanged(function()
     Settings.walkspeedtoggle = Toggles.speedtogle.Value
 end)
 
-LeftGroupBox:AddSlider('runvalue', {
+Player:AddSlider('runvalue', {
     Text = 'walkspeed value',
     Default = 1,
     Min = 1,
@@ -431,8 +432,8 @@ Options.runvalue:OnChanged(function()
     Settings.walkspeedvalue = Options.runvalue.Value
 end)
 
-LeftGroupBox:AddToggle('Charge', {
-    Text = 'no charge cooldown',
+Remove:AddToggle('Charge', {
+    Text = 'Remove charge cooldown',
     Default = false,
     Tooltip = 'Toggles the no charge feature',
 })
@@ -441,7 +442,7 @@ Toggles.Charge:OnChanged(function()
     Settings.chargecooldown = Toggles.Charge.Value
 end)
 
-LeftGroupBox:AddToggle('wallboost', {
+Inf:AddToggle('wallboost', {
     Text = 'inf wallboost',
     Default = false,
     Tooltip = 'Toggles the inf wallboost feature',
@@ -451,7 +452,7 @@ Toggles.wallboost:OnChanged(function()
     Settings.infwallboost = Toggles.wallboost.Value
 end)
 
-LeftGroupBox:AddToggle('wallrun', {
+Inf:AddToggle('wallrun', {
     Text = 'inf wallrun',
     Default = false,
     Tooltip = 'Toggles the inf wallrun feature',
@@ -461,7 +462,7 @@ Toggles.wallrun:OnChanged(function()
     Settings.infwallrun = Toggles.wallrun.Value
 end)
 
-LeftGroupBox:AddToggle('tricking', {
+Player:AddToggle('tricking', {
     Text = 'freerunnning pass',
     Default = false,
     Tooltip = 'gives freerunning pass features',
@@ -473,7 +474,7 @@ end)
 
 local moves = {"dropdown","longjump"}
 
-local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
+local MyButton = Exp:AddButton('AutoFarm', function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
             local points = getsenv(lplr.PlayerScripts.Points);
@@ -487,7 +488,7 @@ local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
     end)
 end)
 
-RightGroupBox:AddToggle('Reset', {
+Exp:AddToggle('Reset', {
     Text = 'Auto turn in points',
     Default = false,
     Tooltip = 'it turns in your points automatic', 
@@ -497,7 +498,7 @@ Toggles.Reset:OnChanged(function()
     Settings.reset = Toggles.Reset.Value
 end)
 
-RightGroupBox:AddSlider('Resetvalue', {
+Exp:AddSlider('Resetvalue', {
     Text = 'Points value',
     Default = 10000,
     Min = 10000,
@@ -510,7 +511,7 @@ Options.Resetvalue:OnChanged(function()
     Settings.resetvalue = Options.Resetvalue.Value
 end)
 
-RightGroupBox:AddToggle('flow', {
+Exp:AddToggle('flow', {
     Text = 'flow',
     Default = false,
     Tooltip = 'toggles flow', 
@@ -520,7 +521,7 @@ Toggles.flow:OnChanged(function()
     Settings.flow = Toggles.flow.Value
 end)
 
-RightGroupBox1:AddToggle('quest', {
+Exp:AddToggle('quest', {
     Text = 'Auto Mission',
     Default = false,
     Tooltip = 'Toggles the auto mission feature',
@@ -530,7 +531,7 @@ Toggles.quest:OnChanged(function()
     Settings.autoquest = Toggles.quest.Value
 end)
 
-LeftGroupBox:AddToggle('glide', {
+Inf:AddToggle('glide', {
     Text = 'inf glide stamina',
     Default = false,
     Tooltip = 'Toggles the inf glide stamina feature',
@@ -540,8 +541,8 @@ Toggles.glide:OnChanged(function()
     Settings.infglidestamina = Toggles.glide.Value
 end)
 
-LeftGroupBox:AddToggle('drink', {
-    Text = 'No Drink cooldown',
+Remove:AddToggle('drink', {
+    Text = 'Remove Drink cooldown',
     Default = false,
     Tooltip = 'Toggles the No drink cooldown feature',
 })
@@ -550,7 +551,7 @@ Toggles.drink:OnChanged(function()
     Settings.infdrink = Toggles.drink.Value
 end)
 
-LeftGroupBox:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
+Player:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
     Default = 'F',
     SyncToggleState = false, 
     Mode = 'Hold',
@@ -571,7 +572,7 @@ end)
 
 --Misc tab--
 
-local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
+local MyButton = Other:AddButton('Unlock all spawns', function()
     for _,v in pairs(game:GetService("Workspace"):GetChildren()) do
         if v.ClassName == "SpawnLocation" then
             lplr.Character.HumanoidRootPart.CFrame = v.CFrame
@@ -580,7 +581,7 @@ local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
     end
 end)
 
-local MyButton = LeftGroupBox1:AddButton('Unlock Badges', function()
+local MyButton = Other:AddButton('Unlock Badges', function()
     for i, v in next, workspace:GetChildren() do
         if (v.Name ~= "BadgeAwarder" or not lplr.Character) then continue end;
         local part = v:FindFirstChildWhichIsA("Part");
