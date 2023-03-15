@@ -301,13 +301,12 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab('Main'),
-    Misc = Window:AddTab('Misc'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
 local RightGroupBox = Tabs.Main:AddRightGroupbox('Exp')
-local LeftGroupBox1 = Tabs.Misc:AddLeftGroupbox('Other')
+local LeftGroupBox1 = Tabs.Main:AddLeftGroupbox('Other')
 
 RightGroupBox:AddToggle('ComboToggle', {
     Text = 'Combo',
@@ -498,22 +497,10 @@ end)
 
 --Misc tab--
 
-LeftGroupBox1:AddToggle('KeybindShow', {
-    Text = 'Keybind Frame',
-    Default = false,
-    Tooltip = 'makes the keybind frame visible/invisible', 
-})
-
-Toggles.KeybindShow:OnChanged(function()
-    Library.KeybindFrame.Visible = Toggles.KeybindShow.Value
-end)
-
 local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
-    for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v.ClassName == "SpawnLocation" then
-            lplr.Character.HumanoidRootPart.CFrame = v.CFrame
-            wait(1)
-        end
+    for _,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        lplr.Character.HumanoidRootPart.CFrame = v.CFrame
+        wait(1)
     end
 end)
 
