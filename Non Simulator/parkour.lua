@@ -450,11 +450,11 @@ end)
 
 local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
-            local pointsEnv = getsenv(lplr.PlayerScripts.Points);
-            pointsEnv.changeParkourRemoteParent(workspace);
+        if lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
+            local points = getsenv(lplr.PlayerScripts.Points);
+            points.changeParkourRemoteParent(workspace);
     
-            local Remote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+            local Remote = getupvalue(points.changeParkourRemoteParent, 2);
     
             Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
     
