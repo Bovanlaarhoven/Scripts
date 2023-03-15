@@ -91,6 +91,7 @@ local Settings = {
     infglidestamina = false,
     walkspeedvalue = 1,
     walkspeedtoggle = false,
+    infdrink = false
 }
 
 local foundSupportedFolder = false
@@ -237,6 +238,14 @@ task.spawn(function()
     while task.wait() do
         if Settings.infwallboost then
             main.numWallclimb = math.huge
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infdrink then
+            main.lastDrink = 0
         end
     end
 end)
@@ -531,6 +540,15 @@ Toggles.glide:OnChanged(function()
     Settings.infglidestamina = Toggles.glide.Value
 end)
 
+LeftGroupBox:AddToggle('drink', {
+    Text = 'No Drink cooldown',
+    Default = false,
+    Tooltip = 'Toggles the No drink cooldown feature',
+})
+
+Toggles.drink:OnChanged(function()
+    Settings.infdrink = Toggles.drink.Value
+end)
 
 LeftGroupBox:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
     Default = 'F',
