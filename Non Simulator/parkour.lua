@@ -72,11 +72,6 @@ do
     lplr.CharacterAdded:Connect(onCharacterAdded);
 end
 
-local moves = {
-    "dropdown";
-    "longjump";
-};
-
 local Settings = {
     autofarm = false,
     autocombo = false,
@@ -448,6 +443,8 @@ Toggles.tricking:OnChanged(function()
     Settings.trickpass = Toggles.tricking.Value
 end)
 
+local parkour = {"dropdown","longjump"}
+
 local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
@@ -455,9 +452,9 @@ local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
             points.changeParkourRemoteParent(workspace);
             local Remote = getupvalue(points.changeParkourRemoteParent, 2);
     
-            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
-            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
-            Remote:FireServer(encrypt(moves[#moves]), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
+            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
+            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
+            Remote:FireServer(encrypt(parkour[#parkour]), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
         end
     end)
 end)
