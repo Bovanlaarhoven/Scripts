@@ -540,6 +540,17 @@ local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
     end
 end)
 
+local MyButton = LeftGroupBox1:AddButton('Unlock Badges', function()
+    for i, v in next, workspace:GetChildren() do
+        if (v.Name ~= "BadgeAwarder" or not lplr.Character) then continue end;
+    
+        local part = v:FindFirstChildWhichIsA("Part");
+        firetouchinterest(lplr.Character.HumanoidRootPart, part, 1);
+        firetouchinterest(lplr.Character.HumanoidRootPart, part, 0);
+    end;
+end)
+
+
 --settings
 Library:SetWatermark('Parkour By Hydra#8270')
 
