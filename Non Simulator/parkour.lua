@@ -454,7 +454,7 @@ end)
 
 local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if Settings.autofarm and lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
+        if lplr.Backpack and lplr.Backpack:FindFirstChild("Main") and lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
             local pointsEnv = getsenv(lplr.PlayerScripts.Points);
             pointsEnv.changeParkourRemoteParent(workspace);
     
