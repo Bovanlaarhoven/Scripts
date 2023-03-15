@@ -109,6 +109,10 @@ local Support = {
     general9 = false,
     general17 = false,
     general41 = false,
+    general4 = false,
+    general16 = false,
+    general13 = false,
+    general45 = false,
 }
 
 local SupportedMission = {
@@ -143,6 +147,26 @@ local SupportedMission = {
             for i = 1,30 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("pLand")
             end
+        end
+    end,
+    general4 = function()
+        if Support.general4 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("combobreak", 5, 5)
+        end
+    end,
+    general16 = function()
+        if Support.general16 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("general16", 8)
+        end
+    end,
+    general13 = function()
+        if Support.general13 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("zipline", math.random(850 ,1000))
+        end
+    end,
+    general45 = function()
+        if Support.general45 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("general45")
         end
     end,
 }
@@ -427,16 +451,6 @@ Toggles.Reset:OnChanged(function()
     Settings.reset = Toggles.Reset.Value
 end)
 
-RightGroupBox:AddToggle('flow', {
-    Text = 'flow',
-    Default = false,
-    Tooltip = 'toggles flow', 
-})
-
-Toggles.flow:OnChanged(function()
-    Settings.flow = Toggles.flow.Value
-end)
-
 RightGroupBox:AddSlider('Resetvalue', {
     Text = 'Points value',
     Default = 10000,
@@ -449,6 +463,17 @@ RightGroupBox:AddSlider('Resetvalue', {
 Options.Resetvalue:OnChanged(function()
     Settings.resetvalue = Options.Resetvalue.Value
 end)
+
+RightGroupBox:AddToggle('flow', {
+    Text = 'flow',
+    Default = false,
+    Tooltip = 'toggles flow', 
+})
+
+Toggles.flow:OnChanged(function()
+    Settings.flow = Toggles.flow.Value
+end)
+
 
 RightGroupBox:AddToggle('quest', {
     Text = 'Auto Mission',
