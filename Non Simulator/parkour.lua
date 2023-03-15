@@ -113,6 +113,8 @@ local Support = {
     general16 = false,
     general13 = false,
     general45 = false,
+    general1 = false,
+    general23 =false,
 }
 
 local SupportedMission = {
@@ -167,6 +169,18 @@ local SupportedMission = {
     general45 = function()
         if Support.general45 then
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("general45")
+        end
+    end,
+    general1 = function()
+        if Support.general1 then
+            getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("combobreak", 2, 2)
+        end
+    end,
+    general23 = function()
+        if Support.general23 then
+            for i = 1, 105 do
+                getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("vault")
+            end
         end
     end,
 }
