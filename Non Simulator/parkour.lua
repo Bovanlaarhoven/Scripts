@@ -30,6 +30,8 @@ do
         "GetCurrentCombo";
         "MaxCombo";
         "UpdateCombo";
+        "SetTrail";
+        "InsertTrail";
     }
 
     local hook
