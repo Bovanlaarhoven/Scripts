@@ -482,8 +482,8 @@ local MyButton = Exp:AddButton('AutoFarm', function()
             points.changeParkourRemoteParent(workspace);
             local Remote = getupvalue(points.changeParkourRemoteParent, 2);
     
-            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
-            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
+            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(5))})
+            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(5))})
             Remote:FireServer(encrypt(moves[#moves]), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
         end
     end)
