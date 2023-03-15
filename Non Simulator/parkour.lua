@@ -16,7 +16,6 @@ local number3 = number1 ^ number2
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
-local runservice = game:GetService("RunService");
 
 do
     local banRemotes = {
