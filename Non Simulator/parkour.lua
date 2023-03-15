@@ -135,7 +135,7 @@ local SupportedMission = {
     end,
     general9 = function()
         if Support.general9 then
-            Library:Notify("Quick fingers", 5)
+            Library:Notify("Doing: Quick fingers", 5)
             for i = 1, 15 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
             end
