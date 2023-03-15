@@ -252,7 +252,7 @@ end)
 task.spawn(function()
     while task.wait() do
         if Settings.infglidestamina then
-            main.glideStamina = 0
+            main.glideStamina = math.huge
         end
     end
 end)
@@ -499,8 +499,10 @@ end)
 
 local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
     for _,v in pairs(game:GetService("Workspace"):GetChildren()) do
-        lplr.Character.HumanoidRootPart.CFrame = v.CFrame
-        wait(1)
+        if v.ClassName == "SpawnLocation" then
+            lplr.Character.HumanoidRootPart.CFrame = v.CFrame
+            wait(1)
+        end
     end
 end)
 
