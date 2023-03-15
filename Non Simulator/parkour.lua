@@ -10,9 +10,6 @@ local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 
 repeat wait() until game:IsLoaded();
-local number1 = 112
-local number2 = 100
-local number3 = number1 ^ number2
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
@@ -457,19 +454,13 @@ local MyButton = RightGroupBox1:AddButton('AutoFarm', function()
             local pointsEnv = getsenv(lplr.PlayerScripts.Points);
             pointsEnv.changeParkourRemoteParent(workspace);
     
-            local scoreRemote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
+            local Remote = getupvalue(pointsEnv.changeParkourRemoteParent, 2);
     
-            scoreRemote:FireServer(encrypt("longjump"), {
-                [encrypt("combo")] = encrypt(tostring(5));
-            });
+            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
     
-            scoreRemote:FireServer(encrypt("dropdown"), {
-                [encrypt("combo")] = encrypt(tostring(5));
-            });
+            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
     
-            scoreRemote:FireServer(encrypt(moves[#moves]), {
-                [encrypt("combo")] = encrypt(tostring(number3));
-            });
+            Remote:FireServer(encrypt(moves[#moves]), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308));});
         end
     end)
 end)
