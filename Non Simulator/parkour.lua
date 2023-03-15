@@ -351,9 +351,10 @@ local Player = Tabs.Main:AddLeftGroupbox('Player')
 local Remove = Tabs.Main:AddLeftGroupbox('Remove')
 local Exp = Tabs.Main:AddRightGroupbox('Exp')
 local Inf = Tabs.Main:AddRightGroupbox('inf')
+local Combo = Tabs.Main:AddRightGroupbox('Combo')
 local Other = Tabs.Main:AddLeftGroupbox('Other')
 
-Exp:AddToggle('ComboToggle', {
+Combo:AddToggle('ComboToggle', {
     Text = 'Combo',
     Default = false,
     Tooltip = 'Toggles the combo feature',
@@ -363,7 +364,7 @@ Toggles.ComboToggle:OnChanged(function()
     Settings.autocombo = Toggles.ComboToggle.Value
 end)
 
-Exp:AddSlider('Combo', {
+Combo:AddSlider('Combo', {
     Text = 'Combo lvl',
     Default = 1,
     Min = 0,
