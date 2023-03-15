@@ -121,6 +121,7 @@ local Support = {
 local SupportedMission = {
     general29 = function()
         if Support.general29 then
+            Library:Notify("Doing: Break a leg", 5)
             for i = 1, 15 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("landms", math.random(50, 75))
              end
@@ -128,11 +129,13 @@ local SupportedMission = {
     end,
     general11 = function()
         if Support.general11 then
+            Library:Notify("Doing: Dropper", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("damage", 0, 85)
         end
     end,
     general9 = function()
         if Support.general9 then
+            Library:Notify("Quick fingers", 5)
             for i = 1, 15 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", math.random(50.1, 85))
             end
@@ -140,6 +143,7 @@ local SupportedMission = {
     end,
     general17 = function()
         if Support.general17 then
+            Library:Notify("Doing: Boost master", 5)
             for i = 1,55 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("boost", 100)
             end
@@ -147,6 +151,7 @@ local SupportedMission = {
     end,
     general41 = function()
         if Support.general41 then
+            Library:Notify("Doing: Luck landing", 5)
             for i = 1,30 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("pLand")
             end
@@ -154,31 +159,37 @@ local SupportedMission = {
     end,
     general4 = function()
         if Support.general4 then
+            Library:Notify("Doing: Combo Legend", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("combobreak", 5, 5)
         end
     end,
     general16 = function()
         if Support.general16 then
+            Library:Notify("Doing: Push your limits", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("general16", 8)
         end
     end,
     general13 = function()
         if Support.general13 then
+            Library:Notify("Doing: Highrider", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("zipline", math.random(850 ,1000))
         end
     end,
     general45 = function()
         if Support.general45 then
+            Library:Notify("Doing: Lax to Chi", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("general45")
         end
     end,
     general1 = function()
         if Support.general1 then
+            Library:Notify("Doing: Combo Breaker", 5)
             getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("combobreak", 2, 2)
         end
     end,
     general23 = function()
         if Support.general23 then
+            Library:Notify("Doing: Vaultist", 5)
             for i = 1, 105 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("vault")
             end
@@ -186,6 +197,7 @@ local SupportedMission = {
     end,
     general54 = function()
         if Support.general54 then
+            Library:Notify("Doing: Deep n Damp", 5)
             for i = 1, 255 do
                 getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).fireMissionTrigger("dampen")
             end
