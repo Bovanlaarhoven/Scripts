@@ -81,6 +81,7 @@ local Settings = {
     slidevalue = 1,
     chargecooldown = false,
     infwallboost = false,
+    infwallrun = false,
     trickpass = false,
     reset = false,
     resetvalue = 10000,
@@ -236,6 +237,14 @@ task.spawn(function()
     while task.wait() do
         if Settings.infwallboost then
             main.numWallclimb = math.huge
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infwallrun then
+            main.numWallrun = math.huge
         end
     end
 end)
@@ -433,6 +442,16 @@ Toggles.wallboost:OnChanged(function()
     Settings.infwallboost = Toggles.wallboost.Value
 end)
 
+LeftGroupBox:AddToggle('wallrun', {
+    Text = 'inf wallrun',
+    Default = false,
+    Tooltip = 'Toggles the inf wallrun feature',
+})
+
+Toggles.wallrun:OnChanged(function()
+    Settings.infwallrun = Toggles.wallrun.Value
+end)
+
 LeftGroupBox:AddToggle('tricking', {
     Text = 'freerunnning pass',
     Default = false,
@@ -513,6 +532,25 @@ Toggles.glide:OnChanged(function()
 end)
 
 
+LeftGroupBox:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
+    Default = 'F',
+    SyncToggleState = false, 
+    Mode = 'Hold',
+    Text = 'Reset Ammo',
+    NoUI = false,
+})
+
+task.spawn(function()
+    while task.wait() do
+        local state = Options.ammoreset:GetState()
+        if state then
+            getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo()
+        end
+
+        if Library.Unloaded then break end
+    end
+end)
+
 --Misc tab--
 
 local MyButton = LeftGroupBox1:AddButton('Unlock all spawns', function()
@@ -527,7 +565,6 @@ end)
 local MyButton = LeftGroupBox1:AddButton('Unlock Badges', function()
     for i, v in next, workspace:GetChildren() do
         if (v.Name ~= "BadgeAwarder" or not lplr.Character) then continue end;
-    
         local part = v:FindFirstChildWhichIsA("Part");
         firetouchinterest(lplr.Character.HumanoidRootPart, part, 1);
         firetouchinterest(lplr.Character.HumanoidRootPart, part, 0);
@@ -542,11 +579,20 @@ Library:OnUnload(function()
     Library.Unloaded = true
 end)
 
-
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
+
+MenuGroup:AddToggle('keybindframe', {
+    Text = 'Keybind Frame',
+    Default = false,
+    Tooltip = 'Toggles KeybindFrame',
+})
+
+Toggles.keybindframe:OnChanged(function()
+    Library.KeybindFrame.Visible = Toggles.keybindframe.Value
+end)
 
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
