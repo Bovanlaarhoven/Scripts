@@ -6,6 +6,19 @@ local Settings = {
     distance = 1000,
 }
 
+-- Function to toggle the ESP on and off
+local function ToggleEsp()
+    Settings.Esp = not Settings.Esp
+end
+
+-- Bind the toggle function to a key press
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.E then
+        ToggleEsp()
+    end
+end)
+
+-- Render the ESP text for a given object
 local function BagEsp(Object)
     local text = Drawing.new("Text")
     text.Color = Color3.new(1, 1, 1)
@@ -65,6 +78,7 @@ local function BagEsp(Object)
     end)
 end
 
+-- Loop through all descendants of the workspace to find objects with the name "Side"
 for _,v in pairs(workspace:GetDescendants()) do
     if v.Name == "Side" then
         BagEsp(v)
