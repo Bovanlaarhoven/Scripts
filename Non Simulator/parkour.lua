@@ -13,6 +13,8 @@ repeat wait() until game:IsLoaded();
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
+local camera = workspace.CurrentCamera;
+local runservice = game:GetService("RunService");
 
 do
     local banRemotes = {
@@ -99,6 +101,8 @@ local Settings = {
     AntiComboHealth = false,
     RemoveHardfall = false,
     alwaysgliding = false,
+    Esp = false,
+    EspDistance = 1000,
 }
 
 local foundSupportedFolder = false
@@ -408,7 +412,7 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab('Main'),
-    Visual = Window:AddTab('Visuals'),
+    Visuals = Window:AddTab('Visuals'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
@@ -418,6 +422,7 @@ local Exp = Tabs.Main:AddRightGroupbox('Exp')
 local Inf = Tabs.Main:AddRightGroupbox('inf')
 local Combo = Tabs.Main:AddRightGroupbox('Combo')
 local Other = Tabs.Main:AddLeftGroupbox('Other')
+local Visuals = Tabs.Visuals:AddLeftGroupbox('Bag Esp')
 
 --Combo Tab--
 
@@ -702,6 +707,7 @@ Toggles.drink:OnChanged(function()
     Settings.infdrink = Toggles.drink.Value
 end)
 
+
 --Misc tab--
 
 local MyButton = Other:AddButton('Unlock all spawns', function()
@@ -722,6 +728,17 @@ local MyButton = Other:AddButton('Unlock Badges', function()
     end;
 end)
 
+--Visuals Tab--
+
+Visuals:AddToggle('Esp', {
+    Text = 'Bag esp',
+    Default = false,
+    Tooltip = 'Toggles Bag Esp feature',
+})
+
+Toggles.Esp:OnChanged(function()
+    Settings.Esp = Toggles.Esp.Value
+end)
 
 --settings
 Library:SetWatermark('Parkour By Hydra#8270')
