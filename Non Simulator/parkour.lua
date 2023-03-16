@@ -304,9 +304,15 @@ task.spawn(function()
         if Settings.AntiComboSubtract then
             local originalValue = main.comboXp
             local newValue = main.comboXp
+            main.timeBelowSpeed = 0
+            main.timeStopped = 0
+            main.timeSlow = 0
             if newValue >= originalValue then
                 main.comboXp = newValue
             end
+        else
+            local originalValue = main.comboXp
+            main.comboXp = originalValue
         end
     end
 end)
