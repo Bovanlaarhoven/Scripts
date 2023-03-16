@@ -743,6 +743,19 @@ Toggles.Esp:OnChanged(function()
     end
 end)
 
+Visuals:AddSlider('Distance', {
+    Text = 'Esp Distance',
+    Default = 100,
+    Min = 100,
+    Max = 5000,
+    Rounding = 0,
+    Compact = false,
+})
+
+Options.Distance:OnChanged(function()
+    Settings.EspDistance = Options.Distance.Value
+end)
+
 local function BagEsp(Object)
     local text = Drawing.new("Text")
     text.Color = Color3.new(1, 1, 1)
@@ -750,9 +763,8 @@ local function BagEsp(Object)
     text.Center = true
     text.Outline = true
     text.Position = Vector2.new(100, 100)
-    text.Size = 20
+    text.Size = 15
     text.Font = Drawing.Fonts.Monospace
-    text.Transparency = 0.9
 
     local renderstepped
     renderstepped = runservice.RenderStepped:Connect(function()
@@ -802,7 +814,6 @@ local function BagEsp(Object)
     end)
 end
 
--- Loop through all descendants of the workspace to find objects with the name "Side"
 for _,v in pairs(workspace:GetDescendants()) do
     if v.Name == "Side" then
         BagEsp(v)
