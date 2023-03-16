@@ -95,6 +95,7 @@ local Settings = {
     walkspeedtoggle = false,
     infdrink = false,
     AntiCombobreak = false,
+    AntiComboSubtract = false,
 }
 
 local foundSupportedFolder = false
@@ -290,10 +291,22 @@ end)
 task.spawn(function()
     while task.wait() do
         if Settings.AntiCombobreak then
-            local old = main.comboHealth.Value
             main.comboHealth = math.huge
         else
-            main.comboHealth = old
+            local originalValue = main.comboHealth
+            main.comboHealth = originalValue
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.AntiCombobreak then
+            local originalValue = main.comboXp
+            local newValue = main.comboXp
+            if newValue >= originalValue then
+                main.comboXp = newValue
+            end
         end
     end
 end)
@@ -399,6 +412,16 @@ Combo:AddToggle('ComboBreak', {
 
 Toggles.ComboBreak:OnChanged(function()
     Settings.AntiCombobreak = Toggles.ComboBreak.Value
+end)
+
+Combo:AddToggle('ComboSubtract', {
+    Text = 'Anti Combo Subtract',
+    Default = false,
+    Tooltip = 'Toggles the Anti Combo Subtract feature',
+})
+
+Toggles.ComboSubtract:OnChanged(function()
+    Settings.AntiComboSubtract = Toggles.ComboSubtract.Value
 end)
 
 Remove:AddToggle('Nofall', {
