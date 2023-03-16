@@ -462,7 +462,7 @@ Toggles.Nofall:OnChanged(function()
 end)
 
 Remove:AddToggle('LandingHard', {
-    Text = 'Remove Hard Landing Cooldown',
+    Text = 'Remove Hard Landing Slowdown',
     Default = false,
     Tooltip = 'Toggles the Hard Landing Cooldown feature',
 })
