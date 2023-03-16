@@ -98,6 +98,7 @@ local Settings = {
     AntiComboSubtract = false,
     AntiComboHealth = false,
     RemoveHardfall = false,
+    alwaysgliding = false,
 }
 
 local foundSupportedFolder = false
@@ -239,6 +240,15 @@ task.spawn(function()
         end
     end
 end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.alwaysgliding then
+            main.gliding = Settings.alwaysgliding
+        end
+    end
+end)
+
 
 task.spawn(function()
     while task.wait() do
@@ -408,6 +418,8 @@ local Inf = Tabs.Main:AddRightGroupbox('inf')
 local Combo = Tabs.Main:AddRightGroupbox('Combo')
 local Other = Tabs.Main:AddLeftGroupbox('Other')
 
+--Combo Tab--
+
 Combo:AddToggle('ComboToggle', {
     Text = 'Combo',
     Default = false,
@@ -417,6 +429,7 @@ Combo:AddToggle('ComboToggle', {
 Toggles.ComboToggle:OnChanged(function()
     Settings.autocombo = Toggles.ComboToggle.Value
 end)
+
 
 Combo:AddSlider('Combo', {
     Text = 'Combo lvl',
@@ -451,25 +464,7 @@ Toggles.ComboSubtract:OnChanged(function()
     Settings.AntiComboSubtract = Toggles.ComboSubtract.Value
 end)
 
-Remove:AddToggle('Nofall', {
-    Text = 'Remove Fall Damage',
-    Default = false,
-    Tooltip = 'Toggles the No fall feature',
-})
-
-Toggles.Nofall:OnChanged(function()
-    Settings.Nofall = Toggles.Nofall.Value
-end)
-
-Remove:AddToggle('LandingHard', {
-    Text = 'Remove Hard Landing Slowdown',
-    Default = false,
-    Tooltip = 'Toggles the Hard Landing Cooldown feature',
-})
-
-Toggles.LandingHard:OnChanged(function()
-    Settings.RemoveHardfall = Toggles.LandingHard.Value
-end)
+--Player Tab--
 
 Player:AddToggle('slideToggle', {
     Text = 'Slidespeed',
@@ -494,6 +489,7 @@ Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
 
+
 Player:AddToggle('speedtogle', {
     Text = 'Walkspeed',
     Default = false,
@@ -517,46 +513,6 @@ Options.runvalue:OnChanged(function()
     Settings.walkspeedvalue = Options.runvalue.Value
 end)
 
-Remove:AddToggle('Charge', {
-    Text = 'Remove Charge cooldown',
-    Default = false,
-    Tooltip = 'Toggles the no charge feature',
-})
-
-Toggles.Charge:OnChanged(function()
-    Settings.chargecooldown = Toggles.Charge.Value
-end)
-
-Inf:AddToggle('wallboost', {
-    Text = 'inf Wallboost',
-    Default = false,
-    Tooltip = 'Toggles the inf wallboost feature',
-})
-
-Toggles.wallboost:OnChanged(function()
-    Settings.infwallboost = Toggles.wallboost.Value
-end)
-
-Inf:AddToggle('wallrun', {
-    Text = 'inf Wallrun',
-    Default = false,
-    Tooltip = 'Toggles the inf wallrun feature',
-})
-
-Toggles.wallrun:OnChanged(function()
-    Settings.infwallrun = Toggles.wallrun.Value
-end)
-
-Inf:AddToggle('magrail', {
-    Text = 'inf Magrail',
-    Default = false,
-    Tooltip = 'Toggles the inf Magrail feature',
-})
-
-Toggles.magrail:OnChanged(function()
-    Settings.infmagrail = Toggles.magrail.Value
-end)
-
 Player:AddToggle('tricking', {
     Text = 'freerunnning pass',
     Default = false,
@@ -566,6 +522,37 @@ Player:AddToggle('tricking', {
 Toggles.tricking:OnChanged(function()
     Settings.trickpass = Toggles.tricking.Value
 end)
+
+Player:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
+    Default = 'F',
+    SyncToggleState = false, 
+    Mode = 'Hold',
+    Text = 'Reset Ammo',
+    NoUI = false,
+})
+
+task.spawn(function()
+    while task.wait() do
+        local state = Options.ammoreset:GetState()
+        if state then
+            getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo()
+        end
+
+        if Library.Unloaded then break end
+    end
+end)
+
+Player:AddToggle('Glide', {
+    Text = 'Always Glide',
+    Default = false,
+    Tooltip = 'toggles slide speed feature',
+})
+
+Toggles.Glide:OnChanged(function()
+    Settings.alwaysgliding = Toggles.Glide.Value
+end)
+
+--Exp Tab--
 
 local moves = {"dropdown","longjump"}
 
@@ -592,6 +579,7 @@ Exp:AddToggle('Reset', {
 Toggles.Reset:OnChanged(function()
     Settings.reset = Toggles.Reset.Value
 end)
+
 
 Exp:AddSlider('Resetvalue', {
     Text = 'Points value',
@@ -626,6 +614,39 @@ Toggles.quest:OnChanged(function()
     Settings.autoquest = Toggles.quest.Value
 end)
 
+--Inf Tab--
+
+Inf:AddToggle('wallboost', {
+    Text = 'inf Wallboost',
+    Default = false,
+    Tooltip = 'Toggles the inf wallboost feature',
+})
+
+Toggles.wallboost:OnChanged(function()
+    Settings.infwallboost = Toggles.wallboost.Value
+end)
+
+Inf:AddToggle('wallrun', {
+    Text = 'inf Wallrun',
+    Default = false,
+    Tooltip = 'Toggles the inf wallrun feature',
+})
+
+Toggles.wallrun:OnChanged(function()
+    Settings.infwallrun = Toggles.wallrun.Value
+end)
+
+
+Inf:AddToggle('magrail', {
+    Text = 'inf Magrail',
+    Default = false,
+    Tooltip = 'Toggles the inf Magrail feature',
+})
+
+Toggles.magrail:OnChanged(function()
+    Settings.infmagrail = Toggles.magrail.Value
+end)
+
 Inf:AddToggle('glide', {
     Text = 'inf glide stamina',
     Default = false,
@@ -636,6 +657,40 @@ Toggles.glide:OnChanged(function()
     Settings.infglidestamina = Toggles.glide.Value
 end)
 
+--Remove Tab--
+
+Remove:AddToggle('Nofall', {
+    Text = 'Remove Fall Damage',
+    Default = false,
+    Tooltip = 'Toggles the No fall feature',
+})
+
+Toggles.Nofall:OnChanged(function()
+    Settings.Nofall = Toggles.Nofall.Value
+end)
+
+
+Remove:AddToggle('LandingHard', {
+    Text = 'Remove Hard Landing Slowdown',
+    Default = false,
+    Tooltip = 'Toggles the Hard Landing Cooldown feature',
+})
+
+Toggles.LandingHard:OnChanged(function()
+    Settings.RemoveHardfall = Toggles.LandingHard.Value
+end)
+
+
+Remove:AddToggle('Charge', {
+    Text = 'Remove Charge cooldown',
+    Default = false,
+    Tooltip = 'Toggles the no charge feature',
+})
+
+Toggles.Charge:OnChanged(function()
+    Settings.chargecooldown = Toggles.Charge.Value
+end)
+
 Remove:AddToggle('drink', {
     Text = 'Remove Drink cooldown',
     Default = false,
@@ -644,25 +699,6 @@ Remove:AddToggle('drink', {
 
 Toggles.drink:OnChanged(function()
     Settings.infdrink = Toggles.drink.Value
-end)
-
-Player:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
-    Default = 'F',
-    SyncToggleState = false, 
-    Mode = 'Hold',
-    Text = 'Reset Ammo',
-    NoUI = false,
-})
-
-task.spawn(function()
-    while task.wait() do
-        local state = Options.ammoreset:GetState()
-        if state then
-            getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo()
-        end
-
-        if Library.Unloaded then break end
-    end
 end)
 
 --Misc tab--
