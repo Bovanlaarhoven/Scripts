@@ -93,7 +93,8 @@ local Settings = {
     infglidestamina = false,
     walkspeedvalue = 1,
     walkspeedtoggle = false,
-    infdrink = false
+    infdrink = false,
+    AntiCombobreak = false,
 }
 
 local foundSupportedFolder = false
@@ -288,6 +289,14 @@ end)
 
 task.spawn(function()
     while task.wait() do
+        if Settings.AntiCombobreak then
+            main.comboHealth = 1
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
         if Settings.chargecooldown then
             main.chargeCooldown = 0
         end
@@ -377,6 +386,16 @@ Combo:AddSlider('Combo', {
 
 Options.Combo:OnChanged(function()
     Settings.combolvl = Options.Combo.Value
+end)
+
+Combo:AddToggle('ComboBreak', {
+    Text = 'Anti Combo Break',
+    Default = false,
+    Tooltip = 'Toggles the Anti combo break feature',
+})
+
+Toggles.ComboBreak:OnChanged(function()
+    Settings.AntiCombobreak = Toggles.ComboBreak.Value
 end)
 
 Remove:AddToggle('Nofall', {
