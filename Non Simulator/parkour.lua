@@ -408,6 +408,7 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab('Main'),
+    Visual = Window:AddTab('Visuals'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
