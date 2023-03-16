@@ -290,7 +290,10 @@ end)
 task.spawn(function()
     while task.wait() do
         if Settings.AntiCombobreak then
-            main.comboHealth = 1
+            local old = main.comboHealth.Value
+            main.comboHealth = math.huge
+        else
+            main.comboHealth = old
         end
     end
 end)
