@@ -301,7 +301,7 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if Settings.AntiCombobreak then
+        if Settings.AntiComboSubtract then
             local originalValue = main.comboXp
             local newValue = main.comboXp
             if newValue >= originalValue then
