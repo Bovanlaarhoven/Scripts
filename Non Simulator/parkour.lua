@@ -94,8 +94,8 @@ local Settings = {
     walkspeedvalue = 1,
     walkspeedtoggle = false,
     infdrink = false,
-    AntiCombobreak = false,
     AntiComboSubtract = false,
+    AntiComboHealth = false,
 }
 
 local foundSupportedFolder = false
@@ -290,14 +290,16 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        if Settings.AntiCombobreak then
+        if Settings.AntiComboHealth then
             main.comboHealth = math.huge
+            main.extendeddrop = false
         else
             local originalValue = main.comboHealth
             main.comboHealth = originalValue
         end
     end
 end)
+
 
 task.spawn(function()
     while task.wait() do
@@ -410,14 +412,14 @@ Options.Combo:OnChanged(function()
     Settings.combolvl = Options.Combo.Value
 end)
 
-Combo:AddToggle('ComboBreak', {
-    Text = 'Anti Combo Break',
+Combo:AddToggle('AntiComboHealth', {
+    Text = 'Anti Combo Health',
     Default = false,
-    Tooltip = 'Toggles the Anti combo break feature',
+    Tooltip = 'Toggles the Anti combo Health feature',
 })
 
-Toggles.ComboBreak:OnChanged(function()
-    Settings.AntiCombobreak = Toggles.ComboBreak.Value
+Toggles.AntiComboHealth:OnChanged(function()
+    Settings.AntiComboHealth = Toggles.AntiComboHealth.Value
 end)
 
 Combo:AddToggle('ComboSubtract', {
