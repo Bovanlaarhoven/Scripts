@@ -91,6 +91,7 @@ local Settings = {
     stimeject = false,
     autoquest = false,
     infglidestamina = false,
+    infmagrail = false,
     walkspeedvalue = 1,
     walkspeedtoggle = false,
     infdrink = false,
@@ -250,6 +251,14 @@ task.spawn(function()
     while task.wait() do
         if Settings.infdrink then
             main.lastDrink = 0
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.infmagrail then
+            main.lastMagSlap = 0
         end
     end
 end)
@@ -433,7 +442,7 @@ Toggles.ComboSubtract:OnChanged(function()
 end)
 
 Remove:AddToggle('Nofall', {
-    Text = 'Remove fall Damage',
+    Text = 'Remove Fall Damage',
     Default = false,
     Tooltip = 'Toggles the No fall feature',
 })
@@ -443,7 +452,7 @@ Toggles.Nofall:OnChanged(function()
 end)
 
 Player:AddToggle('slideToggle', {
-    Text = 'Slide speed',
+    Text = 'Slidespeed',
     Default = false,
     Tooltip = 'toggles slide speed feature',
 })
@@ -453,7 +462,7 @@ Toggles.slideToggle:OnChanged(function()
 end)
 
 Player:AddSlider('slideValue', {
-    Text = 'slide speed value',
+    Text = 'Slidespeed value',
     Default = 34,
     Min = 34,
     Max = 1000,
@@ -466,7 +475,7 @@ Options.slideValue:OnChanged(function()
 end)
 
 Player:AddToggle('speedtogle', {
-    Text = 'walkspeed toggle',
+    Text = 'Walkspeed',
     Default = false,
     Tooltip = 'toggles walkspeed feature',
 })
@@ -476,7 +485,7 @@ Toggles.speedtogle:OnChanged(function()
 end)
 
 Player:AddSlider('runvalue', {
-    Text = 'walkspeed value',
+    Text = 'Walkspeed value',
     Default = 1,
     Min = 1,
     Max = 100,
@@ -489,7 +498,7 @@ Options.runvalue:OnChanged(function()
 end)
 
 Remove:AddToggle('Charge', {
-    Text = 'Remove charge cooldown',
+    Text = 'Remove Charge cooldown',
     Default = false,
     Tooltip = 'Toggles the no charge feature',
 })
@@ -499,7 +508,7 @@ Toggles.Charge:OnChanged(function()
 end)
 
 Inf:AddToggle('wallboost', {
-    Text = 'inf wallboost',
+    Text = 'inf Wallboost',
     Default = false,
     Tooltip = 'Toggles the inf wallboost feature',
 })
@@ -509,13 +518,23 @@ Toggles.wallboost:OnChanged(function()
 end)
 
 Inf:AddToggle('wallrun', {
-    Text = 'inf wallrun',
+    Text = 'inf Wallrun',
     Default = false,
     Tooltip = 'Toggles the inf wallrun feature',
 })
 
 Toggles.wallrun:OnChanged(function()
     Settings.infwallrun = Toggles.wallrun.Value
+end)
+
+Inf:AddToggle('magrail', {
+    Text = 'inf Magrail',
+    Default = false,
+    Tooltip = 'Toggles the inf Magrail feature',
+})
+
+Toggles.magrail:OnChanged(function()
+    Settings.infmagrail = Toggles.magrail.Value
 end)
 
 Player:AddToggle('tricking', {
