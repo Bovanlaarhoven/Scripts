@@ -97,6 +97,7 @@ local Settings = {
     infdrink = false,
     AntiComboSubtract = false,
     AntiComboHealth = false,
+    RemoveHardfall = false,
 }
 
 local foundSupportedFolder = false
@@ -243,6 +244,15 @@ task.spawn(function()
     while task.wait() do
         if Settings.infwallboost then
             main.numWallclimb = math.huge
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.RemoveHardfall then
+            main.landinghard = false
+            main.landing4s = false
         end
     end
 end)
@@ -449,6 +459,16 @@ Remove:AddToggle('Nofall', {
 
 Toggles.Nofall:OnChanged(function()
     Settings.Nofall = Toggles.Nofall.Value
+end)
+
+Remove:AddToggle('LandingHard', {
+    Text = 'Remove Hard Landing Cooldown',
+    Default = false,
+    Tooltip = 'Toggles the Hard Landing Cooldown feature',
+})
+
+Toggles.LandingHard:OnChanged(function()
+    Settings.RemoveHardfall = Toggles.LandingHard.Value
 end)
 
 Player:AddToggle('slideToggle', {
