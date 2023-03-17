@@ -871,8 +871,15 @@ MenuGroup:AddToggle('keybindframe', {
     Tooltip = 'Toggles KeybindFrame',
 })
 
-Toggles.keybindframe:OnChanged(function()
-    Library.KeybindFrame.Visible = Toggles.keybindframe.Value
+MenuGroup:AddToggle('Watermark', {
+    Text = 'Watermark',
+    Default = false,
+    Tooltip = 'Toggles Watermark',
+})
+
+
+Toggles.Watermark:OnChanged(function()
+    Library:SetWatermarkVisibility(Toggles.Watermark.Value)
 end)
 
 Library.ToggleKeybind = Options.MenuKeybind
