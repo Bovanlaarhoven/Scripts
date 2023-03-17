@@ -768,7 +768,6 @@ Toggles.Color:OnChanged(function()
     Settings.UseColor = Toggles.Color.Value
 end)
 
-
 local function BagEsp(Object)
     local text = Drawing.new("Text")
     text.Color = Color3.new(1, 1, 1)
@@ -794,7 +793,7 @@ local function BagEsp(Object)
                             text.Text = string.format("%s\n[%.2f Meters]", Object.Parent.Rarity.Value, distanceInMeters)
                             if Object.Parent:FindFirstChild("Rarity") and Settings.UseColor then
                                 if Object.Parent.Rarity.Value == "Common" then
-                                    text.Color = Color3.fromRGB(114, 114, 112)
+                                    text.Color = Color3.fromRGB(148, 148, 145)
                                 elseif Object.Parent.Rarity.Value == "Uncommon" then
                                     text.Color = Color3.fromRGB(9, 255, 0)
                                 elseif Object.Parent.Rarity.Value == "Rare" then
