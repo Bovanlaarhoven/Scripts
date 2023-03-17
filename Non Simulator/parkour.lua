@@ -8,6 +8,7 @@ end
 
 local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
+local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
 
 repeat wait() until game:IsLoaded();
 local players = game:GetService("Players");
@@ -35,7 +36,7 @@ do
         "UpdateCombo";
         "SetTrail";
         "InsertTrail";
-        
+
     }
 
     local hook
@@ -729,6 +730,26 @@ local MyButton = Other:AddButton('Unlock Badges', function()
         firetouchinterest(lplr.Character.HumanoidRootPart, part, 1);
         firetouchinterest(lplr.Character.HumanoidRootPart, part, 0);
     end;
+end)
+
+local MyButton = Other:AddButton('Join Discord', function()
+    Request(
+   {
+       Url = "http://127.0.0.1:6463/rpc?v=1",
+       Method = "POST",
+       Headers = {
+           ["Content-Type"] = "application/json",
+           ["origin"] = "https://discord.com",
+       },
+       Body = game:GetService("HttpService"):JSONEncode(
+           {
+               ["args"] = {
+                   ["code"] = "CODE INVITE",
+               },
+               ["cmd"] = "INVITE_BROWSER",
+               ["nonce"] = "."
+           })
+   })
 end)
 
 --Visuals Tab--
