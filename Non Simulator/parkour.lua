@@ -35,7 +35,6 @@ do
         "UpdateCombo";
         "SetTrail";
         "InsertTrail";
-
     }
 
     local hook
@@ -497,16 +496,6 @@ Toggles.slideToggle:OnChanged(function()
     Settings.Slidespeed = Toggles.slideToggle.Value
 end)
 
-Player:AddToggle('autoroll', {
-    Text = 'Auto roll',
-    Default = false,
-    Tooltip = 'toggles Auto roll feature',
-})
-
-Toggles.autoroll:OnChanged(function()
-    Settings.autroll = Toggles.autoroll.Value
-end)
-
 Player:AddSlider('slideValue', {
     Text = 'Slidespeed value',
     Default = 34,
@@ -732,6 +721,15 @@ Toggles.drink:OnChanged(function()
     Settings.infdrink = Toggles.drink.Value
 end)
 
+Remove:AddToggle('autoroll', {
+    Text = 'Remove Fall animation',
+    Default = false,
+    Tooltip = 'toggles Remove Fall Animation feature',
+})
+
+Toggles.autoroll:OnChanged(function()
+    Settings.autroll = Toggles.autoroll.Value
+end)
 
 --Misc tab--
 
