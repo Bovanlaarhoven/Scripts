@@ -106,6 +106,7 @@ local Settings = {
     Esp = false,
     EspDistance = 1000,
     UseColor = false,
+    autroll = false,
 }
 
 local foundSupportedFolder = false
@@ -337,6 +338,17 @@ task.spawn(function()
 end)
 
 
+
+task.spawn(function()
+    while task.wait() do
+        if Settings.autroll then
+            main.landRolling = true
+        else
+            main.landRolling = false
+        end
+    end
+end)
+
 task.spawn(function()
     while task.wait() do
         if Settings.AntiComboSubtract then
@@ -483,6 +495,16 @@ Player:AddToggle('slideToggle', {
 
 Toggles.slideToggle:OnChanged(function()
     Settings.Slidespeed = Toggles.slideToggle.Value
+end)
+
+Player:AddToggle('autoroll', {
+    Text = 'Auto roll',
+    Default = false,
+    Tooltip = 'toggles Auto roll feature',
+})
+
+Toggles.autoroll:OnChanged(function()
+    Settings.autroll = Toggles.autoroll.Value
 end)
 
 Player:AddSlider('slideValue', {
@@ -870,6 +892,10 @@ MenuGroup:AddToggle('keybindframe', {
     Default = false,
     Tooltip = 'Toggles KeybindFrame',
 })
+
+Toggles.keybindframe:OnChanged(function()
+    Library.KeybindFrame.Visible = Toggles.keybindframe.Value
+end)
 
 MenuGroup:AddToggle('Watermark', {
     Text = 'Watermark',
