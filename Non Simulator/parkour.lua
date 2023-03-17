@@ -9,6 +9,7 @@ end
 local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
 local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
+local Time = os.clock()
 
 repeat wait() until game:IsLoaded();
 local players = game:GetService("Players");
@@ -923,3 +924,5 @@ ThemeManager:SetFolder('MyScriptHub')
 SaveManager:SetFolder('MyScriptHub/specific-game')
 SaveManager:BuildConfigSection(Tabs['UI Settings']) 
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
+getsenv(lplr.PlayerScripts.SystemChatMessageHandler).message("Took: " .. math.floor((os.clock() - Time) * 100) / 100 .. "s to load!")
