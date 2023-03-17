@@ -8,7 +8,6 @@ end
 
 local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
-local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
 
 repeat wait() until game:IsLoaded();
 local players = game:GetService("Players");
@@ -732,8 +731,8 @@ local MyButton = Other:AddButton('Unlock Badges', function()
 end)
 
 local MyButton = Other:AddButton('Join Discord', function()
-    Request(
-   {
+    local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
+    Request({
        Url = "http://127.0.0.1:6463/rpc?v=1",
        Method = "POST",
        Headers = {
@@ -743,9 +742,9 @@ local MyButton = Other:AddButton('Join Discord', function()
        Body = game:GetService("HttpService"):JSONEncode(
            {
                ["args"] = {
-                   ["code"] = "CODE INVITE",
+                   ["code"] = "YvwEyH2W6t",
                },
-               ["cmd"] = "INVITE_BROWSER",
+               ["cmd"] = "/invite/YvwEyH2W6t",
                ["nonce"] = "."
            })
    })
