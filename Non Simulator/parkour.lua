@@ -733,22 +733,20 @@ end)
 
 local MyButton = Other:AddButton('Join Discord', function()
     Request({
-       Url = "http://127.0.0.1:6463/rpc?v=1",
-       Method = "POST",
-       Headers = {
-           ["Content-Type"] = "application/json",
-           ["origin"] = "https://discord.com",
-       },
-       Body = game:GetService("HttpService"):JSONEncode(
-           {
-               ["args"] = {
-                   ["code"] = "YvwEyH2W6t",
-               },
-               ["cmd"] = "/invite/YvwEyH2W6t",
-               ["nonce"] = "."
-           })
-   })
-   print("noob")
+        Url = "http://127.0.0.1:6463/rpc?v=1",
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json",
+            ["Origin"] = "https://discord.com"
+        },
+        Body = game:GetService("HttpService"):JSONEncode({
+            cmd = "INVITE_BROWSER",
+            args = {
+                code = "YvwEyH2W6t"
+            },
+            nonce = game:GetService("HttpService"):GenerateGUID(false)
+        }),
+    })
 end)
 
 --Visuals Tab--
