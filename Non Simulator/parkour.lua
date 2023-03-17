@@ -16,7 +16,6 @@ local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
 local camera = workspace.CurrentCamera;
 local runservice = game:GetService("RunService");
-local TextService = game:GetService("TextService")
 
 do
     local banRemotes = {
