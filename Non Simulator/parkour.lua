@@ -15,6 +15,7 @@ local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
 local camera = workspace.CurrentCamera;
 local runservice = game:GetService("RunService");
+local TextService = game:GetService("TextService")
 
 do
     local banRemotes = {
@@ -103,6 +104,7 @@ local Settings = {
     alwaysgliding = false,
     Esp = false,
     EspDistance = 1000,
+    UseColor = false,
 }
 
 local foundSupportedFolder = false
@@ -756,6 +758,16 @@ Options.Distance:OnChanged(function()
     Settings.EspDistance = Options.Distance.Value
 end)
 
+Visuals:AddToggle('Color', {
+    Text = 'Use Color',
+    Default = false,
+    Tooltip = 'Toggles Use Color feature',
+})
+
+Toggles.Color:OnChanged(function()
+    Settings.UseColor = Toggles.Color.Value
+end)
+
 local function BagEsp(Object)
     local text = Drawing.new("Text")
     text.Color = Color3.new(1, 1, 1)
@@ -765,7 +777,7 @@ local function BagEsp(Object)
     text.Position = Vector2.new(100, 100)
     text.Size = 16
     text.Font = Drawing.Fonts.Monospace
-    text.Transparency = 0.5
+    text.Transparency = .6
 
     local renderstepped
     renderstepped = runservice.RenderStepped:Connect(function()
@@ -779,6 +791,25 @@ local function BagEsp(Object)
                         if distance <= Settings.EspDistance then
                             local distanceInMeters = distance * 0.282
                             text.Text = string.format("%s\n[%.2f Meters]", Object.Parent.Rarity.Value, distanceInMeters)
+                            if Object.Parent:FindFirstChild("Rarity") and Settings.UseColor then
+                                if Object.Parent.Rarity.Value == "Common" then
+                                    text.Color = Color3.fromRGB(114, 114, 112)
+                                elseif Object.Parent.Rarity.Value == "Uncommon" then
+                                    text.Color = Color3.fromRGB(9, 255, 0)
+                                elseif Object.Parent.Rarity.Value == "Rare" then
+                                    text.Color = Color3.fromRGB(179, 0, 255)
+                                elseif Object.Parent.Rarity.Value == "Epic" then
+                                    text.Color = Color3.fromRGB(0, 251, 255)
+                                elseif Object.Parent.Rarity.Value == "Legendary" then
+                                    text.Color = Color3.fromRGB(255, 255, 0)
+                                elseif Object.Parent.Rarity.Value == "Ultimate" then
+                                    text.Color = Color3.fromRGB(255, 0, 255)
+                                elseif Object.Parent.Rarity.Value == "Resplendent" then
+                                    text.Color = Color3.fromRGB(255, 0, 0)
+                                end
+                            else
+                                text.Color = Color3.new(1, 1, 1)
+                            end
                             if OnScreen then
                                 text.Position = Vector2.new(Vector.X, Vector.Y)
                                 text.Visible = true
