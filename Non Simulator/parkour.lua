@@ -789,51 +789,56 @@ Toggles.Color:OnChanged(function()
     Settings.UseColor = Toggles.Color.Value
 end)
 
-local function BagEsp(Object)
-    local text = Drawing.new("Text")
-    text.Color = Color3.new(1, 1, 1)
-    text.OutlineColor = Color3.new(0, 0, 0)
-    text.Center = true
-    text.Outline = true
-    text.Position = Vector2.new(100, 100)
-    text.Size = 16
-    text.Font = Drawing.Fonts.Monospace
-    text.Transparency = .6
-
-    local renderstepped
-    renderstepped = runservice.RenderStepped:Connect(function()
-        local Success, Error = pcall(function()
-            if Object and Settings.Esp then
-                if Object ~= nil then
-                    local Vector, OnScreen
-                    if Object.Name then
-                        Vector, OnScreen = camera:WorldToViewportPoint(Object.Position)
-                        local distance = (Object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
-                        if distance <= Settings.EspDistance then
-                            local distanceInMeters = distance * 0.282
-                            text.Text = string.format("%s\n[%.2f Meters]", Object.Parent.Rarity.Value, distanceInMeters)
-                            if Object.Parent:FindFirstChild("Rarity") and Settings.UseColor then
-                                if Object.Parent.Rarity.Value == "Common" then
-                                    text.Color = Color3.fromRGB(148, 148, 145)
-                                elseif Object.Parent.Rarity.Value == "Uncommon" then
-                                    text.Color = Color3.fromRGB(9, 255, 0)
-                                elseif Object.Parent.Rarity.Value == "Rare" then
-                                    text.Color = Color3.fromRGB(179, 0, 255)
-                                elseif Object.Parent.Rarity.Value == "Epic" then
-                                    text.Color = Color3.fromRGB(0, 251, 255)
-                                elseif Object.Parent.Rarity.Value == "Legendary" then
-                                    text.Color = Color3.fromRGB(255, 255, 0)
-                                elseif Object.Parent.Rarity.Value == "Ultimate" then
-                                    text.Color = Color3.fromRGB(255, 0, 255)
-                                elseif Object.Parent.Rarity.Value == "Resplendent" then
-                                    text.Color = Color3.fromRGB(255, 0, 0)
+local function onCharacterAdded(char)
+    if (not char)  then return end
+    local function BagEsp(Object)
+        local text = Drawing.new("Text")
+        text.Color = Color3.new(1, 1, 1)
+        text.OutlineColor = Color3.new(0, 0, 0)
+        text.Center = true
+        text.Outline = true
+        text.Position = Vector2.new(100, 100)
+        text.Size = 16
+        text.Font = Drawing.Fonts.Monospace
+        text.Transparency = .6
+    
+        local renderstepped
+        renderstepped = runservice.RenderStepped:Connect(function()
+            local Success, Error = pcall(function()
+                if Object and Settings.Esp then
+                    if Object ~= nil then
+                        local Vector, OnScreen
+                        if Object.Name then
+                            Vector, OnScreen = camera:WorldToViewportPoint(Object.Position)
+                            local distance = (Object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                            if distance <= Settings.EspDistance then
+                                local distanceInMeters = distance * 0.282
+                                text.Text = string.format("%s\n[%.2f Meters]", Object.Parent.Rarity.Value, distanceInMeters)
+                                if Object.Parent:FindFirstChild("Rarity") and Settings.UseColor then
+                                    if Object.Parent.Rarity.Value == "Common" then
+                                        text.Color = Color3.fromRGB(148, 148, 145)
+                                    elseif Object.Parent.Rarity.Value == "Uncommon" then
+                                        text.Color = Color3.fromRGB(9, 255, 0)
+                                    elseif Object.Parent.Rarity.Value == "Rare" then
+                                        text.Color = Color3.fromRGB(179, 0, 255)
+                                    elseif Object.Parent.Rarity.Value == "Epic" then
+                                        text.Color = Color3.fromRGB(0, 251, 255)
+                                    elseif Object.Parent.Rarity.Value == "Legendary" then
+                                        text.Color = Color3.fromRGB(255, 255, 0)
+                                    elseif Object.Parent.Rarity.Value == "Ultimate" then
+                                        text.Color = Color3.fromRGB(255, 0, 255)
+                                    elseif Object.Parent.Rarity.Value == "Resplendent" then
+                                        text.Color = Color3.fromRGB(255, 0, 0)
+                                    end
+                                else
+                                    text.Color = Color3.new(1, 1, 1)
                                 end
-                            else
-                                text.Color = Color3.new(1, 1, 1)
-                            end
-                            if OnScreen then
-                                text.Position = Vector2.new(Vector.X, Vector.Y)
-                                text.Visible = true
+                                if OnScreen then
+                                    text.Position = Vector2.new(Vector.X, Vector.Y)
+                                    text.Visible = true
+                                else
+                                    text.Visible = false
+                                end
                             else
                                 text.Visible = false
                             end
@@ -842,36 +847,38 @@ local function BagEsp(Object)
                         end
                     else
                         text.Visible = false
+                        text:Remove()
+                        renderstepped:Disconnect()
                     end
                 else
                     text.Visible = false
-                    text:Remove()
-                    renderstepped:Disconnect()
                 end
-            else
-                text.Visible = false
+            end)
+            if not Success then
+                warn(Error)
+                text:Remove()
+                renderstepped:Disconnect()
             end
         end)
-        if not Success then
-            warn(Error)
-            text:Remove()
-            renderstepped:Disconnect()
+    
+        Object.AncestryChanged:Connect(function(_, parent)
+            if not parent then
+                text:Remove()
+                renderstepped:Disconnect()
+            end
+        end)
+    end
+    
+    for _,v in pairs(workspace:GetDescendants()) do
+        if v.Name == "Side" then
+            BagEsp(v)
         end
-    end)
-
-    Object.AncestryChanged:Connect(function(_, parent)
-        if not parent then
-            text:Remove()
-            renderstepped:Disconnect()
-        end
-    end)
-end
-
-for _,v in pairs(workspace:GetDescendants()) do
-    if v.Name == "Side" then
-        BagEsp(v)
     end
 end
+onCharacterAdded(lplr.Character);
+lplr.CharacterAdded:Connect(onCharacterAdded);
+
+
 
 --settings
 Library:SetWatermark('Parkour By Hydra#8270')
