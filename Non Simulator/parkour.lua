@@ -768,6 +768,7 @@ Toggles.Color:OnChanged(function()
     Settings.UseColor = Toggles.Color.Value
 end)
 
+
 local function BagEsp(Object)
     local text = Drawing.new("Text")
     text.Color = Color3.new(1, 1, 1)
