@@ -791,6 +791,7 @@ end)
 
 local function onCharacterAdded(char)
     if (not char)  then return end
+    wait(1)
     local function BagEsp(Object)
         local text = Drawing.new("Text")
         text.Color = Color3.new(1, 1, 1)
