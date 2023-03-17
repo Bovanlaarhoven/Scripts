@@ -763,8 +763,9 @@ local function BagEsp(Object)
     text.Center = true
     text.Outline = true
     text.Position = Vector2.new(100, 100)
-    text.Size = 15
+    text.Size = 16
     text.Font = Drawing.Fonts.Monospace
+    text.Transparency = 0.5
 
     local renderstepped
     renderstepped = runservice.RenderStepped:Connect(function()
