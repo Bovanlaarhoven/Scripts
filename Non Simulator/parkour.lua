@@ -222,7 +222,7 @@ local function reset()
     end
 end
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.flow then
             main.flowActive = true
@@ -231,7 +231,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.reset then
             if lplr.leaderstats.Points.Value >= Settings.resetvalue then
@@ -241,7 +241,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.trickpass then
             main.hasTricksPass = Settings.trickpass
@@ -249,7 +249,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.alwaysgliding then
             main.gliding = Settings.alwaysgliding
@@ -258,7 +258,7 @@ task.spawn(function()
 end)
 
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.infwallboost then
             main.numWallclimb = math.huge
@@ -266,7 +266,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.RemoveHardfall then
             main.landinghard = false
@@ -275,7 +275,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.infdrink then
             main.lastDrink = 0
@@ -283,7 +283,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.infmagrail then
             main.lastMagSlap = 0
@@ -291,7 +291,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.infwallrun then
             main.numWallrun = math.huge
@@ -299,7 +299,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.autocombo then
             main.comboLevel = Settings.combolvl
@@ -307,7 +307,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.Slidespeed then
             main.slidespeed = Settings.slidevalue
@@ -315,7 +315,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.walkspeedtoggle then
             main.walkspeedMult = Settings.walkspeedvalue
@@ -325,7 +325,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.AntiComboHealth then
             main.comboHealth = math.huge
@@ -337,9 +337,7 @@ task.spawn(function()
     end
 end)
 
-
-
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.autroll then
             main.landRolling = true
@@ -349,7 +347,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.AntiComboSubtract then
             local originalValue = main.comboXp
@@ -367,7 +365,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.chargecooldown then
             main.chargeCooldown = 0
@@ -375,7 +373,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.infglidestamina then
             main.glideStamina = math.huge
@@ -383,7 +381,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.autoquest then
             for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
