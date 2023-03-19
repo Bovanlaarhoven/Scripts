@@ -1,4 +1,12 @@
---FE Simple AimLock Script | Released Nov 2021 | Working.
+for _,v in next, getconnections(game:GetService("ScriptContext").Error) do
+    v:Disable()
+end
+
+for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
+    v:Disable()
+end
+
+
 local Area = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 local UIS = game:GetService("UserInputService")
@@ -85,4 +93,3 @@ UIS.InputEnded:Connect(function(Input)
 		UnLockCursor()
 	end
 end)
-game.StarterGui:SetCore("SendNotification", {Title = "Working.", Text = "Success, Script Loaded.", Duration = 4,})
