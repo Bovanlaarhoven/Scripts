@@ -1,6 +1,5 @@
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
-local Humanoid = lplr.Character.Humanoid
 local camera =  workspace.CurrentCamera
 local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
