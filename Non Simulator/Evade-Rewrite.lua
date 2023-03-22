@@ -11,7 +11,6 @@ local lightning = game:GetService("Lighting")
 local Time = os.clock()
 local String1 = "JumpDone"
 getgenv().Disabled = false
-setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local function Downed(plr)
     if plr and plr.Character and plr.Character:GetAttribute("Downed") then return true end
@@ -71,7 +70,7 @@ local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo20
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Evade",
+    Name = "Evade Premium",
     LoadingTitle = "Hydra Network",
     LoadingSubtitle = "by Hydra#8270",
     ConfigurationSaving = {
@@ -80,11 +79,11 @@ local Window = Rayfield:CreateWindow({
        FileName = "Big Hub"
     },
     Discord = {
-       Enabled = true,
+       Enabled = false,
        Invite = "YvwEyH2W6t",
        RememberJoins = true
     },
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
