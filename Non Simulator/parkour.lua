@@ -550,7 +550,7 @@ Player:AddLabel('Ammo Reset'):AddKeyPicker('ammoreset', {
     NoUI = false,
 })
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         local state = Options.ammoreset:GetState()
         if state then
