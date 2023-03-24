@@ -51,24 +51,14 @@ do
         return hook(self, unpack(args))
     end))
 
-    local old
-    old = hookmetamethod(game, "__index", newcclosure(function(self, key)
-        if (key == "PlaybackLoudness" and getfenv(2).script.Name == "RadioScript") then
-            return 0;
-        end
-
-        return old(self, key);
-    end))
-    
     local function onCharacterAdded(char)
         if (not char)  then return end
         wait(1)
         local Main = lplr.Backpack:WaitForChild("Main")
-        variables = getupvalue(getsenv(Main).charJump, 1)
-        variables.adminLevel = 13
+        local main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).resetAmmo, 1)
+        main.adminLevel = 13
         getfenv().script = Main
         mainEnv = getsenv(Main)
-        main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).resetAmmo, 1)
         encrypt = function(string)
             local _, res = pcall(mainEnv.encrypt, string)
             return res
