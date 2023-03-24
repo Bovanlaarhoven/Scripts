@@ -764,7 +764,7 @@ local MyButton = Other:AddButton('Join Discord', function()
             Body = game:GetService("HttpService"):JSONEncode(
                 {
                     ["args"] = {
-                        ["code"] = "YvwEyH2W6",
+                        ["code"] = "YvwEyH2W6T",
                     },
                     ["cmd"] = "INVITE_BROWSER",
                     ["nonce"] = "."
