@@ -8,11 +8,9 @@ end
 
 local getupvalue = (getupvalue or debug.getupvalue);
 local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
-local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
 local Time = os.clock()
 
 repeat wait() until game:IsLoaded();
-local moves = {"dropdown","longjump"}
 local players = game:GetService("Players");
 local lplr = players.LocalPlayer;
 local variables, mainEnv, encrypt;
@@ -437,7 +435,6 @@ local T5 = Window:CreateTab("Combo", 4483362458)
 local T6 = Window:CreateTab("Bag Esp", 4483362458)
 local T7 = Window:CreateTab("Other", 4483362458)
 
-
 local Toggle = T1:CreateToggle({
     Name = "Slidespeed",
     CurrentValue = false,
@@ -554,6 +551,8 @@ local Toggle = T2:CreateToggle({
         Settings.autroll = Value
     end,
 })
+
+local moves = {"dropdown","longjump"}
 
 local Button = T3:CreateButton({
     Name = "Auto Farm",
@@ -832,3 +831,5 @@ local function onCharacterAdded(char)
 end
 onCharacterAdded(lplr.Character);
 lplr.CharacterAdded:Connect(onCharacterAdded);
+
+getsenv(lplr.PlayerScripts.SystemChatMessageHandler).message("Took: " .. math.floor((os.clock() - Time) * 100) / 100 .. "s to load!")
