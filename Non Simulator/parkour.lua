@@ -6,62 +6,63 @@ for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
     v:Disable()
 end
 
-local getupvalue = (getupvalue or debug.getupvalue);
-local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end;
+local getupvalue = (getupvalue or debug.getupvalue)
+local hookmetamethod = hookmetamethod or function(tbl, mt, func) return hookfunction(getrawmetatable(tbl)[mt], func) end
 local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
 local Time = os.clock()
 
-repeat wait() until game:IsLoaded();
-local players = game:GetService("Players");
-local lplr = players.LocalPlayer;
-local variables, mainEnv, encrypt;
-local camera = workspace.CurrentCamera;
-local runservice = game:GetService("RunService");
+repeat wait() until game:IsLoaded()
+local players = game:GetService("Players")
+local lplr = players.LocalPlayer
+local encrypt
+local camera = workspace.CurrentCamera
+local runservice = game:GetService("RunService")
 
 do
-    local banRemotes = {
-        "FireToDieInstantly";
-        "LoadString";
-        "FlyRequest";
-        "FinishTimeTrial";
-        "UpdateDunceList";
-        "FF";
-        "okbye";
-        "Fling";
-        "ClientFling";
-        "LCombo";
-        "SubmitCombo";
-        "GetCurrentCombo";
-        "MaxCombo";
-        "UpdateCombo";
-        "SetTrail";
-        "InsertTrail";
+    local Remotes = {
+        "FireToDieInstantly",
+        "LoadString",
+        "FlyRequest",
+        "FinishTimeTrial",
+        "UpdateDunceList",
+        "FF",
+        "okbye",
+        "Fling",
+        "ClientFling",
+        "LCombo",
+        "SubmitCombo",
+        "GetCurrentCombo",
+        "MaxCombo",
+        "UpdateCombo",
+        "SetTrail",
+        "InsertTrail",
     }
 
     local hook
     hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
         local args = {...}
         local method = getnamecallmethod()
-        if (method == "FireServer" and table.find(banRemotes, self.Name)) then
+        if (method == "FireServer" and table.find(Remotes, self.Name)) then
             return
         end
-        if (method == "InvokeServer" and table.find(banRemotes, self.Name)) then
+        if (method == "InvokeServer" and table.find(Remotes, self.Name)) then
             return
         end
         return hook(self, unpack(args))
     end))
 
-    local function onCharacterAdded(char)
-        if (not char)  then return end
+    local function onCharacterAdded(Character)
+        if (not Character)  then return end
         wait(1)
         local Main = lplr.Backpack:WaitForChild("Main")
-        local main = getupvalue(getsenv(game:GetService("Players").LocalPlayer.Backpack:WaitForChild("Main")).resetAmmo, 1)
-        main.adminLevel = 13
+        getsenv(lplr.PlayerScripts.SystemChatMessageHandler).message("" .. encrypt("adminLevel 13") .. "")
+        main = getupvalue(getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo, 1)
+        getsenv(Main).adminLevel = 13
         getfenv().script = Main
-        mainEnv = getsenv(Main)
+
         encrypt = function(string)
-            local _, res = pcall(mainEnv.encrypt, string)
-            return res
+            local _, v = pcall(getsenv(Main).encrypt, string)
+            return v
         end
     end
     onCharacterAdded(lplr.Character);
@@ -439,11 +440,10 @@ Toggles.ComboToggle:OnChanged(function()
     Settings.autocombo = Toggles.ComboToggle.Value
 end)
 
-
 Combo:AddSlider('Combo', {
     Text = 'Combo lvl',
     Default = 1,
-    Min = 0,
+    Min = 1,
     Max = 5,
     Rounding = 0,
     Compact = false,
@@ -497,7 +497,6 @@ Player:AddSlider('slideValue', {
 Options.slideValue:OnChanged(function()
     Settings.slidevalue = Options.slideValue.Value
 end)
-
 
 Player:AddToggle('speedtogle', {
     Text = 'Walkspeed',
@@ -562,22 +561,6 @@ Toggles.Glide:OnChanged(function()
 end)
 
 --Exp Tab--
-
-local moves = {"dropdown","longjump"}
-
-local MyButton = Exp:AddButton('AutoFarm', function()
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if lplr.PlayerScripts:FindFirstChild("Points") and getsenv(lplr.Backpack.Main) then
-            local points = getsenv(lplr.PlayerScripts.Points);
-            points.changeParkourRemoteParent(workspace);
-            local Remote = getupvalue(points.changeParkourRemoteParent, 2);
-    
-            Remote:FireServer(encrypt("longjump"), {[encrypt("combo")] = encrypt(tostring(5))})
-            Remote:FireServer(encrypt("dropdown"), {[encrypt("combo")] = encrypt(tostring(5))})
-            Remote:FireServer(encrypt(moves[#moves]), {[encrypt("combo")] = encrypt(tostring(1.7976931348623157e+308))})
-        end
-    end)
-end)
 
 Exp:AddToggle('Reset', {
     Text = 'Auto turn in points',
@@ -733,11 +716,11 @@ end)
 
 local MyButton = Other:AddButton('Unlock Badges', function()
     for _, v in next, workspace:GetChildren() do
-        if (v.Name ~= "BadgeAwarder" or not lplr.Character) then continue end;
-        local part = v:FindFirstChildWhichIsA("Part");
-        firetouchinterest(lplr.Character.HumanoidRootPart, part, 1);
-        firetouchinterest(lplr.Character.HumanoidRootPart, part, 0);
-    end;
+        if (v.Name ~= "BadgeAwarder" or not lplr.Character) then continue end
+        local part = v:FindFirstChildWhichIsA("Part")
+        firetouchinterest(lplr.Character.HumanoidRootPart, part, 1)
+        firetouchinterest(lplr.Character.HumanoidRootPart, part, 0)
+    end
 end)
 
 local MyButton = Other:AddButton('Join Discord', function()
@@ -885,8 +868,8 @@ local function onCharacterAdded(char)
         end
     end
 end
-onCharacterAdded(lplr.Character);
-lplr.CharacterAdded:Connect(onCharacterAdded);
+onCharacterAdded(lplr.Character)
+lplr.CharacterAdded:Connect(onCharacterAdded)
 
 --settings
 Library:SetWatermark('Parkour By Hydra#8270')
