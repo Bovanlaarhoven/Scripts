@@ -12,6 +12,7 @@ local Request = (syn and syn.request or request or http and http.request or http
 local Time = os.clock()
 
 repeat wait() until game:IsLoaded()
+local Tablefind = table.find
 local players = game:GetService("Players")
 local lplr = players.LocalPlayer
 local encrypt
@@ -42,31 +43,32 @@ do
     hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
         local args = {...}
         local method = getnamecallmethod()
-        if (method == "FireServer" and table.find(Remotes, self.Name)) then
+        if (method == "FireServer" and Tablefind(Remotes, self.Name)) then
             return
         end
-        if (method == "InvokeServer" and table.find(Remotes, self.Name)) then
+        if (method == "InvokeServer" and Tablefind(Remotes, self.Name)) then
             return
         end
         return hook(self, unpack(args))
     end))
-
-    local function onCharacterAdded(Character)
-        if (not Character)  then return end
+    
+    local function onCharacterAdded(char)
+        if (not char) then
+            return
+        end
         wait(1)
         local Main = lplr.Backpack:WaitForChild("Main")
-        getsenv(lplr.PlayerScripts.SystemChatMessageHandler).message("" .. encrypt("adminLevel 13") .. "")
         main = getupvalue(getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo, 1)
         getsenv(Main).adminLevel = 13
         getfenv().script = Main
-
         encrypt = function(string)
             local _, v = pcall(getsenv(Main).encrypt, string)
             return v
         end
     end
-    onCharacterAdded(lplr.Character);
-    lplr.CharacterAdded:Connect(onCharacterAdded);
+    
+    onCharacterAdded(lplr.Character)
+    lplr.CharacterAdded:Connect(onCharacterAdded)
 end
 
 local Settings = {
