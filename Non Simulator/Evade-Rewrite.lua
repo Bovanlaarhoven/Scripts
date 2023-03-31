@@ -68,9 +68,10 @@ end
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
+setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local Window = Rayfield:CreateWindow({
-    Name = "Evade Premium",
+    Name = "Evade",
     LoadingTitle = "Hydra Network",
     LoadingSubtitle = "by Hydra#8270",
     ConfigurationSaving = {
@@ -79,11 +80,11 @@ local Window = Rayfield:CreateWindow({
        FileName = "Big Hub"
     },
     Discord = {
-       Enabled = false,
+       Enabled = true,
        Invite = "YvwEyH2W6t",
        RememberJoins = true
     },
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
