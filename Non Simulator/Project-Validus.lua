@@ -8,6 +8,14 @@ local lplr = plrs.LocalPlayer
 local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
 local Fov = Drawing.new("Circle")
+local DeadZone = Drawing.new("Circle")
+DeadZone.Radius = 25
+DeadZone.Color = Color3.fromRGB(0, 0, 0)
+DeadZone.Filled = false
+DeadZone.NumSides = 32 
+DeadZone.Position = Vector2.new(20, 20)
+DeadZone.Transparency = 0.1
+
 Fov.Radius = 50
 Fov.Color = Color3.fromRGB(255, 255, 255)
 Fov.Filled = false
@@ -45,14 +53,56 @@ local function getPlayersWithinFOV()
     return playersWithinFOV
 end
 
+local function getClosestPlayer(players)
+    local closestPlayer, closestDistance
+    for _, player in ipairs(players) do
+        local character = player.Character
+        if character and character:IsDescendantOf(workspace) then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid and humanoid.RootPart then
+                local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
+                if onScreen then
+                    local distanceFromCenter = (Vector2.new(position.X, position.Y) - Fov.Position).Magnitude
+                    if not closestDistance or distanceFromCenter < closestDistance then
+                        closestPlayer = player
+                        closestDistance = distanceFromCenter
+                    end
+                end
+            end
+        end
+    end
+    return closestPlayer
+end
+
+local function updateDeadZonePosition()
+    local playersWithinFOV = getPlayersWithinFOV()
+    if #playersWithinFOV > 0 then
+        local closestPlayer = getClosestPlayer(playersWithinFOV)
+        if closestPlayer then
+            local character = closestPlayer.Character
+            if character then
+                local head = character:FindFirstChild("Head")
+                if head then
+                    local headPos, onScreen = camera:WorldToViewportPoint(head.Position)
+                    if onScreen then
+                        DeadZone.Position = Vector2.new(headPos.X, headPos.Y)
+                        return
+                    end
+                end
+            end
+        end
+    end
+    DeadZone.Position = Fov.Position
+end
+
 mouse.Move:Connect(function()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
+    updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     for _, player in ipairs(playersWithinFOV) do
         print(player.Name, "is within FOV")
     end
 end)
-
 
 local Window = Library:CreateWindow({
     Title = 'Project-Validus',
@@ -78,6 +128,7 @@ FovSetting:AddToggle('FovVisable', {
 
 Toggles.FovVisable:OnChanged(function()
     Fov.Visible = Toggles.FovVisable.Value
+    DeadZone.Visible = Toggles.FovVisable.Value
 end)
 
 FovSetting:AddSlider('FovTransparency', {
