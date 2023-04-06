@@ -9,6 +9,7 @@ local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
 local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
+local RunService = game:GetService("RunService")
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
@@ -85,7 +86,14 @@ local function updateDeadZonePosition()
                 if head then
                     local headPos, onScreen = camera:WorldToViewportPoint(head.Position)
                     if onScreen then
-                        DeadZone.Position = Vector2.new(headPos.X, headPos.Y)
+                        local deadzonePos = Vector2.new(headPos.X, headPos.Y)
+                        local mousePos = Vector2.new(mouse.X, mouse.Y)
+                        local distance = (deadzonePos - mousePos).Magnitude
+                        local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
+                        local moveDirection = (deadzonePos - mousePos).Unit
+                        local moveVector = moveDirection * moveAmount
+                        mousemoverel(moveVector.X, moveVector.Y)
+                        DeadZone.Position = deadzonePos
                         return
                     end
                 end
@@ -95,14 +103,35 @@ local function updateDeadZonePosition()
     DeadZone.Position = Fov.Position
 end
 
-mouse.Move:Connect(function()
+local function update()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
     updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     for _, player in ipairs(playersWithinFOV) do
         print(player.Name, "is within FOV")
     end
+end
+
+mouse.Move:Connect(update)
+
+RunService.Stepped:Connect(function()
+    if not mousemoverel then
+        return
+    end
+    local mousePos = Vector2.new(mouse.X, mouse.Y)
+    local deadzonePos = Vector2.new(DeadZone.AbsolutePosition.X + DeadZone.Radius, DeadZone.AbsolutePosition.Y + DeadZone.Radius)
+    local distance = (deadzonePos - mousePos).Magnitude
+    if distance > DeadZone.Radius then
+        local moveAmount = math.min(distance - DeadZone.Radius, 10)
+        local moveDirection = (mousePos - deadzonePos).Unit
+        local moveVector = moveDirection * moveAmount
+        mousemoverel(moveVector.X, moveVector.Y)
+    end
 end)
+
+while wait() do
+    update()
+end
 
 local Window = Library:CreateWindow({
     Title = 'Project-Validus',
