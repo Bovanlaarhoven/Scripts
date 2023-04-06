@@ -160,6 +160,8 @@ local function getClosestPlayer(players)
     return closestPlayer
 end
 
+local desiredBodyPart = "Head"
+
 local bodyPartPresets = {
     Head = Vector3.new(0, 1.5, 0),
     UpperTorso = Vector3.new(0, 0.75, 0),
@@ -177,7 +179,6 @@ local function updateDeadZonePosition()
             if character then
                 local humanoid = character:FindFirstChildOfClass("Humanoid")
                 if humanoid and humanoid.RootPart then
-                    local desiredBodyPart = "Head" -- can be set by the user
                     local rootPart = humanoid.RootPart
                     local bodyPart = character:FindFirstChild(desiredBodyPart)
                     if not bodyPart then
@@ -299,21 +300,17 @@ Toggles.AimAssist:OnChanged(function()
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
-    Values = { 'This', 'is', 'a', 'dropdown' },
+    Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand' },
     Default = 1,
     Multi = false,
-
-    Text = 'A dropdown',
-    Tooltip = 'This is a tooltip',
+    Text = 'Body part',
+    Tooltip = 'Select a body part to focus on',
 
     Callback = function(Value)
-        print('[cb] Dropdown got changed. New value:', Value)
+        desiredBodyPart = Value
+        updateDeadZonePosition()
     end
 })
-
-Options.BodyPart:OnChanged(function()
-    print('Dropdown got changed. New value:', Options.BodyPart.Value)
-end)
 
 --ui settings
 Library:SetWatermark('Project-Validus By Hydra#8270')
