@@ -162,9 +162,9 @@ end
 local desiredBodyPart = "Head"
 
 local bodyPartPresets = {
-    Head = Vector3.new(0, 2, 0),
-    UpperTorso = Vector3.new(0, 0.75, 0),
-    LowerTorso = Vector3.new(0, 0.5, 0),
+    Head = Vector3.new(0, 0.65, 0),
+    UpperTorso = Vector3.new(0, 0.5, 0),
+    LowerTorso = Vector3.new(0, 0.35, 0),
     RightHand = Vector3.new(1, 0, 0),
     LeftHand = Vector3.new(-1, 0, 0)
 }
@@ -205,7 +205,7 @@ local function updateDeadZonePosition()
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
                         if getgenv().Assist == true then
-                            mousemoverel(moveVector.X, moveVector.Y)
+                            mousemoverel(moveVector.X, moveVector.Y - 5)
                         end
                         DeadZone.Position = deadzonePos
                         return
