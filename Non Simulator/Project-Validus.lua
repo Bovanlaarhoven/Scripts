@@ -74,6 +74,7 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
+
 local function isPlayerWithinFOV(player)
     local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
@@ -94,17 +95,38 @@ local function isPlayerWithinFOV(player)
     return distanceFromCenter <= Fov.Radius
 end
 
+local function isPlayerVisible(player)
+    local character = player.Character
+    if not character or not character:IsDescendantOf(workspace) then
+        return false
+    end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid or not humanoid.RootPart then
+        return false
+    end
+
+    local ray = Ray.new(camera.CFrame.Position, humanoid.RootPart.Position - camera.CFrame.Position)
+    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
+    if hitPart and hitPart:IsDescendantOf(character) then
+        return true
+    else
+        return false
+    end
+end
+
 local function getPlayersWithinFOV()
     local playersWithinFOV = {}
     local players = game:GetService("Players"):GetPlayers()
     for i = 1, #players do
         local player = players[i]
-        if player ~= lplr and isPlayerWithinFOV(player) then
+        if player ~= lplr and isPlayerWithinFOV(player) and isPlayerVisible(player) then
             table.insert(playersWithinFOV, player)
         end
     end
     return playersWithinFOV
 end
+
 
 local function getClosestPlayer(players)
     local closestPlayer, closestDistance
@@ -135,18 +157,18 @@ local function updateDeadZonePosition()
         if closestPlayer then
             local character = closestPlayer.Character
             if character then
-                local head = character:FindFirstChild("Head")
-                if head then
-                    local headPos, onScreen = camera:WorldToViewportPoint(head.Position)
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid and humanoid.RootPart then
+                    local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
                     if onScreen then
-                        local deadzonePos = Vector2.new(headPos.X, headPos.Y)
+                        local deadzonePos = Vector2.new(position.X, position.Y)
                         local mousePos = Vector2.new(mouse.X, mouse.Y)
                         local distance = (deadzonePos - mousePos).Magnitude
                         local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
                         if getgenv().Assist == true then
-                            mousemoverel(moveVector.X, moveVector.Y + 36)
+                            mousemoverel(moveVector.X, moveVector.Y)
                         end
                         DeadZone.Position = deadzonePos
                         return
