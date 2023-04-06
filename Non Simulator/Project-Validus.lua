@@ -7,7 +7,6 @@ local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
 local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
-local WorldToViewportPoint = camera.WorldToViewportPoint
 local Fov = Drawing.new("Circle")
 Fov.Radius = 50
 Fov.Color = Color3.fromRGB(255, 255, 255)
@@ -15,6 +14,45 @@ Fov.Filled = false
 Fov.NumSides = 32 
 Fov.Position = Vector2.new(20, 20)
 Fov.Transparency = 0.1
+
+local function isPlayerWithinFOV(player)
+    local character = player.Character
+    if not character or not character:IsDescendantOf(workspace) then
+        return false
+    end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid or not humanoid.RootPart then
+        return false
+    end
+
+    local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
+    if not onScreen then
+        return false
+    end
+
+    local distanceFromCenter = (Vector2.new(position.X, position.Y) - Fov.Position).Magnitude
+    return distanceFromCenter <= Fov.Radius
+end
+
+local function getPlayersWithinFOV()
+    local playersWithinFOV = {}
+    for _, player in ipairs(plrs:GetPlayers()) do
+        if player ~= lplr and isPlayerWithinFOV(player) then
+            table.insert(playersWithinFOV, player)
+        end
+    end
+    return playersWithinFOV
+end
+
+mouse.Move:Connect(function()
+    Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
+    local playersWithinFOV = getPlayersWithinFOV()
+    for _, player in ipairs(playersWithinFOV) do
+        print(player.Name, "is within FOV")
+    end
+end)
+
 
 local Window = Library:CreateWindow({
     Title = 'Project-Validus',
@@ -54,7 +92,6 @@ FovSetting:AddSlider('FovTransparency', {
 Options.FovTransparency:OnChanged(function()
     Fov.Transparency = Options.FovTransparency.Value
 end)
-
 
 --ui settings
 Library:SetWatermark('Project-Validus By Hydra#8270')
