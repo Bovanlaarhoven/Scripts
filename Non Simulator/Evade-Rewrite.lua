@@ -457,7 +457,7 @@ local ColorPicker = T7:CreateColorPicker({
 	Color = Color3.fromRGB(2,255,255),
 	Flag = "ColorPicker1",
 	Callback = function(Value)
-        Settings.BotEspColor = Value
+        Settings.EspColor = Value
 	end
 })
 
