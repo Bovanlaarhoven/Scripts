@@ -14,7 +14,7 @@ DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
 DeadZone.NumSides = 32 
 DeadZone.Position = Vector2.new(20, 20)
-DeadZone.Transparency = 0.1
+DeadZone.Transparency = 0.5
 
 Fov.Radius = 50
 Fov.Color = Color3.fromRGB(255, 255, 255)
