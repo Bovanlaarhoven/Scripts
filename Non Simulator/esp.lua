@@ -1,7 +1,6 @@
 local settings = {
     boxesp = true,
     teamcheck = true,
-    teamhide = false,
 }
 
 local plrs = game:GetService("Players")
@@ -39,12 +38,6 @@ for _,v in pairs(plrs:GetChildren()) do
                         boxoutline.Color = Color3.fromRGB(255, 0, 0)
                         box.Color = Color3.fromRGB(255, 0, 0)
                     end                    
-                end
-                if settings.teamhide == true then
-                    if v.Team == lteam then
-                        boxoutline.Visible = false
-                        box.Visible = false
-                    end
                 end
                 local vector, onScreen = WorldToViewportPoint(CurrentCamera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
