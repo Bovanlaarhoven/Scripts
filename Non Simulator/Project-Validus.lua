@@ -334,7 +334,6 @@ Library:OnUnload(function()
 end)
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-local Other = Tabs['UI Settings']:AddRightGroupbox('Other')
 
 local MyButton = MenuGroup:AddButton({
     Text = 'Unload',
@@ -361,12 +360,6 @@ MenuGroup:AddToggle('Watermark', {
     Text = 'Watermark',
     Default = false,
     Tooltip = 'Toggles Watermark',
-})
-
-Other:AddDropdown('MyPlayerDropdown', {
-    SpecialType = 'Player',
-    Text = 'A player dropdown',
-    Tooltip = 'Player Dropdown',
 })
 
 Toggles.Watermark:OnChanged(function()
