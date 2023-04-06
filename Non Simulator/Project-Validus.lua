@@ -47,7 +47,9 @@ end
 
 local function getPlayersWithinFOV()
     local playersWithinFOV = {}
-    for _, player in ipairs(plrs:GetPlayers()) do
+    local players = game:GetService("Players"):GetPlayers()
+    for i = 1, #players do
+        local player = players[i]
         if player ~= lplr and isPlayerWithinFOV(player) then
             table.insert(playersWithinFOV, player)
         end
@@ -57,7 +59,8 @@ end
 
 local function getClosestPlayer(players)
     local closestPlayer, closestDistance
-    for _, player in ipairs(players) do
+    for i = 1, #players do
+        local player = players[i]
         local character = player.Character
         if character and character:IsDescendantOf(workspace) then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
@@ -110,10 +113,6 @@ end
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
     updateDeadZonePosition()
-    local playersWithinFOV = getPlayersWithinFOV()
-    for _, player in ipairs(playersWithinFOV) do
-        print(player.Name, "is within FOV")
-    end
 end
 
 mouse.Move:Connect(updateFOV)
@@ -126,7 +125,6 @@ RunService.Heartbeat:Connect(function(deltaTime)
         timeSinceLastUpdate = 0
     end
 end)
-
 
 local Window = Library:CreateWindow({
     Title = 'Project-Validus',
@@ -188,7 +186,15 @@ end)
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 local Other = Tabs['UI Settings']:AddRightGroupbox('Other')
 
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
+local MyButton = MenuGroup:AddButton({
+    Text = 'Unload',
+    Func = function()
+        Library:Unload()
+    end,
+    DoubleClick = true,
+    Tooltip = 'Unload Script'
+})
+
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 
 MenuGroup:AddToggle('keybindframe', {
