@@ -40,6 +40,12 @@ for _,v in pairs(plrs:GetChildren()) do
                         box.Color = Color3.fromRGB(255, 0, 0)
                     end                    
                 end
+                if settings.teamhide == true then
+                    if v.Team == lteam then
+                        boxoutline.Visible = false
+                        box.Visible = false
+                    end
+                end
                 local vector, onScreen = WorldToViewportPoint(CurrentCamera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
@@ -85,6 +91,21 @@ plrs.PlayerAdded:Connect(function(v)
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and settings.boxesp == true then
+                if settings.teamcheck == true then
+                    if v.Team == lteam then
+                        boxoutline.Color = Color3.fromRGB(0, 255, 0)
+                        box.Color = Color3.fromRGB(0, 255, 0)
+                    else
+                        boxoutline.Color = Color3.fromRGB(255, 0, 0)
+                        box.Color = Color3.fromRGB(255, 0, 0)
+                    end                    
+                end
+                if settings.teamhide == true then
+                    if v.Team == lteam then
+                        boxoutline.Visible = false
+                        box.Visible = false
+                    end
+                end
                 local vector, onScreen = WorldToViewportPoint(CurrentCamera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
