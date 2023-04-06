@@ -29,6 +29,16 @@ Fov.NumSides = 32
 Fov.Position = Vector2.new(20, 20)
 Fov.Transparency = 0.1
 
+local bodyPartPresets = {
+    Head = Vector3.new(0, 1.5, 0),
+    UpperTorso = Vector3.new(0, 0.75, 0),
+    LowerTorso = Vector3.new(0, -0.5, 0),
+    RightHand = Vector3.new(1.5, 0, 0),
+    LeftHand = Vector3.new(-1.5, 0, 0)
+}
+
+
+
 if game.PlaceId == 2788229376 then
     local MainEvent = ReplicatedStorage.MainEvent
     local SpoofTable = { WalkSpeed = 16, JumpPower = 50 }
@@ -150,6 +160,14 @@ local function getClosestPlayer(players)
     return closestPlayer
 end
 
+local bodyPartPresets = {
+    Head = Vector3.new(0, 1.5, 0),
+    UpperTorso = Vector3.new(0, 0.75, 0),
+    LowerTorso = Vector3.new(0, -0.5, 0),
+    RightHand = Vector3.new(1.5, 0, 0),
+    LeftHand = Vector3.new(-1.5, 0, 0)
+}
+
 local function updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     if #playersWithinFOV > 0 then
@@ -159,7 +177,14 @@ local function updateDeadZonePosition()
             if character then
                 local humanoid = character:FindFirstChildOfClass("Humanoid")
                 if humanoid and humanoid.RootPart then
-                    local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
+                    local desiredBodyPart = "Head" -- can be set by the user
+                    local rootPart = humanoid.RootPart
+                    local bodyPart = character:FindFirstChild(desiredBodyPart)
+                    if not bodyPart then
+                        bodyPart = rootPart
+                    end
+                    local offset = bodyPartPresets[desiredBodyPart] or Vector3.new(0, 0, 0)
+                    local position, onScreen = camera:WorldToViewportPoint(rootPart.Position + offset)
                     if onScreen then
                         local deadzonePos = Vector2.new(position.X, position.Y)
                         local mousePos = Vector2.new(mouse.X, mouse.Y)
@@ -271,6 +296,23 @@ AimAssistSetting:AddToggle('AimAssist', {
 
 Toggles.AimAssist:OnChanged(function()
     getgenv().Assist = Toggles.AimAssist.Value
+end)
+
+AimAssistSetting:AddDropdown('BodyPart', {
+    Values = { 'This', 'is', 'a', 'dropdown' },
+    Default = 1,
+    Multi = false,
+
+    Text = 'A dropdown',
+    Tooltip = 'This is a tooltip',
+
+    Callback = function(Value)
+        print('[cb] Dropdown got changed. New value:', Value)
+    end
+})
+
+Options.BodyPart:OnChanged(function()
+    print('Dropdown got changed. New value:', Options.BodyPart.Value)
 end)
 
 --ui settings
