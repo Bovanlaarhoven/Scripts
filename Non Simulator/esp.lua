@@ -3,6 +3,14 @@ local settings = {
     teamcheck = true,
 }
 
+for _,v in next, getconnections(game:GetService("ScriptContext").Error) do
+    v:Disable()
+end
+
+for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
+    v:Disable()
+end
+
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
 local CurrentCamera = workspace.CurrentCamera
