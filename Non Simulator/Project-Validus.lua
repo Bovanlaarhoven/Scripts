@@ -15,6 +15,7 @@ local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
+getgenv().TeamCheck = false
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
@@ -36,8 +37,6 @@ local bodyPartPresets = {
     RightHand = Vector3.new(1.5, 0, 0),
     LeftHand = Vector3.new(-1.5, 0, 0)
 }
-
-
 
 if game.PlaceId == 2788229376 then
     local MainEvent = ReplicatedStorage.MainEvent
@@ -173,7 +172,17 @@ local bodyPartPresets = {
 local function updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     if #playersWithinFOV > 0 then
-        local closestPlayer = getClosestPlayer(playersWithinFOV)
+        local closestPlayer = nil
+        if getgenv().teamcheck then
+            for _, player in ipairs(playersWithinFOV) do
+                if player.Team == lplr.Team then
+                    closestPlayer = player
+                    break
+                end
+            end
+        else
+            closestPlayer = getClosestPlayer(playersWithinFOV)
+        end
         if closestPlayer then
             local character = closestPlayer.Character
             if character then
@@ -311,6 +320,16 @@ AimAssistSetting:AddToggle('AimAssist', {
 
 Toggles.AimAssist:OnChanged(function()
     getgenv().Assist = Toggles.AimAssist.Value
+end)
+
+AimAssistSetting:AddToggle('TeamCheck', {
+    Text = 'TeamCheck',
+    Default = false,
+    Tooltip = 'Checks if the player is on your team',
+})
+
+Toggles.TeamCheck:OnChanged(function()
+    getgenv().TeamCheck = Toggles.TeamCheck.Value
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
