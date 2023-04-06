@@ -84,7 +84,7 @@ local Window = Rayfield:CreateWindow({
        Invite = "YvwEyH2W6t",
        RememberJoins = true
     },
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
@@ -448,6 +448,17 @@ local Toggle = T7:CreateToggle({
     Callback = function(Value)
         Settings.BotEsp = Value
     end,
+})
+
+local ColorPicker = T7:CreateColorPicker({
+	Name = "Bot Esp Color",
+	Info = 'Changes the text esp color',
+	SectionParent = Section,
+	Color = Color3.fromRGB(2,255,255),
+	Flag = "ColorPicker1",
+	Callback = function(Value)
+        Settings.BotEspColor = Value
+	end
 })
 
 local Slider = T2:CreateSlider({
