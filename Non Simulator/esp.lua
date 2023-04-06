@@ -1,6 +1,7 @@
 local settings = {
     boxesp = true,
     teamcheck = true,
+    teamhide = false,
 }
 
 local plrs = game:GetService("Players")
@@ -31,7 +32,7 @@ for _,v in pairs(plrs:GetChildren()) do
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and settings.boxesp == true then
                 if settings.teamcheck == true then
-                    if v.Team ~= lteam then
+                    if v.Team == lteam then
                         boxoutline.Color = Color3.fromRGB(0, 255, 0)
                         box.Color = Color3.fromRGB(0, 255, 0)
                     else
