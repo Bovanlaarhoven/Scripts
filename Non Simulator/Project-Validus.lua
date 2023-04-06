@@ -163,11 +163,11 @@ end
 local desiredBodyPart = "Head"
 
 local bodyPartPresets = {
-    Head = Vector3.new(0, 1.5, 0),
+    Head = Vector3.new(0, 2, 0),
     UpperTorso = Vector3.new(0, 0.75, 0),
-    LowerTorso = Vector3.new(0, -0.5, 0),
-    RightHand = Vector3.new(1.5, 0, 0),
-    LeftHand = Vector3.new(-1.5, 0, 0)
+    LowerTorso = Vector3.new(0, 0.5, 0),
+    RightHand = Vector3.new(1, 0, 0),
+    LeftHand = Vector3.new(-1, 0, 0)
 }
 
 local function updateDeadZonePosition()
@@ -185,17 +185,18 @@ local function updateDeadZonePosition()
                         bodyPart = rootPart
                     end
                     local offset = bodyPartPresets[desiredBodyPart] or Vector3.new(0, 0, 0)
-                    local position, onScreen = camera:WorldToViewportPoint(rootPart.Position + offset)
+                    local bodyPartScreenPos, onScreen = camera:WorldToViewportPoint(bodyPart.Position + offset)
                     if onScreen then
-                        local deadzonePos = Vector2.new(position.X, position.Y)
+                        local rootPartScreenPos = camera:WorldToViewportPoint(rootPart.Position)
+                        local relativePos = bodyPartScreenPos - rootPartScreenPos
+                        local deadzonePos = Vector2.new(rootPartScreenPos.X + relativePos.X, rootPartScreenPos.Y + relativePos.Y)
                         local mousePos = Vector2.new(mouse.X, mouse.Y)
                         local distance = (deadzonePos - mousePos).Magnitude
                         local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
                         if getgenv().Assist == true then
-                            local moveOffset = camera:WorldToScreenPoint(bodyPart.Position + offset) - camera:WorldToScreenPoint(rootPart.Position)
-                            mousemoverel(moveVector.X + moveOffset.X, moveVector.Y + moveOffset.Y)
+                            mousemoverel(moveVector.X, moveVector.Y)
                         end
                         DeadZone.Position = deadzonePos
                         return
@@ -206,7 +207,6 @@ local function updateDeadZonePosition()
     end
     DeadZone.Position = Fov.Position
 end
-
 
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
@@ -262,6 +262,19 @@ FovSetting:AddSlider('FovTransparency', {
 
 Options.FovTransparency:OnChanged(function()
     Fov.Transparency = Options.FovTransparency.Value
+end)
+
+FovSetting:AddSlider('DeadZoneTransparency', {
+    Text = 'DeadZone Transparency',
+    Default = 1,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Compact = true,
+})
+
+Options.DeadZoneTransparency:OnChanged(function()
+    DeadZone.Transparency = Options.DeadZoneTransparency.Value
 end)
 
 FovSetting:AddSlider('FovSize', {
