@@ -10,6 +10,7 @@ local camera = workspace.CurrentCamera
 local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
+getgenv().Assist = false
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
@@ -92,7 +93,9 @@ local function updateDeadZonePosition()
                         local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
-                        mousemoverel(moveVector.X, moveVector.Y)
+                        if getgenv().Assist == true then
+                            mousemoverel(moveVector.X, moveVector.Y)
+                        end
                         DeadZone.Position = deadzonePos
                         return
                     end
@@ -103,7 +106,8 @@ local function updateDeadZonePosition()
     DeadZone.Position = Fov.Position
 end
 
-local function update()
+
+local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
     updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
@@ -112,26 +116,17 @@ local function update()
     end
 end
 
-mouse.Move:Connect(update)
-
-RunService.Stepped:Connect(function()
-    if not mousemoverel then
-        return
-    end
-    local mousePos = Vector2.new(mouse.X, mouse.Y)
-    local deadzonePos = Vector2.new(DeadZone.AbsolutePosition.X + DeadZone.Radius, DeadZone.AbsolutePosition.Y + DeadZone.Radius)
-    local distance = (deadzonePos - mousePos).Magnitude
-    if distance > DeadZone.Radius then
-        local moveAmount = math.min(distance - DeadZone.Radius, 10)
-        local moveDirection = (mousePos - deadzonePos).Unit
-        local moveVector = moveDirection * moveAmount
-        mousemoverel(moveVector.X, moveVector.Y)
+mouse.Move:Connect(updateFOV)
+local updateInterval = 0.1
+local timeSinceLastUpdate = 0
+RunService.Heartbeat:Connect(function(deltaTime)
+    timeSinceLastUpdate = timeSinceLastUpdate + deltaTime
+    if timeSinceLastUpdate >= updateInterval then
+        updateFOV()
+        timeSinceLastUpdate = 0
     end
 end)
 
-while wait() do
-    update()
-end
 
 local Window = Library:CreateWindow({
     Title = 'Project-Validus',
@@ -171,6 +166,16 @@ FovSetting:AddSlider('FovTransparency', {
 
 Options.FovTransparency:OnChanged(function()
     Fov.Transparency = Options.FovTransparency.Value
+end)
+
+AimAssistSetting:AddToggle('AimAssist', {
+    Text = 'Aim Assist',
+    Default = false,
+    Tooltip = 'Assists you with aim',
+})
+
+Toggles.AimAssist:OnChanged(function()
+    getgenv().Assist = Toggles.AimAssist.Value
 end)
 
 --ui settings
