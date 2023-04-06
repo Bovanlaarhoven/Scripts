@@ -175,9 +175,8 @@ local function updateDeadZonePosition()
         local closestPlayer = nil
         if getgenv().teamcheck then
             for _, player in ipairs(playersWithinFOV) do
-                if player.Team == lplr.Team then
+                if player.Team ~= lplr.Team and player.TeamColor ~= lplr.TeamColor then
                     closestPlayer = player
-                    break
                 end
             end
         else
