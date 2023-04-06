@@ -194,7 +194,8 @@ local function updateDeadZonePosition()
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
                         if getgenv().Assist == true then
-                            mousemoverel(moveVector.X, moveVector.Y)
+                            local moveOffset = camera:WorldToScreenPoint(bodyPart.Position + offset) - camera:WorldToScreenPoint(rootPart.Position)
+                            mousemoverel(moveVector.X + moveOffset.X, moveVector.Y + moveOffset.Y)
                         end
                         DeadZone.Position = deadzonePos
                         return
@@ -205,6 +206,7 @@ local function updateDeadZonePosition()
     end
     DeadZone.Position = Fov.Position
 end
+
 
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
