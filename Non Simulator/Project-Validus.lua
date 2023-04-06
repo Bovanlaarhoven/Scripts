@@ -146,7 +146,7 @@ local function updateDeadZonePosition()
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = moveDirection * moveAmount
                         if getgenv().Assist == true then
-                            mousemoverel(moveVector.X, moveVector.Y)
+                            mousemoverel(moveVector.X, moveVector.Y + 36)
                         end
                         DeadZone.Position = deadzonePos
                         return
@@ -213,6 +213,32 @@ FovSetting:AddSlider('FovTransparency', {
 
 Options.FovTransparency:OnChanged(function()
     Fov.Transparency = Options.FovTransparency.Value
+end)
+
+FovSetting:AddSlider('FovSize', {
+    Text = 'Fov Size',
+    Default = 50,
+    Min = 1,
+    Max = 1000,
+    Rounding = 0,
+    Compact = true,
+})
+
+Options.FovSize:OnChanged(function()
+    Fov.Radius = Options.FovSize.Value
+end)
+
+FovSetting:AddSlider('DeadZoneSize', {
+    Text = 'DeadZone Size',
+    Default = 25,
+    Min = 1,
+    Max = 1000,
+    Rounding = 0,
+    Compact = true,
+})
+
+Options.DeadZoneSize:OnChanged(function()
+    DeadZone.Radius = Options.DeadZoneSize.Value
 end)
 
 AimAssistSetting:AddToggle('AimAssist', {
