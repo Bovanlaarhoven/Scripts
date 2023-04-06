@@ -253,7 +253,7 @@ end)
 
 FovSetting:AddSlider('FovTransparency', {
     Text = 'Fov Transparency',
-    Default = 1,
+    Default = 0.2,
     Min = 0,
     Max = 1,
     Rounding = 1,
@@ -266,7 +266,7 @@ end)
 
 FovSetting:AddSlider('DeadZoneTransparency', {
     Text = 'DeadZone Transparency',
-    Default = 1,
+    Default = 0.5,
     Min = 0,
     Max = 1,
     Rounding = 1,
