@@ -1,8 +1,8 @@
-for _,v in next, getconnections(game:GetService("ScriptContext").Error) do
+for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
 end
 
-for _,v in next, getconnections(game:GetService("LogService").MessageOut) do
+for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
     v:Disable()
 end
 

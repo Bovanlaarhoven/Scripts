@@ -1,8 +1,11 @@
-local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+    v:Disable()
+end
 
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
+    v:Disable()
+end
+
 local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
 local mouse = lplr:GetMouse()
@@ -10,6 +13,7 @@ local camera = workspace.CurrentCamera
 local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
@@ -24,6 +28,51 @@ Fov.Filled = false
 Fov.NumSides = 32 
 Fov.Position = Vector2.new(20, 20)
 Fov.Transparency = 0.1
+
+if game.PlaceId == 2788229376 then
+    local MainEvent = ReplicatedStorage.MainEvent
+    local SpoofTable = { WalkSpeed = 16, JumpPower = 50 }
+    local Flags = { "CHECKER_1", "TeleportDetect", "OneMoreTime" }
+    local Hooks = {}
+    
+    Hooks.__namecall = hookmetamethod(game, "__namecall", function(...)
+        local args = {...}
+        local self = args[1]
+        local method = getnamecallmethod()
+    
+        if (method == "FireServer" and self == MainEvent and table.find(Flags, args[2])) then
+            return
+        end
+    
+        if (not checkcaller() and getfenv(2).crash) then
+            hookfunction(getfenv(2).crash, function() warn("Crash Attempt") end)
+        end
+        return Hooks.__namecall(...)
+    end)
+    
+    Hooks.__index = hookmetamethod(game, "__index", function(t, k)
+        if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
+            return SpoofTable[k]
+        end
+    
+        return Hooks.__index(t, k)
+    end)
+    
+    Hooks.__newindex = hookmetamethod(game, "__newindex", function(t, k, v)
+        if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
+            SpoofTable[k] = v
+            return
+        end
+        
+        return Hooks.__newindex(t, k, v)
+    end)
+end
+
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 local function isPlayerWithinFOV(player)
     local character = player.Character
