@@ -206,7 +206,6 @@ local function updateDeadZonePosition()
     DeadZone.Position = Fov.Position
 end
 
-
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
     updateDeadZonePosition()
