@@ -17,6 +17,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
+getgenv().Distance = 100
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
@@ -153,9 +154,11 @@ local function getClosestPlayer(players)
                 local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
                 if onScreen then
                     local distanceFromCenter = (Vector2.new(position.X, position.Y) - Fov.Position).Magnitude
-                    if not closestDistance or distanceFromCenter < closestDistance then
-                        closestPlayer = player
-                        closestDistance = distanceFromCenter
+                    if not getgenv().Distance or distanceFromCenter <= getgenv().Distance then
+                        if not closestDistance or distanceFromCenter < closestDistance then
+                            closestPlayer = player
+                            closestDistance = distanceFromCenter
+                        end
                     end
                 end
             end
@@ -352,6 +355,19 @@ AimAssistSetting:AddToggle('VisableCheck', {
 
 Toggles.VisableCheck:OnChanged(function()
     getgenv().VisableCheck = Toggles.VisableCheck.Value
+end)
+
+FovSetting:AddSlider('Distance', {
+    Text = 'Distance',
+    Default = 100,
+    Min = 1,
+    Max = 100000,
+    Rounding = 1,
+    Compact = true,
+})
+
+Options.Distance:OnChanged(function()
+    getgenv().Distance = Options.Distance.Value
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
