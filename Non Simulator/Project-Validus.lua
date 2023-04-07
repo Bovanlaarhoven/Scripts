@@ -226,11 +226,22 @@ local function updateDeadZonePosition()
                         if getgenv().Assist == true then
                             mousemoverel(moveVector.X, moveVector.Y)
                         end
-                        if getgenv().Triggerbot == true and isPlayerWithinFOV(closestPlayer) and isPlayerVisible(closestPlayer) then
-                            vu:Button1Down(Vector2.new(moveVector.X, moveVector.Y))
-                            wait()
-                            vu:Button1Up(Vector2.new(moveVector.X, moveVector.Y))
+                        if getgenv().Triggerbot == true and isPlayerWithinFOV(closestPlayer) then
+                            local function isPlayerVisibleToggle(player)
+                                if getgenv().VisibleCheck then
+                                    return isPlayerVisible(player)
+                                else
+                                    return true
+                                end
+                            end
+                            
+                            if isPlayerVisibleToggle(closestPlayer) then
+                                vu:Button1Down(Vector2.new(moveVector.X, moveVector.Y))
+                                wait()
+                                vu:Button1Up(Vector2.new(moveVector.X, moveVector.Y))
+                            end
                         end
+                        
                         DeadZone.Position = deadzonePos
                         return
                     end
@@ -240,8 +251,6 @@ local function updateDeadZonePosition()
     end
     DeadZone.Position = Fov.Position
 end
-
-
 
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
