@@ -242,7 +242,7 @@ RunService.Heartbeat:Connect(function(deltaTime)
 end)
 
 local Window = Library:CreateWindow({
-    Title = 'Project-Validus',
+    Title = 'Project Validus',
     Center = false,
     AutoShow = true,
     TabPadding = 4,
