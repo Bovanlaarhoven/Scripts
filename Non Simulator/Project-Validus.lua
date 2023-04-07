@@ -14,31 +14,38 @@ local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
 getgenv().Distance = 100
+getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
+getgenv().FovColor = Color3.fromRGB(255, 255, 255)
+
 DeadZone.Radius = 25
-DeadZone.Color = Color3.fromRGB(0, 0, 0)
+DeadZone.Color = getgenv().DeadZoneColor
 DeadZone.Filled = false
 DeadZone.NumSides = 32 
 DeadZone.Position = Vector2.new(20, 20)
 DeadZone.Transparency = 0.5
 
 Fov.Radius = 50
-Fov.Color = Color3.fromRGB(255, 255, 255)
+Fov.Color = getgenv().FovColor
 Fov.Filled = false
 Fov.NumSides = 32 
 Fov.Position = Vector2.new(20, 20)
 Fov.Transparency = 0.1
 
-local bodyPartPresets = {
-    Head = Vector3.new(0, 1.5, 0),
-    UpperTorso = Vector3.new(0, 0.75, 0),
-    LowerTorso = Vector3.new(0, -0.5, 0),
-    RightHand = Vector3.new(1.5, 0, 0),
-    LeftHand = Vector3.new(-1.5, 0, 0)
-}
+local function updateDeadZoneColor()
+    DeadZone.Color = getgenv().DeadZoneColor
+end
+updateDeadZoneColor()
+getgenv().DeadZoneColorChanged = updateDeadZoneColor
+local function updateFovColor()
+    Fov.Color = getgenv().FovColor
+end
+updateFovColor()
+getgenv().FovColorChanged = updateFovColor
 
 if game.GameId == 2788229376 then
     local MainEvent = ReplicatedStorage.MainEvent
@@ -325,6 +332,35 @@ Options.DeadZoneSize:OnChanged(function()
     DeadZone.Radius = Options.DeadZoneSize.Value
 end)
 
+FovSetting:AddLabel('Fov Color'):AddColorPicker('FovColors', {
+    Default = Color3.new(1, 1, 1),
+    Title = 'Fov Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().FovColor = Value
+        if getgenv().FovColorChanged then
+            getgenv().FovColorChanged()
+        end
+    end
+})
+
+
+FovSetting:AddLabel('DeadZone color'):AddColorPicker('DeadZoneColors', {
+    Default = Color3.new(0, 0, 0),
+    Title = 'DeadZone Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().DeadZoneColor = Value
+        
+        if getgenv().DeadZoneColorChanged then
+            getgenv().DeadZoneColorChanged()
+        end
+    end
+})
+
+
 --assist settings
 
 AimAssistSetting:AddToggle('AimAssist', {
@@ -396,6 +432,9 @@ local MyButton = MenuGroup:AddButton({
     Text = 'Unload',
     Func = function()
         Library:Unload()
+        for obj in next, {Fov, DeadZone} do
+            obj:Destroy() -- or :Remove()
+        end
     end,
     DoubleClick = true,
     Tooltip = 'Unload Script'
