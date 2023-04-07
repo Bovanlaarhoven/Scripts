@@ -18,7 +18,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
-getgenv().Distance = 10
+getgenv().Distance = 100
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
 
@@ -152,20 +152,19 @@ end
 
 local function getClosestPlayer(players)
     local closestPlayer, closestDistance
+    local cameraPos = workspace.CurrentCamera.CFrame.Position
     for i = 1, #players do
         local player = players[i]
         local character = player.Character
         if character and character:IsDescendantOf(workspace) then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
             if humanoid and humanoid.RootPart then
-                local position, onScreen = camera:WorldToViewportPoint(humanoid.RootPart.Position)
-                if onScreen then
-                    local distanceFromCenter = (Vector2.new(position.X, position.Y) - Fov.Position).Magnitude
-                    if not getgenv().Distance or distanceFromCenter <= getgenv().Distance then
-                        if not closestDistance or distanceFromCenter < closestDistance then
-                            closestPlayer = player
-                            closestDistance = distanceFromCenter
-                        end
+                local rootPartPos = humanoid.RootPart.Position
+                local distanceFromCamera = (rootPartPos - cameraPos).Magnitude
+                if not getgenv().Distance or distanceFromCamera <= getgenv().Distance then
+                    if not closestDistance or distanceFromCamera < closestDistance then
+                        closestPlayer = player
+                        closestDistance = distanceFromCamera
                     end
                 end
             end
@@ -345,7 +344,6 @@ FovSetting:AddLabel('Fov Color'):AddColorPicker('FovColors', {
     end
 })
 
-
 FovSetting:AddLabel('DeadZone color'):AddColorPicker('DeadZoneColors', {
     Default = Color3.new(0, 0, 0),
     Title = 'DeadZone Color',
@@ -359,7 +357,6 @@ FovSetting:AddLabel('DeadZone color'):AddColorPicker('DeadZoneColors', {
         end
     end
 })
-
 
 --assist settings
 
@@ -395,7 +392,7 @@ end)
 
 AimAssistSetting:AddSlider('Distance', {
     Text = 'Distance',
-    Default = 10,
+    Default = 100,
     Min = 10,
     Max = 5000,
     Rounding = 0,
