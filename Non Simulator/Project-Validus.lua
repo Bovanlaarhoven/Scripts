@@ -403,6 +403,20 @@ Options.Distance:OnChanged(function()
     getgenv().Distance = Options.Distance.Value
 end)
 
+AimAssistSetting:AddToggle('InfDistance', {
+    Text = 'Inf Distance',
+    Default = false,
+    Tooltip = 'Toggles KeybindFrame',
+})
+
+Toggles.InfDistance:OnChanged(function()
+    if Toggles.InfDistance.Value then
+        getgenv().Distance = math.huge
+    else
+        getgenv().Distance = Options.Distance.Value
+    end
+end)
+
 AimAssistSetting:AddDropdown('BodyPart', {
     Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand'},
     Default = 1,
