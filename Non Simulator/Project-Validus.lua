@@ -432,9 +432,6 @@ local MyButton = MenuGroup:AddButton({
     Text = 'Unload',
     Func = function()
         Library:Unload()
-        for obj in next, {Fov, DeadZone} do
-            obj:Destroy() -- or :Remove()
-        end
     end,
     DoubleClick = true,
     Tooltip = 'Unload Script'
