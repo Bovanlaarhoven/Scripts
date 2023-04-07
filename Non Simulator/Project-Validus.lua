@@ -121,18 +121,23 @@ local function isPlayerVisible(player)
     end
 
     local humanoid = character:FindFirstChildOfClass("Humanoid")
-    if not humanoid or not humanoid.RootPart then
+    if not humanoid then
         return false
     end
 
-    local ray = Ray.new(camera.CFrame.Position, humanoid.RootPart.Position - camera.CFrame.Position)
-    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
-    if hitPart and hitPart:IsDescendantOf(character) then
-        return true
-    else
-        return false
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part ~= humanoid.RootPart then
+            local ray = Ray.new(camera.CFrame.Position, part.Position - camera.CFrame.Position)
+            local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
+            if hitPart and hitPart:IsDescendantOf(character) then
+                return true
+            end
+        end
     end
+
+    return false
 end
+
 
 local function getPlayersWithinFOV()
     local playersWithinFOV = {}
