@@ -18,7 +18,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
-getgenv().Distance = 100
+getgenv().Distance = 10
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
 
@@ -396,7 +396,7 @@ end)
 AimAssistSetting:AddSlider('Distance', {
     Text = 'Distance',
     Default = 10,
-    Min = 1,
+    Min = 10,
     Max = 5000,
     Rounding = 0,
     Compact = true,
@@ -407,7 +407,7 @@ Options.Distance:OnChanged(function()
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
-    Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand' },
+    Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand'},
     Default = 1,
     Multi = false,
     Text = 'Body part',
