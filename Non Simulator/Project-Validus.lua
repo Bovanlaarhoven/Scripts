@@ -1,10 +1,4 @@
-for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
-    v:Disable()
-end
 
-for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
-    v:Disable()
-end
 
 local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
@@ -14,10 +8,12 @@ local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local vu = game:GetService("VirtualUser")
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
+getgenv().Triggerbot = false
 getgenv().Distance = 100
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
@@ -224,6 +220,11 @@ local function updateDeadZonePosition()
                         if getgenv().Assist == true then
                             mousemoverel(moveVector.X, moveVector.Y)
                         end
+                        if getgenv().Triggerbot == true then
+                            vu:Button1Down(Vector2.new(mouse.X, mouse.Y))
+
+                            warn("Triggerbot enabled")
+                        end
                         DeadZone.Position = deadzonePos
                         return
                     end
@@ -233,6 +234,7 @@ local function updateDeadZonePosition()
     end
     DeadZone.Position = Fov.Position
 end
+
 
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
@@ -368,6 +370,16 @@ AimAssistSetting:AddToggle('AimAssist', {
 
 Toggles.AimAssist:OnChanged(function()
     getgenv().Assist = Toggles.AimAssist.Value
+end)
+
+AimAssistSetting:AddToggle('Triggetbots', {
+    Text = 'Triggetbot',
+    Default = false,
+    Tooltip = 'Auto shoots at the player',
+})
+
+Toggles.Triggetbots:OnChanged(function()
+    getgenv().Triggerbot = Toggles.Triggetbots.Value
 end)
 
 AimAssistSetting:AddToggle('TeamCheck', {
