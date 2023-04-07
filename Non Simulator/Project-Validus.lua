@@ -134,7 +134,6 @@ local function isPlayerVisible(player)
             end
         end
     end
-
     return false
 end
 
