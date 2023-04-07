@@ -39,7 +39,7 @@ local bodyPartPresets = {
     LeftHand = Vector3.new(-1.5, 0, 0)
 }
 
-if game.PlaceId == 2788229376 then
+if game.GameId == 2788229376 then
     local MainEvent = ReplicatedStorage.MainEvent
     local SpoofTable = { WalkSpeed = 16, JumpPower = 50 }
     local Flags = { "CHECKER_1", "TeleportDetect", "OneMoreTime" }
