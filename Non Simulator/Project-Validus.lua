@@ -361,8 +361,8 @@ AimAssistSetting:AddSlider('Distance', {
     Text = 'Distance',
     Default = 10,
     Min = 1,
-    Max = 10000,
-    Rounding = 1,
+    Max = 5000,
+    Rounding = 0,
     Compact = true,
 })
 
