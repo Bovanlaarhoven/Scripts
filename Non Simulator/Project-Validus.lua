@@ -209,7 +209,7 @@ local function updateDeadZonePosition()
                 if humanoid and humanoid.RootPart then
                     local rootPart = humanoid.RootPart
                     local bodyPart = character:FindFirstChild(desiredBodyPart)
-                    if not bodyPart then
+                    if not bodyPart or not bodyPart:IsDescendantOf(character) then
                         bodyPart = rootPart
                     end
                     local offset = bodyPartPresets[desiredBodyPart] or Vector3.new(0, 0, 0)
