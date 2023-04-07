@@ -1,4 +1,10 @@
+for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+    v:Disable()
+end
 
+for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
+    v:Disable()
+end
 
 local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
@@ -221,8 +227,7 @@ local function updateDeadZonePosition()
                             mousemoverel(moveVector.X, moveVector.Y)
                         end
                         if getgenv().Triggerbot == true then
-                            vu:Button1Down(Vector2.new(mouse.X, mouse.Y))
-
+                            vu:Button1Down(Vector2.new(moveVector.X, moveVector.Y))
                             warn("Triggerbot enabled")
                         end
                         DeadZone.Position = deadzonePos
