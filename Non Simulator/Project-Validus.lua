@@ -16,6 +16,7 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 getgenv().Assist = false
 getgenv().TeamCheck = false
+getgenv().VisableCheck = false
 DeadZone.Radius = 25
 DeadZone.Color = Color3.fromRGB(0, 0, 0)
 DeadZone.Filled = false
@@ -83,7 +84,6 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
-
 local function isPlayerWithinFOV(player)
     local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
@@ -129,13 +129,18 @@ local function getPlayersWithinFOV()
     local players = game:GetService("Players"):GetPlayers()
     for i = 1, #players do
         local player = players[i]
-        if player ~= lplr and isPlayerWithinFOV(player) and isPlayerVisible(player) then
-            table.insert(playersWithinFOV, player)
+        if player ~= lplr and isPlayerWithinFOV(player) then
+            if getgenv().VisableCheck == true then
+                if isPlayerVisible(player) then
+                    table.insert(playersWithinFOV, player)
+                end
+            else
+                table.insert(playersWithinFOV, player)
+            end
         end
     end
     return playersWithinFOV
 end
-
 
 local function getClosestPlayer(players)
     local closestPlayer, closestDistance
@@ -173,10 +178,14 @@ local function updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     if #playersWithinFOV > 0 then
         local closestPlayer = nil
-        if getgenv().teamcheck then
+        if getgenv().TeamCheck then
             for _, player in ipairs(playersWithinFOV) do
-                if player.Team ~= lplr.Team and player.TeamColor ~= lplr.TeamColor then
-                    closestPlayer = player
+                if player ~= lplr and player.Team ~= lplr.Team then
+                    closestPlayer = closestPlayer or player
+                    if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+                        closestPlayer = player
+                        break
+                    end
                 end
             end
         else
@@ -202,9 +211,9 @@ local function updateDeadZonePosition()
                         local distance = (deadzonePos - mousePos).Magnitude
                         local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
                         local moveDirection = (deadzonePos - mousePos).Unit
-                        local moveVector = moveDirection * moveAmount
+                        local moveVector = Vector2.new(moveDirection.X * moveAmount, 0)
                         if getgenv().Assist == true then
-                            mousemoverel(moveVector.X, moveVector.Y - 5)
+                            mousemoverel(moveVector.X, moveVector.Y)
                         end
                         DeadZone.Position = deadzonePos
                         return
@@ -248,6 +257,8 @@ local tab1 = Tabs.Main:AddLeftTabbox()
 local AimAssistSetting = tab1:AddTab('Aim Assist')
 local FovSetting = tab1:AddTab('Fov Settings')
 
+
+--fov settings
 FovSetting:AddToggle('FovVisable', {
     Text = 'Fov Visable',
     Default = false,
@@ -311,6 +322,8 @@ Options.DeadZoneSize:OnChanged(function()
     DeadZone.Radius = Options.DeadZoneSize.Value
 end)
 
+--assist settings
+
 AimAssistSetting:AddToggle('AimAssist', {
     Text = 'Aim Assist',
     Default = false,
@@ -322,13 +335,23 @@ Toggles.AimAssist:OnChanged(function()
 end)
 
 AimAssistSetting:AddToggle('TeamCheck', {
-    Text = 'TeamCheck',
+    Text = 'Team Check',
     Default = false,
     Tooltip = 'Checks if the player is on your team',
 })
 
 Toggles.TeamCheck:OnChanged(function()
     getgenv().TeamCheck = Toggles.TeamCheck.Value
+end)
+
+AimAssistSetting:AddToggle('VisableCheck', {
+    Text = 'Visable Check',
+    Default = false,
+    Tooltip = 'Check if the player is visable or not',
+})
+
+Toggles.VisableCheck:OnChanged(function()
+    getgenv().VisableCheck = Toggles.VisableCheck.Value
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
