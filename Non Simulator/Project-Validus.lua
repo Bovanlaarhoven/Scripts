@@ -185,29 +185,6 @@ local bodyPartPresets = {
     LeftHand = Vector3.new(-1, 0, 0)
 }
 
-local function tween(obj, properties)
-    local c_time = 0
-    local m_time = properties.Duration
-    
-    local s_size = properties.Start
-    local e_size = properties.End
-    
-    local conn
-    
-    conn = game:GetService('RunService').RenderStepped:Connect(function(delta)
-        pcall(function()
-            c_time += delta
-            obj.Size = s_size:Lerp(e_size, game.TweenService:GetValue(c_time / m_time, Enum.EasingStyle.Linear, Enum.EasingDirection.Out))
-            if c_time > m_time then
-                if properties.Callback then properties.Callback() end
-                
-                conn:Disconnect()
-                conn = nil
-            end
-        end)
-    end)
-end
-
 local function updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     if #playersWithinFOV > 0 then
@@ -272,7 +249,8 @@ local function updateDeadZonePosition()
             end
         end
     end
-    DeadZone.Position = Fov.Position
+    
+    DeadZone.Position = DeadZone.Position:Lerp(Fov.Position, 0.5)
 end
 
 local function updateFOV()
