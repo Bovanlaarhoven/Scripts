@@ -357,7 +357,7 @@ Toggles.VisableCheck:OnChanged(function()
     getgenv().VisableCheck = Toggles.VisableCheck.Value
 end)
 
-FovSetting:AddSlider('Distance', {
+AimAssistSetting:AddSlider('Distance', {
     Text = 'Distance',
     Default = 100,
     Min = 1,
