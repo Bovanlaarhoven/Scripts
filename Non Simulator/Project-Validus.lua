@@ -57,7 +57,7 @@ getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().VisableCheck = false
 getgenv().Triggerbot = false
-getgenv().Distance = 100
+getgenv().Distance = 1
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
 getgenv().boxesp = true
@@ -746,7 +746,7 @@ end)
 AimAssistSetting:AddSlider('Distance', {
     Text = 'Distance',
     Default = 100,
-    Min = 10,
+    Min = 1,
     Max = 5000,
     Rounding = 0,
     Compact = true,
