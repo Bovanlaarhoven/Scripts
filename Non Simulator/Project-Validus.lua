@@ -18,6 +18,25 @@ local vu = game:GetService("VirtualUser")
 local WorldToViewportPoint = camera.WorldToViewportPoint
 local headoff = Vector3.new(0, 0.5, 0)
 local legoff = Vector3.new(0, 3, 0)
+local SpoofTable = { WalkSpeed = lplr.Character.Humanoid.WalkSpeed, JumpPower = lplr.Character.Humanoid.JumpPower }
+local Hooks = {}
+
+Hooks.__index = hookmetamethod(game, "__index", function(t, k)
+    if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
+        return SpoofTable[k]
+    end
+
+    return Hooks.__index(t, k)
+end)
+
+Hooks.__newindex = hookmetamethod(game, "__newindex", function(t, k, v)
+    if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
+        SpoofTable[k] = v
+        return
+    end
+    
+    return Hooks.__newindex(t, k, v)
+end)
 
 getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
@@ -68,45 +87,6 @@ local function updateFovColor()
 end
 updateFovColor()
 getgenv().FovColorChanged = updateFovColor
-
-if game.GameId == 2788229376 then
-    local MainEvent = ReplicatedStorage.MainEvent
-    local SpoofTable = { WalkSpeed = 16, JumpPower = 50 }
-    local Flags = { "CHECKER_1", "TeleportDetect", "OneMoreTime" }
-    local Hooks = {}
-    
-    Hooks.__namecall = hookmetamethod(game, "__namecall", function(...)
-        local args = {...}
-        local self = args[1]
-        local method = getnamecallmethod()
-    
-        if (method == "FireServer" and self == MainEvent and table.find(Flags, args[2])) then
-            return
-        end
-    
-        if (not checkcaller() and getfenv(2).crash) then
-            hookfunction(getfenv(2).crash, function() warn("Crash Attempt") end)
-        end
-        return Hooks.__namecall(...)
-    end)
-    
-    Hooks.__index = hookmetamethod(game, "__index", function(t, k)
-        if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
-            return SpoofTable[k]
-        end
-    
-        return Hooks.__index(t, k)
-    end)
-    
-    Hooks.__newindex = hookmetamethod(game, "__newindex", function(t, k, v)
-        if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
-            SpoofTable[k] = v
-            return
-        end
-        
-        return Hooks.__newindex(t, k, v)
-    end)
-end
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
