@@ -1,10 +1,3 @@
-for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
-    v:Disable()
-end
-
-for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
-    v:Disable()
-end
 
 local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
@@ -94,9 +87,8 @@ local function isPlayerWithinFOV(player)
     return distanceFromCenter <= Fov.Radius
 end
 
-
 local function isPlayerVisible(player)
-    local character = player.Character
+    local character = player.Character or player.CharacterAdded:Wait()
     if not character or not character:IsDescendantOf(workspace) then
         return false
     end
@@ -106,9 +98,18 @@ local function isPlayerVisible(player)
         return false
     end
 
+    local camera = workspace.CurrentCamera
+    local connection
+    connection = game:GetService("RunService").RenderStepped:Connect(function()
+        camera = workspace.CurrentCamera
+        if not camera then
+            connection:Disconnect()
+        end
+    end)
+
     local ray = Ray.new(camera.CFrame.Position, humanoid.RootPart.Position - camera.CFrame.Position)
     local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
-    if hitPart and hitPart:IsDescendantOf(character) then
+    if hitPart and hitPart:IsDescendantOf(character) and hitPosition then
         return true
     else
         return false
@@ -145,7 +146,7 @@ local function getClosestPlayer(players)
             if humanoid and humanoid.RootPart then
                 local rootPartPos = humanoid.RootPart.Position
                 local distanceFromCamera = (rootPartPos - cameraPos).Magnitude
-                if not getgenv().Distance or distanceFromCamera <= getgenv().Distance then
+                if not getgenv().Distance or distanceFromCamera < getgenv().Distance then
                     if not closestDistance or distanceFromCamera < closestDistance then
                         closestPlayer = player
                         closestDistance = distanceFromCamera
