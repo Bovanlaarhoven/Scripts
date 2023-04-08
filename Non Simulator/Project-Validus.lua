@@ -181,8 +181,8 @@ local bodyPartPresets = {
     Head = Vector3.new(0, 0.65, 0),
     UpperTorso = Vector3.new(0, 0.5, 0),
     LowerTorso = Vector3.new(0, 0.35, 0),
-    RightHand = Vector3.new(1, 0, 0),
-    LeftHand = Vector3.new(-1, 0, 0)
+    RightHand = Vector3.new(1.5, 0, 0),
+    LeftHand = Vector3.new(-1.5, 0, 0)
 }
 
 local function updateDeadZonePosition()
