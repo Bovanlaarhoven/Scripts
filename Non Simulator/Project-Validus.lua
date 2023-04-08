@@ -32,7 +32,6 @@ getgenv().BoxTransparency = 0.5
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
 getgenv().PlayerInsideFovToggle = false
-getgenv().UseText = false
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -164,8 +163,8 @@ local bodyPartPresets = {
     Head = Vector3.new(0, 0.65, 0),
     UpperTorso = Vector3.new(0, 0.5, 0),
     LowerTorso = Vector3.new(0, 0.35, 0),
-    RightHand = Vector3.new(1.5, 0, 0),
-    LeftHand = Vector3.new(-1.5, 0, 0)
+    RightHand = Vector3.new(1, 0, 0),
+    LeftHand = Vector3.new(-1, 0, 0)
 }
 
 local function updateDeadZonePosition()
@@ -329,11 +328,12 @@ for _,v in pairs(plrs:GetChildren()) do
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
                     box.Size = boxoutline.Size
                     box.Position = boxoutline.Position
-                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]"
-                    text.Position = Vector2.new(RootPosition.X, HeadPosition.Y)
+                    text.Visible = true
+                    local distance = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
+                    text.Position = Vector2.new(RootPosition.X - boxoutline.Size.X, HeadPosition.Y - LegPostion.Y - boxoutline.Size.Y)
+                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]\n[" .. string.format("%.1f", distance) .. "m]"
                     boxoutline.Visible = true
                     box.Visible = true
-                    text.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
@@ -420,12 +420,12 @@ plrs.PlayerAdded:Connect(function(v)
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
                     box.Size = boxoutline.Size
                     box.Position = boxoutline.Position
+                    text.Visible = true
                     local distance = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
+                    text.Position = Vector2.new(RootPosition.X - boxoutline.Size.X, HeadPosition.Y - LegPostion.Y - boxoutline.Size.Y - 30)
                     text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]\n[" .. string.format("%.1f", distance) .. "m]"
-                    text.Position = Vector2.new(RootPosition.X, HeadPosition.Y)
                     boxoutline.Visible = true
                     box.Visible = true
-                    text.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
@@ -480,16 +480,6 @@ MasterSwitch:AddToggle('CheckTeam', {
 
 Toggles.CheckTeam:OnChanged(function()
     getgenv().teamcheck = Toggles.CheckTeam.Value
-end)
-
-MasterSwitch:AddToggle('TextUseage', {
-    Text = 'Distance esp/health',
-    Default = false,
-    Tooltip = 'Esp players',
-})
-
-Toggles.TextUseage:OnChanged(function()
-    getgenv().UseText = Toggles.TextUseage.Value
 end)
 
 MasterSwitch:AddToggle('VisableCheckyes', {
