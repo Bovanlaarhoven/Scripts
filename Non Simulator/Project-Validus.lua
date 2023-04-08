@@ -223,9 +223,11 @@ local function updateDeadZonePosition()
                         local moveAmount = math.min(distance, DeadZone.Radius) * 0.5
                         local moveDirection = (deadzonePos - mousePos).Unit
                         local moveVector = Vector2.new(moveDirection.X * moveAmount, 0)
+                        
                         if getgenv().Assist == true then
                             mousemoverel(moveVector.X, moveVector.Y)
                         end
+                        
                         if getgenv().Triggerbot == true and isPlayerWithinFOV(closestPlayer) then
                             local function isPlayerVisibleToggle(player)
                                 if getgenv().VisibleCheck then
@@ -252,6 +254,7 @@ local function updateDeadZonePosition()
     
     DeadZone.Position = DeadZone.Position:Lerp(Fov.Position, 0.5)
 end
+
 
 local function updateFOV()
     Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
@@ -397,6 +400,16 @@ AimAssistSetting:AddToggle('Triggetbots', {
 
 Toggles.Triggetbots:OnChanged(function()
     getgenv().Triggerbot = Toggles.Triggetbots.Value
+end)
+
+AimAssistSetting:AddToggle('aimbot', {
+    Text = 'Aimbot',
+    Default = false,
+    Tooltip = 'Auto shoots at the player',
+})
+
+Toggles.aimbot:OnChanged(function()
+    getgenv().Aimbot = Toggles.aimbot.Value
 end)
 
 AimAssistSetting:AddToggle('TeamCheck', {
