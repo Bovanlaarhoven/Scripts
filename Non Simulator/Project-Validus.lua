@@ -536,7 +536,7 @@ ColorSettings:AddLabel('Normal Color Outline'):AddColorPicker('ColorPicker5', {
 })
 
 ColorSettings:AddLabel('Not Visable Color Outline'):AddColorPicker('ColorPicker6', {
-    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Default = Color3.new(0.560784, 0.568627, 0.560784),
     Title = 'Not Visable Color Outline',
     Transparency = 0,
 
@@ -546,7 +546,7 @@ ColorSettings:AddLabel('Not Visable Color Outline'):AddColorPicker('ColorPicker6
 })
 
 ColorSettings:AddLabel('Not Visable Color'):AddColorPicker('ColorPicker7', {
-    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Default = Color3.new(0.560784, 0.568627, 0.560784),
     Title = 'Not Visable Color',
     Transparency = 0,
 
