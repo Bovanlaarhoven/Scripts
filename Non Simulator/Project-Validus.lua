@@ -257,16 +257,6 @@ end)
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
-    local text = Drawing.new("Text")
-
-    text.Color = Color3.new(1, 1, 1)
-    text.OutlineColor = Color3.new(0, 0, 0)
-    text.Center = true
-    text.Outline = true
-    text.Position = Vector2.new(100, 100)
-    text.Size = 16
-    text.Font = Drawing.Fonts.Monospace
-    text.Transparency = .6
     
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
@@ -286,16 +276,13 @@ for _,v in pairs(plrs:GetChildren()) do
                     if v.Team == lplr.Team then
                         boxoutline.Color = getgenv().TeamColorOutline
                         box.Color = getgenv().TeamColor
-                        text.Color = getgenv().TeamColorOutline
                     else
                         boxoutline.Color = getgenv().EnemyColorOutline
                         box.Color = getgenv().EnemyColor
-                        text.Color = getgenv().EnemyColorOutline
                     end
                 else
                     boxoutline.Color = getgenv().NormalColorOutline
                     box.Color = getgenv().NormalColor
-                    text.Color = getgenv().NormalColorOutline
                 end
     
                 local isVisible = isPlayerVisible(v)
@@ -313,7 +300,6 @@ for _,v in pairs(plrs:GetChildren()) do
                     if isFov then
                         boxoutline.Color = getgenv().PlayerInsideFovOutline
                         box.Color = getgenv().PlayerInsideFovColor
-                        text.Color = getgenv().PlayerInsideFovOutline
                     end
                 end
 
@@ -328,21 +314,15 @@ for _,v in pairs(plrs:GetChildren()) do
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
                     box.Size = boxoutline.Size
                     box.Position = boxoutline.Position
-                    text.Visible = true
-                    local distance = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
-                    text.Position = Vector2.new(RootPosition.X - boxoutline.Size.X, HeadPosition.Y - LegPostion.Y - boxoutline.Size.Y)
-                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]\n[" .. string.format("%.1f", distance) .. "m]"
                     boxoutline.Visible = true
                     box.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
-                    text.Visible = false
                 end
             else
                 boxoutline.Visible = false
                 box.Visible = false
-                text.Visible = false
             end
         end)
     end
@@ -352,16 +332,6 @@ end
 plrs.PlayerAdded:Connect(function(v)
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
-    local text = Drawing.new("Text")
-
-    text.Color = Color3.new(1, 1, 1)
-    text.OutlineColor = Color3.new(0, 0, 0)
-    text.Center = true
-    text.Outline = true
-    text.Position = Vector2.new(100, 100)
-    text.Size = 16
-    text.Font = Drawing.Fonts.Monospace
-    text.Transparency = .6
 
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
@@ -420,21 +390,15 @@ plrs.PlayerAdded:Connect(function(v)
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
                     box.Size = boxoutline.Size
                     box.Position = boxoutline.Position
-                    text.Visible = true
-                    local distance = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
-                    text.Position = Vector2.new(RootPosition.X - boxoutline.Size.X, HeadPosition.Y - LegPostion.Y - boxoutline.Size.Y - 30)
-                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]\n[" .. string.format("%.1f", distance) .. "m]"
                     boxoutline.Visible = true
                     box.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
-                    text.Visible = false
                 end
             else
                 boxoutline.Visible = false
                 box.Visible = false
-                text.Visible = false
             end
         end)
     end
