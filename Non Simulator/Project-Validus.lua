@@ -18,10 +18,15 @@ local vu = game:GetService("VirtualUser")
 local WorldToViewportPoint = camera.WorldToViewportPoint
 local headoff = Vector3.new(0, 0.5, 0)
 local legoff = Vector3.new(0, 3, 0)
+
 getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
 getgenv().TeamColorOutline = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColorOutline = Color3.fromRGB(255, 0, 0)
+getgenv().NormalColor = Color3.fromRGB(89, 91, 89)
+getgenv().NormalColorOutline = Color3.fromRGB(89, 91, 89)
+getgenv().BoxTransparency = 0.5
+getgenv().BoxFilled = false
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -288,36 +293,35 @@ for _,v in pairs(plrs:GetChildren()) do
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
     boxoutline.Thickness = 2
-    boxoutline.Transparency = 0
-    boxoutline.Filled = false
+    boxoutline.Transparency = getgenv().BoxTransparency
+    boxoutline.Filled = getgenv().BoxFilled
 
     box.Visible = false
     box.Color = Color3.fromRGB(43, 42, 42)
     box.Thickness = 1
-    box.Transparency = 0
-    box.Filled = false
-
+    box.transparency = getgenv().BoxTransparency
+    box.Filled = getgenv().BoxFilled
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
                 if getgenv().teamcheck == true then
                     if v.Team == lplr.Team then
-                        boxoutline.Color = getgenv().TeamColor
-                        box.Color = getgenv().TeamColorOutline
+                        boxoutline.Color = getgenv().TeamColorOutline
+                        box.Color = getgenv().TeamColor
                     else
-                        boxoutline.Color = getgenv().EnemyColor
-                        box.Color = getgenv().EnemyColorOutline
+                        boxoutline.Color = getgenv().EnemyColorOutline
+                        box.Color = getgenv().EnemyColor
                     end
                 else
-                    boxoutline.Color = Color3.fromRGB(0, 0, 0)
-                    box.Color = Color3.fromRGB(43, 42, 42)
+                    boxoutline.Color = getgenv().NormalColorOutline
+                    box.Color = getgenv().NormalColor
                 end
-                local vector, onScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
-                local RootPosition, RootVis = workspace.CurrentCamera:WorldToViewportPoint(RootPart.Position)
-                local HeadPosition = workspace.CurrentCamera:WorldToViewportPoint(Head.Position + headoff)
-                local LegPostion = workspace.CurrentCamera:WorldToViewportPoint(RootPart.Position - legoff) 
+                local RootPosition, RootVis = WorldToViewportPoint(camera, RootPart.Position)
+                local HeadPosition = WorldToViewportPoint(camera, Head.Position + headoff)
+                local LegPostion = WorldToViewportPoint(camera, RootPart.Position - legoff) 
                 if onScreen then
                     boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
@@ -346,28 +350,29 @@ plrs.PlayerAdded:Connect(function(v)
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
     boxoutline.Thickness = 2
-    boxoutline.Transparency = 0
-    boxoutline.Filled = false
+    boxoutline.Transparency = getgenv().BoxTransparency
+    boxoutline.Filled = getgenv().BoxFilled
 
     box.Visible = false
     box.Color = Color3.fromRGB(43, 42, 42)
     box.Thickness = 1
-    box.transparency = 0
-    box.Filled = false
+    box.transparency = getgenv().BoxTransparency
+    box.Filled = getgenv().BoxFilled
+    
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
                 if getgenv().teamcheck == true then
                     if v.Team == lplr.Team then
-                        boxoutline.Color = getgenv().TeamColor
-                        box.Color = getgenv().TeamColorOutline
+                        boxoutline.Color = getgenv().TeamColorOutline
+                        box.Color = getgenv().TeamColor
                     else
-                        boxoutline.Color = getgenv().EnemyColor
-                        box.Color = getgenv().EnemyColorOutline
-                    end   
+                        boxoutline.Color = getgenv().EnemyColorOutline
+                        box.Color = getgenv().EnemyColor
+                    end
                 else
-                    boxoutline.Color = Color3.fromRGB(0, 0, 0)
-                    box.Color = Color3.fromRGB(43, 42, 42)
+                    boxoutline.Color = getgenv().NormalColorOutline
+                    box.Color = getgenv().NormalColor 
                 end
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
@@ -413,7 +418,7 @@ local AimAssistSetting = tab1:AddTab('Aim Assist')
 local FovSetting = tab1:AddTab('Fov Settings')
 local tab2 = Tabs.Main:AddRightTabbox()
 local MasterSwitch = tab2:AddTab('Main Settings')
-local ColorSettings = tab2:AddTab('Color Settings')
+local ColorSettings = tab2:AddTab('Box Settings')
 
 --masterSwitch
 
@@ -437,13 +442,86 @@ Toggles.CheckTeam:OnChanged(function()
     getgenv().teamcheck = Toggles.CheckTeam.Value
 end)
 
-ColorSettings:AddLabel('Color'):AddColorPicker('TeamColoryes', {
+ColorSettings:AddLabel('Enemy Color'):AddColorPicker('ColorPicker-1', {
+    Default = Color3.new(1, 0, 0),
+    Title = 'Enemy Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().EnemyColor = Value
+    end
+})
+
+ColorSettings:AddLabel('Enemy Color Outline'):AddColorPicker('ColorPicker1', {
+    Default = Color3.new(1, 0, 0),
+    Title = 'Enemy Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().EnemyColorOutline = Value
+    end
+})
+
+ColorSettings:AddLabel('Team Color'):AddColorPicker('ColorPicker2', {
     Default = Color3.new(0, 1, 0),
     Title = 'Team Color',
     Transparency = 0,
 
     Callback = function(Value)
         getgenv().TeamColor = Value
+    end
+})
+
+ColorSettings:AddLabel('Team Color Outline'):AddColorPicker('ColorPicker3', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Enemy Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().TeamColorOutline = Value
+    end
+})
+
+ColorSettings:AddLabel('Normal Color'):AddColorPicker('ColorPicker4', {
+    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Title = 'Normal Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().NormalColor = Value
+    end
+})
+
+ColorSettings:AddLabel('Normal Color Outline'):AddColorPicker('ColorPicker5', {
+    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Title = 'Normal Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().NormalColorOutline = Value
+    end
+})
+
+ColorSettings:AddSlider('Trans', {
+    Text = 'Box Transparency',
+    Default = 0,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        getgenv().BoxTransparency = Value
+    end
+})
+
+ColorSettings:AddToggle('Filedornot', {
+    Text = 'Box Filled',
+    Default = false,
+    Tooltip = 'if the box is filled or not',
+
+    Callback = function(Value)
+        getgenv().BoxFilled = Value
     end
 })
 
