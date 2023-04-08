@@ -336,8 +336,8 @@ for _,v in pairs(plrs:GetChildren()) do
 
                 if getgenv().PlayerInsideFovToggle == true then
                     if isFov then
-                        boxoutline.Color = getgenv().VisableColorOutline
-                        box.Color = getgenv().VisableColor
+                        boxoutline.Color = getgenv().PlayerInsideFovOutline
+                        box.Color = getgenv().PlayerInsideFovColor
                     else
                         boxoutline.Color = getgenv().NormalColorOutline
                         box.Color = getgenv().NormalColor
@@ -413,11 +413,11 @@ plrs.PlayerAdded:Connect(function(v)
                 end
     
                 local isFov = isPlayerWithinFOV(v)
-
+                
                 if getgenv().PlayerInsideFovToggle == true then
                     if isFov then
-                        boxoutline.Color = getgenv().VisableColorOutline
-                        box.Color = getgenv().VisableColor
+                        boxoutline.Color = getgenv().PlayerInsideFovOutline
+                        box.Color = getgenv().PlayerInsideFovColor
                     else
                         boxoutline.Color = getgenv().NormalColorOutline
                         box.Color = getgenv().NormalColor
@@ -503,7 +503,7 @@ Toggles.VisableCheckyes:OnChanged(function()
 end)
 
 MasterSwitch:AddToggle('infovcolorchange', {
-    Text = 'Player Inside Fov Color Change',
+    Text = 'Player Inside Fov',
     Default = false,
     Tooltip = 'Changes the color of esp if player is inside fov',
 })
