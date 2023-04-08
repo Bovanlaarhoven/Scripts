@@ -87,8 +87,9 @@ local function isPlayerWithinFOV(player)
     return distanceFromCenter <= Fov.Radius
 end
 
+
 local function isPlayerVisible(player)
-    local character = player.Character or player.CharacterAdded:Wait()
+    local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
         return false
     end
@@ -99,15 +100,12 @@ local function isPlayerVisible(player)
     end
 
     local camera = workspace.CurrentCamera
-    local connection
-    connection = game:GetService("RunService").RenderStepped:Connect(function()
-        camera = workspace.CurrentCamera
-        if not camera then
-            connection:Disconnect()
-        end
-    end)
+    if not camera then
+        return false
+    end
 
-    local ray = Ray.new(camera.CFrame.Position, humanoid.RootPart.Position - camera.CFrame.Position)
+    local rayDirection = humanoid.RootPart.Position - camera.CFrame.Position
+    local ray = Ray.new(camera.CFrame.Position, rayDirection.Unit * 1000)
     local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
     if hitPart and hitPart:IsDescendantOf(character) and hitPosition then
         return true
