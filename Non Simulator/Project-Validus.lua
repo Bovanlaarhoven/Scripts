@@ -87,32 +87,44 @@ local function isPlayerWithinFOV(player)
     return distanceFromCenter <= Fov.Radius
 end
 
-
 local function isPlayerVisible(player)
     local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
+        print("Character not found or not in workspace")
         return false
     end
 
     local humanoid = character:FindFirstChildOfClass("Humanoid")
     if not humanoid or not humanoid.RootPart then
+        print("Humanoid or RootPart not found")
         return false
     end
 
     local camera = workspace.CurrentCamera
     if not camera then
+        print("Camera not found")
         return false
     end
 
-    local rayDirection = humanoid.RootPart.Position - camera.CFrame.Position
-    local ray = Ray.new(camera.CFrame.Position, rayDirection.Unit * 1000)
-    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, {camera})
-    if hitPart and hitPart:IsDescendantOf(character) and hitPosition then
-        return true
+    local rayDirection = (humanoid.RootPart.Position - camera.CFrame.Position).Unit
+    local rayOrigin = camera.CFrame.Position + (rayDirection * 3)
+
+    local ignoreList = {}
+    table.insert(ignoreList, camera)
+
+    local ray = Ray.new(rayOrigin, rayDirection * 1000)
+    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, ignoreList)
+    if hitPart then
+        if hitPart:IsDescendantOf(player.Character) and hitPosition then
+            return true
+        else
+            return false
+        end
     else
         return false
     end
 end
+
 
 
 local function getPlayersWithinFOV()
