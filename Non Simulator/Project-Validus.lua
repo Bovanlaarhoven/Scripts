@@ -32,6 +32,7 @@ getgenv().BoxTransparency = 0.5
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
 getgenv().PlayerInsideFovToggle = false
+getgenv().UseText = false
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -94,6 +95,7 @@ local function isPlayerWithinFOV(player)
     return distanceFromCenter <= Fov.Radius
 end
 
+
 local function isPlayerVisible(player)
     local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
@@ -113,6 +115,7 @@ local function isPlayerVisible(player)
         return false
     end
 end
+
 
 local function getPlayersWithinFOV()
     local playersWithinFOV = {}
@@ -218,9 +221,9 @@ local function updateDeadZonePosition()
                             end
                             
                             if isPlayerVisibleToggle(closestPlayer) then
-                                vu:Button1Down(Vector2.new(moveVector.X, moveVector.Y))
+                                vu:Button1Down(Vector2.new())
                                 wait()
-                                vu:Button1Up(Vector2.new(moveVector.X, moveVector.Y))
+                                vu:Button1Up(Vector2.new())
                             end
                         end
                         
@@ -255,7 +258,17 @@ end)
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
+    local text = Drawing.new("Text")
 
+    text.Color = Color3.new(1, 1, 1)
+    text.OutlineColor = Color3.new(0, 0, 0)
+    text.Center = true
+    text.Outline = true
+    text.Position = Vector2.new(100, 100)
+    text.Size = 16
+    text.Font = Drawing.Fonts.Monospace
+    text.Transparency = .6
+    
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
     boxoutline.Thickness = 2
@@ -274,13 +287,16 @@ for _,v in pairs(plrs:GetChildren()) do
                     if v.Team == lplr.Team then
                         boxoutline.Color = getgenv().TeamColorOutline
                         box.Color = getgenv().TeamColor
+                        text.Color = getgenv().TeamColorOutline
                     else
                         boxoutline.Color = getgenv().EnemyColorOutline
                         box.Color = getgenv().EnemyColor
+                        text.Color = getgenv().EnemyColorOutline
                     end
                 else
                     boxoutline.Color = getgenv().NormalColorOutline
                     box.Color = getgenv().NormalColor
+                    text.Color = getgenv().NormalColorOutline
                 end
     
                 local isVisible = isPlayerVisible(v)
@@ -298,6 +314,7 @@ for _,v in pairs(plrs:GetChildren()) do
                     if isFov then
                         boxoutline.Color = getgenv().PlayerInsideFovOutline
                         box.Color = getgenv().PlayerInsideFovColor
+                        text.Color = getgenv().PlayerInsideFovOutline
                     end
                 end
 
@@ -309,19 +326,23 @@ for _,v in pairs(plrs:GetChildren()) do
                 local LegPostion = WorldToViewportPoint(camera, RootPart.Position - legoff) 
                 if onScreen then
                     boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
-                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
+                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
+                    box.Size = boxoutline.Size
+                    box.Position = boxoutline.Position
+                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]"
+                    text.Position = Vector2.new(RootPosition.X, HeadPosition.Y)
                     boxoutline.Visible = true
-    
-                    box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
-                    box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
                     box.Visible = true
+                    text.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
+                    text.Visible = false
                 end
             else
                 boxoutline.Visible = false
                 box.Visible = false
+                text.Visible = false
             end
         end)
     end
@@ -331,6 +352,16 @@ end
 plrs.PlayerAdded:Connect(function(v)
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
+    local text = Drawing.new("Text")
+
+    text.Color = Color3.new(1, 1, 1)
+    text.OutlineColor = Color3.new(0, 0, 0)
+    text.Center = true
+    text.Outline = true
+    text.Position = Vector2.new(100, 100)
+    text.Size = 16
+    text.Font = Drawing.Fonts.Monospace
+    text.Transparency = .6
 
     boxoutline.Visible = false
     boxoutline.Color = Color3.fromRGB(0, 0, 0)
@@ -386,19 +417,24 @@ plrs.PlayerAdded:Connect(function(v)
                 local LegPostion = WorldToViewportPoint(camera, RootPart.Position - legoff) 
                 if onScreen then
                     boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
-                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
+                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X/2, RootPosition.Y - boxoutline.Size.Y/2)
+                    box.Size = boxoutline.Size
+                    box.Position = boxoutline.Position
+                    local distance = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
+                    text.Text = v.Name .. "\n[" .. math.floor(v.Character.Humanoid.Health) .. "]\n[" .. string.format("%.1f", distance) .. "m]"
+                    text.Position = Vector2.new(RootPosition.X, HeadPosition.Y)
                     boxoutline.Visible = true
-    
-                    box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
-                    box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
                     box.Visible = true
+                    text.Visible = true
                 else
                     boxoutline.Visible = false
                     box.Visible = false
+                    text.Visible = false
                 end
             else
                 boxoutline.Visible = false
                 box.Visible = false
+                text.Visible = false
             end
         end)
     end
@@ -444,6 +480,16 @@ MasterSwitch:AddToggle('CheckTeam', {
 
 Toggles.CheckTeam:OnChanged(function()
     getgenv().teamcheck = Toggles.CheckTeam.Value
+end)
+
+MasterSwitch:AddToggle('TextUseage', {
+    Text = 'Distance esp/health',
+    Default = false,
+    Tooltip = 'Esp players',
+})
+
+Toggles.TextUseage:OnChanged(function()
+    getgenv().UseText = Toggles.TextUseage.Value
 end)
 
 MasterSwitch:AddToggle('VisableCheckyes', {
