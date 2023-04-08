@@ -18,9 +18,10 @@ local vu = game:GetService("VirtualUser")
 local WorldToViewportPoint = camera.WorldToViewportPoint
 local headoff = Vector3.new(0, 0.5, 0)
 local legoff = Vector3.new(0, 3, 0)
-getgenv().UseTeamColor = false
 getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
+getgenv().TeamColorOutline = Color3.fromRGB(0, 255, 0)
+getgenv().EnemyColorOutline = Color3.fromRGB(255, 0, 0)
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -300,17 +301,12 @@ for _,v in pairs(plrs:GetChildren()) do
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
                 if getgenv().teamcheck == true then
-                    if getgenv().UseTeamColor == true then
-                        local teamColor = v.TeamColor.Color
-                        boxoutline.Color = teamColor
-                        box.Color = teamColor
-                    end
                     if v.Team == lplr.Team then
-                        boxoutline.Color = Color3.fromRGB(0, 255, 0)
-                        box.Color = Color3.fromRGB(0, 255, 0)
+                        boxoutline.Color = getgenv().TeamColor
+                        box.Color = getgenv().TeamColorOutline
                     else
-                        boxoutline.Color = Color3.fromRGB(255, 0, 0)
-                        box.Color = Color3.fromRGB(255, 0, 0)
+                        boxoutline.Color = getgenv().EnemyColor
+                        box.Color = getgenv().EnemyColorOutline
                     end
                 else
                     boxoutline.Color = Color3.fromRGB(0, 0, 0)
@@ -363,12 +359,15 @@ plrs.PlayerAdded:Connect(function(v)
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
                 if getgenv().teamcheck == true then
                     if v.Team == lplr.Team then
-                        boxoutline.Color = Color3.fromRGB(0, 255, 0)
-                        box.Color = Color3.fromRGB(0, 255, 0)
+                        boxoutline.Color = getgenv().TeamColor
+                        box.Color = getgenv().TeamColorOutline
                     else
-                        boxoutline.Color = Color3.fromRGB(255, 0, 0)
-                        box.Color = Color3.fromRGB(255, 0, 0)
-                    end        
+                        boxoutline.Color = getgenv().EnemyColor
+                        box.Color = getgenv().EnemyColorOutline
+                    end   
+                else
+                    boxoutline.Color = Color3.fromRGB(0, 0, 0)
+                    box.Color = Color3.fromRGB(43, 42, 42)
                 end
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
@@ -438,15 +437,15 @@ Toggles.CheckTeam:OnChanged(function()
     getgenv().teamcheck = Toggles.CheckTeam.Value
 end)
 
-ColorSettings:AddToggle('UseColor', {
-    Text = 'Use Team Color',
-    Default = false,
-    Tooltip = 'uses the team color',
-})
+ColorSettings:AddLabel('Color'):AddColorPicker('TeamColoryes', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Team Color',
+    Transparency = 0,
 
-Toggles.UseColor:OnChanged(function()
-    getgenv().UseTeamColor = Toggles.UseColor.Value
-end)
+    Callback = function(Value)
+        getgenv().TeamColor = Value
+    end
+})
 
 --fov settings
 FovSetting:AddToggle('FovVisable', {
