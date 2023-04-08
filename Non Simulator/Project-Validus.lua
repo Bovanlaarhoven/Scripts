@@ -694,7 +694,7 @@ Toggles.AimAssist:OnChanged(function()
 end)
 
 AimAssistSetting:AddToggle('Triggetbots', {
-    Text = 'Triggetbot',
+    Text = 'Triggerbot',
     Default = false,
     Tooltip = 'Auto shoots at the player',
 })
