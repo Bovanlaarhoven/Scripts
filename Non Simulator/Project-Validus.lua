@@ -27,9 +27,12 @@ getgenv().NormalColor = Color3.fromRGB(89, 91, 89)
 getgenv().NormalColorOutline = Color3.fromRGB(89, 91, 89)
 getgenv().VisableColorOutline = Color3.fromRGB(255, 255, 255)
 getgenv().VisableColor = Color3.fromRGB(255, 255, 255)
+getgenv().PlayerInsideFovOutline = Color3.fromRGB(234, 154, 154)
+getgenv().PlayerInsideFovColor = Color3.fromRGB(234, 154, 154)
 getgenv().BoxTransparency = 0.5
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
+getgenv().PlayerInsideFovToggle = false
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -328,7 +331,19 @@ for _,v in pairs(plrs:GetChildren()) do
                         box.Color = getgenv().VisableColor
                     end
                 end
-    
+
+                local isFov = isPlayerWithinFOV(v)
+
+                if getgenv().PlayerInsideFovToggle == true then
+                    if isFov then
+                        boxoutline.Color = getgenv().VisableColorOutline
+                        box.Color = getgenv().VisableColor
+                    else
+                        boxoutline.Color = getgenv().NormalColorOutline
+                        box.Color = getgenv().NormalColor
+                    end
+                end
+
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
@@ -397,6 +412,18 @@ plrs.PlayerAdded:Connect(function(v)
                     end
                 end
     
+                local isFov = isPlayerWithinFOV(v)
+
+                if getgenv().PlayerInsideFovToggle == true then
+                    if isFov then
+                        boxoutline.Color = getgenv().VisableColorOutline
+                        box.Color = getgenv().VisableColor
+                    else
+                        boxoutline.Color = getgenv().NormalColorOutline
+                        box.Color = getgenv().NormalColor
+                    end
+                end
+
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
@@ -475,6 +502,17 @@ Toggles.VisableCheckyes:OnChanged(function()
     getgenv().VisableCheckEsp = Toggles.VisableCheckyes.Value
 end)
 
+MasterSwitch:AddToggle('infovcolorchange', {
+    Text = 'Player Inside Fov Color Change',
+    Default = false,
+    Tooltip = 'Changes the color of esp if player is inside fov',
+})
+
+Toggles.infovcolorchange:OnChanged(function()
+    getgenv().PlayerInsideFovToggle = Toggles.infovcolorchange.Value
+end)
+
+
 ColorSettings:AddLabel('Enemy Color'):AddColorPicker('ColorPicker-1', {
     Default = Color3.new(1, 0, 0),
     Title = 'Enemy Color Outline',
@@ -552,6 +590,26 @@ ColorSettings:AddLabel('Not Visable Color'):AddColorPicker('ColorPicker7', {
 
     Callback = function(Value)
         getgenv().VisableColor = Value
+    end
+})
+
+ColorSettings:AddLabel('Player Inside Fov Color Outline'):AddColorPicker('ColorPicker8', {
+    Default = Color3.new(0.921568, 0.929411, 0.627450),
+    Title = 'Player Inside Fov Color outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().PlayerInsideFovOutline = Value
+    end
+})
+
+ColorSettings:AddLabel('Player Inside Fov Color Color'):AddColorPicker('ColorPicker9', {
+    Default = Color3.new(0.921568, 0.929411, 0.627450),
+    Title = 'Player Inside Fov Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().PlayerInsideFovColor = Value
     end
 })
 
