@@ -287,6 +287,9 @@ local Tabs = {
 local tab1 = Tabs.Main:AddLeftTabbox()
 local AimAssistSetting = tab1:AddTab('Aim Assist')
 local FovSetting = tab1:AddTab('Fov Settings')
+local tab2 = Tabs.Main:AddLeftTabbox()
+local MasterSwitch = tab2:AddTab('Main Settings')
+local ColorSettings = tab2:AddTab('Color Settings')
 
 
 --fov settings
@@ -400,16 +403,6 @@ AimAssistSetting:AddToggle('Triggetbots', {
 
 Toggles.Triggetbots:OnChanged(function()
     getgenv().Triggerbot = Toggles.Triggetbots.Value
-end)
-
-AimAssistSetting:AddToggle('aimbot', {
-    Text = 'Aimbot',
-    Default = false,
-    Tooltip = 'Auto shoots at the player',
-})
-
-Toggles.aimbot:OnChanged(function()
-    getgenv().Aimbot = Toggles.aimbot.Value
 end)
 
 AimAssistSetting:AddToggle('TeamCheck', {
