@@ -338,9 +338,6 @@ for _,v in pairs(plrs:GetChildren()) do
                     if isFov then
                         boxoutline.Color = getgenv().PlayerInsideFovOutline
                         box.Color = getgenv().PlayerInsideFovColor
-                    else
-                        boxoutline.Color = getgenv().NormalColorOutline
-                        box.Color = getgenv().NormalColor
                     end
                 end
 
@@ -413,14 +410,11 @@ plrs.PlayerAdded:Connect(function(v)
                 end
     
                 local isFov = isPlayerWithinFOV(v)
-                
+
                 if getgenv().PlayerInsideFovToggle == true then
                     if isFov then
                         boxoutline.Color = getgenv().PlayerInsideFovOutline
                         box.Color = getgenv().PlayerInsideFovColor
-                    else
-                        boxoutline.Color = getgenv().NormalColorOutline
-                        box.Color = getgenv().NormalColor
                     end
                 end
 
