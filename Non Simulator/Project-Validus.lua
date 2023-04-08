@@ -323,7 +323,7 @@ for _,v in pairs(plrs:GetChildren()) do
                 local isVisible = isPlayerVisible(v)
     
                 if getgenv().VisableCheckEsp == true then
-                    if isVisible then
+                    if not isVisible then
                         boxoutline.Color = getgenv().VisableColorOutline
                         box.Color = getgenv().VisableColor
                     end
@@ -353,7 +353,6 @@ for _,v in pairs(plrs:GetChildren()) do
             end
         end)
     end
-    
     coroutine.wrap(boxesp)()
 end
 
@@ -386,8 +385,18 @@ plrs.PlayerAdded:Connect(function(v)
                     end
                 else
                     boxoutline.Color = getgenv().NormalColorOutline
-                    box.Color = getgenv().NormalColor 
+                    box.Color = getgenv().NormalColor
                 end
+    
+                local isVisible = isPlayerVisible(v)
+    
+                if getgenv().VisableCheckEsp == true then
+                    if not isVisible then
+                        boxoutline.Color = getgenv().VisableColorOutline
+                        box.Color = getgenv().VisableColor
+                    end
+                end
+    
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
@@ -398,7 +407,7 @@ plrs.PlayerAdded:Connect(function(v)
                     boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
                     boxoutline.Visible = true
-
+    
                     box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
                     box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
                     box.Visible = true
@@ -526,9 +535,9 @@ ColorSettings:AddLabel('Normal Color Outline'):AddColorPicker('ColorPicker5', {
     end
 })
 
-ColorSettings:AddLabel('Normal Color'):AddColorPicker('ColorPicker6', {
+ColorSettings:AddLabel('Not Visable Color Outline'):AddColorPicker('ColorPicker6', {
     Default = Color3.new(0.117647, 0.121568, 0.117647),
-    Title = 'Visable Color Outline',
+    Title = 'Not Visable Color Outline',
     Transparency = 0,
 
     Callback = function(Value)
@@ -536,9 +545,9 @@ ColorSettings:AddLabel('Normal Color'):AddColorPicker('ColorPicker6', {
     end
 })
 
-ColorSettings:AddLabel('Visable Color Outline'):AddColorPicker('ColorPicker7', {
+ColorSettings:AddLabel('Not Visable Color'):AddColorPicker('ColorPicker7', {
     Default = Color3.new(0.117647, 0.121568, 0.117647),
-    Title = 'Visable Color',
+    Title = 'Not Visable Color',
     Transparency = 0,
 
     Callback = function(Value)
