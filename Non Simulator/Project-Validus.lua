@@ -13,30 +13,10 @@ local camera = workspace.CurrentCamera
 local Fov = Drawing.new("Circle")
 local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local vu = game:GetService("VirtualUser")
 local WorldToViewportPoint = camera.WorldToViewportPoint
 local headoff = Vector3.new(0, 0.5, 0)
 local legoff = Vector3.new(0, 3, 0)
-local SpoofTable = { WalkSpeed = lplr.Character.Humanoid.WalkSpeed, JumpPower = lplr.Character.Humanoid.JumpPower }
-local Hooks = {}
-
-Hooks.__index = hookmetamethod(game, "__index", function(t, k)
-    if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
-        return SpoofTable[k]
-    end
-
-    return Hooks.__index(t, k)
-end)
-
-Hooks.__newindex = hookmetamethod(game, "__newindex", function(t, k, v)
-    if (not checkcaller() and t:IsA("Humanoid") and (k == "WalkSpeed" or k == "JumpPower")) then
-        SpoofTable[k] = v
-        return
-    end
-    
-    return Hooks.__newindex(t, k, v)
-end)
 
 getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
