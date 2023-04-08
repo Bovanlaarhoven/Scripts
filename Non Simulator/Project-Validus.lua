@@ -15,6 +15,12 @@ local DeadZone = Drawing.new("Circle")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local vu = game:GetService("VirtualUser")
+local WorldToViewportPoint = camera.WorldToViewportPoint
+local headoff = Vector3.new(0, 0.5, 0)
+local legoff = Vector3.new(0, 3, 0)
+getgenv().UseTeamColor = false
+getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
+getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -23,6 +29,8 @@ getgenv().Triggerbot = false
 getgenv().Distance = 100
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
+getgenv().boxesp = true
+getgenv().teamcheck = false
 
 DeadZone.Radius = 25
 DeadZone.Color = getgenv().DeadZoneColor
@@ -272,6 +280,123 @@ RunService.Heartbeat:Connect(function(deltaTime)
     end
 end)
 
+for _,v in pairs(plrs:GetChildren()) do
+    local boxoutline = Drawing.new("Square")
+    local box = Drawing.new("Square")
+
+    boxoutline.Visible = false
+    boxoutline.Color = Color3.fromRGB(0, 0, 0)
+    boxoutline.Thickness = 2
+    boxoutline.Transparency = 0
+    boxoutline.Filled = false
+
+    box.Visible = false
+    box.Color = Color3.fromRGB(43, 42, 42)
+    box.Thickness = 1
+    box.Transparency = 0
+    box.Filled = false
+
+    function boxesp()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
+                if getgenv().teamcheck == true then
+                    if getgenv().UseTeamColor == true then
+                        local teamColor = v.TeamColor.Color
+                        boxoutline.Color = teamColor
+                        box.Color = teamColor
+                    end
+                    if v.Team == lplr.Team then
+                        boxoutline.Color = Color3.fromRGB(0, 255, 0)
+                        box.Color = Color3.fromRGB(0, 255, 0)
+                    else
+                        boxoutline.Color = Color3.fromRGB(255, 0, 0)
+                        box.Color = Color3.fromRGB(255, 0, 0)
+                    end
+                else
+                    boxoutline.Color = Color3.fromRGB(0, 0, 0)
+                    box.Color = Color3.fromRGB(43, 42, 42)
+                end
+                local vector, onScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                local RootPart = v.Character.HumanoidRootPart
+                local Head = v.Character.Head
+                local RootPosition, RootVis = workspace.CurrentCamera:WorldToViewportPoint(RootPart.Position)
+                local HeadPosition = workspace.CurrentCamera:WorldToViewportPoint(Head.Position + headoff)
+                local LegPostion = workspace.CurrentCamera:WorldToViewportPoint(RootPart.Position - legoff) 
+                if onScreen then
+                    boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
+                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
+                    boxoutline.Visible = true
+
+                    box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
+                    box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
+                    box.Visible = true
+                else
+                    boxoutline.Visible = false
+                    box.Visible = false
+                end
+            else
+                boxoutline.Visible = false
+                box.Visible = false
+            end
+        end)
+    end
+    coroutine.wrap(boxesp)()
+end
+
+plrs.PlayerAdded:Connect(function(v)
+    local boxoutline = Drawing.new("Square")
+    local box = Drawing.new("Square")
+
+    boxoutline.Visible = false
+    boxoutline.Color = Color3.fromRGB(0, 0, 0)
+    boxoutline.Thickness = 2
+    boxoutline.Transparency = 0
+    boxoutline.Filled = false
+
+    box.Visible = false
+    box.Color = Color3.fromRGB(43, 42, 42)
+    box.Thickness = 1
+    box.transparency = 0
+    box.Filled = false
+    function boxesp()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
+                if getgenv().teamcheck == true then
+                    if v.Team == lplr.Team then
+                        boxoutline.Color = Color3.fromRGB(0, 255, 0)
+                        box.Color = Color3.fromRGB(0, 255, 0)
+                    else
+                        boxoutline.Color = Color3.fromRGB(255, 0, 0)
+                        box.Color = Color3.fromRGB(255, 0, 0)
+                    end        
+                end
+                local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
+                local RootPart = v.Character.HumanoidRootPart
+                local Head = v.Character.Head
+                local RootPosition, RootVis = WorldToViewportPoint(camera, RootPart.Position)
+                local HeadPosition = WorldToViewportPoint(camera, Head.Position + headoff)
+                local LegPostion = WorldToViewportPoint(camera, RootPart.Position - legoff) 
+                if onScreen then
+                    boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
+                    boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
+                    boxoutline.Visible = true
+
+                    box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
+                    box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
+                    box.Visible = true
+                else
+                    boxoutline.Visible = false
+                    box.Visible = false
+                end
+            else
+                boxoutline.Visible = false
+                box.Visible = false
+            end
+        end)
+    end
+    coroutine.wrap(boxesp)()
+end)
+
 local Window = Library:CreateWindow({
     Title = 'Project Validus',
     Center = false,
@@ -287,10 +412,41 @@ local Tabs = {
 local tab1 = Tabs.Main:AddLeftTabbox()
 local AimAssistSetting = tab1:AddTab('Aim Assist')
 local FovSetting = tab1:AddTab('Fov Settings')
-local tab2 = Tabs.Main:AddLeftTabbox()
+local tab2 = Tabs.Main:AddRightTabbox()
 local MasterSwitch = tab2:AddTab('Main Settings')
 local ColorSettings = tab2:AddTab('Color Settings')
 
+--masterSwitch
+
+MasterSwitch:AddToggle('EspSwitch', {
+    Text = 'Esp MasterSwitch',
+    Default = false,
+    Tooltip = 'Esp players',
+})
+
+Toggles.EspSwitch:OnChanged(function()
+    getgenv().boxesp = Toggles.EspSwitch.Value
+end)
+
+MasterSwitch:AddToggle('CheckTeam', {
+    Text = 'Team Check',
+    Default = false,
+    Tooltip = 'Changes the color of the esp depending on team',
+})
+
+Toggles.CheckTeam:OnChanged(function()
+    getgenv().teamcheck = Toggles.CheckTeam.Value
+end)
+
+ColorSettings:AddToggle('UseColor', {
+    Text = 'Use Team Color',
+    Default = false,
+    Tooltip = 'uses the team color',
+})
+
+Toggles.UseColor:OnChanged(function()
+    getgenv().UseTeamColor = Toggles.UseColor.Value
+end)
 
 --fov settings
 FovSetting:AddToggle('FovVisable', {
