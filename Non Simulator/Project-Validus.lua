@@ -25,8 +25,11 @@ getgenv().TeamColorOutline = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColorOutline = Color3.fromRGB(255, 0, 0)
 getgenv().NormalColor = Color3.fromRGB(89, 91, 89)
 getgenv().NormalColorOutline = Color3.fromRGB(89, 91, 89)
+getgenv().VisableColorOutline = Color3.fromRGB(255, 255, 255)
+getgenv().VisableColor = Color3.fromRGB(255, 255, 255)
 getgenv().BoxTransparency = 0.5
 getgenv().BoxFilled = false
+getgenv().VisableCheckEsp = false
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
@@ -316,6 +319,16 @@ for _,v in pairs(plrs:GetChildren()) do
                     boxoutline.Color = getgenv().NormalColorOutline
                     box.Color = getgenv().NormalColor
                 end
+    
+                local isVisible = isPlayerVisible(v)
+    
+                if getgenv().VisableCheckEsp == true then
+                    if isVisible then
+                        boxoutline.Color = getgenv().VisableColorOutline
+                        box.Color = getgenv().VisableColor
+                    end
+                end
+    
                 local vector, onScreen = WorldToViewportPoint(camera, v.Character.HumanoidRootPart.Position)
                 local RootPart = v.Character.HumanoidRootPart
                 local Head = v.Character.Head
@@ -326,7 +339,7 @@ for _,v in pairs(plrs:GetChildren()) do
                     boxoutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
                     boxoutline.Position = Vector2.new(RootPosition.X - boxoutline.Size.X / 2, RootPosition.Y - boxoutline.Size.Y / 2)
                     boxoutline.Visible = true
-
+    
                     box.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPostion.Y)
                     box.Position = Vector2.new(RootPosition.X - box.Size.X / 2, RootPosition.Y - box.Size.Y / 2)
                     box.Visible = true
@@ -340,6 +353,7 @@ for _,v in pairs(plrs:GetChildren()) do
             end
         end)
     end
+    
     coroutine.wrap(boxesp)()
 end
 
@@ -358,7 +372,7 @@ plrs.PlayerAdded:Connect(function(v)
     box.Thickness = 1
     box.transparency = getgenv().BoxTransparency
     box.Filled = getgenv().BoxFilled
-    
+
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
             if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
@@ -442,6 +456,16 @@ Toggles.CheckTeam:OnChanged(function()
     getgenv().teamcheck = Toggles.CheckTeam.Value
 end)
 
+MasterSwitch:AddToggle('VisableCheckyes', {
+    Text = 'Wall Check',
+    Default = false,
+    Tooltip = 'Changes the color of esp if player not visable',
+})
+
+Toggles.VisableCheckyes:OnChanged(function()
+    getgenv().VisableCheckEsp = Toggles.VisableCheckyes.Value
+end)
+
 ColorSettings:AddLabel('Enemy Color'):AddColorPicker('ColorPicker-1', {
     Default = Color3.new(1, 0, 0),
     Title = 'Enemy Color Outline',
@@ -499,6 +523,26 @@ ColorSettings:AddLabel('Normal Color Outline'):AddColorPicker('ColorPicker5', {
 
     Callback = function(Value)
         getgenv().NormalColorOutline = Value
+    end
+})
+
+ColorSettings:AddLabel('Normal Color'):AddColorPicker('ColorPicker6', {
+    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Title = 'Visable Color Outline',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().VisableColorOutline = Value
+    end
+})
+
+ColorSettings:AddLabel('Visable Color Outline'):AddColorPicker('ColorPicker7', {
+    Default = Color3.new(0.117647, 0.121568, 0.117647),
+    Title = 'Visable Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        getgenv().VisableColor = Value
     end
 })
 
