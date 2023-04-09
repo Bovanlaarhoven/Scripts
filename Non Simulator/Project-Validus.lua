@@ -279,7 +279,7 @@ local highlights = {}
 local function updateHighlights()
     for _,v in pairs(game:GetService("Players"):GetPlayers()) do
         local highlight = highlights[v]
-        if getgenv().Highlight and v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= game:GetService("Players").LocalPlayer and v.Character.Humanoid.Health > 0 then
+        if getgenv().Highlight and v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
             highlight.FillTransparency = getgenv().HighlightTransparency
             if getgenv().teamcheck == true then
                 if v.Team ~= lplr.Team then
@@ -298,7 +298,7 @@ local function updateHighlights()
 
             if getgenv().VisibleCheck == true then
                 if not isVisible then
-                    highlight.OutlineColor = getgenv().VisableColorOutline
+                    highlight.OutlineColor = getgenv().VisibleColorOutline
                     highlight.FillColor = getgenv().VisibleColor
                 end
             end
@@ -319,7 +319,6 @@ local function updateHighlights()
     end
 end
 
-
 local function playerAdded(player)
     local highlight = Instance.new("Highlight")
     highlight.Parent = player.Character
@@ -336,19 +335,17 @@ local function playerRemoving(player)
     end
 end
 
-for _,player in pairs(game:GetService("Players"):GetPlayers()) do
+-- Initialize the highlights for all current players
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
     playerAdded(player)
 end
 
+-- Connect the PlayerAdded and PlayerRemoving events to update the highlights accordingly
 game:GetService("Players").PlayerAdded:Connect(playerAdded)
 game:GetService("Players").PlayerRemoving:Connect(playerRemoving)
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    updateHighlights()
-end)
-
-
-
+-- Call the updateHighlights function every frame to keep the highlights up to date
+game:GetService("RunService").RenderStepped:Connect(updateHighlights)
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
