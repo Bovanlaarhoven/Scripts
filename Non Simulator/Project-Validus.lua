@@ -28,20 +28,21 @@ getgenv().VisableColorOutline = Color3.fromRGB(255, 255, 255)
 getgenv().VisableColor = Color3.fromRGB(255, 255, 255)
 getgenv().PlayerInsideFovOutline = Color3.fromRGB(234, 154, 154)
 getgenv().PlayerInsideFovColor = Color3.fromRGB(234, 154, 154)
+getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
+getgenv().FovColor = Color3.fromRGB(255, 255, 255)
 getgenv().BoxTransparency = 0.5
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
 getgenv().PlayerInsideFovToggle = false
+getgenv().Distance = 1
 
 getgenv().Assist = false
 getgenv().TeamCheck = false
+getgenv().teamcheck = false
 getgenv().VisableCheck = false
 getgenv().Triggerbot = false
-getgenv().Distance = 1
-getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
-getgenv().FovColor = Color3.fromRGB(255, 255, 255)
 getgenv().boxesp = true
-getgenv().teamcheck = false
+getgenv().Highlight = false
 
 DeadZone.Radius = 25
 DeadZone.Color = getgenv().DeadZoneColor
@@ -272,6 +273,51 @@ RunService.Heartbeat:Connect(function(deltaTime)
     end
 end)
 
+for _,v in pairs(plrs:GetPlayers()) do
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = v.Character
+    highlight.Name =  "" .. math.random(1, 100000)
+    highlight.Color = Color3.fromRGB(255, 255, 255)
+    highlight.Adornee = v.Character.HumanoidRootPart
+    highlight.Visible = false
+
+
+    function highlightesp()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().Highlight == true then
+                if getgenv().teamcheck == true then
+                    if v.Team ~= lplr.Team then
+                        highlight.Color = getgenv().EnemyColor
+                    else
+                        highlight.Color = getgenv().TeamColor
+                    end
+                else
+                    highlight.Color = getgenv().NormalColor
+                end
+                
+                local isVisible = isPlayerVisible(v)
+
+                if getgenv().VisibleCheck == true then
+                    if not isVisible then
+                        highlight.Color = getgenv().VisibleColor
+                    end
+                end
+
+                local isFov = isPlayerWithinFOV(v)
+
+                if getgenv().PlayerInsideFovToggle == true then
+                    if isFov then
+                        highlight.Color = getgenv().PlayerInsideFovColor
+                    end
+                end
+
+                highlight.Visible = true
+
+            end
+        end)
+    end
+end
+
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
     local box = Drawing.new("Square")
@@ -445,7 +491,7 @@ local ColorSettings = tab2:AddTab('Box Settings')
 --masterSwitch
 
 MasterSwitch:AddToggle('EspSwitch', {
-    Text = 'Esp MasterSwitch',
+    Text = 'Esp Masterswitch',
     Default = false,
     Tooltip = 'Esp players',
 })
@@ -453,6 +499,17 @@ MasterSwitch:AddToggle('EspSwitch', {
 Toggles.EspSwitch:OnChanged(function()
     getgenv().boxesp = Toggles.EspSwitch.Value
 end)
+
+MasterSwitch:AddToggle('EspSwitchhighlight', {
+    Text = 'Esp Masterswitch (highlight)',
+    Default = false,
+    Tooltip = 'Esp players',
+})
+
+Toggles.EspSwitchhighlight:OnChanged(function()
+    getgenv().boxesp = Toggles.EspSwitchhighlight.Value
+end)
+
 
 MasterSwitch:AddToggle('CheckTeam', {
     Text = 'Team Check',
