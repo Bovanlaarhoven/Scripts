@@ -30,7 +30,8 @@ getgenv().PlayerInsideFovOutline = Color3.fromRGB(234, 154, 154)
 getgenv().PlayerInsideFovColor = Color3.fromRGB(234, 154, 154)
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
-getgenv().BoxTransparency = 0.5
+getgenv().BoxTransparency = 0
+getgenv().HighlightTransparency = 0
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
 getgenv().PlayerInsideFovToggle = false
@@ -273,50 +274,80 @@ RunService.Heartbeat:Connect(function(deltaTime)
     end
 end)
 
-for _,v in pairs(plrs:GetPlayers()) do
-    local highlight = Instance.new("Highlight")
-    highlight.Parent = v.Character
-    highlight.Name =  "" .. math.random(1, 100000)
-    highlight.Color = Color3.fromRGB(255, 255, 255)
-    highlight.Adornee = v.Character.HumanoidRootPart
-    highlight.Visible = false
+local highlights = {}
 
-
-    function highlightesp()
-        game:GetService("RunService").RenderStepped:Connect(function()
-            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().Highlight == true then
-                if getgenv().teamcheck == true then
-                    if v.Team ~= lplr.Team then
-                        highlight.Color = getgenv().EnemyColor
-                    else
-                        highlight.Color = getgenv().TeamColor
-                    end
+local function updateHighlights()
+    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
+        local highlight = highlights[v]
+        if getgenv().Highlight and v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= game:GetService("Players").LocalPlayer and v.Character.Humanoid.Health > 0 then
+            highlight.FillTransparency = getgenv().HighlightTransparency
+            if getgenv().teamcheck == true then
+                if v.Team ~= lplr.Team then
+                    highlight.OutlineColor = getgenv().EnemyColorOutline
+                    highlight.FillColor = getgenv().EnemyColor
                 else
-                    highlight.Color = getgenv().NormalColor
+                    highlight.OutlineColor = getgenv().TeamColorOutline
+                    highlight.FillColor = getgenv().TeamColor
                 end
-                
-                local isVisible = isPlayerVisible(v)
-
-                if getgenv().VisibleCheck == true then
-                    if not isVisible then
-                        highlight.Color = getgenv().VisibleColor
-                    end
-                end
-
-                local isFov = isPlayerWithinFOV(v)
-
-                if getgenv().PlayerInsideFovToggle == true then
-                    if isFov then
-                        highlight.Color = getgenv().PlayerInsideFovColor
-                    end
-                end
-
-                highlight.Visible = true
-
+            else
+                highlight.OutlineColor = getgenv().NormalColorOutline
+                highlight.FillColor = getgenv().NormalColor
             end
-        end)
+
+            local isVisible = isPlayerVisible(v)
+
+            if getgenv().VisibleCheck == true then
+                if not isVisible then
+                    highlight.OutlineColor = getgenv().VisableColorOutline
+                    highlight.FillColor = getgenv().VisibleColor
+                end
+            end
+
+            local isFov = isPlayerWithinFOV(v)
+
+            if getgenv().PlayerInsideFovToggle == true then
+                if isFov then
+                    highlight.OutlineColor = getgenv().PlayerInsideFovOutline
+                    highlight.FillColor = getgenv().PlayerInsideFovColor
+                end
+            end
+
+            highlight.Enabled = true
+        else
+            highlight.Enabled = false
+        end
     end
 end
+
+
+local function playerAdded(player)
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = player.Character
+    highlight.Name =  "" .. math.random(1, 100000)
+    highlight.Adornee = player.Character
+    highlights[player] = highlight
+end
+
+local function playerRemoving(player)
+    local highlight = highlights[player]
+    if highlight ~= nil then
+        highlight:Destroy()
+        highlights[player] = nil
+    end
+end
+
+for _,player in pairs(game:GetService("Players"):GetPlayers()) do
+    playerAdded(player)
+end
+
+game:GetService("Players").PlayerAdded:Connect(playerAdded)
+game:GetService("Players").PlayerRemoving:Connect(playerRemoving)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    updateHighlights()
+end)
+
+
 
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
@@ -507,7 +538,7 @@ MasterSwitch:AddToggle('EspSwitchhighlight', {
 })
 
 Toggles.EspSwitchhighlight:OnChanged(function()
-    getgenv().boxesp = Toggles.EspSwitchhighlight.Value
+    getgenv().Highlight = Toggles.EspSwitchhighlight.Value
 end)
 
 
@@ -652,6 +683,19 @@ ColorSettings:AddSlider('Trans', {
 
     Callback = function(Value)
         getgenv().BoxTransparency = Value
+    end
+})
+
+ColorSettings:AddSlider('Trans', {
+    Text = 'Highlight fill Transparency',
+    Default = 0,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        getgenv().HighlightTransparency = Value
     end
 })
 
