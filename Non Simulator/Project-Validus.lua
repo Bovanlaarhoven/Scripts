@@ -30,7 +30,7 @@ getgenv().PlayerInsideFovOutline = Color3.fromRGB(234, 154, 154)
 getgenv().PlayerInsideFovColor = Color3.fromRGB(234, 154, 154)
 getgenv().DeadZoneColor = Color3.fromRGB(0, 0, 0)
 getgenv().FovColor = Color3.fromRGB(255, 255, 255)
-getgenv().BoxTransparency = 0
+getgenv().BoxTransparency = 0.5
 getgenv().HighlightTransparency = 0
 getgenv().BoxFilled = false
 getgenv().VisableCheckEsp = false
@@ -319,9 +319,35 @@ local function updateHighlights()
     end
 end
 
+
+local function playerAdded(player)
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = player.Character
+    highlight.Name =  "" .. math.random(1, 100000)
+    highlight.Adornee = player.Character
+    highlights[player] = highlight
+end
+
+local function playerRemoving(player)
+    local highlight = highlights[player]
+    if highlight ~= nil then
+        highlight:Destroy()
+        highlights[player] = nil
+    end
+end
+
+for _,player in pairs(game:GetService("Players"):GetPlayers()) do
+    playerAdded(player)
+end
+
+game:GetService("Players").PlayerAdded:Connect(playerAdded)
+game:GetService("Players").PlayerRemoving:Connect(playerRemoving)
+
 game:GetService("RunService").RenderStepped:Connect(function()
     updateHighlights()
 end)
+
+
 
 for _,v in pairs(plrs:GetChildren()) do
     local boxoutline = Drawing.new("Square")
