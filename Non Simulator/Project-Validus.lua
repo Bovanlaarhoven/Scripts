@@ -187,7 +187,6 @@ local bodyPartPresets = {
     LeftHand = Vector3.new(-1, 0, 0)
 }
 
-
 local function updateDeadZonePosition()
     local playersWithinFOV = getPlayersWithinFOV()
     if #playersWithinFOV > 0 then
@@ -196,7 +195,7 @@ local function updateDeadZonePosition()
             for _, player in ipairs(playersWithinFOV) do
                 if player ~= lplr and player.Team ~= lplr.Team then
                     closestPlayer = closestPlayer or player
-                    if player.Character and player.Character:FindFirstChild("Humanoid") then
+                    if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
                         closestPlayer = player
                         break
                     end
@@ -208,8 +207,9 @@ local function updateDeadZonePosition()
         if closestPlayer then
             local character = closestPlayer.Character
             if character then
-                local rootPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso")
-                if rootPart then
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid and humanoid.RootPart then
+                    local rootPart = humanoid.RootPart
                     local bodyPart = character:FindFirstChild(desiredBodyPart)
                     if not bodyPart or not bodyPart:IsDescendantOf(character) then
                         bodyPart = rootPart
@@ -256,8 +256,6 @@ local function updateDeadZonePosition()
     
     DeadZone.Position = DeadZone.Position:Lerp(Fov.Position, 0.5)
 end
-
-
 
 
 local function updateFOV()
@@ -368,7 +366,7 @@ for _,v in pairs(plrs:GetChildren()) do
     box.Filled = getgenv().BoxFilled
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
-            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character.Humanoid:FindFirstChild("RootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and getgenv().boxesp == true then
                 if getgenv().teamcheck == true then
                     if v.Team == lplr.Team then
                         boxoutline.Color = getgenv().TeamColorOutline
