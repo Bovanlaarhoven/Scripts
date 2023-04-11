@@ -1,9 +1,7 @@
-@@ -1,839 +1,35 @@
 local player = game:GetService("Players").LocalPlayer
 local localname = player.Name
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
-setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Wild West",
