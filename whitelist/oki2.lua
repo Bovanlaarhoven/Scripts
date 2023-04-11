@@ -1,0 +1,1 @@
+print("oki2.lua loaded")
