@@ -6,6 +6,7 @@ for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
     v:Disable()
 end
 
+local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function")
 local plrs = game:GetService('Players')
 local lplr = plrs.LocalPlayer
 local mouse = lplr:GetMouse()
@@ -921,6 +922,27 @@ MenuGroup:AddToggle('Watermark', {
 Toggles.Watermark:OnChanged(function()
     Library:SetWatermarkVisibility(Toggles.Watermark.Value)
 end)
+
+local MyButton = MenuGroup:AddButton('Join Discord', function()
+    Request(
+        {
+            Url = "http://127.0.0.1:6463/rpc?v=1",
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json",
+                ["origin"] = "https://discord.com",
+            },
+            Body = game:GetService("HttpService"):JSONEncode(
+                {
+                    ["args"] = {
+                        ["code"] = "YvwEyH2W6T",
+                    },
+                    ["cmd"] = "INVITE_BROWSER",
+                    ["nonce"] = "."
+                })
+        })
+end)
+
 
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
