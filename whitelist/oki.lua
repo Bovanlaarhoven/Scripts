@@ -1,7 +1,10 @@
-_G.Key = "my[key1]"
-
+local Time = os.clock()
 local Request = (syn and syn.request or request or http and http.request or http_request) or error("No request function found")
+
+print("Loading key list." .. " (" .. os.clock() - Time .. "s)")
 local saves = loadstring(game:HttpGet("https://pastebin.com/raw/yH20wkeZ"))()
+
+print("Fetching response." .. " (" .. os.clock() - Time .. "s)")
 local body = Request({Url = "https://httpbin.org/get", Method = "GET"}).Body
 local decode = game:GetService("HttpService"):JSONDecode(body)
 
@@ -19,9 +22,10 @@ for _, validKey in ipairs(saves) do
    end
 end
 
-
+print("Checking key...")
 if keyMatch then
     print("Whitelisted")
 else
    warn("Invalid key provided. Loadstring not executed.")
 end
+print("Finished." .. " (" .. os.clock() - Time .. "s)
