@@ -1,4 +1,4 @@
-local inputString = "hello world"
+local inputString = "my[key1]"
 local byteString = ""
 for i = 1, #inputString do
     local byte = string.byte(inputString, i)
