@@ -28,4 +28,4 @@ if keyMatch then
 else
    warn("Invalid key provided. Loadstring not executed.")
 end
-print("Finished." .. " (" .. os.clock() - Time .. "s)
+print("Finished." .. " (" .. os.clock() - Time .. "s)")
