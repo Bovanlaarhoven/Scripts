@@ -24,8 +24,8 @@ end
 
 print("Checking key...")
 if keyMatch then
-    print("Whitelisted")
+   print("Whitelisted")
+   print("Finished." .. " (" .. os.clock() - Time .. "s)")
 else
    warn("Invalid key provided. Loadstring not executed.")
 end
-print("Finished." .. " (" .. os.clock() - Time .. "s)")
