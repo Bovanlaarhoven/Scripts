@@ -923,6 +923,16 @@ Toggles.Watermark:OnChanged(function()
     Library:SetWatermarkVisibility(Toggles.Watermark.Value)
 end)
 
+local MyButton = MenuGroup:AddButton({
+    Text = 'Join Discord',
+    Func = function()
+        Library:Unload()
+    end,
+    DoubleClick = false,
+    Tooltip = 'Unload Script'
+})
+
+
 local MyButton = MenuGroup:AddButton('Join Discord', function()
     Request(
         {
