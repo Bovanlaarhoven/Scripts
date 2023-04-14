@@ -132,8 +132,6 @@ local function isPlayerVisible(player)
     end
 end
 
-
-
 local function getPlayersWithinFOV()
     local playersWithinFOV = {}
     local players = game:GetService("Players"):GetPlayers()
