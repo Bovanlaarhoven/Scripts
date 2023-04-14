@@ -200,6 +200,7 @@ local function updateDeadZonePosition()
         else
             closestPlayer = getClosestPlayer(playersWithinFOV)
         end
+
         if closestPlayer then
             local character = closestPlayer.Character
             if character then
