@@ -1,6 +1,6 @@
 local rootpart = game.Players.LocalPlayer.Character.HumanoidRootPart
-local workspace = workspace:GetChildren()
-local group = workspace.GroupBuildStructures:GetChildren()
+local workspace = game:GetService("Workspace"):GetChildren()
+local group = game:GetService("Workspace").GroupBuildStructures:GetChildren()
 
 while (task.wait(0.1)) do
     for i = 1, #workspace do
