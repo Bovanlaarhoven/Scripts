@@ -15,7 +15,6 @@ repeat wait() until game:IsLoaded()
 local Tablefind = table.find
 local players = game:GetService("Players")
 local lplr = players.LocalPlayer
-local encrypt
 local camera = workspace.CurrentCamera
 local runservice = game:GetService("RunService")
 
@@ -410,8 +409,9 @@ local Window = Library:CreateWindow({
     Title = 'Parkour Script by Hydra#8270',
     Center = true,
     AutoShow = true,
-    TabPadding = 8
+    TabPadding = 4
 })
+
 local Tabs = {
     Main = Window:AddTab('Main'),
     Visuals = Window:AddTab('Visuals'),
