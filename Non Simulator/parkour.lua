@@ -61,10 +61,6 @@ do
         main = getupvalue(getsenv(lplr.Backpack:WaitForChild("Main")).resetAmmo, 1)
         getsenv(Main).adminLevel = 13
         getfenv().script = Main
-        encrypt = function(string)
-            local _, v = pcall(getsenv(Main).encrypt, string)
-            return v
-        end
     end
     
     onCharacterAdded(lplr.Character)
