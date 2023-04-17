@@ -1,4 +1,6 @@
 local lplr = game:GetService("Players").LocalPlayer
+local rootpart = lplr.Character.HumanoidRootPart
+local workspace = game:GetService("Workspace"):GetChildren()
 
 while (task.wait(0.1)) do
     for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
