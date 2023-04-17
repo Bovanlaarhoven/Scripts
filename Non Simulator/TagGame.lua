@@ -9,7 +9,6 @@ while (task.wait(0.1)) do
                         repeat until lplr.Character.HumanoidRootPart ~= nil
                     else
                         lplr.Character.HumanoidRootPart.CFrame = v.CFrame
-                        wait(0.1)
                     end
                 end
             end
