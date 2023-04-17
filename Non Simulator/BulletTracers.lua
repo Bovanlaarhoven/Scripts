@@ -1,4 +1,4 @@
-local lifetime = 5 -- seconds
+local lifetime = 5
 local material = Enum.Material.ForceField
 local thickness = 0.1
 local color = Color3.fromRGB(0, 120, 255)
@@ -22,10 +22,10 @@ end
 setreadonly(mt, false)
 mt.__namecall = newcclosure(function(self, ...)
 	local args = {...}
-	if getnamecallmethod() == "FireServer" and self.Name == "Bullets" and tick() - lasthittick > 0.005 then
+	if getnamecallmethod() == "FireServer" and self.Name == "ProjectileEvent" and tick() - lasthittick > 0.005 then
 		lasthittick = tick()
 		spawn(function()
-			local beam = createBeam(lp.Character.Head.CFrame.p, args[2])
+			local beam = createBeam(lp.Character.RightHand.CFrame.p, args[5])
 			for i = 1, 60 * lifetime do
 				rs:Wait()
 				beam.Transparency = i / (60 * lifetime)
