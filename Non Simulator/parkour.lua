@@ -210,6 +210,7 @@ local function reset()
     for _,v in pairs(game:GetService("ReplicatedStorage").PlayerRuntimeData[lplr.Name]:GetDescendants()) do
         if v.Name ~= Support[v.Name] then
             game:GetService("ReplicatedStorage").MissionReroll:FireServer(v.Name)
+            wait()
         end
     end
 end
@@ -709,7 +710,7 @@ end)
 local MyButton = Other:AddButton('Unlock all spawns', function()
     for _,v in pairs(game:GetService("Workspace"):GetChildren()) do
         if v.ClassName == "SpawnLocation" then
-            lplr.Character.HumanoidRootPart.CFrame = v.CFrame
+            lplr.Character.HumanoidRootPart.CFrame = v.CFrame + 1.5
             wait(1)
         end
     end
