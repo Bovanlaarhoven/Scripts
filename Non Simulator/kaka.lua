@@ -236,9 +236,9 @@ local function updateDeadZonePosition()
                             end
                             
                             if isPlayerVisibleToggle(closestPlayer) then
-                                vu:Button1Down(Vector2.new())
+                                vu:Button1Down(mousePos)
                                 wait()
-                                vu:Button1Up(moveVector.X, moveVector.Y)
+                                vu:Button1Up(mousePos)
                             end
                         end
                         
