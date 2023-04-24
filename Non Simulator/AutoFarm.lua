@@ -1,34 +1,25 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
-if character and character:FindFirstChild("Humanoid") then
-    local closestDrop = nil
-    local closestDistance = math.huge
-    
-    for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v.Name == "MoneyDrop" then
-            local distance = (v.Position - character.HumanoidRootPart.Position).Magnitude
-            
-            if distance < closestDistance then
-                closestDrop = v
-                closestDistance = distance
-            end
-        end
+function moveToMoneyDrop(moneyDrop)
+    local targetPosition = moneyDrop.Position
+
+    local tweenInfo = TweenInfo.new(1) -- 1 second duration
+    local tween = game:GetService("TweenService"):Create(character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(targetPosition)})
+    tween:Play()
+
+    while (targetPosition - character.HumanoidRootPart.Position).Magnitude > 5 do
+        wait()
     end
-    
-    if closestDrop then
-        local targetPosition = closestDrop.Position
 
-        local tweenInfo = TweenInfo.new(1) -- 1 second duration
-        local tween = game:GetService("TweenService"):Create(character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(targetPosition)})
-        tween:Play()
+    tween:Cancel()
+    fireclickdetector(moneyDrop.ClickDetector)
+end
 
-        while (targetPosition - character.HumanoidRootPart.Position).Magnitude > 5 do
-            wait()
+while wait(1) do
+    for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v.Name == "MoneyDrop" and (v.Position - character.HumanoidRootPart.Position).Magnitude <= 10 then
+            moveToMoneyDrop(v)
         end
-
-        tween:Cancel()
-        fireclickdetector(closestDrop.ClickDetector)
-        wait(5)
     end
 end
