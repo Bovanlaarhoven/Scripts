@@ -41,7 +41,7 @@ local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 local Window = Library:CreateWindow({
-    Title = 'Parkour Script by Hydra#8270',
+    Title = 'Script by Hydra#8270',
     Center = true,
     AutoShow = true,
     TabPadding = 4
