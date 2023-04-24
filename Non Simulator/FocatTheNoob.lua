@@ -48,7 +48,7 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-   Legut = Window:AddTab('Legit'),
+   Legit = Window:AddTab('Legit'),
    Rage = Window:AddTab('Rage'),
    Players = Window:AddTab('Players'),
    Visuals = Window:AddTab('Visuals'),
@@ -58,8 +58,8 @@ local Tabs = {
    ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local Aiming = Tabs.Main:AddLeftGroupbox('Aiming')
-local AimVisuals = Tabs.Main:AddLeftGroupbox('Aim Visuals')
+local Aiming = Tabs.Legit:AddLeftGroupbox('Aiming')
+local AimVisuals = Tabs.Legit:AddLeftGroupbox('Aim Visuals')
 
 
 Library:SetWatermark('Script By Hydra#8270')
