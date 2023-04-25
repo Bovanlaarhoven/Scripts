@@ -100,7 +100,7 @@ end
 
 local function Store()
     local args1 = "StoreFruit"
-    local args2 = StoreNames
+    local args2 = StoreNames[FruitName]
     local args3 = workspace.Characters[lplr.Name][FruitName]
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(args1, args2, args3)
 end
