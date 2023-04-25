@@ -41,7 +41,7 @@ local Fruits = {
 
 local function getfruit()
     local FruitFound = false
-    for i,v in pairs(Fruits) do
+    for _,v in pairs(Fruits) do
         if game:GetService("Workspace"):FindFirstChild(v) then
             print("Fruit Found: " .. v)
             FruitFound = true
