@@ -49,41 +49,42 @@ local Fruits = {
 }
 
 local StoreNames = {
-    Fruits[2] == "Spin-Spin",
-    Fruits[3] == "Chop-Chop",
-    Fruits[4] == "Spring-Spring",
-    Fruits[5] == "Bomb-Bomb",
-    Fruits[6] == "Smoke-Smoke",
-    Fruits[7] == "Spike-Spike",
-    Fruits[8] == "Flame-Flame",
-    Fruits[9] == "Falcon-Falcon",
-    Fruits[10] == "Ice-Ice",
-    Fruits[11] == "Sand-Sand",
-    Fruits[12] == "Dark-Dark",
-    Fruits[13] == "Revive-Revive",
-    Fruits[14] == "Diamond-Diamond",
-    Fruits[15] == "Light-Light",
-    Fruits[16] == "Rubber-Rubber",
-    Fruits[17] == "Barrier-Barrier",
-    Fruits[18] == "Magma-Magma",
-    Fruits[19] == "Quake-Quake",
-    Fruits[20] == "Buddha-Buddha",
-    Fruits[21] == "Love-Love",
-    Fruits[22] == "Spider-Spider",
-    Fruits[23] == "Pheonix-Pheonix",
-    Fruits[24] == "Portal-Portal",
-    Fruits[25] == "Rumble-Rumble",
-    Fruits[26] == "Paw-Paw",
-    Fruits[27] == "Blizzard-Blizzard",
-    Fruits[28] == "Gravity-Gravity",
-    Fruits[29] == "Dough-Dough",
-    Fruits[30] == "Shadow-Shadow",
-    Fruits[31] == "Venom-Venom",
-    Fruits[32] == "Control-Control",
-    Fruits[33] == "Spirit-Spirit",
-    Fruits[34] == "Dragon-Dragon",
-    Fruits[35] == "Leopard-Leopard",
+    ["Spin Fruit"] = "Spin-Spin",
+    ["Chop Fruit"] = "Chop-Chop",
+    ["Spring Fruit"] = "Spring-Spring",
+    ["Bomb Fruit"] = "Bomb-Bomb",
+    ["Smoke Fruit"] = "Smoke-Smoke",
+    ["Spike Fruit"] = "Spike-Spike",
+    ["Flame Fruit"] = "Flame-Flame",
+    ["Falcon Fruit"] = "Falcon-Falcon",
+    ["Ice Fruit"] = "Ice-Ice",
+    ["Sand Fruit"] = "Sand-Sand",
+    ["Dark Fruit"] = "Dark-Dark",
+    ["Revive Fruit"] = "Revive-Revive",
+    ["Diamond Fruit"] = "Diamond-Diamond",
+    ["Light Fruit"] = "Light-Light",
+    ["Rubber Fruit"] = "Rubber-Rubber",
+    ["Barrier Fruit"] = "Barrier-Barrier",
+    ["Magma Fruit"] = "Magma-Magma",
+    ["Quake Fruit"] = "Quake-Quake",
+    ["Buddha Fruit"] = "Buddha-Buddha",
+    ["Love Fruit"] = "Love-Love",
+    ["Spider Fruit"] = "Spider-Spider",
+    ["Phoenix Fruit"] = "Phoenix-Phoenix",
+    ["Portal Fruit"] = "Portal-Portal",
+    ["Rumble Fruit"] = "Rumble-Rumble",
+    ["Paw Fruit"] = "Paw-Paw",
+    ["Blizzard Fruit"] = "Blizzard-Blizzard",
+    ["Gravity Fruit"] = "Gravity-Gravity",
+    ["Dough Fruit"] = "Dough-Dough",
+    ["Shadow Fruit"] = "Shadow-Shadow",
+    ["Venom Fruit"] = "Venom-Venom",
+    ["Control Fruit"] = "Control-Control",
+    ["Spirit Fruit"] = "Spirit-Spirit",
+    ["Dragon Fruit"] = "Dragon-Dragon",
+    ["Leopard Fruit"] = "Leopard-Leopard",
 }
+
 
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
@@ -100,7 +101,7 @@ end
 
 local function Store()
     local args1 = "StoreFruit"
-    local args2 = StoreNames[FruitName]
+    local args2 = StoreNames
     local args3 = workspace.Characters[lplr.Name][FruitName]
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(args1, args2, args3)
 end
