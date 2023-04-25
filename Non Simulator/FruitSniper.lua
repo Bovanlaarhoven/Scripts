@@ -1,10 +1,11 @@
 repeat wait() until game:IsLoaded()
+local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
 
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 local TweenService = game:GetService("TweenService")
-_G.TweenSpeed = 10
+_G.TweenSpeed = 5
 local TweenInfo = TweenInfo.new(_G.TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
 local FruitName = "nil"
 local FruitFound = false
@@ -86,7 +87,7 @@ local StoreNames = {
 
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
-    local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
+    wait(5)
     module:Teleport(game.PlaceId)
 end
 
