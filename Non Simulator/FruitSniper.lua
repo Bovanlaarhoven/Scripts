@@ -88,7 +88,7 @@ local StoreNames = {
 
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
-    wait(5)
+    wait(1)
     module:Teleport(game.PlaceId)
 end
 
@@ -100,11 +100,17 @@ local function NotFound(FruitFound)
 end
 
 local function Store()
+    local storeName = StoreNames[FruitName]
+    if not storeName then
+        print("Store name not found for fruit: " .. FruitName)
+        return
+    end
     local args1 = "StoreFruit"
-    local args2 = StoreNames
+    local args2 = storeName
     local args3 = workspace.Characters[lplr.Name][FruitName]
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(args1, args2, args3)
 end
+
 
 local function findfruit()
     local FruitFound = false
