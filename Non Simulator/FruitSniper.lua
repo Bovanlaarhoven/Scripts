@@ -7,9 +7,8 @@ local lcharacter = lplr.Character
 local TweenService = game:GetService("TweenService")
 _G.TweenSpeed = 5
 local TweenInfo = TweenInfo.new(_G.TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
-local FruitName = "nil"
+local FruitName
 local FruitFound = false
-local FruitPickedUp = false
 
 local Fruits = {
     "Spin Fruit",
@@ -105,37 +104,36 @@ local function Store()
         print("Store name not found for fruit: " .. FruitName)
         return
     end
-    local args1 = "StoreFruit"
+
     local args2 = storeName
     local args3 = workspace.Characters[lplr.Name][FruitName]
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(args1, args2, args3)
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit", args2, args3)
 end
 
 
 local function findfruit()
-    local FruitFound = false
     for _,v in pairs(Fruits) do
         if game:GetService("Workspace"):FindFirstChild(v) then
             print("Fruit Found: " .. v)
             FruitName = v
-            FruitFound = true
             local tween = TweenService:Create(lcharacter.HumanoidRootPart, TweenInfo, {CFrame = game:GetService("Workspace")[v].Fruit.CFrame})
             tween:Play()
             tween.Completed:Connect(function()
-                FruitPickedUp = true 
+                Store()
             end)
+            return true
         end
     end
     print("Function called. FruitFound = " .. tostring(FruitFound))
-    return FruitFound
+    return false
 end
 
 if findfruit() then
-    if FruitPickedUp then
-        Store()
-    end
+    -- do nothing, the Store() function is called inside the tween.Completed event
 else
     NotFound(FruitFound)
 end
+
+
 
 findfruit()
