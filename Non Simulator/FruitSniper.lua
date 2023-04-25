@@ -1,12 +1,14 @@
 repeat wait() until game:IsLoaded()
-mousemoveabs(706, 531)
-mouse1click()
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
 
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 local TweenService = game:GetService("TweenService")
-local TweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
+_G.TweenSpeed = 10
+local TweenInfo = TweenInfo.new(_G.TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
 local FruitName = "nil"
+local FruitFound = false
+
 
 local Fruits = {
     "Kilo Fruit",
@@ -84,15 +86,10 @@ local StoreNames = {
     Fruits[35] == "Leopard-Leopard",
 }
 
+--Credits to LeoKholYt for the server hop function
 local function hopServer()
-    local teleportService = game:GetService("TeleportService")
-    local success, errorMessage = pcall(function()
-        teleportService:Teleport(game.PlaceId)
-    end)
-
-    if not success then
-        warn("Failed to hop servers: " .. errorMessage)
-    end
+    local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
+    module:Teleport(game.PlaceId)
 end
 
 local function NotFound(FruitFound)
@@ -114,8 +111,11 @@ local function findfruit()
         end
     end
     print("Function called. FruitFound = " .. tostring(FruitFound))
-    NotFound(FruitFound)
     return FruitFound
+end
+
+if not findfruit() then
+    NotFound(FruitFound)
 end
 
 local function Store()
@@ -125,11 +125,4 @@ local function Store()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(args1, args2, args3)
 end
 
-
 findfruit()
-
-
-
-
-
-
