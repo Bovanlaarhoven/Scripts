@@ -117,6 +117,9 @@ local function findfruit()
             tween:Play()
             tween.Completed:Connect(function()
                 Store()
+                if FruitStored == true then
+                    hopServer()
+                end
             end)
             return true
         end
@@ -125,10 +128,9 @@ local function findfruit()
     return false
 end
 
-if findfruit() then
-    hopServer()
-else
+if findfruit() == false then
     NotFound(FruitFound)
 end
+
 
 findfruit()
