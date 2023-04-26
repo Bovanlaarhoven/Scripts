@@ -1,11 +1,12 @@
 repeat wait() until game:IsLoaded()
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
+wait(1)
 
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 local TweenService = game:GetService("TweenService")
-_G.TweenSpeed = 5
+_G.TweenSpeed = 10
 local TweenInfo = TweenInfo.new(_G.TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
 local FruitName
 local FruitFound = false
@@ -84,7 +85,7 @@ local StoreNames = {
     ["Leopard Fruit"] = "Leopard-Leopard",
 }
 
-
+local Tool = workspace.Characters[lplr.name].FindFirstChild(lplr.Name):FindFirstChildOfClass(StoreNames)
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
     wait(1)
@@ -100,11 +101,6 @@ end
 
 local function Store()
     local storeName = StoreNames[FruitName]
-    if not storeName then
-        print("Store name not found for fruit: " .. FruitName)
-        return
-    end
-
     local args2 = storeName
     local args3 = workspace.Characters[lplr.Name][FruitName]
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit", args2, args3)
@@ -118,14 +114,16 @@ local function findfruit()
             FruitName = v
             local tween = TweenService:Create(lcharacter.HumanoidRootPart, TweenInfo, {CFrame = game:GetService("Workspace")[v].Fruit.CFrame})
             tween:Play()
-            tween.Completed:Connect(function()
-                Store()
-            end)
             return true
         end
     end
     print("Function called. FruitFound = " .. tostring(FruitFound))
     return false
+end
+
+if Tool then
+    print("Tool found. Storing fruit.")
+    Store()
 end
 
 if findfruit() then
