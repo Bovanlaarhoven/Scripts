@@ -10,6 +10,7 @@ _G.TweenSpeed = 10
 local TweenInfo = TweenInfo.new(_G.TweenSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
 local FruitName
 local FruitFound = false
+local FruitStored = false
 
 local Fruits = {
     "Spin Fruit",
@@ -85,7 +86,6 @@ local StoreNames = {
     ["Leopard Fruit"] = "Leopard-Leopard",
 }
 
-local Tool = workspace.Characters[lplr.name].FindFirstChild(lplr.Name):FindFirstChildOfClass(StoreNames)
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
     wait(1)
@@ -100,12 +100,13 @@ local function NotFound(FruitFound)
 end
 
 local function Store()
+    wait(1)
     local storeName = StoreNames[FruitName]
     local args2 = storeName
     local args3 = workspace.Characters[lplr.Name][FruitName]
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit", args2, args3)
+    FruitStored = true
 end
-
 
 local function findfruit()
     for _,v in pairs(Fruits) do
@@ -114,6 +115,9 @@ local function findfruit()
             FruitName = v
             local tween = TweenService:Create(lcharacter.HumanoidRootPart, TweenInfo, {CFrame = game:GetService("Workspace")[v].Fruit.CFrame})
             tween:Play()
+            tween.Completed:Connect(function()
+                Store()
+            end)
             return true
         end
     end
@@ -121,13 +125,11 @@ local function findfruit()
     return false
 end
 
-if Tool then
-    print("Tool found. Storing fruit.")
-    Store()
-end
 
 if findfruit() then
-    -- do nothing, the Store() function is called inside the tween.Completed event
+    if FruitStored == true then
+        hopServer()
+    end
 else
     NotFound(FruitFound)
 end
