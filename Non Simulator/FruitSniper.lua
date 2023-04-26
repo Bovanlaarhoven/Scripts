@@ -88,7 +88,7 @@ local StoreNames = {
 
 --Credits to LeoKholYt for the server hop function
 local function hopServer()
-    wait(1)
+    wait(4)
     module:Teleport(game.PlaceId)
 end
 
