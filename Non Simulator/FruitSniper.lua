@@ -134,3 +134,7 @@ end
 
 
 findfruit()
+
+if wait(25) then
+    hopServer()
+end
