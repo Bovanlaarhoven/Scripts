@@ -125,15 +125,10 @@ local function findfruit()
     return false
 end
 
-
 if findfruit() then
-    if FruitStored == true then
-        hopServer()
-    end
+    hopServer()
 else
     NotFound(FruitFound)
 end
-
-
 
 findfruit()
