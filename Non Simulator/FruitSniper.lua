@@ -134,9 +134,12 @@ else
     NotFound(FruitFound)
 end
 
+lplr.CharacterAdded:Connect(function(character)
+    character.Humanoid.Died:Connect(function()
+        if FruitStored == false then
+            NotFound(FruitFound)
+        end
+    end)
+end)
 
 findfruit()
-
-if wait(25) then
-    hopServer()
-end
