@@ -8,8 +8,7 @@ local OldFov
 local WebhookSendinfo = false
 local WebhookUrl = nil
 local lightning = game:GetService("Lighting")
-local Time = os.clock()
-local String1 = "JumpDone"
+
 getgenv().Disabled = false
 
 local function Downed(plr)
