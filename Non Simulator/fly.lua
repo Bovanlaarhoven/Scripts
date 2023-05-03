@@ -1,5 +1,5 @@
 local lplr = game:GetService("Players").LocalPlayer
-local char = lplr.Character
+local char = lplr:WaitForChild("Character")
 local uis = game:GetService("UserInputService")
 
 local canMove = true
