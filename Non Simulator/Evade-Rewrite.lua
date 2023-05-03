@@ -128,7 +128,7 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
     return old(self,...)
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.CameraShake then
             lplr.PlayerScripts.CameraShake.Value = CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1) * CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
@@ -136,7 +136,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.FearFov then
             if lplr.PlayerScripts.FOVAdjusters.Fear.Value then
@@ -159,7 +159,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.AutoRespawn then
             if lplr.Character:GetAttribute("Downed") then
@@ -169,7 +169,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
+task.defer(function()
     while task.wait() do
         if Settings.AfkFarm then
             lplr.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(6007, 7005, 8005)
