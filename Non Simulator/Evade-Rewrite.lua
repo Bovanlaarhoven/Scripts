@@ -109,7 +109,6 @@ end)
 
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
-local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 --setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
@@ -205,7 +204,7 @@ end)
 task.defer(function()
     while task.wait() do
         if Settings.AutoRespawn then
-            if lplr.Character:GetAttribute("Downed") then
+            if char:GetAttribute("Downed") then
                 Respawn()
             end
         end
@@ -215,7 +214,7 @@ end)
 task.defer(function()
     while task.wait() do
         if Settings.AfkFarm then
-            lplr.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(6007, 7005, 8005)
+            char:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(6007, 7005, 8005)
         end
     end
 end)
