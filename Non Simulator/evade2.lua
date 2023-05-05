@@ -127,7 +127,6 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Main'),
     Player = Window:AddTab('Player'),
-    Misc = Window:AddTab('Misc'),
     Visuals = Window:AddTab('Visuals'),
     Game = Window:AddTab('Game'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
@@ -146,6 +145,7 @@ local Settings = {
     BotEsp = false,
     EspColor = Color3.fromRGB(255, 255, 255),
     AfkFarm = false,
+    Bhop = false,
 }
 
 local old
@@ -206,48 +206,17 @@ task.defer(function()
     end
 end)
 
---Switch esp
-function esp(Object)
-    pcall(function()
-        local text = Drawing.new("Text")
-        text.Visible = true
-        text.Center = true
-        text.Outline = true
-        text.Color = Settings.EspColor
-        text.OutlineColor = Settings.EspColor
-        text.Size = 18
-    
-        local renderstepped 
-        renderstepped = runservice.RenderStepped:Connect(function()
-            if Object then
-                local vector, onScreen
-                vector, onScreen = camera:WorldToViewportPoint(Object.Position)
-                local distance = (Object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
-                local distanceInMeters = distance * 0.282
-                text.Text = string.format("%s\nDistance: %.2f Meters", Object.Name, distanceInMeters)
-                if onScreen then
-                    text.Position = Vector2.new(vector.X, vector.Y)
-                    text.Visible = Settings.LeverEsp
-                else
-                    text.Visible = false
-                end
-            else
-                text.Visible = false
-                text:Remove()
-                renderstepped:Disconnect()
+task.defer(function()
+    while task.wait() do
+        if Settings.Bhop then
+            if char.Humanoid.FloorMaterial ~= Enum.Material.Air then
+                char.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
             end
-        end)
-    end)
-end
-
-for _,v in pairs(game:GetService("Workspace").Game.Map:GetDescendants()) do
-    if v.Name == "Switch" and v:FindFirstChild("Switch") then
-        esp(v)
+        end
     end
-end
+end)
 
 --bot esp
-
 function BotEsp(plr)
     if plrs:GetPlayerFromCharacter(plr) == nil then
         local line = Drawing.new("Line")
@@ -297,7 +266,6 @@ end)
 
 local t1 = Tabs.Player:AddLeftGroupbox('Player')
 local t2 = Tabs.Player:AddRightGroupbox('Camera')
-local t3 = Tabs.Misc:AddLeftGroupbox('QoL')
 local t4 = Tabs.Main:AddLeftGroupbox('AutoFarms')
 local t5 = Tabs.Visuals:AddLeftGroupbox('Visuals')
 local t6 = Tabs.Game:AddLeftGroupbox('Teleport')
@@ -387,7 +355,7 @@ t2:AddToggle('MyToggle', {
     end
 })
 
-t3:AddToggle('MyToggle', {
+t1:AddToggle('MyToggle', {
     Text = 'Auto Respawn',
     Default = false,
     Tooltip = 'Auto Respawn',
@@ -444,15 +412,6 @@ t4:AddToggle('MyToggle', {
     Tooltip = 'Afk Farm',
     Callback = function(Value)
         Settings.AfkFarm = Value
-    end
-})
-
-t5:AddToggle('MyToggle', {
-    Text = 'Lever Esp',
-    Default = false,
-    Tooltip = 'Lever Esp',
-    Callback = function(Value)
-        Settings.LeverEsp = Value
     end
 })
 
@@ -559,6 +518,26 @@ t1:AddSlider('MySlider', {
 
     Callback = function(Value)
         flySpeed = Value
+    end
+})
+
+t1:AddLabel('Bhop'):AddKeyPicker('KeyPicker', {
+    Default = 'V',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'Bhop',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.Bhop = Value
+    end,
+})
+
+t1:AddToggle('MyToggle', {
+    Text = 'Bhop',
+    Default = false,
+    Tooltip = 'Bhop',
+    Callback = function(Value)
+        Settings.Bhop = Value
     end
 })
 
