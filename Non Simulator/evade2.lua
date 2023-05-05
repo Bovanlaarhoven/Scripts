@@ -304,6 +304,17 @@ local t5 = Tabs.Visuals:AddLeftGroupbox('Visuals')
 local t6 = Tabs.Game:AddLeftGroupbox('Teleport')
 local t7 = Tabs.Game:AddRightGroupbox('World')
 
+t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+    Default = 'X',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'WalkSpeed',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.WalkEnabled = Value
+    end,
+})
+
 t1:AddToggle('MyToggle', {
     Text = 'Enabled WalkSpeed',
     Default = false,
@@ -324,6 +335,17 @@ t1:AddSlider('MySlider', {
     Callback = function(Value)
         Settings.WalkSpeed = Value
     end
+})
+
+t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+    Default = 'Z',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'JumpPower',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.JumpEnabled = Value
+    end,
 })
 
 t1:AddToggle('MyToggle', {
@@ -444,7 +466,7 @@ t5:AddToggle('MyToggle', {
     end
 })
 
-t5:AddLabel('Color'):AddColorPicker('ColorPicker', {
+t5:AddLabel('Esp Color'):AddColorPicker('ColorPicker', {
     Default = Color3.new(0, 1, 0),
     Title = 'Esp Color',
     Transparency = 0,
@@ -507,6 +529,15 @@ t7:AddSlider('MySlider', {
     end
 })
 
+t7:AddLabel('Ambient'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 0, 0),
+    Title = 'Ambient Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        lightning.Ambient = Value
+    end
+})
 
 t1:AddSlider('MySlider', {
     Text = 'Fly Speed',
