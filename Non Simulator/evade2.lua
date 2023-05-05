@@ -266,6 +266,7 @@ end)
 
 local t1 = Tabs.Player:AddLeftGroupbox('Player')
 local t2 = Tabs.Player:AddRightGroupbox('Camera')
+local t3 = Tabs.Player:AddRightGroupbox('Other')
 local t4 = Tabs.Main:AddLeftGroupbox('AutoFarms')
 local t5 = Tabs.Visuals:AddLeftGroupbox('Visuals')
 local t6 = Tabs.Game:AddLeftGroupbox('Teleport')
@@ -519,7 +520,7 @@ t1:AddSlider('MySlider', {
     end
 })
 
-t1:AddToggle('MyToggle', {
+t3:AddToggle('MyToggle', {
     Text = 'Auto Respawn',
     Default = false,
     Tooltip = 'Auto Respawn',
@@ -528,7 +529,7 @@ t1:AddToggle('MyToggle', {
     end
 })
 
-t1:AddLabel('Bhop'):AddKeyPicker('KeyPicker', {
+t3:AddLabel('Bhop'):AddKeyPicker('KeyPicker', {
     Default = 'V',
     SyncToggleState = false,
     Mode = 'Toggle',
@@ -539,7 +540,7 @@ t1:AddLabel('Bhop'):AddKeyPicker('KeyPicker', {
     end,
 })
 
-t1:AddToggle('MyToggle', {
+t3:AddToggle('MyToggle', {
     Text = 'Bhop',
     Default = false,
     Tooltip = 'Bhop',
