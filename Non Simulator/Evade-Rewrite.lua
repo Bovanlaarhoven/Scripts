@@ -7,9 +7,9 @@ local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local OldFov
+local keys = {}
 local canFly = false
 local flySpeed = 10
-local keys = {}
 local lightning = game:GetService("Lighting")
 
 getgenv().Disabled = false
@@ -67,6 +67,17 @@ for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren())
     end
 end
 
+
+local function updateChar()
+    local character = game:GetService("Players").LocalPlayer.Character
+    if character then
+        char = character
+    end
+end
+
+updateChar()
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(updateChar)
+
 uis.InputBegan:Connect(function(input, gameProcessed)
     if input.UserInputType == Enum.UserInputType.Keyboard then
         keys[input.KeyCode] = true
@@ -80,7 +91,7 @@ uis.InputEnded:Connect(function(input, gameProcessed)
 end)
 
 game:GetService("RunService").Stepped:Connect(function()
-    if canFly then
+    if canFly and char then
         local forward = (keys[Enum.KeyCode.W] and 1 or 0) - (keys[Enum.KeyCode.S] and 1 or 0)
         local right = (keys[Enum.KeyCode.D] and 1 or 0) - (keys[Enum.KeyCode.A] and 1 or 0)
         local up = (keys[Enum.KeyCode.Space] and 1 or 0) - (keys[Enum.KeyCode.LeftControl] and 1 or 0)
@@ -485,7 +496,7 @@ local Slider = T2:CreateSlider({
     Name = "Brightness slider",
     Range = {0, 10},
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Brightness",
     CurrentValue = 1,
     Flag = "Slider1",
     Callback = function(Value)
@@ -514,5 +525,4 @@ local Keybind = T2:CreateKeybind({
         canFly = not canFly
     end,
 })
-
 
