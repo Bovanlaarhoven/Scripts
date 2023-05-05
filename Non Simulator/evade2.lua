@@ -141,7 +141,6 @@ local Settings = {
     CameraShake = false,
     FearFov = false,
     AutoRespawn = false,
-    WebhookOnImportant = false,
     ReviveFarm = false,
     LeverEsp = false,
     BotEsp = false,
@@ -304,7 +303,7 @@ local t5 = Tabs.Visuals:AddLeftGroupbox('Visuals')
 local t6 = Tabs.Game:AddLeftGroupbox('Teleport')
 local t7 = Tabs.Game:AddRightGroupbox('World')
 
-t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+t1:AddLabel('WalkSpeed Keybind'):AddKeyPicker('KeyPicker', {
     Default = 'X',
     SyncToggleState = false,
     Mode = 'Toggle',
@@ -337,7 +336,7 @@ t1:AddSlider('MySlider', {
     end
 })
 
-t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+t1:AddLabel('JumpPower Keybind'):AddKeyPicker('KeyPicker', {
     Default = 'Z',
     SyncToggleState = false,
     Mode = 'Toggle',
@@ -358,7 +357,7 @@ t1:AddToggle('MyToggle', {
 })
 
 t1:AddSlider('MySlider', {
-    Text = 'WalkSpeed',
+    Text = 'JumpPower',
     Default = 20,
     Min = 0,
     Max = 100,
@@ -539,6 +538,17 @@ t7:AddLabel('Ambient'):AddColorPicker('ColorPicker', {
     end
 })
 
+t1:AddLabel('Fly Keybind'):AddKeyPicker('KeyPicker', {
+    Default = 'Q',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'Fly',
+    NoUI = false,
+    Callback = function(Value)
+        canFly = not canFly
+    end,
+})
+
 t1:AddSlider('MySlider', {
     Text = 'Fly Speed',
     Default = 10,
@@ -550,17 +560,6 @@ t1:AddSlider('MySlider', {
     Callback = function(Value)
         flySpeed = Value
     end
-})
-
-t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
-    Default = 'Q',
-    SyncToggleState = false,
-    Mode = 'Toggle',
-    Text = 'Fly',
-    NoUI = false,
-    Callback = function(Value)
-        canFly = not canFly
-    end,
 })
 
 Library:SetWatermark('Evade Premium Script By Hydra#8270')
