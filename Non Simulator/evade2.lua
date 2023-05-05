@@ -553,7 +553,7 @@ t1:AddSlider('MySlider', {
     Text = 'Fly Speed',
     Default = 10,
     Min = 0,
-    Max = 100,
+    Max = 250,
     Rounding = 1,
     Compact = false,
 
