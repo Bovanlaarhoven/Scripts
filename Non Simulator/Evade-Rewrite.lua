@@ -517,7 +517,7 @@ local Slider = T2:CreateSlider({
 })
 
 local Keybind = T2:CreateKeybind({
-    Name = "Start Fly Keybind",
+    Name = "Start Fly",
     CurrentKeybind = "Q",
     HoldToInteract = false,
     Flag = "Keybind1", 
