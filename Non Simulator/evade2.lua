@@ -353,9 +353,7 @@ t2:AddToggle('MyToggle', {
     Callback = function(Value)
         Settings.FearFov = Value
     end
-})
-
-t1:AddToggle('MyToggle', {
+})t1:AddToggle('MyToggle', {
     Text = 'Auto Respawn',
     Default = false,
     Tooltip = 'Auto Respawn',
@@ -518,6 +516,15 @@ t1:AddSlider('MySlider', {
 
     Callback = function(Value)
         flySpeed = Value
+    end
+})
+
+t1:AddToggle('MyToggle', {
+    Text = 'Auto Respawn',
+    Default = false,
+    Tooltip = 'Auto Respawn',
+    Callback = function(Value)
+        Settings.AutoRespawn = Value
     end
 })
 
