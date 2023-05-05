@@ -102,41 +102,36 @@ game:GetService("RunService").Stepped:Connect(function()
         local upUnit = Vector3.new(0, 1, 0)
         local rightUnit = unit:Cross(upUnit)
 
-        local targetVelocity = (unit * forward + rightUnit * right) * flySpeed + upUnit * up * flySpeed
+        local targetVelocity = (rightUnit * right + unit * forward) * (flySpeed * 2) + upUnit * up * flySpeed
+        targetVelocity = targetVelocity - (upUnit * targetVelocity:Dot(upUnit) / upUnit.Magnitude^2) / 2 
         char.HumanoidRootPart.Velocity = targetVelocity
     end
 end)
 
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
---setclipboard("https://link-hub.net/488828/key-for-hydra-network")
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
-local Window = Rayfield:CreateWindow({
-    Name = "Evade",
-    LoadingTitle = "Hydra Network",
-    LoadingSubtitle = "by Hydra#8270",
-    ConfigurationSaving = {
-       Enabled = true,
-       FolderName = nil,
-       FileName = "Big Hub"
-    },
-    Discord = {
-       Enabled = true,
-       Invite = "YvwEyH2W6t",
-       RememberJoins = true
-    },
-	KeySystem = false,
-	KeySettings = {
-		Title = "Hydra Network",
-		Subtitle = "Key System",
-		Note = "Key link copied in clipboard!",
-		FileName = "SiriusKey",
-		SaveKey = false,
-		GrabKeyFromSite = true,
-		Key = "https://pastebin.com/raw/tmEjATBA"
-	}
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
+local Window = Library:CreateWindow({
+    Title = 'Evade Premium',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
 })
+
+local Tabs = {
+    Main = Window:AddTab('Main'),
+    Player = Window:AddTab('Player'),
+    Misc = Window:AddTab('Misc'),
+    Visuals = Window:AddTab('Visuals'),
+    Game = Window:AddTab('Game'),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
 
 local Settings = {
     JumpPower = 20,
@@ -153,12 +148,6 @@ local Settings = {
     EspColor = Color3.fromRGB(255, 255, 255),
     AfkFarm = false,
 }
-
-local T1 = Window:CreateTab("Main")
-local T2 = Window:CreateTab("Player")
-local T3 = Window:CreateTab("Misc")
-local T4 = Window:CreateTab("Visuals")
-local T5 = Window:CreateTab("Game")
 
 local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
@@ -307,80 +296,89 @@ game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
     BotEsp(plr)
 end)
 
+local t1 = Tabs.Player:AddLeftGroupbox('Player')
+local t2 = Tabs.Player:AddRightGroupbox('Camera')
+local t3 = Tabs.Misc:AddLeftGroupbox('QoL')
+local t4 = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local t5 = Tabs.Visuals:AddLeftGroupbox('Visuals')
+local t6 = Tabs.Game:AddLeftGroupbox('Teleport')
+local t7 = Tabs.Game:AddRightGroupbox('World')
 
-local Toggle = T2:CreateToggle({
-    Name = "Enable WalkSpeed",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t1:AddToggle('MyToggle', {
+    Text = 'Enabled WalkSpeed',
+    Default = false,
+    Tooltip = 'Enabled WalkSpeed',
     Callback = function(Value)
         Settings.WalkEnabled = Value
-    end,
+    end
 })
 
-local Slider = T2:CreateSlider({
-    Name = "WalkSpeed slider",
-    Range = {0, 100},
-    Increment = 10,
-    Suffix = "Speed",
-    CurrentValue = 10,
-    Flag = "Slider1",
+t1:AddSlider('MySlider', {
+    Text = 'WalkSpeed',
+    Default = 20,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
     Callback = function(Value)
         Settings.WalkSpeed = Value
-    end,
+    end
 })
 
-local Toggle = T2:CreateToggle({
-    Name = "Enable JumpPower",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t1:AddToggle('MyToggle', {
+    Text = 'Enabled JumpPower',
+    Default = false,
+    Tooltip = 'Enabled JumpPower',
     Callback = function(Value)
         Settings.JumpEnabled = Value
-    end,
+    end
 })
 
-local Slider = T2:CreateSlider({
-    Name = "JumpPower slider",
-    Range = {0, 100},
-    Increment = 10,
-    Suffix = "Power",
-    CurrentValue = 10,
-    Flag = "Slider1",
+t1:AddSlider('MySlider', {
+    Text = 'WalkSpeed',
+    Default = 20,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
     Callback = function(Value)
         Settings.JumpPower = Value
-    end,
+    end
 })
 
-local Toggle = T1:CreateToggle({
-    Name = "Disable Camera Shake",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t2:AddToggle('MyToggle', {
+    Text = 'Disable Camera Shake',
+    Default = false,
+    Tooltip = 'Disable Camera Shake',
     Callback = function(Value)
         Settings.CameraShake = Value
-    end,
+    end
 })
 
-local Toggle = T1:CreateToggle({
-    Name = "Disable Fear Fov Change",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t2:AddToggle('MyToggle', {
+    Text = 'Disable Fear Fov Change',
+    Default = false,
+    Tooltip = 'Disable Fear Fov Change',
     Callback = function(Value)
         Settings.FearFov = Value
-    end,
+    end
 })
 
-local Toggle = T1:CreateToggle({
-    Name = "Auto Respawn",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t3:AddToggle('MyToggle', {
+    Text = 'Auto Respawn',
+    Default = false,
+    Tooltip = 'Auto Respawn',
     Callback = function(Value)
         Settings.AutoRespawn = Value
-    end,
+    end
 })
 
-local Toggle = T1:CreateToggle({
-    Name = "Revive Farm",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t4:AddToggle('MyToggle', {
+    Text = 'Revive Farm',
+    Default = false,
+    Tooltip = 'Revive Farm',
     Callback = function(Value)
         Settings.ReviveFarm = Value
         if Value then
@@ -416,111 +414,169 @@ local Toggle = T1:CreateToggle({
                 until Settings.ReviveFarm == false
             end)()
         end
-    end,
+    end
 })
 
-local Toggle = T1:CreateToggle({
-    Name = "Afk AutoFarm",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t4:AddToggle('MyToggle', {
+    Text = 'Afk Farm',
+    Default = false,
+    Tooltip = 'Afk Farm',
     Callback = function(Value)
         Settings.AfkFarm = Value
-    end,
+    end
 })
 
-local Toggle = T4:CreateToggle({
-    Name = "Lever Esp",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t5:AddToggle('MyToggle', {
+    Text = 'Lever Esp',
+    Default = false,
+    Tooltip = 'Lever Esp',
     Callback = function(Value)
         Settings.LeverEsp = Value
-    end,
+    end
 })
 
-local Dropdown = T5:CreateDropdown({
-    Name = "Teleport Choose",
-    Options = {"Main", "BigTeam", "SocialSpace", "TeamDeathmatch", "Casual", "VcOnly", "Infection", "Pro", "PlayerNextbot"},
-    CurrentOption = "Choose a game",
-    Flag = "Dropdown1",
-    Callback = function(Option)
-        if Option == "Main" then
-            Id = 9872472334
-        elseif Option == "BigTeam" then
-            Id = 10324346056
-        elseif Option == "SocialSpace" then
-            Id = 10324347967
-        elseif Option == "TeamDeathmatch" then
-            Id = 10539706691
-        elseif Option == "Casual" then
-            Id = 10662542523
-        elseif Option == "VcOnly" then
-            Id = 10808838353
-        elseif Option == "Infection" then
-            Id = 11353532384
-        elseif Option == "Pro" then
-            Id = 11353528705
-        elseif Option == "PlayerNextbot" then
-            Id = 11987867148
-        end
-    end,
-})
-
-local Button = T5:CreateButton({
-    Name = "Teleport to game",
-    Callback = function()
-        teleportservice:Teleport(Id,lplr)
-    end,
-})
-
-local Toggle = T4:CreateToggle({
-    Name = "Toggle esp",
-    CurrentValue = false,
-    Flag = "Toggle1",
+t5:AddToggle('MyToggle', {
+    Text = 'Bot Esp',
+    Default = false,
+    Tooltip = 'Bot esp',
     Callback = function(Value)
         Settings.BotEsp = Value
-    end,
+    end
 })
 
-local ColorPicker = T4:CreateColorPicker({
-    Name = "Bot Esp Color",
-    Color = Color3.fromRGB(255,255,255),
-    Flag = "ColorPicker1",
+t5:AddLabel('Color'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Esp Color',
+    Transparency = 0,
+
     Callback = function(Value)
         Settings.EspColor = Value
     end
 })
 
-local Slider = T1:CreateSlider({
-    Name = "Brightness slider",
-    Range = {0, 10},
-    Increment = 1,
-    Suffix = "Brightness",
-    CurrentValue = 1,
-    Flag = "Slider1",
+t6:AddDropdown('MyDropdown', {
+    Values = { "Main", "Big Team", "Social Space", "Team Deathmatch", "Casual", "Vc Only", "Infection", "Pro", "Player Nextbot"},
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Teleport Choose',
+    Tooltip = 'What gamemode you wanne teleport to?',
+
+    Callback = function(Option)
+        if Option == "Main" then
+            Id = 9872472334
+        elseif Option == "Big Team" then
+            Id = 10324346056
+        elseif Option == "Social Space" then
+            Id = 10324347967
+        elseif Option == "Team Deathmatch" then
+            Id = 10539706691
+        elseif Option == "Casual" then
+            Id = 10662542523
+        elseif Option == "Vc Only" then
+            Id = 10808838353
+        elseif Option == "Infection" then
+            Id = 11353532384
+        elseif Option == "Pro" then
+            Id = 11353528705
+        elseif Option == "Player Nextbot" then
+            Id = 11987867148
+        end
+    end
+})
+
+local MyButton = t6:AddButton({
+    Text = 'Teleport to Game',
+    Func = function()
+        teleportservice:Teleport(Id,lplr)
+    end,
+    DoubleClick = true,
+    Tooltip = 'You Sure?'
+})
+
+t7:AddSlider('MySlider', {
+    Text = 'Brightness',
+    Default = 1,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
     Callback = function(Value)
         lightning.Brightness = Value
-    end,
+    end
 })
 
-local Slider = T2:CreateSlider({
-    Name = "Fly Speed",
-    Range = {0, 100},
-    Increment = 10,
-    Suffix = "Speed",
-    CurrentValue = 10,
-    Flag = "Slider1",
+
+t1:AddSlider('MySlider', {
+    Text = 'Fly Speed',
+    Default = 10,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
     Callback = function(Value)
         flySpeed = Value
-    end,
+    end
 })
 
-local Keybind = T2:CreateKeybind({
-    Name = "Start Fly",
-    CurrentKeybind = "Q",
-    HoldToInteract = false,
-    Flag = "Keybind1", 
-    Callback = function(Keybind)
+t1:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+    Default = 'Q',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'Fly',
+    NoUI = false,
+    Callback = function(Value)
         canFly = not canFly
     end,
 })
 
+Library:SetWatermark('Evade Premium Script By Hydra#8270')
+
+Library:OnUnload(function()
+    Library.Unloaded = true
+end)
+
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+local MyButton = MenuGroup:AddButton({
+    Text = 'Unload',
+    Func = function()
+        Library:Unload()
+    end,
+    DoubleClick = true,
+    Tooltip = 'Unload Script'
+})
+
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+
+MenuGroup:AddToggle('keybindframe', {
+    Text = 'Keybind Frame',
+    Default = false,
+    Tooltip = 'Toggles KeybindFrame',
+})
+
+Toggles.keybindframe:OnChanged(function()
+    Library.KeybindFrame.Visible = Toggles.keybindframe.Value
+end)
+
+MenuGroup:AddToggle('Watermark', {
+    Text = 'Watermark',
+    Default = false,
+    Tooltip = 'Toggles Watermark',
+})
+
+Toggles.Watermark:OnChanged(function()
+    Library:SetWatermarkVisibility(Toggles.Watermark.Value)
+end)
+
+Library.ToggleKeybind = Options.MenuKeybind
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
