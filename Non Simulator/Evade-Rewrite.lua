@@ -66,8 +66,8 @@ end
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
-setclipboard("https://link-hub.net/488828/key-for-hydra-network")
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+--setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local Window = Rayfield:CreateWindow({
     Name = "Evade",
