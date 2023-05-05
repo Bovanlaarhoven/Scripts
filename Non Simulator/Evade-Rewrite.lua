@@ -1,12 +1,15 @@
 local plrs = game:GetService("Players")
 local lplr = plrs.LocalPlayer
+local uis = game:GetService("UserInputService")
+local char = lplr.Character
 local camera =  workspace.CurrentCamera
 local runservice = game:GetService("RunService")
 local teleportservice = game:GetService("TeleportService")
 local Id = nil
 local OldFov
-local WebhookSendinfo = false
-local WebhookUrl = nil
+local canFly = false
+local flySpeed = 10
+local keys = {}
 local lightning = game:GetService("Lighting")
 
 getgenv().Disabled = false
@@ -64,6 +67,36 @@ for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren())
     end
 end
 
+uis.InputBegan:Connect(function(input, gameProcessed)
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        keys[input.KeyCode] = true
+    end
+end)
+
+uis.InputEnded:Connect(function(input, gameProcessed)
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        keys[input.KeyCode] = false
+    end
+end)
+
+game:GetService("RunService").Stepped:Connect(function()
+    if canFly then
+        local forward = (keys[Enum.KeyCode.W] and 1 or 0) - (keys[Enum.KeyCode.S] and 1 or 0)
+        local right = (keys[Enum.KeyCode.D] and 1 or 0) - (keys[Enum.KeyCode.A] and 1 or 0)
+        local up = (keys[Enum.KeyCode.Space] and 1 or 0) - (keys[Enum.KeyCode.LeftControl] and 1 or 0)
+
+        local camera = workspace.CurrentCamera
+        local cf = camera.CFrame
+        local unit = cf.lookVector
+        local upUnit = Vector3.new(0, 1, 0)
+        local rightUnit = unit:Cross(upUnit)
+
+        local targetVelocity = (unit * forward + rightUnit * right) * flySpeed + upUnit * up * flySpeed
+        char.HumanoidRootPart.Velocity = targetVelocity
+    end
+end)
+
+
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
@@ -117,7 +150,6 @@ local T4 = Window:CreateTab("Tp")
 local T5 = Window:CreateTab("Fun")
 local T6 = Window:CreateTab("Farms")
 local T7 = Window:CreateTab("Bot ESP")
-local T8 = Window:CreateTab("Settings")
 
 local old
 old = hookmetamethod(game, "__namecall", function(self, ...)
@@ -266,9 +298,9 @@ game:GetService'Workspace'.Game.Players.ChildAdded:Connect(function(plr)
     BotEsp(plr)
 end)
 
+
 local Toggle = T1:CreateToggle({
     Name = "Enable WalkSpeed",
-    Info = "Enable/Disable WalkSpeed",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -278,12 +310,11 @@ local Toggle = T1:CreateToggle({
 
 local Slider = T1:CreateSlider({
     Name = "WalkSpeed slider",
-    Info = "WalkSpeed slider",
     Range = {0, 100},
-    Increment = 1,
+    Increment = 10,
     Suffix = "Speed",
-    CurrentValue = 20,
-    Flag = "Slider1", 
+    CurrentValue = 10,
+    Flag = "Slider1",
     Callback = function(Value)
         Settings.WalkSpeed = Value
     end,
@@ -291,7 +322,6 @@ local Slider = T1:CreateSlider({
 
 local Toggle = T1:CreateToggle({
     Name = "Enable JumpPower",
-    Info = "Enable/Disable JumpPower",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -301,12 +331,11 @@ local Toggle = T1:CreateToggle({
 
 local Slider = T1:CreateSlider({
     Name = "JumpPower slider",
-    Info = "JumpPower slider",
     Range = {0, 100},
-    Increment = 1,
+    Increment = 10,
     Suffix = "Power",
-    CurrentValue = 20,
-    Flag = "Slider1", 
+    CurrentValue = 10,
+    Flag = "Slider1",
     Callback = function(Value)
         Settings.JumpPower = Value
     end,
@@ -314,16 +343,15 @@ local Slider = T1:CreateSlider({
 
 local Toggle = T1:CreateToggle({
     Name = "Disable Camera Shake",
-    Info = "Disables your camera shake",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
         Settings.CameraShake = Value
     end,
 })
+
 local Toggle = T1:CreateToggle({
     Name = "Disable Fear Fov Change",
-    Info = "Disables the change in fov when you are scared",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -333,7 +361,6 @@ local Toggle = T1:CreateToggle({
 
 local Toggle = T1:CreateToggle({
     Name = "Auto Respawn",
-    Info = "Auto Respawns",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -342,10 +369,10 @@ local Toggle = T1:CreateToggle({
 })
 
 local Toggle = T6:CreateToggle({
-	Name = "Revive AutoFarm",
-	CurrentValue = false,
-	Flag = "Toggle1", 
-	Callback = function(Value)
+    Name = "Revive Farm",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
         Settings.ReviveFarm = Value
         if Value then
             coroutine.wrap(function()
@@ -380,12 +407,11 @@ local Toggle = T6:CreateToggle({
                 until Settings.ReviveFarm == false
             end)()
         end
-	end,
+    end,
 })
 
 local Toggle = T6:CreateToggle({
-    Name = "Afk Farm",
-    Info = "Afk Farms for you",
+    Name = "Afk AutoFarm",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -395,7 +421,6 @@ local Toggle = T6:CreateToggle({
 
 local Toggle = T2:CreateToggle({
     Name = "Lever Esp",
-    Info = "Puts a text esp on levers",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -432,16 +457,14 @@ local Dropdown = T4:CreateDropdown({
 })
 
 local Button = T4:CreateButton({
-    Name = "Teleport To game",
-    Info = "Teleport to chosen game",
-    Interact = 'Teleport',
+    Name = "Teleport to game",
     Callback = function()
         teleportservice:Teleport(Id,lplr)
     end,
 })
 
 local Toggle = T7:CreateToggle({
-    Name = "Toggle Esp",
+    Name = "Toggle esp",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -450,68 +473,46 @@ local Toggle = T7:CreateToggle({
 })
 
 local ColorPicker = T7:CreateColorPicker({
-	Name = "Bot Esp Color",
-	Info = 'Changes the text esp color',
-	SectionParent = Section,
-	Color = Color3.fromRGB(2,255,255),
-	Flag = "ColorPicker1",
-	Callback = function(Value)
+    Name = "Bot Esp Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ColorPicker1",
+    Callback = function(Value)
         Settings.EspColor = Value
-	end
+    end
 })
 
 local Slider = T2:CreateSlider({
-    Name = "brightness slider",
-    Info = "The one and only birghtness slider",
+    Name = "Brightness slider",
     Range = {0, 10},
     Increment = 1,
-    Suffix = "Brightness",
+    Suffix = "Bananas",
     CurrentValue = 1,
-    Flag = "Slider1", 
+    Flag = "Slider1",
     Callback = function(Value)
-       lightning.Brightness = Value
-       lightning.ClockTime = 14
+        lightning.Brightness = Value
     end,
 })
 
---settings
-
-local Label2 = T8:CreateLabel("Sending no information for now ):")
-local Label = T8:CreateLabel("Webhook not Set")
-
-local Input = T8:CreateInput({
-    Name = "Webhook",
-    Info = "Webhook Input",
-    PlaceholderText = "Webhook here",
-    NumbersOnly = false, 
-    CharacterLimit = 1000,
-    OnEnter = true,
-    RemoveTextAfterFocusLost = false,
-    Callback = function(Text)
-        if Text:match("https://discord.com/api/webhooks/%d+/%w+") then
-            WebhookUrl = Text
-            Label:Set("Webhook Set")
-        else
-            Lib:prompt("Invalid Webhook", "Please enter a valid webhook", 5)
-        end
-    end,
-})
-
-local Button = T8:CreateButton({
-    Name = "Test Webhook",
-    Info = "Will send a webhook Request",
-    Interact = 'Press',
-    Callback = function()
-        Util.Webhook:Embed(WebhookUrl, "Testing", "Test", "Testing webhook")
-    end,
-})
-
-local Toggle = T8:CreateToggle({
-    Name = "Webhook Send info",
-    Info = "Sends some info to the webhook",
-    CurrentValue = false,
-    Flag = "Toggle1",
+local Slider = T2:CreateSlider({
+    Name = "Fly Speed",
+    Range = {0, 100},
+    Increment = 10,
+    Suffix = "Speed",
+    CurrentValue = 10,
+    Flag = "Slider1",
     Callback = function(Value)
-        WebhookSendinfo = Value
+        flySpeed = Value
     end,
 })
+
+local Keybind = T2:CreateKeybind({
+    Name = "Start Fly Keybind",
+    CurrentKeybind = "Q",
+    HoldToInteract = false,
+    Flag = "Keybind1", 
+    Callback = function(Keybind)
+        canFly = not canFly
+    end,
+})
+
+
