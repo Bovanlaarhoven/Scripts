@@ -110,7 +110,7 @@ end)
 
 local Lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Robobo2022/notify-lib/main/lib'),true))()
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
---setclipboard("https://link-hub.net/488828/key-for-hydra-network")
+setclipboard("https://link-hub.net/488828/key-for-hydra-network")
 
 local Window = Rayfield:CreateWindow({
     Name = "Evade",
@@ -126,7 +126,7 @@ local Window = Rayfield:CreateWindow({
        Invite = "YvwEyH2W6t",
        RememberJoins = true
     },
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
 		Title = "Hydra Network",
 		Subtitle = "Key System",
