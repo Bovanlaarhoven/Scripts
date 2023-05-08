@@ -19,6 +19,7 @@ local WorldToViewportPoint = camera.WorldToViewportPoint
 local headoff = Vector3.new(0, 0.5, 0)
 local legoff = Vector3.new(0, 3, 0)
 
+--extra settings
 getgenv().TeamColor = Color3.fromRGB(0, 255, 0)
 getgenv().EnemyColor = Color3.fromRGB(255, 0, 0)
 getgenv().TeamColorOutline = Color3.fromRGB(0, 255, 0)
@@ -36,12 +37,14 @@ getgenv().VisableCheckEsp = false
 getgenv().PlayerInsideFovToggle = false
 getgenv().Distance = 1
 
+--main settings
 getgenv().Assist = false
 getgenv().TeamCheck = false
 getgenv().teamcheck = false
 getgenv().VisableCheck = false
 getgenv().Triggerbot = false
 getgenv().boxesp = true
+getgenv().Bhop = false
 
 DeadZone.Radius = 25
 DeadZone.Color = getgenv().DeadZoneColor
@@ -416,6 +419,16 @@ plrs.PlayerAdded:Connect(function(v)
     coroutine.wrap(boxesp)()
 end)
 
+task.defer(function()
+    while task.wait() do
+        if getgenv().Bhop then
+            if lplr.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
+                lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping) 
+            end
+        end
+    end
+end)
+
 local Window = Library:CreateWindow({
     Title = 'Project Validus',
     Center = false,
@@ -588,6 +601,16 @@ ColorSettings:AddToggle('Filedornot', {
     end
 })
 
+MasterSwitch:AddToggle('Bhop', {
+    Text = 'Bhop',
+    Default = false,
+    Tooltip = 'Automatically jumps for you',
+})
+
+Toggles.Bhop:OnChanged(function()
+    getgenv().Bhop = Toggles.Bhop.Value
+end)
+
 --fov settings
 FovSetting:AddToggle('FovVisable', {
     Text = 'Fov Visable',
@@ -749,7 +772,7 @@ Toggles.InfDistance:OnChanged(function()
 end)
 
 AimAssistSetting:AddDropdown('BodyPart', {
-    Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand'},
+    Values = { 'Head', 'UpperTorso', 'LowerTorso', 'RightHand', 'LeftHand' ,"Random"},
     Default = 1,
     Multi = false,
     Text = 'Body part',
@@ -758,6 +781,10 @@ AimAssistSetting:AddDropdown('BodyPart', {
     Callback = function(Value)
         desiredBodyPart = Value
         updateDeadZonePosition()
+        if Value == "Random" then
+           Value = desiredBodyPart[math.random(#desiredBodyPart)]
+           wait(1)
+        end
     end
 })
 
