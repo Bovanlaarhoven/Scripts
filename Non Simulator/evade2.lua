@@ -141,7 +141,6 @@ local Settings = {
     FearFov = false,
     AutoRespawn = false,
     ReviveFarm = false,
-    LeverEsp = false,
     BotEsp = false,
     EspColor = Color3.fromRGB(255, 255, 255),
     AfkFarm = false,
