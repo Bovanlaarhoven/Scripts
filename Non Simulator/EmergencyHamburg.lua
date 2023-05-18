@@ -131,6 +131,6 @@ local Toggle = Tab:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
-        settings.IsOn = Value
+        settings.alwayson = Value
     end,
 })
