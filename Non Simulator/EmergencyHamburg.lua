@@ -4,6 +4,10 @@ local lplr = game:GetService("Players").LocalPlayer
 local settings = {
     godcar = false,
     inffual = false,
+    accelerate = 1,
+    maxspeed = 1,
+    reversemaxspeed = 1,
+    alwayson = false,
 }
 
 local Window = Rayfield:CreateWindow({
@@ -48,6 +52,14 @@ task.defer(function()
     end
 end)
 
+task.defer(function()
+    while task.wait() do
+        if settings.alwayson then
+            workspace.Vehicles[lplr.Name]:SetAttribute("IsOn", true)
+        end
+    end
+end)
+
 local Tab = Window:CreateTab("Main", 4483362458)
 
 local Toggle = Tab:CreateToggle({
@@ -65,5 +77,60 @@ local Toggle = Tab:CreateToggle({
     Flag = "Toggle1",
     Callback = function(Value)
         settings.inffual = Value
+    end,
+})
+
+
+local Slider = Tab:CreateSlider({
+    Name = "accelerate value",
+    Range = {0, 10000},
+    Increment = 1,
+    Suffix = "wowie",
+    CurrentValue = 10,
+    Flag = "Slider1",
+    Callback = function(Value)
+        settings.accelerate = Value
+        while task.wait() do
+            workspace.Vehicles[lplr.Name]:SetAttribute("MaxAccelerateForce", settings.accelerate)
+        end
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "Max Speed",
+    Range = {0, 10000},
+    Increment = 1,
+    Suffix = "speed",
+    CurrentValue = 10,
+    Flag = "Slider1",
+    Callback = function(Value)
+        settings.maxspeed = Value
+        while task.wait() do
+            workspace.Vehicles[lplr.Name]:SetAttribute("MaxSpeed", settings.maxspeed)
+        end
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "Reverse Speed",
+    Range = {0, 10000},
+    Increment = 1,
+    Suffix = "speed",
+    CurrentValue = 10,
+    Flag = "Slider1",
+    Callback = function(Value)
+        settings.reversemaxspeed = Value
+        while task.wait() do
+            workspace.Vehicles[lplr.Name]:SetAttribute("ReverseMaxSpeed", settings.reversemaxspeed)
+        end
+    end,
+})
+
+local Toggle = Tab:CreateToggle({
+    Name = "is always on (can ride when car is broken)",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        settings.IsOn = Value
     end,
 })
