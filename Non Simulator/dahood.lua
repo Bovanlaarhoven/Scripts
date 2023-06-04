@@ -7,12 +7,22 @@ local function getPlayerGun(player)
     if character then
         for _, child in ipairs(character:GetChildren()) do
             if child:IsA("Tool") and isGun(child) then
+                if game.PlaceId == 2788229376 then
+                    if child:FindFirstChild("Ammo") ~= nil then
+                        if child["Ammo"].Value == 0 then
+                            return nil
+                        end
+                    else
+                        return nil
+                    end
+                end
                 return child
             end
         end
     end
     return nil
 end
+
 
 local function createBeam(p1, p2)
     local beam = Instance.new("Part")

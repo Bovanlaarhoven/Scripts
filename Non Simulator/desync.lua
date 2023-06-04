@@ -2,7 +2,6 @@ local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 
-
 RunService.heartbeat:Connect(function(parameters)
     oldval = lcharacter.HumanoidRootPart.Velocity
     lcharacter.HumanoidRootPart.Velocity = Vector3.new(math.random(-6000, 6000), math.random(0, 6000), math.random(-6000, 6000))
@@ -10,5 +9,3 @@ RunService.heartbeat:Connect(function(parameters)
     RunService.RenderStepped:Wait()
     lcharacter.HumanoidRootPart.Velocity = oldval
 end)
-
-
