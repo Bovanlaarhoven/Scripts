@@ -97,8 +97,7 @@ end
 
 		if tostring(self) == "HitPart" and method == "FireServer" then
 			print("so?")
-			args[1] = ClosestPlayerToMouse().Character.Head
-			args[2] = ClosestPlayerToMouse().Character.Head.Position
+			args[5] = ClosestPlayerToMouse().Character.Head.Position
 			return self.FireServer(self, unpack(args))
 		end
 		return namecall(self,...)
