@@ -9842,7 +9842,7 @@ runService.RenderStepped:Connect(function(dt)
     else
         lockedTarget = nil
     end
-   -- Aim --
+   -- Aim --    
    calculateAimpoint() 
 
     -- Visuals --

@@ -1,12 +1,30 @@
+local RunService = game:GetService("RunService")
+local lplr = game:GetService("Players").LocalPlayer
+local lcharacter = lplr.Character
+
+local Settings = {
+    Desync = false,
+    DesyncPreseton = false,
+    DesyncPreset = "Default",
+    DesyncX = 0,
+    DesyncY = 0,
+    DesyncZ = 0,
+}
+
+
 local function isGun(tool)
     return tool:IsA("Tool")
+end
+
+local isAlive = function(player)
+    return (player and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart")) and true or false
 end
 
 local function getPlayerGun(player)
     local character = player.Character
     if character then
         for _, child in ipairs(character:GetChildren()) do
-            if child:IsA("Tool") and isGun(child) then
+            if isGun(child) then
                 if game.PlaceId == 2788229376 then
                     if child:FindFirstChild("Ammo") ~= nil then
                         if child["Ammo"].Value == 0 then
@@ -23,6 +41,122 @@ local function getPlayerGun(player)
     return nil
 end
 
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
+local Window = Library:CreateWindow({
+    Title = 'Hydra network',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
+})
+
+local Tabs = {
+    Legit = Window:AddTab('Legit'),
+    Rage = Window:AddTab('Rage'),
+    Visuals = Window:AddTab('Visuals'),
+    Misc = Window:AddTab('Misc'),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Misc:AddLeftGroupbox('Desync')
+
+LeftGroupBox:AddToggle('Desync', {
+    Text = 'Desync',
+    Default = true,
+    Tooltip = 'desyncington',
+
+    Callback = function(Value)
+        Settings.Desync = Value
+    end
+})
+
+LeftGroupBox:AddToggle('DesyncPreset', {
+    Text = 'Desync Preset',
+    Default = true,
+    Tooltip = 'desyncington',
+
+    Callback = function(Value)
+        Settings.Desync = Value
+    end
+})
+
+LeftGroupBox:AddDropdown('MyDropdown', {
+    Values = { 'Random', 'nothing',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Desync Presets',
+    Tooltip = 'This is a tooltip',
+
+    Callback = function(Value)
+        Settings.DesyncPreset = Value
+    end
+})
+
+LeftGroupBox:AddSlider('DesyncX', {
+    Text = 'Desync X',
+    Default = 0,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.DesyncX = Value
+    end
+})
+
+LeftGroupBox:AddSlider('DesyncY', {
+    Text = 'Desync Y',
+    Default = 0,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.DesyncY = Value
+    end
+})
+
+LeftGroupBox:AddSlider('DesyncZ', {
+    Text = 'Desync Z',
+    Default = 0,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.DesyncZ = Value
+    end
+})
+
+
+RunService.Heartbeat:Connect(function()
+    if Settings.Desync then
+        if isAlive(lplr) then
+            old = lcharacter.HumanoidRootPart.Velocity
+            lcharacter.HumanoidRootPart.Velocity = Vector3.new(Settings.DesyncX, Settings.DesyncY, Settings.DesyncZ)
+            lcharacter.HumanoidRootPart.CFrame = lcharacter.HumanoidRootPart.CFrame * CFrame.Angles(0,0.0001, 0)
+            RunService.RenderStepped:Wait()
+            lcharacter.HumanoidRootPart.Velocity = old
+
+            if Settings.DesyncPreseton then
+                if Settings.DesyncPreset == 'Random' then
+                    Options.DesyncX:SetValue(math.random(-6000, 6000))
+                    Options.DesyncY:SetValue(math.random(0, 6000))
+                    Options.DesyncZ:SetValue(math.random(-6000, 6000))
+                end
+            end
+        end
+    end
+end)
 
 local function createBeam(p1, p2)
     local beam = Instance.new("Part")
