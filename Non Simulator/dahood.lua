@@ -5,10 +5,13 @@ local lcharacter = lplr.Character
 local Settings = {
     Desync = false,
     DesyncPreseton = false,
+    AutoBuyEnabled = false,
     DesyncPreset = "Random",
+    GunSelection = {},
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
+    Ammo = 0,
 }
 
 local function isGun(tool)
@@ -63,7 +66,7 @@ local Tabs = {
 }
 
 local Desync = Tabs.Misc:AddLeftGroupbox('Desync')
-local AutoBuy = Tabs.Misc:AddLeftGroupbox('Auto Buy')
+local AutoBuy = Tabs.Misc:AddRightGroupbox('Auto Buy')
 
 Desync:AddToggle('Desync', {
     Text = 'Desync',
@@ -137,7 +140,43 @@ Desync:AddSlider('DesyncZ', {
     end
 })
 
+AutoBuy:AddToggle('AutoBuyEnabled', {
+    Text = 'Auto Buy',
+    Default = false,
+    Tooltip = 'Auto Buy',
 
+    Callback = function(Value)
+        Settings.AutoBuyEnabled = Value
+    end
+})
+
+Desync:AddDropdown('MyDropdown', {
+    Values = {"Revolver", "Revolver Ammo", "Double-Barrel", "Double-Barrel Ammo"},
+    Default = 1,
+    Multi = true,
+
+    Text = 'Items',
+    Tooltip = 'Select Items to buy',
+
+    Callback = function(Value)
+        Settings.GunSelection = Value
+    end
+})
+
+Desync:AddSlider('Ammo', {
+    Text = 'Ammo Amound',
+    Default = 0,
+    Min = 0,
+    Max = 20,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.Ammo = Value
+    end
+})
+
+--real hackery
 RunService.Heartbeat:Connect(function()
     if Settings.Desync then
         if isAlive(lplr) then
@@ -157,6 +196,22 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end)
+
+local function BuyGun(Weapon)
+    if lcharacter.Humanoid.Health >= 1 then
+        lcharacter.HumanoidRootPart.Position = Weapon:FindFirstChild("Head").CFrame
+        wait(0.1)
+        if Weapon.Name:match("Ammo") then
+            for i=1, Ammo do
+                fireclickdetector(Weapon:FindFirstChild("ClickDetector"))
+                wait(0.5)
+            end
+        end
+    else
+        fireclickdetector(Weapon:FindFirstChild("ClickDetector"))
+        wait(0.5)
+    end
+end
 
 local function createBeam(p1, p2)
     local beam = Instance.new("Part")
@@ -194,6 +249,32 @@ mouse.Button1Down:Connect(function()
     end
 end)
 
+local blockedMethods = {
+    "TeleportDetect",
+    "CHECKER_1",
+    "CHECKER",
+    "GUI_CHECK",
+    "OneMoreTime",
+    "checkingSPEED",
+    "BANREMOTE",
+    "KICKREMOTE",
+    "BR_KICKPC",
+    "BR_KICKMOBILE"
+}
+
+local __namecall
+__namecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Method = getnamecallmethod()
+    if tostring(self.Name) == "MainEvent" and tostring(Method) == "FireServer" then
+        local method = Args[1]
+        if table.find(blockedMethods, method) then
+            return
+        end
+    end
+
+    return __namecall(self, ...)
+end)
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
@@ -208,3 +289,4 @@ SaveManager:SetFolder('MyScriptHub/specific-game')
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:LoadAutoloadConfig()
+
