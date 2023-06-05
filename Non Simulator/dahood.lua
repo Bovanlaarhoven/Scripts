@@ -5,12 +5,11 @@ local lcharacter = lplr.Character
 local Settings = {
     Desync = false,
     DesyncPreseton = false,
-    DesyncPreset = "Default",
+    DesyncPreset = "Random",
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
 }
-
 
 local function isGun(tool)
     return tool:IsA("Tool")
@@ -63,11 +62,12 @@ local Tabs = {
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local LeftGroupBox = Tabs.Misc:AddLeftGroupbox('Desync')
+local Desync = Tabs.Misc:AddLeftGroupbox('Desync')
+local AutoBuy = Tabs.Misc:AddLeftGroupbox('Auto Buy')
 
-LeftGroupBox:AddToggle('Desync', {
+Desync:AddToggle('Desync', {
     Text = 'Desync',
-    Default = true,
+    Default = false,
     Tooltip = 'desyncington',
 
     Callback = function(Value)
@@ -75,17 +75,17 @@ LeftGroupBox:AddToggle('Desync', {
     end
 })
 
-LeftGroupBox:AddToggle('DesyncPreset', {
+Desync:AddToggle('DesyncPreset', {
     Text = 'Desync Preset',
-    Default = true,
+    Default = false,
     Tooltip = 'desyncington',
 
     Callback = function(Value)
-        Settings.Desync = Value
+        Settings.DesyncPreseton = Value
     end
 })
 
-LeftGroupBox:AddDropdown('MyDropdown', {
+Desync:AddDropdown('MyDropdown', {
     Values = { 'Random', 'nothing',},
     Default = 1,
     Multi = false,
@@ -98,11 +98,11 @@ LeftGroupBox:AddDropdown('MyDropdown', {
     end
 })
 
-LeftGroupBox:AddSlider('DesyncX', {
+Desync:AddSlider('DesyncX', {
     Text = 'Desync X',
     Default = 0,
     Min = 0,
-    Max = 5,
+    Max = 6000,
     Rounding = 1,
     Compact = false,
 
@@ -111,11 +111,11 @@ LeftGroupBox:AddSlider('DesyncX', {
     end
 })
 
-LeftGroupBox:AddSlider('DesyncY', {
+Desync:AddSlider('DesyncY', {
     Text = 'Desync Y',
     Default = 0,
     Min = 0,
-    Max = 5,
+    Max = 6000,
     Rounding = 1,
     Compact = false,
 
@@ -124,11 +124,11 @@ LeftGroupBox:AddSlider('DesyncY', {
     end
 })
 
-LeftGroupBox:AddSlider('DesyncZ', {
+Desync:AddSlider('DesyncZ', {
     Text = 'Desync Z',
     Default = 0,
     Min = 0,
-    Max = 5,
+    Max = 6000,
     Rounding = 1,
     Compact = false,
 
@@ -141,18 +141,18 @@ LeftGroupBox:AddSlider('DesyncZ', {
 RunService.Heartbeat:Connect(function()
     if Settings.Desync then
         if isAlive(lplr) then
-            old = lcharacter.HumanoidRootPart.Velocity
+            oldval = lcharacter.HumanoidRootPart.Velocity
             lcharacter.HumanoidRootPart.Velocity = Vector3.new(Settings.DesyncX, Settings.DesyncY, Settings.DesyncZ)
             lcharacter.HumanoidRootPart.CFrame = lcharacter.HumanoidRootPart.CFrame * CFrame.Angles(0,0.0001, 0)
             RunService.RenderStepped:Wait()
-            lcharacter.HumanoidRootPart.Velocity = old
+            lcharacter.HumanoidRootPart.Velocity = oldval
 
             if Settings.DesyncPreseton then
-                if Settings.DesyncPreset == 'Random' then
+                if Settings.DesyncPreset == "Random" then
                     Options.DesyncX:SetValue(math.random(-6000, 6000))
                     Options.DesyncY:SetValue(math.random(0, 6000))
                     Options.DesyncZ:SetValue(math.random(-6000, 6000))
-                end
+                end                
             end
         end
     end
@@ -193,3 +193,18 @@ mouse.Button1Down:Connect(function()
         end
     end
 end)
+
+
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+Library.ToggleKeybind = Options.MenuKeybind
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+SaveManager:LoadAutoloadConfig()
