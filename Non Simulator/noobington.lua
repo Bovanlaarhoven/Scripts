@@ -9451,7 +9451,7 @@ end
 
 --[[
     <void> teleportBuy(<model> weapon)
-]]--
+]]--    
 local teleportBuy = function(weapon)
     if clientCharacter.Humanoid.Health >= 1 then
         clientCharacter.HumanoidRootPart.CFrame = weapon:FindFirstChild("Head").CFrame

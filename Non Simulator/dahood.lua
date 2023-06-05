@@ -2,16 +2,39 @@ local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 
+local Weapons = {
+    "[Glock]",
+    "[SMG]",
+    "[Silencer]",
+    "[TacticalShotgun]",
+    "[P90]",
+    "[AUG]",
+    "[Shotgun]",
+    "[RPG]",
+    "[AR]",
+    "[Double-Barrel SG]",
+    "[Flamethrower]",
+    "[Revolver]",
+    "[LMG]",
+    "[AK47]",
+    "[DrumGun]",
+    "[Silencer]",
+    "[GrenadeLauncher]",
+    "[Taser]",
+    "[SilencerAR]"
+}
+
 local Settings = {
     Desync = false,
+    WeaponVisuals = false,
     DesyncPreseton = false,
-    AutoBuyEnabled = false,
+    BulletTracers = false,
+    BulletTracersColor = Color3.new(0, 120, 255),
+    WeaponColor = Color3.new(0, 120, 255),
     DesyncPreset = "Random",
-    GunSelection = {},
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
-    Ammo = 0,
 }
 
 local function isGun(tool)
@@ -66,7 +89,8 @@ local Tabs = {
 }
 
 local Desync = Tabs.Misc:AddLeftGroupbox('Desync')
-local AutoBuy = Tabs.Misc:AddRightGroupbox('Auto Buy')
+local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
+local Gun = Tabs.Visuals:AddLeftGroupbox('Weapon Visuals')
 
 Desync:AddToggle('Desync', {
     Text = 'Desync',
@@ -140,85 +164,55 @@ Desync:AddSlider('DesyncZ', {
     end
 })
 
-AutoBuy:AddToggle('AutoBuyEnabled', {
-    Text = 'Auto Buy',
+BulletTracers:AddToggle('BulletTracers', {
+    Text = 'Bullet Tracers',
     Default = false,
-    Tooltip = 'Auto Buy',
+    Tooltip = 'BulletTracers Duhh',
 
     Callback = function(Value)
-        Settings.AutoBuyEnabled = Value
+        Settings.BulletTracers = Value
     end
 })
 
-Desync:AddDropdown('MyDropdown', {
-    Values = {"Revolver", "Revolver Ammo", "Double-Barrel", "Double-Barrel Ammo"},
-    Default = 1,
-    Multi = true,
-
-    Text = 'Items',
-    Tooltip = 'Select Items to buy',
+BulletTracers:AddLabel('Color'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Tracer Color',
+    Transparency = 0,
 
     Callback = function(Value)
-        Settings.GunSelection = Value
+        Settings.BulletTracersColor = Value
     end
 })
 
-Desync:AddSlider('Ammo', {
-    Text = 'Ammo Amound',
-    Default = 0,
-    Min = 0,
-    Max = 20,
-    Rounding = 1,
-    Compact = false,
+Gun:AddToggle('GunVisuals', {
+    Text = 'Weapon Visuals',
+    Default = false,
+    Tooltip = 'Weapon Visuals Duhh',
 
     Callback = function(Value)
-        Settings.Ammo = Value
+        Settings.WeaponVisuals = Value
     end
 })
+
+Gun:AddLabel('Color'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Weapon Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        Settings.WeaponColor = Value
+    end
+})
+
 
 --real hackery
-RunService.Heartbeat:Connect(function()
-    if Settings.Desync then
-        if isAlive(lplr) then
-            oldval = lcharacter.HumanoidRootPart.Velocity
-            lcharacter.HumanoidRootPart.Velocity = Vector3.new(Settings.DesyncX, Settings.DesyncY, Settings.DesyncZ)
-            lcharacter.HumanoidRootPart.CFrame = lcharacter.HumanoidRootPart.CFrame * CFrame.Angles(0,0.0001, 0)
-            RunService.RenderStepped:Wait()
-            lcharacter.HumanoidRootPart.Velocity = oldval
-
-            if Settings.DesyncPreseton then
-                if Settings.DesyncPreset == "Random" then
-                    Options.DesyncX:SetValue(math.random(-6000, 6000))
-                    Options.DesyncY:SetValue(math.random(0, 6000))
-                    Options.DesyncZ:SetValue(math.random(-6000, 6000))
-                end                
-            end
-        end
-    end
-end)
-
-local function BuyGun(Weapon)
-    if lcharacter.Humanoid.Health >= 1 then
-        lcharacter.HumanoidRootPart.Position = Weapon:FindFirstChild("Head").CFrame
-        wait(0.1)
-        if Weapon.Name:match("Ammo") then
-            for i=1, Ammo do
-                fireclickdetector(Weapon:FindFirstChild("ClickDetector"))
-                wait(0.5)
-            end
-        end
-    else
-        fireclickdetector(Weapon:FindFirstChild("ClickDetector"))
-        wait(0.5)
-    end
-end
 
 local function createBeam(p1, p2)
     local beam = Instance.new("Part")
     beam.Anchored = true
     beam.CanCollide = false
     beam.Material = Enum.Material.ForceField
-    beam.BrickColor = BrickColor.new("Bright red")
+    beam.BrickColor = BrickColor.new(Settings.BulletTracersColor)   
     
     local thickness = 0.2
     local direction = p2 - p1
@@ -232,21 +226,66 @@ end
 
 local mouse = game.Players.LocalPlayer:GetMouse()
 mouse.Button1Down:Connect(function()
-    local player = game.Players.LocalPlayer
-    local gun = getPlayerGun(player)
-
-    if gun then
-        local handle = gun:FindFirstChild("Handle")
-        if handle then
-            local beamOrigin = handle.Position
-            local beamDirection = (mouse.Hit.p - beamOrigin).unit
-            local beamEnd = beamOrigin + beamDirection * 100
-
-            local beam = createBeam(beamOrigin, beamEnd)
-            wait(0.5)
-            beam:Destroy()
+    if Settings.BulletTracers then
+        local player = game.Players.LocalPlayer
+        local gun = getPlayerGun(player)
+    
+        if gun then
+            local handle = gun:FindFirstChild("Handle")
+            if handle and table.find(Weapons, gun.Name) then
+                local beamOrigin = handle.Position
+                local beamDirection = (mouse.Hit.p - beamOrigin).unit
+                local beamEnd = beamOrigin + beamDirection * 100
+    
+                local beam = createBeam(beamOrigin, beamEnd)
+                wait(0.5)
+                beam:Destroy()
+            end
         end
     end
+end)
+
+local VisualWeapon = function()
+    if Settings.WeaponVisuals then
+        if isAlive(lplr) then
+            if lcharacter:FindFirstChildOfClass("Tool") then
+                local toolname = lcharacter:FindFirstChildOfClass("Tool").Name
+                if table.find(Weapons, toolname) then
+                    for _,v in next, lcharacter:FindFirstChildOfClass("Tool"):GetDescendants() do
+                        if v:IsA("MeshPart") then
+                            v.Material = "ForceField"
+                            v.Color = Settings.WeaponColor
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+RunService.Heartbeat:Connect(function()
+    if Settings.Desync then
+        if isAlive(lplr) then
+            oldval = lcharacter.HumanoidRootPart.Velocity
+            lcharacter.HumanoidRootPart.Velocity = Vector3.new(Settings.DesyncX, Settings.DesyncY, Settings.DesyncZ)
+            lcharacter.HumanoidRootPart.CFrame = lcharacter.HumanoidRootPart.CFrame * CFrame.Angles(0,0.0001, 0)
+            RunService.RenderStepped:Wait()
+            lcharacter.HumanoidRootPart.Velocity = oldval
+            
+            if Settings.DesyncPreseton then
+                if Settings.DesyncPreset == "Random" then
+                    Options.DesyncX:SetValue(math.random(-6000, 6000))
+                    Options.DesyncY:SetValue(math.random(0, 6000))
+                    Options.DesyncZ:SetValue(math.random(-6000, 6000))
+                end                
+            end
+        end
+    end
+end)
+
+
+RunService.RenderStepped:Connect(function()
+    VisualWeapon()
 end)
 
 local blockedMethods = {
