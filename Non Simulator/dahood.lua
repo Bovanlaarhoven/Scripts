@@ -1,6 +1,8 @@
 local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
+local camera = workspace.CurrentCamera
+local replicatedStorage = game:GetService("ReplicatedStorage")
 
 local Weapons = {
     "[Glock]",
@@ -22,6 +24,12 @@ local Weapons = {
     "[GrenadeLauncher]",
     "[Taser]",
     "[SilencerAR]"
+}
+
+local Visuals = {
+    Fov = false,
+    FovColor = Color3.new(0, 120, 255),
+    Transparency = 1,
 }
 
 local Settings = {
@@ -83,14 +91,20 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Legit = Window:AddTab('Legit'),
     Rage = Window:AddTab('Rage'),
+    player = Window:AddTab('Player'),
     Visuals = Window:AddTab('Visuals'),
     Misc = Window:AddTab('Misc'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local Desync = Tabs.Misc:AddLeftGroupbox('Desync')
+local Breakers = Tabs.Misc:AddLeftTabbox()
+
+local Desync = Breakers:AddTab('Desync')
+local PredictionBreaker = Breakers:AddTab('Prediction Breaker')
+
+local AimVisuals = Tabs.Legit:AddLeftGroupbox('Aim Visuals')
 local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
-local Gun = Tabs.Visuals:AddLeftGroupbox('Weapon Visuals')
+local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
 
 Desync:AddToggle('Desync', {
     Text = 'Desync',
@@ -128,7 +142,7 @@ Desync:AddDropdown('MyDropdown', {
 Desync:AddSlider('DesyncX', {
     Text = 'Desync X',
     Default = 0,
-    Min = 0,
+    Min = -6000,
     Max = 6000,
     Rounding = 1,
     Compact = false,
@@ -154,7 +168,7 @@ Desync:AddSlider('DesyncY', {
 Desync:AddSlider('DesyncZ', {
     Text = 'Desync Z',
     Default = 0,
-    Min = 0,
+    Min = -6000,
     Max = 6000,
     Rounding = 1,
     Compact = false,
@@ -204,8 +218,18 @@ Gun:AddLabel('Color'):AddColorPicker('ColorPicker', {
     end
 })
 
-
 --real hackery
+
+local Fov = function()
+    if Visuals.Fov then
+        local Fov = Drawing.new("Circle")
+        Fov.Visible = true
+        Fov.Color = Visuals.FovColor
+        Fov.Transparency = Visuals.Transparency
+    else
+        Fov.Visible = false
+    end
+end
 
 local function createBeam(p1, p2)
     local beam = Instance.new("Part")
@@ -283,9 +307,9 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
-
 RunService.RenderStepped:Connect(function()
     VisualWeapon()
+    Fov()
 end)
 
 local blockedMethods = {
