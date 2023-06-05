@@ -3,6 +3,7 @@ local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local lastVelocities, lastCFrames = {}, {}
 
 local Weapons = {
     "[Glock]",
@@ -33,16 +34,22 @@ local Visuals = {
 }
 
 local Settings = {
+    PredictionBreaker = false,
     Desync = false,
     WeaponVisuals = false,
     DesyncPreseton = false,
+    BreakerPreseton = false,
     BulletTracers = false,
     BulletTracersColor = Color3.new(0, 120, 255),
     WeaponColor = Color3.new(0, 120, 255),
     DesyncPreset = "Random",
+    BreakerPreset = "Random",
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
+    BreakerX = 0,
+    BreakerY = 0,
+    BreakerZ = 0,
 }
 
 local function isGun(tool)
@@ -72,6 +79,12 @@ local function getPlayerGun(player)
         end
     end
     return nil
+end
+
+local clearTable = function(tab)
+    for _, ent in next, tab do
+        ent = nil 
+    end
 end
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
@@ -218,6 +231,78 @@ Gun:AddLabel('Color'):AddColorPicker('ColorPicker', {
     end
 })
 
+PredictionBreaker:AddToggle('Predication breaker', {
+    Text = 'Predication breaker',
+    Default = false,
+    Tooltip = 'desyncington',
+
+    Callback = function(Value)
+        Settings.PredictionBreaker = Value
+    end
+})
+
+PredictionBreaker:AddToggle('Predication', {
+    Text = 'Predication Preset',
+    Default = false,
+    Tooltip = 'Velocityington',
+
+    Callback = function(Value)
+        Settings.BreakerPreseton = Value
+    end
+})
+
+PredictionBreaker:AddDropdown('VelocityDropdown', {
+    Values = { 'Random', 'nothing',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Velocity Presets',
+    Tooltip = 'This is a tooltip',
+
+    Callback = function(Value)
+        Settings.BreakerPreset = Value
+    end
+})
+
+PredictionBreaker:AddSlider('VelocityX', {
+    Text = 'Velocity X',
+    Default = 0,
+    Min = -6000,
+    Max = 6000,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.BreakerX = Value
+    end
+})
+
+PredictionBreaker:AddSlider('VelocityY', {
+    Text = 'Velocity Y',
+    Default = 0,
+    Min = 0,
+    Max = 6000,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.BreakerY = Value
+    end
+})
+
+PredictionBreaker:AddSlider('VelocityZ', {
+    Text = 'Velocity Z',
+    Default = 0,
+    Min = -6000,
+    Max = 6000,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Settings.BreakerZ = Value
+    end
+})
+
 --real hackery
 
 local Fov = function()
@@ -305,6 +390,39 @@ RunService.Heartbeat:Connect(function()
             end
         end
     end
+
+    if Settings.PredictionBreaker then
+        if isAlive(lplr) then
+            fakeVelocity = Vector3.new(Settings.BreakerX, Settings.BreakerY, Settings.BreakerZ)
+            realVelocity = lcharacter.HumanoidRootPart.Velocity
+
+            for _,v in next, lcharacter:GetChildren() do
+                if v and v:IsA("BasePart") then
+                    lastVelocities[v] = v.Velocity
+                    v.Velocity = fakeVelocity
+                end
+            end
+
+
+            for _,v in next, lcharacter:GetChildren() do
+                if v and v:IsA("BasePart") then
+                    v.Velocity = lastVelocities[v]
+                end
+            end
+            clearTable(lastVelocities)
+            clearTable(lastCFrames)
+
+            if Settings.PredictionBreaker then
+                if BreakerPreset == "Random" then
+                    Options.BreakerX:SetValue(math.random(-6000, 6000))
+                    Options.BreakerY:SetValue(math.random(0, 6000))
+                    Options.BreakerZ:SetValue(math.random(-6000, 6000))
+                end
+            end
+
+        end
+    end
+
 end)
 
 RunService.RenderStepped:Connect(function()
