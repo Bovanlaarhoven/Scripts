@@ -120,14 +120,16 @@ local AimVisuals = Tabs.Legit:AddLeftGroupbox('Aim Visuals')
 local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
 local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
 
-Desync:AddToggle('Desync', {
-    Text = 'Desync',
-    Default = false,
-    Tooltip = 'desyncington',
+Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
+    Default = 'T',
+    SyncToggleState = false,
+    Mode = 'Toggle',
 
+    Text = 'Desync',
+    NoUI = false,
     Callback = function(Value)
         Settings.Desync = Value
-    end
+    end,
 })
 
 Desync:AddToggle('DesyncPreset', {
@@ -232,14 +234,15 @@ Gun:AddLabel('Color'):AddColorPicker('ColorPicker', {
     end
 })
 
-PredictionBreaker:AddToggle('Predication breaker', {
-    Text = 'Predication breaker',
-    Default = false,
-    Tooltip = 'desyncington',
-
+PredictionBreaker:AddLabel('Prediction Breaker'):AddKeyPicker('KeyPicker', {
+    Default = 'G',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'Breaker',
+    NoUI = false,
     Callback = function(Value)
         Settings.PredictionBreaker = Value
-    end
+    end,
 })
 
 PredictionBreaker:AddToggle('Predication', {
@@ -422,7 +425,6 @@ RunService.Heartbeat:Connect(function()
 
         end
     end
-
 end)
 
 RunService.RenderStepped:Connect(function()
@@ -457,17 +459,49 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
     return __namecall(self, ...)
 end)
 
+Library:SetWatermark('Privte Project Btw')
+
+Library:OnUnload(function()
+    Library.Unloaded = true
+end)
+
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
+local MyButton = MenuGroup:AddButton({
+    Text = 'Unload',
+    Func = function()
+        Library:Unload()
+    end,
+    DoubleClick = true,
+    Tooltip = 'Unload Script'
+})
+
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+MenuGroup:AddToggle('keybindframe', {
+    Text = 'Keybind Frame',
+    Default = false,
+    Tooltip = 'Toggles KeybindFrame',
+})
+
+Toggles.keybindframe:OnChanged(function()
+    Library.KeybindFrame.Visible = Toggles.keybindframe.Value
+end)
+
+MenuGroup:AddToggle('Watermark', {
+    Text = 'Watermark',
+    Default = false,
+    Tooltip = 'Toggles Watermark',
+})
+
+Toggles.Watermark:OnChanged(function()
+    Library:SetWatermarkVisibility(Toggles.Watermark.Value)
+end)
+
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
 ThemeManager:SetFolder('MyScriptHub')
 SaveManager:SetFolder('MyScriptHub/specific-game')
-SaveManager:BuildConfigSection(Tabs['UI Settings'])
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
-SaveManager:LoadAutoloadConfig()
-
