@@ -4,6 +4,7 @@ local lcharacter = lplr.Character
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
+local Fov = Drawing.new("Circle")
 
 local Weapons = {
     "[Glock]",
@@ -307,7 +308,6 @@ PredictionBreaker:AddSlider('VelocityZ', {
 
 local Fov = function()
     if Visuals.Fov then
-        local Fov = Drawing.new("Circle")
         Fov.Visible = true
         Fov.Color = Visuals.FovColor
         Fov.Transparency = Visuals.Transparency
@@ -412,11 +412,11 @@ RunService.Heartbeat:Connect(function()
             clearTable(lastVelocities)
             clearTable(lastCFrames)
 
-            if Settings.PredictionBreaker then
-                if BreakerPreset == "Random" then
-                    Options.BreakerX:SetValue(math.random(-6000, 6000))
-                    Options.BreakerY:SetValue(math.random(0, 6000))
-                    Options.BreakerZ:SetValue(math.random(-6000, 6000))
+            if Settings.BreakerPreseton then
+                if Settings.BreakerPreset == "Random" then
+                    Options.VelocityX:SetValue(math.random(-6000, 6000))
+                    Options.VelocityY:SetValue(math.random(0, 6000))
+                    Options.VelocityZ:SetValue(math.random(-6000, 6000))
                 end
             end
 
