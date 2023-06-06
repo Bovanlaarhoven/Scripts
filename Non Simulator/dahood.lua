@@ -4,9 +4,11 @@ local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
 local mouse = lplr:GetMouse()
+local userInputService = game:GetService("UserInputService")
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
+local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]
 Fov = Drawing.new("Circle")
 local Remote = game:GetService("ReplicatedStorage").MainEvent
 
@@ -35,12 +37,14 @@ local Weapons = {
 local Visuals = {
     Fov = false,
     FovColor = Color3.new(0, 120, 255),
-    Transparency = 1,
-    Radius = 100,
+    Transparency = 0.5,
+    Radius = 25,
 }
 
 local Settings = {
     Legit = false,
+    Prediction = false,
+    AutoPrediction = false,
     PredictionBreaker = false,
     Desync = false,
     WeaponVisuals = false,
@@ -51,12 +55,17 @@ local Settings = {
     WeaponColor = Color3.new(0, 120, 255),
     DesyncPreset = "Random",
     BreakerPreset = "Random",
+    priority = "Visible",
+    Bone = "Head",  
+    AimMethod = "Closest To Mouse",
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
     BreakerX = 0,
     BreakerY = 0,
     BreakerZ = 0,
+    PredictionAmount = 0,
+    Ping = 20,
 }
 
 local function isGun(tool)
@@ -130,9 +139,8 @@ local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
 local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
 
-
-Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
-    Default = 'T',
+LegitAim:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
+    Default = 'X',
     SyncToggleState = false,
     Mode = 'Toggle',
 
@@ -245,15 +253,14 @@ Gun:AddLabel('Color'):AddColorPicker('ColorPicker', {
     end
 })
 
-PredictionBreaker:AddLabel('Prediction Breaker'):AddKeyPicker('KeyPicker', {
-    Default = 'G',
-    SyncToggleState = false,
-    Mode = 'Toggle',
+PredictionBreaker:AddToggle('Breaker', {
     Text = 'Breaker',
-    NoUI = false,
+    Default = false,
+    Tooltip = 'Breakerington',
+
     Callback = function(Value)
         Settings.PredictionBreaker = Value
-    end,
+    end
 })
 
 PredictionBreaker:AddToggle('Predication', {
@@ -340,7 +347,7 @@ AimVisuals:AddLabel('Color'):AddColorPicker('ColorPicker', {
 
 AimVisuals:AddSlider('Transparency', {
     Text = 'Transparency',
-    Default = 0,
+    Default = 0.5,
     Min = 0,
     Max = 1,
     Rounding = 1,
@@ -355,7 +362,7 @@ AimVisuals:AddSlider('Radius', {
     Text = 'Radius',
     Default = 25,
     Min = 0,
-    Max = 100,
+    Max = 1000,
     Rounding = 1,
     Compact = false,
 
@@ -364,13 +371,88 @@ AimVisuals:AddSlider('Radius', {
     end
 })
 
-LegitAim:AddToggle('Legit', {
-    Text = 'Legit',
+LegitAim:AddLabel('Silent'):AddKeyPicker('KeyPicker', {
+    Default = 'G',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Silent',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.Legit = Value
+    end,
+})
+
+LegitAim:AddToggle('Prediction', {
+    Text = 'Predication',
     Default = false,
     Tooltip = 'Legitington',
 
     Callback = function(Value)
-        Settings.Legit = Value
+        Settings.Prediction = Value
+    end
+})
+
+LegitAim:AddToggle('Prediction', {
+    Text = 'Auto Predication',
+    Default = false,
+    Tooltip = 'Legitington',
+
+    Callback = function(Value)
+        Settings.AutoPrediction = Value
+    end
+})
+
+
+LegitAim:AddSlider('Amound', {
+    Text = 'Amount',
+    Default = 14.3,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.PredictionAmount = Value
+    end
+})
+
+LegitAim:AddDropdown('MyDropdown', {
+    Values = { 'Head', 'HumanoidRootPart',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Hit Bone',
+    Tooltip = 'This is a tooltip',
+
+    Callback = function(Value)
+        Settings.Bone = Value
+    end
+})
+
+LegitAim:AddDropdown('MyDropdown', {
+    Values = { 'Closest To Mouse', 'Closest Part',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Aim Method',
+    Tooltip = 'methington',
+
+    Callback = function(Value)
+        Settings.Bone = Value
+    end
+})
+
+LegitAim:AddDropdown('Priority', {
+    Values = { 'Visible', 'nothing',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Priority',
+    Tooltip = 'Priorityington',
+
+    Callback = function(Value)
+        Settings.Priority = Value
     end
 })
 
@@ -433,6 +515,9 @@ local VisualWeapon = function()
 end
 
 RunService.Heartbeat:Connect(function()
+
+    Settings.Ping = tonumber(string.format("%.3f", ping:GetValue()))
+
     if Settings.Desync then
         if isAlive(lplr) then
             oldval = lcharacter.HumanoidRootPart.Velocity
@@ -485,19 +570,159 @@ RunService.Heartbeat:Connect(function()
 
 end)
 
+task.spawn(function()
+    while true do
+        if Settings.AutoPrediction then
+            if Settings.Ping < 20 then
+                Options.AutoPrediction:SetValue(15.7)
+            elseif Settings.Ping < 30 then
+                Options.AutoPrediction:SetValue(15.5)
+            elseif Settings.Ping < 40 then
+                Options.AutoPrediction:SetValue(14.5)
+            elseif Settings.Ping < 50 then
+                Options.AutoPrediction:SetValue(14.3)
+            elseif Settings.Ping < 60 then
+                Options.AutoPrediction:SetValue(14)
+            elseif Settings.Ping < 70 then
+                Options.AutoPrediction:SetValue(13.5)
+            elseif Settings.Ping < 80 then
+                Options.AutoPrediction:SetValue(13.3)
+            elseif Settings.Ping < 90 then
+                Options.AutoPrediction:SetValue(13)
+            elseif Settings.Ping < 105 then
+                Options.AutoPrediction:SetValue(12.5)
+            elseif Settings.Ping < 120 then
+                Options.AutoPrediction:SetValue(12)
+            else
+                Options.AutoPrediction:SetValue(11.5)
+            end
+
+            wait(0.2)
+        end
+    end
+end)
+
 local Fov = function()
     if Visuals.Fov then
         Fov.Visible = true
         Fov.Color = Visuals.FovColor
         Fov.Radius = Visuals.Radius
+        Fov.Transparency = Visuals.Transparency
+        Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
     else
         Fov.Visible = false
     end
 end
 
+local function isInFov(target)
+    local character = target.Character
+    if not character or not character:IsDescendantOf(workspace) then
+        return false
+    end
+
+    local rootPart = character.PrimaryPart
+    if not rootPart then
+        return false
+    end
+
+    local camera = workspace.CurrentCamera
+    local screenPos, isVisible = camera:WorldToScreenPoint(rootPart.Position)
+    if not isVisible then
+        return false
+    end
+
+    local mousePos = userInputService:GetMouseLocation()
+    local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+    return distance < Visuals.Radius
+end
+
+
+local function isPlayerVisible(player)
+    local character = player.Character
+    if not character or not character:IsDescendantOf(workspace) then
+        print("Character not found or not in workspace")
+        return false
+    end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid or not humanoid.RootPart then
+        print("Humanoid or RootPart not found")
+        return false
+    end
+
+    local camera = workspace.CurrentCamera
+    if not camera then
+        print("Camera not found")
+        return false
+    end
+
+    local rayDirection = (humanoid.RootPart.Position - camera.CFrame.Position).Unit
+    local rayOrigin = camera.CFrame.Position + (rayDirection * 3)
+
+    local ignoreList = {}
+    table.insert(ignoreList, camera)
+
+    local ray = Ray.new(rayOrigin, rayDirection * 1000)
+    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, ignoreList)
+    if hitPart then
+        if hitPart:IsDescendantOf(player.Character) and hitPosition then
+            return true
+        else
+            return false
+        end
+    else
+        return false
+    end
+end
+
+
+local function getClosestPlayer()
+    local Players = game:GetService("Players"):GetPlayers()
+    local ClosestPlayer
+    local ClosestDistance = math.huge
+    local Camera = workspace.CurrentCamera
+    local CameraPosition = Camera.CFrame.Position
+    local CameraDirection = Camera.CFrame.LookVector
+
+    for _, Player in ipairs(Players) do
+        if Player ~= lplr and isInFov(Player) and isAlive(Player) then
+            local Character = Player.Character
+            local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
+            if TargetPart then
+                local RayDirection = (TargetPart.Position - CameraPosition).Unit
+                local DotProduct = CameraDirection:Dot(RayDirection)
+                if DotProduct > 0 then
+                    local Distance = (TargetPart.Position - CameraPosition).Magnitude
+                    if Distance < ClosestDistance then
+                        ClosestPlayer = TargetPart
+                        ClosestDistance = Distance
+                    end
+                end
+            end
+        end
+    end
+
+    return ClosestPlayer
+end
+
+local oldIndex = nil
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+    if self == mouse and not checkcaller() and Settings.Legit then
+        local HitPart = getClosestPlayer()
+
+        if Index == "Target" or Index == "target" then
+            return HitPart
+        elseif Index == "Hit" or Index == "hit" then
+            if HitPart then
+                return ((Settings.Prediction and (HitPart.CFrame + (HitPart.Velocity * Settings.PredictionAmount))) or HitPart.CFrame)
+            end
+        end
+    end
+    return oldIndex(self, Index)
+end)
+
+
 RunService.RenderStepped:Connect(function()
-
-
     VisualWeapon()
     Fov()
 end)
