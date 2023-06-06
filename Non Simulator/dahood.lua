@@ -7,7 +7,7 @@ local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
 Fov = Drawing.new("Circle")
-local Remote = game.ReplicatedStorage.MainEvent
+local Remote = game:GetService("ReplicatedStorage").MainEvent
 
 local Weapons = {
     "[Glock]",
@@ -40,6 +40,7 @@ local Visuals = {
 
 local Settings = {
     Condition = {},
+    Legit = false,
     targetSelection = "Closest",
     AutoReload = false,
     PredictionBreaker = false,
@@ -129,7 +130,7 @@ local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
 local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
 
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
-local LegitAim = Tabs.Legit:AddRightGroupbox('Legit')
+local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
 
 
 Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
@@ -320,9 +321,9 @@ PredictionBreaker:AddSlider('VelocityZ', {
 })
 
 Weapon:AddToggle('AutoReload', {
-    Text = 'AutoReload',
+    Text = 'Auto Reload',
     Default = false,
-    Tooltip = 'AutoReload',
+    Tooltip = 'Auto Reload',
 
     Callback = function(Value)
         Settings.AutoReload = Value
@@ -374,6 +375,43 @@ AimVisuals:AddSlider('Radius', {
         Visuals.Radius = Value
     end
 })
+
+LegitAim:AddToggle('Enable', {
+    Text = 'Enable',
+    Default = false,
+    Tooltip = 'Hackington',
+
+    Callback = function(Value)
+        Visuals.Legit = Value
+    end
+})
+
+LegitAim:AddDropdown('oki', {
+    Values = { 'Closest To Character', 'Closest To Mouse',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Condition',
+    Tooltip = 'Wowie',
+
+    Callback = function(Value)
+        Settings.Condition = Value
+    end
+})
+
+LegitAim:AddDropdown('oki2', {
+    Values = { 'Friend', 'Visible',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Selection',
+    Tooltip = 'Wowie',
+
+    Callback = function(Value)
+        Settings.targetSelection = Value
+    end
+})
+
 
 --real hackery
 
@@ -607,33 +645,6 @@ RunService.RenderStepped:Connect(function()
     Fov()
 end)
 
-local blockedMethods = {
-    "TeleportDetect",
-    "CHECKER_1",
-    "CHECKER",
-    "GUI_CHECK",
-    "OneMoreTime",
-    "checkingSPEED",
-    "BANREMOTE",
-    "KICKREMOTE",
-    "BR_KICKPC",
-    "BR_KICKMOBILE"
-}
-
-local __namecall
-__namecall = hookmetamethod(game, "__namecall", function(self, ...)
-    local Args = {...}
-    local Method = getnamecallmethod()
-    if tostring(self.Name) == "MainEvent" and tostring(Method) == "FireServer" then
-        local method = Args[1]
-        if table.find(blockedMethods, method) then
-            return
-        end
-    end
-
-    return __namecall(self, ...)
-end)
-
 Library:SetWatermark('Privte Project Btw')
 
 Library:OnUnload(function()
@@ -680,3 +691,35 @@ ThemeManager:SetFolder('MyScriptHub')
 SaveManager:SetFolder('MyScriptHub/specific-game')
 SaveManager:BuildConfigSection(Tabs['UI Settings']) 
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
+local blocked = {
+    "TeleportDetect",
+    "CHECKER_1",
+    "CHECKER",
+    "GUI_CHECK",
+    "OneMoreTime",
+    "checkingSPEED",
+    "BANREMOTE",
+    "KICKREMOTE",
+    "BR_KICKPC",
+    "BR_KICKMOBILE"
+}
+
+local c
+c = hookmetamethod(game, "__namecall", function(...)
+        local d = {...}
+        local self = d[1]
+        local e = getnamecallmethod()
+        if e == "FireServer" and self == Remote and table.find(blocked, d[2]) then
+            return
+        end
+        if not checkcaller() and getfenv(2).crash then
+            hookfunction(
+                getfenv(2).crash,
+                function()
+                end
+            )
+        end
+        return c(...)
+    end
+)
