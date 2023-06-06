@@ -1,10 +1,13 @@
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
+local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
-local Fov = Drawing.new("Circle")
+Fov = Drawing.new("Circle")
+local Remote = game.ReplicatedStorage.MainEvent
 
 local Weapons = {
     "[Glock]",
@@ -32,9 +35,13 @@ local Visuals = {
     Fov = false,
     FovColor = Color3.new(0, 120, 255),
     Transparency = 1,
+    Radius = 100,
 }
 
 local Settings = {
+    Condition = {},
+    targetSelection = "Closest",
+    AutoReload = false,
     PredictionBreaker = false,
     Desync = false,
     WeaponVisuals = false,
@@ -116,9 +123,14 @@ local Breakers = Tabs.Misc:AddLeftTabbox()
 local Desync = Breakers:AddTab('Desync')
 local PredictionBreaker = Breakers:AddTab('Prediction Breaker')
 
-local AimVisuals = Tabs.Legit:AddLeftGroupbox('Aim Visuals')
-local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
 local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
+local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
+
+local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
+
+local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
+local LegitAim = Tabs.Legit:AddRightGroupbox('Legit')
+
 
 Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
     Default = 'T',
@@ -307,16 +319,164 @@ PredictionBreaker:AddSlider('VelocityZ', {
     end
 })
 
+Weapon:AddToggle('AutoReload', {
+    Text = 'AutoReload',
+    Default = false,
+    Tooltip = 'AutoReload',
+
+    Callback = function(Value)
+        Settings.AutoReload = Value
+    end
+})
+
+AimVisuals:AddToggle('Fov', {
+    Text = 'Fov',
+    Default = false,
+    Tooltip = 'Fovington',
+
+    Callback = function(Value)
+        Visuals.Fov = Value
+    end
+})
+
+AimVisuals:AddLabel('Color'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Fov Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        Visuals.FovColor = Value
+    end
+})
+
+AimVisuals:AddSlider('Transparency', {
+    Text = 'Transparency',
+    Default = 0,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.Transparency = Value
+    end
+})
+
+AimVisuals:AddSlider('Radius', {
+    Text = 'Radius',
+    Default = 25,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.Radius = Value
+    end
+})
+
 --real hackery
+
+local OnScreen = function(pos)
+    local vector, onScreen = camera:WorldToScreenPoint(pos)
+    return true
+end
+
+local isVisible = function(player)
+    if not isAlive(player) or not isAlive(lplr) then
+        return false
+    end
+    local raycastParameters = RaycastParams.new()
+    raycastParameters.FilterType = Enum.RaycastFilterType.Blacklist
+    raycastParameters.FilterDescendantsInstances = {lplr.Character, player.Character}
+    local result = workspace:Raycast(lplr.Character.HumanoidRootPart.Position, (player.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).unit * 1000, raycastParameters)
+    if result then
+        return false
+    end
+    return true
+end
+
+local InFov = function(target)
+    local screenPoint = camera:WorldToScreenPoint(target.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+    local vector = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
+    local Distance = Vector3.new(lcharacter:WaitForChild("HumanoidRootPart", math.huge).Position - target.Character:WaitForChild("HumanoidRootPart", math.huge).Position).Magnitude
+
+    if Distance < Visuals.Radius and OnScreen(target.Character:WaitForChild("HumanoidRootPart", math.huge).Position) then
+        return true
+    end
+    return false
+end
 
 local Fov = function()
     if Visuals.Fov then
         Fov.Visible = true
         Fov.Color = Visuals.FovColor
+        Fov.Position = Vector2.new(mouse.X, mouse.Y + 36)
         Fov.Transparency = Visuals.Transparency
+        Fov.Radius = Visuals.Radius
     else
         Fov.Visible = false
     end
+end
+
+local GetTarget = function()
+    local Condition = Settings.Condition
+    local Targets = {}
+
+    if not isAlive(lplr) then
+        return nil
+    end
+
+    for _,v in next, Players:GetPlayers() do
+        if v == lplr then continue end
+        if not v or not v.Character then continue end
+        if table.find(Settings.Condition, "Friend") then
+            if v:IsFriendsWith(lplr.UserId) then continue end
+        end
+
+        if table.find(Settings.Condition, "Visible") then
+            if not isVisible(v) then continue end
+        end
+
+        local screenPoint = camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+        local vector = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
+        local Distance = Vector3.new(lcharacter:WaitForChild("HumanoidRootPart", math.huge).Position - v.Character:WaitForChild("HumanoidRootPart", math.huge).Position).Magnitude
+
+
+        if Distance < Visuals.Radius and OnScreen(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position) then
+            table.insert(Targets, {v, vector, Distance})
+        end
+
+        local focusTarget = Targets[1]
+
+        if Settings.targetSelection == "Closest To Character" then
+            for _,v in next, Targets do 
+                if Targets[3] == focusTarget[3] then continue end
+
+                if Targets[3] < focusTarget[3] then
+                    focusTarget = v
+                end
+            end
+        elseif Settings.targetSelection == "Closest To Mouse" then
+            for _, v in next, Targets do 
+                if v[2] == focusTarget[2] then continue end
+    
+                if v[2] < focusTarget[2] then
+                    focusTarget = v
+                end
+            end
+        end
+    end
+end
+
+local isKnocked = function(plr)
+    if not isAlive(plr) then return end
+    if game.PlaceId == 9825515356 then
+        if plr.Character:FindFirstChild("BodyEffects") ~= nil then
+            return plr.Character:FindFirstChild("BodyEffects"):FindFirstChild("K.O").Value
+        end
+    end
+    return false
 end
 
 local function createBeam(p1, p2)
@@ -375,6 +535,20 @@ local VisualWeapon = function()
     end
 end
 
+lplr.CharacterAdded:Connect(function(char)
+    char.ChildAdded:Connect(function(child)
+        if isGun(child) then
+            if Settings.AutoReload then
+                if child:FindFirstChild("Ammo") ~= nil then
+                    if child["Ammo"].Value == 0 then
+                        Remote:FireServer("Reload", child)
+                    end
+                end
+            end
+        end
+    end)
+end)
+
 RunService.Heartbeat:Connect(function()
     if Settings.Desync then
         if isAlive(lplr) then
@@ -425,6 +599,7 @@ RunService.Heartbeat:Connect(function()
 
         end
     end
+
 end)
 
 RunService.RenderStepped:Connect(function()
