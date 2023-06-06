@@ -77,6 +77,20 @@ local isAlive = function(player)
     return (player and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart")) and true or false
 end
 
+local function isLowHealth(player)
+    local character = player.Character
+    if not character then
+        return false
+    end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then
+        return false
+    end
+
+    return humanoid.Health <= 5
+end
+
 local function getPlayerGun(player)
     local character = player.Character
     if character then
@@ -685,20 +699,6 @@ local function isPlayerVisible(player)
     end
 end
 
-local function isLowHealth(player)
-    local character = player.Character
-    if not character then
-        return false
-    end
-
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    if not humanoid then
-        return false
-    end
-
-    return humanoid.Health <= 5
-end
-
 local function getClosestPlayer()
     local Players = game:GetService("Players"):GetPlayers()
     local ClosestPlayer
@@ -711,10 +711,15 @@ local function getClosestPlayer()
         if Player ~= lplr and isInFov(Player) and isAlive(Player) and not isLowHealth(Player) then
             local Character = Player.Character
             local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
-            if TargetPart then 
+            if TargetPart then
                 local RayDirection = (TargetPart.Position - CameraPosition).Unit
                 local DotProduct = CameraDirection:Dot(RayDirection)
+                
                 if DotProduct > 0 then
+                    if Settings.Priority == "Visible" and not isPlayerVisible(Player) then
+                        continue
+                    end
+
                     local Distance = (TargetPart.Position - CameraPosition).Magnitude
                     if Distance < ClosestDistance then
                         if math.random(1, 100) <= Settings.hitChance then
@@ -729,6 +734,7 @@ local function getClosestPlayer()
 
     return ClosestPlayer
 end
+
 
 local oldIndex = nil
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
