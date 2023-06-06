@@ -6,6 +6,8 @@ local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
+local CurrentTarget = nil
+local LockedTarget = nil
 Fov = Drawing.new("Circle")
 local Remote = game:GetService("ReplicatedStorage").MainEvent
 
@@ -23,7 +25,7 @@ local Weapons = {
     "[Flamethrower]",
     "[Revolver]",
     "[LMG]",
-    "[AK47]",
+    "[AK47]", 
     "[DrumGun]",
     "[Silencer]",
     "[GrenadeLauncher]",
@@ -39,9 +41,9 @@ local Visuals = {
 }
 
 local Settings = {
-    Condition = {},
+    Condition = "Friend",
     Legit = false,
-    targetSelection = "Closest",
+    targetSelection = "Closest To Character",
     AutoReload = false,
     PredictionBreaker = false,
     Desync = false,
@@ -395,7 +397,7 @@ LegitAim:AddDropdown('oki', {
     Tooltip = 'Wowie',
 
     Callback = function(Value)
-        Settings.Condition = Value
+        Settings.targetSelection = Value
     end
 })
 
@@ -408,7 +410,7 @@ LegitAim:AddDropdown('oki2', {
     Tooltip = 'Wowie',
 
     Callback = function(Value)
-        Settings.targetSelection = Value
+        Settings.Condition = Value
     end
 })
 
@@ -468,11 +470,11 @@ local GetTarget = function()
     for _,v in next, Players:GetPlayers() do
         if v == lplr then continue end
         if not v or not v.Character then continue end
-        if table.find(Settings.Condition, "Friend") then
+        if Condition["Friend"] then
             if v:IsFriendsWith(lplr.UserId) then continue end
         end
 
-        if table.find(Settings.Condition, "Visible") then
+        if Condition["Visible"] then
             if not isVisible(v) then continue end
         end
 
@@ -489,9 +491,9 @@ local GetTarget = function()
 
         if Settings.targetSelection == "Closest To Character" then
             for _,v in next, Targets do 
-                if Targets[3] == focusTarget[3] then continue end
+                if v[3] == focusTarget[3] then continue end
 
-                if Targets[3] < focusTarget[3] then
+                if v[3] < focusTarget[3] then
                     focusTarget = v
                 end
             end
@@ -641,6 +643,24 @@ RunService.Heartbeat:Connect(function()
 end)
 
 RunService.RenderStepped:Connect(function()
+
+    CurrentTarget = GetTarget()
+
+    if Settings.Legit then
+        if LockedTarget ~= nil then
+            if InFov(LockedTarget) then
+                CurrentTarget = LockedTarget
+            else
+                CurrentTarget = nil
+            end
+        else
+            LockedTarget = CurrentTarget
+        end
+    else
+        LockedTarget = nil
+    end
+    
+
     VisualWeapon()
     Fov()
 end)
