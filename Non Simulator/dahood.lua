@@ -717,8 +717,10 @@ local function getClosestPlayer()
                 if DotProduct > 0 then
                     local Distance = (TargetPart.Position - CameraPosition).Magnitude
                     if Distance < ClosestDistance then
-                        ClosestPlayer = TargetPart
-                        ClosestDistance = Distance
+                        if math.random(1, 100) <= Settings.hitChance then
+                            ClosestPlayer = TargetPart
+                            ClosestDistance = Distance
+                        end
                     end
                 end
             end
