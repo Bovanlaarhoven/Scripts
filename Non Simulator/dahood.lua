@@ -57,7 +57,7 @@ local Settings = {
     BreakerPreset = "Random",
     priority = "Visible",
     Bone = "Head",  
-    AimMethod = "Closest To Mouse",
+    AimMethod = "Closest To Cursor",
     DesyncX = 0,
     DesyncY = 0,
     DesyncZ = 0,
@@ -66,7 +66,6 @@ local Settings = {
     BreakerZ = 0,
     PredictionAmount = 0,
     Ping = 20,
-    hitChance = 50,
 }
 
 local function isGun(tool)
@@ -418,6 +417,20 @@ LegitAim:AddToggle('Prediction', {
     end
 })
 
+LegitAim:AddDropdown('AimMethod', {
+    Values = { 'Closest To Cursor', 'nothing',},
+    Default = 1,
+    Multi = false,
+
+    Text = 'Aim method',
+    Tooltip = 'Aimington',
+
+    Callback = function(Value)
+        Settings.AimMethod = Value
+    end
+})
+
+
 LegitAim:AddDropdown('MyDropdown', {
     Values = { 'Head', 'HumanoidRootPart',},
     Default = 1,
@@ -425,19 +438,6 @@ LegitAim:AddDropdown('MyDropdown', {
 
     Text = 'Hit Bone',
     Tooltip = 'This is a tooltip',
-
-    Callback = function(Value)
-        Settings.Bone = Value
-    end
-})
-
-LegitAim:AddDropdown('MyDropdown', {
-    Values = { 'Closest To Mouse', 'Closest Part',},
-    Default = 1,
-    Multi = false,
-
-    Text = 'Aim Method',
-    Tooltip = 'methington',
 
     Callback = function(Value)
         Settings.Bone = Value
@@ -467,19 +467,6 @@ LegitAim:AddSlider('Amound', {
 
     Callback = function(Value)
         Visuals.PredictionAmount = Value
-    end
-})
-
-LegitAim:AddSlider('HitChance', {
-    Text = 'Hit Chance',
-    Default = 50,
-    Min = 1,
-    Max = 100,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        Visuals.hitChance = Value
     end
 })
 
@@ -661,42 +648,22 @@ local function isInFov(target)
 end
 
 
-local function isPlayerVisible(player)
-    local character = player.Character
-    if not character or not character:IsDescendantOf(workspace) then
-        print("Character not found or not in workspace")
-        return false
+local isVisible = function(player)
+    if not isAlive(player) or not isAlive(lplr) then return false end
+    local raycastParameters = RaycastParams.new();
+    raycastParameters.FilterType = Enum.RaycastFilterType.Blacklist 
+    raycastParameters.FilterDescendantsInstances = {camera, player.Character, lcharacter};
+    local direction = (player.Character.HumanoidRootPart.Position - camera.CFrame.Position);
+    local result = workspace:Raycast(camera.CFrame.Position, direction.Unit * direction.Magnitude, raycastParameters);
+
+    local resultInstance, resultPosition = result and result.Instance, result and result.Position 
+
+    if resultInstance and resultPosition then 
+        if not resultInstance:IsDescendantOf(player.Character) then 
+            return false 
+        end 
     end
-
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    if not humanoid or not humanoid.RootPart then
-        print("Humanoid or RootPart not found")
-        return false
-    end
-
-    local camera = workspace.CurrentCamera
-    if not camera then
-        print("Camera not found")
-        return false
-    end
-
-    local rayDirection = (humanoid.RootPart.Position - camera.CFrame.Position).Unit
-    local rayOrigin = camera.CFrame.Position + (rayDirection * 3)
-
-    local ignoreList = {}
-    table.insert(ignoreList, camera)
-
-    local ray = Ray.new(rayOrigin, rayDirection * 1000)
-    local hitPart, hitPosition = workspace:FindPartOnRayWithIgnoreList(ray, ignoreList)
-    if hitPart then
-        if hitPart:IsDescendantOf(player.Character) and hitPosition then
-            return true
-        else
-            return false
-        end
-    else
-        return false
-    end
+    return true
 end
 
 local function getClosestPlayer()
@@ -716,16 +683,14 @@ local function getClosestPlayer()
                 local DotProduct = CameraDirection:Dot(RayDirection)
                 
                 if DotProduct > 0 then
-                    if Settings.Priority == "Visible" and not isPlayerVisible(Player) then
+                    if Settings.Priority == "Visible" and not isVisible(Player) then
                         continue
                     end
-
+                    
                     local Distance = (TargetPart.Position - CameraPosition).Magnitude
                     if Distance < ClosestDistance then
-                        if math.random(1, 100) <= Settings.hitChance then
-                            ClosestPlayer = TargetPart
-                            ClosestDistance = Distance
-                        end
+                        ClosestPlayer = TargetPart
+                        ClosestDistance = Distance
                     end
                 end
             end
