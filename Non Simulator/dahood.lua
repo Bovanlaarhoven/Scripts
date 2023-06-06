@@ -66,6 +66,7 @@ local Settings = {
     BreakerZ = 0,
     PredictionAmount = 0,
     Ping = 20,
+    hitChance = 50,
 }
 
 local function isGun(tool)
@@ -139,7 +140,7 @@ local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
 local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
 
-LegitAim:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
+Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
     Default = 'X',
     SyncToggleState = false,
     Mode = 'Toggle',
@@ -403,20 +404,6 @@ LegitAim:AddToggle('Prediction', {
     end
 })
 
-
-LegitAim:AddSlider('Amound', {
-    Text = 'Amount',
-    Default = 14.3,
-    Min = 1,
-    Max = 100,
-    Rounding = 1,
-    Compact = false,
-
-    Callback = function(Value)
-        Visuals.PredictionAmount = Value
-    end
-})
-
 LegitAim:AddDropdown('MyDropdown', {
     Values = { 'Head', 'HumanoidRootPart',},
     Default = 1,
@@ -453,6 +440,32 @@ LegitAim:AddDropdown('Priority', {
 
     Callback = function(Value)
         Settings.Priority = Value
+    end
+})
+
+LegitAim:AddSlider('Amound', {
+    Text = 'Predication Amount',
+    Default = 14.3,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.PredictionAmount = Value
+    end
+})
+
+LegitAim:AddSlider('HitChance', {
+    Text = 'Hit Chance',
+    Default = 50,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.hitChance = Value
     end
 })
 
@@ -568,39 +581,36 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-end)
-
-task.spawn(function()
-    while true do
-        if Settings.AutoPrediction then
-            if Settings.Ping < 20 then
-                Options.AutoPrediction:SetValue(15.7)
-            elseif Settings.Ping < 30 then
-                Options.AutoPrediction:SetValue(15.5)
-            elseif Settings.Ping < 40 then
-                Options.AutoPrediction:SetValue(14.5)
-            elseif Settings.Ping < 50 then
-                Options.AutoPrediction:SetValue(14.3)
-            elseif Settings.Ping < 60 then
-                Options.AutoPrediction:SetValue(14)
-            elseif Settings.Ping < 70 then
-                Options.AutoPrediction:SetValue(13.5)
-            elseif Settings.Ping < 80 then
-                Options.AutoPrediction:SetValue(13.3)
-            elseif Settings.Ping < 90 then
-                Options.AutoPrediction:SetValue(13)
-            elseif Settings.Ping < 105 then
-                Options.AutoPrediction:SetValue(12.5)
-            elseif Settings.Ping < 120 then
-                Options.AutoPrediction:SetValue(12)
-            else
-                Options.AutoPrediction:SetValue(11.5)
-            end
-
-            wait(0.2)
+    if Settings.AutoPrediction then
+        if Settings.Ping < 20 then
+            Options.Amound:SetValue(15.7)
+        elseif Settings.Ping < 30 then
+            Options.Amound:SetValue(15.5)
+        elseif Settings.Ping < 40 then
+            Options.Amound:SetValue(14.5)
+        elseif Settings.Ping < 50 then
+            Options.Amound:SetValue(14.3)
+        elseif Settings.Ping < 60 then
+            Options.Amound:SetValue(14)
+        elseif Settings.Ping < 70 then
+            Options.Amound:SetValue(13.5)
+        elseif Settings.Ping < 80 then
+            Options.Amound:SetValue(13.3)
+        elseif Settings.Ping < 90 then
+            Options.Amound:SetValue(13)
+        elseif Settings.Ping < 105 then
+            Options.Amound:SetValue(12.5)
+        elseif Settings.Ping < 120 then
+            Options.Amound:SetValue(12)
+        else
+            Options.Amound:SetValue(11.5)
         end
+
+        wait(0.2)
     end
+
 end)
+
 
 local Fov = function()
     if Visuals.Fov then
@@ -675,6 +685,19 @@ local function isPlayerVisible(player)
     end
 end
 
+local function isLowHealth(player)
+    local character = player.Character
+    if not character then
+        return false
+    end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then
+        return false
+    end
+
+    return humanoid.Health <= 5
+end
 
 local function getClosestPlayer()
     local Players = game:GetService("Players"):GetPlayers()
@@ -685,10 +708,10 @@ local function getClosestPlayer()
     local CameraDirection = Camera.CFrame.LookVector
 
     for _, Player in ipairs(Players) do
-        if Player ~= lplr and isInFov(Player) and isAlive(Player) then
+        if Player ~= lplr and isInFov(Player) and isAlive(Player) and not isLowHealth(Player) then
             local Character = Player.Character
             local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
-            if TargetPart then
+            if TargetPart then 
                 local RayDirection = (TargetPart.Position - CameraPosition).Unit
                 local DotProduct = CameraDirection:Dot(RayDirection)
                 if DotProduct > 0 then
