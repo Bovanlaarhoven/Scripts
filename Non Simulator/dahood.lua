@@ -1,3 +1,4 @@
+local Find = table.find
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
@@ -6,8 +7,6 @@ local mouse = lplr:GetMouse()
 local camera = workspace.CurrentCamera
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local lastVelocities, lastCFrames = {}, {}
-local CurrentTarget = nil
-local LockedTarget = nil
 Fov = Drawing.new("Circle")
 local Remote = game:GetService("ReplicatedStorage").MainEvent
 
@@ -41,6 +40,7 @@ local Visuals = {
 }
 
 local Settings = {
+    Legit = false,
     PredictionBreaker = false,
     Desync = false,
     WeaponVisuals = false,
@@ -109,16 +109,26 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-    Misc = Window:AddTab('Main'),
+    Legit = Window:AddTab('Legit'),
+    Rage = Window:AddTab('Rage'),
+    player = Window:AddTab('Player'),
     Visuals = Window:AddTab('Visuals'),
+    Misc = Window:AddTab('Misc'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
+local Breakers = Tabs.Misc:AddLeftTabbox()
 
-local Desync = Tabs.Misc:AddLeftGroupbox('Desync')
-local PredictionBreaker = Tabs.Misc:AddRightGroupbox('Breaker')
+local Desync = Breakers:AddTab('Desync')
+local PredictionBreaker = Breakers:AddTab('Prediction Breaker')
+
 local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
 local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
+
+local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
+
+local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
+local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
 
 
 Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
@@ -308,6 +318,62 @@ PredictionBreaker:AddSlider('VelocityZ', {
     end
 })
 
+AimVisuals:AddToggle('Fov', {
+    Text = 'Fov',
+    Default = false,
+    Tooltip = 'Fovington',
+
+    Callback = function(Value)
+        Visuals.Fov = Value
+    end
+})
+
+AimVisuals:AddLabel('Color'):AddColorPicker('ColorPicker', {
+    Default = Color3.new(0, 1, 0),
+    Title = 'Fov Color',
+    Transparency = 0,
+
+    Callback = function(Value)
+        Visuals.FovColor = Value
+    end
+})
+
+AimVisuals:AddSlider('Transparency', {
+    Text = 'Transparency',
+    Default = 0,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.Transparency = Value
+    end
+})
+
+AimVisuals:AddSlider('Radius', {
+    Text = 'Radius',
+    Default = 25,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.Radius = Value
+    end
+})
+
+LegitAim:AddToggle('Legit', {
+    Text = 'Legit',
+    Default = false,
+    Tooltip = 'Legitington',
+
+    Callback = function(Value)
+        Settings.Legit = Value
+    end
+})
+
 --real hackery
 
 local function createBeam(p1, p2)
@@ -419,24 +485,18 @@ RunService.Heartbeat:Connect(function()
 
 end)
 
+local Fov = function()
+    if Visuals.Fov then
+        Fov.Visible = true
+        Fov.Color = Visuals.FovColor
+        Fov.Radius = Visuals.Radius
+    else
+        Fov.Visible = false
+    end
+end
+
 RunService.RenderStepped:Connect(function()
 
-    CurrentTarget = GetTarget()
-
-    if Settings.Legit then
-        if LockedTarget ~= nil then
-            if InFov(LockedTarget) then
-                CurrentTarget = LockedTarget
-            else
-                CurrentTarget = nil
-            end
-        else
-            LockedTarget = CurrentTarget
-        end
-    else
-        LockedTarget = nil
-    end
-    
 
     VisualWeapon()
     Fov()
@@ -502,21 +562,17 @@ local blocked = {
     "BR_KICKMOBILE"
 }
 
-local c
-c = hookmetamethod(game, "__namecall", function(...)
-        local d = {...}
-        local self = d[1]
-        local e = getnamecallmethod()
-        if e == "FireServer" and self == Remote and table.find(blocked, d[2]) then
-            return
-        end
-        if not checkcaller() and getfenv(2).crash then
-            hookfunction(
-                getfenv(2).crash,
-                function()
-                end
-            )
-        end
-        return c(...)
+local MainEvent = game:GetService("ReplicatedStorage"):WaitForChild("MainEvent")
+
+local hook
+hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+    local args = {...}
+    local method = getnamecallmethod()
+
+    if self == MainEvent and method == "FireServer" and table.find(blocked, args[1]) then
+        return
     end
-)
+
+    return hook(self, ...)
+end))
+
