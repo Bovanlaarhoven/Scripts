@@ -153,16 +153,14 @@ local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
 local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
 
-Desync:AddLabel('Desync'):AddKeyPicker('KeyPicker', {
-    Default = 'X',
-    SyncToggleState = false,
-    Mode = 'Toggle',
-
+Desync:AddToggle('Desync', {
     Text = 'Desync',
-    NoUI = false,
+    Default = false,
+    Tooltip = 'desyncington',
+
     Callback = function(Value)
         Settings.Desync = Value
-    end,
+    end
 })
 
 Desync:AddToggle('DesyncPreset', {
