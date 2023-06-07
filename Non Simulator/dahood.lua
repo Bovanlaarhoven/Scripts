@@ -50,6 +50,7 @@ local Settings = {
     DesyncPreseton = false,
     BreakerPreseton = false,
     BulletTracers = false,
+    Camlock = false,
     BulletTracersColor = Color3.new(0, 120, 255),
     WeaponColor = Color3.new(0, 120, 255),
     DesyncPreset = "Random",
@@ -65,6 +66,7 @@ local Settings = {
     BreakerZ = 0,
     PredictionAmount = 0,
     Ping = 20,
+    Smoothing = 50,
 }
 
 local function isGun(tool)
@@ -394,6 +396,18 @@ LegitAim:AddLabel('Silent'):AddKeyPicker('KeyPicker', {
     end,
 })
 
+LegitAim:AddLabel('Camlock'):AddKeyPicker('KeyPicker', {
+    Default = 'C',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Camlock',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.Camlock = Value
+    end,
+})
+
 LegitAim:AddToggle('Prediction', {
     Text = 'Predication',
     Default = false,
@@ -464,6 +478,19 @@ LegitAim:AddSlider('Amound', {
 
     Callback = function(Value)
         Visuals.PredictionAmount = Value
+    end
+})
+
+LegitAim:AddSlider('Smoothing', {
+    Text = 'Camlock smoothing',
+    Default = 50,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        Visuals.Smoothing = Value
     end
 })
 
@@ -728,6 +755,22 @@ local function getClosestPlayer()
     return ClosestPlayer
 end
 
+local Camlock = function()
+    local Target = getClosestPlayer()
+    if Settings.Camlock then
+        if Settings.Prediction or Settings.AutoPrediction then
+            if camera then
+                if isAlive(lplr) then
+                    if Target ~= nil then
+                        local Main = CFrame.new(camera.CFrame.Position, Target.Position)
+                        camera.CFrame = camera.CFrame:Lerp(Main, Settings.Smoothing / 100, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut)
+                    end
+                end
+            end
+        end
+    end
+end
+
 local oldIndex = nil
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
     if self == mouse and not checkcaller() and Settings.Legit then
@@ -748,6 +791,7 @@ end)
 RunService.RenderStepped:Connect(function()
     VisualWeapon()
     Fov()
+    Camlock()
 end)
 
 Library:SetWatermark('Privte Project Btw')
@@ -810,7 +854,6 @@ local blocked = {
     "BR_KICKMOBILE"
 }
 
-
 local hook
 hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     local args = {...}
@@ -822,7 +865,6 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
 
     return hook(self, ...)
 end))
-
 
 setreadonly(mt, false)
 mt.__namecall = newcclosure(function(self, ...)
