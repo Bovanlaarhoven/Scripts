@@ -719,7 +719,7 @@ local function getClosestPlayer()
     local CameraDirection = Camera.CFrame.LookVector
 
     for _, Player in ipairs(Players) do
-        if Player ~= lplr and isInFov(Player) and isAlive(Player) and not isLowHealth(Player) then
+        if Player ~= lplr and isInFov(Player) and isAlive(Player) then
             local Character = Player.Character
             local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
             if TargetPart then
