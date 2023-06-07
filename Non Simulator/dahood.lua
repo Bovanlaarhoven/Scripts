@@ -753,7 +753,7 @@ local function getClosestPlayer()
                                 ClosestPlayer = TargetPart
                             end
                         end
-                    elseif Settings.Priority == "Closest to Character" then
+                    elseif TargetSelection == "Closest to Character" then
                         if ClosestPlayer then
                             local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
                             local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
@@ -763,7 +763,7 @@ local function getClosestPlayer()
                         else
                             ClosestPlayer = TargetPart
                         end
-                    elseif Settings.Priority == "Closest to Cursor" then
+                    elseif TargetSelection == "Closest to Cursor" then
                         local ScreenPosition = Camera:WorldToScreenPoint(TargetPart.Position)
                         local CursorDistance = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
                         if ClosestPlayer then
