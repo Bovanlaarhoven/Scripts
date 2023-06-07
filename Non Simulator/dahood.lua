@@ -1,16 +1,15 @@
-local Find = table.find
-local Players = game:GetService("Players")
+local MainEvent = game:GetService("ReplicatedStorage"):WaitForChild("MainEvent")
 local RunService = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 local lcharacter = lplr.Character
-local mouse = lplr:GetMouse()
 local userInputService = game:GetService("UserInputService")
 local camera = workspace.CurrentCamera
-local replicatedStorage = game:GetService("ReplicatedStorage")
+local mt = getrawmetatable(game)
+local namecall = mt.__namecall
 local lastVelocities, lastCFrames = {}, {}
 local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]
 Fov = Drawing.new("Circle")
-local Remote = game:GetService("ReplicatedStorage").MainEvent
+
 
 local Weapons = {
     "[Glock]",
@@ -811,7 +810,6 @@ local blocked = {
     "BR_KICKMOBILE"
 }
 
-local MainEvent = game:GetService("ReplicatedStorage"):WaitForChild("MainEvent")
 
 local hook
 hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
@@ -825,3 +823,17 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     return hook(self, ...)
 end))
 
+
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(self, ...)
+    local args = {...}
+
+    if game.PlaceId == 9825515356 then 
+        if args[1] == "RequestAFKDisplay" then
+            args[2] = false
+            return namecall(self, unpack(args))
+        end
+    end
+
+    return namecall(self, ...)
+end)
