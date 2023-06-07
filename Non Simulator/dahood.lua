@@ -605,33 +605,48 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
+    
+    
+
     if Settings.AutoPrediction then
         if Settings.Ping < 20 then
-            Options.Amound:SetValue(15.7)
-        elseif Settings.Ping < 30 then
-            Options.Amound:SetValue(15.5)
+            if Options.Amound.Value > 15.7 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 15.7 then Options.Amound:SetValue(Options.Amound.Value+.1) end
+        elseif Settings.Ping < 30 then    
+            if Options.Amound.Value > 15.5 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 15.5 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 40 then
-            Options.Amound:SetValue(14.5)
+            if Options.Amound.Value > 14.5 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 14.5 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 50 then
-            Options.Amound:SetValue(14.3)
+            if Options.Amound.Value > 14.3 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 14.3 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 60 then
-            Options.Amound:SetValue(14)
+            if Options.Amound.Value > 14 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 14 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 70 then
-            Options.Amound:SetValue(13.5)
+            if Options.Amound.Value > 13.6 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 13.6 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 80 then
-            Options.Amound:SetValue(13.3)
+            if Options.Amound.Value > 13.3 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 13.3 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         elseif Settings.Ping < 90 then
-            Options.Amound:SetValue(13)
-        elseif Settings.Ping < 105 then
-            Options.Amound:SetValue(12.5)
-        elseif Settings.Ping < 120 then
-            Options.Amound:SetValue(12)
-        else
-            Options.Amound:SetValue(11.5)
+            if Options.Amound.Value > 13 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 13 then Options.Amound:SetValue(Options.Amound.Value+.1) end
+        elseif Settings.Ping < 105 then      
+            if Options.Amound.Value > 12.7 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 12.7 then Options.Amound:SetValue(Options.Amound.Value+.1) end
+        elseif Settings.Ping < 110 then   
+            if Options.Amound.Value > 12.4 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 12.4 then Options.Amound:SetValue(Options.Amound.Value+.1) end
+        else 
+            if Options.Amound.Value > 12.0 then Options.Amound:SetValue(Options.Amound.Value-.1) end
+            if Options.Amound.Value < 12.0 then Options.Amound:SetValue(Options.Amound.Value+.1) end
         end
 
         wait(0.2)
     end
+
 
 end)
 
