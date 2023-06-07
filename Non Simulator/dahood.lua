@@ -77,20 +77,6 @@ local isAlive = function(player)
     return (player and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart")) and true or false
 end
 
-local function isLowHealth(player)
-    local character = player.Character
-    if not character then
-        return false
-    end
-
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    if not humanoid then
-        return false
-    end
-
-    return humanoid.Health <= 5
-end
-
 local function getPlayerGun(player)
     local character = player.Character
     if character then
@@ -646,8 +632,6 @@ RunService.Heartbeat:Connect(function()
 
         wait(0.2)
     end
-
-
 end)
 
 local function isSameTeam(player)
@@ -719,21 +703,57 @@ local function getClosestPlayer()
     local CameraDirection = Camera.CFrame.LookVector
 
     for _, Player in ipairs(Players) do
-        if Player ~= lplr and isInFov(Player) and isAlive(Player) then
-            local Character = Player.Character
-            local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
-            if TargetPart then
-                local RayDirection = (TargetPart.Position - CameraPosition).Unit
-                local DotProduct = CameraDirection:Dot(RayDirection)
-                
-                if DotProduct > 0 then
-                    local TargetSelection = Settings.AimMethod
+        if Player ~= lplr and isInFov(Player) then
+            if isAlive(Player) then
+                local Character = Player.Character
+                local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
+                if TargetPart then
+                    local RayDirection = (TargetPart.Position - CameraPosition).Unit
+                    local DotProduct = CameraDirection:Dot(RayDirection)
 
-                    if Settings.Priority == "Visible" then
-                        local isVisibleToCursor = isVisible(Player) and TargetSelection == "Closest to Cursor"
-                        local isVisibleToCharacter = isVisible(Player) and TargetSelection == "Closest to Character"
+                    if DotProduct > 0 then
+                        local TargetSelection = Settings.AimMethod
 
-                        if isVisibleToCursor or isVisibleToCharacter then
+                        if Settings.Priority == "Visible" then
+                            local isVisibleToCursor = isVisible(Player) and TargetSelection == "Closest to Cursor"
+                            local isVisibleToCharacter = isVisible(Player) and TargetSelection == "Closest to Character"
+
+                            if isVisibleToCursor or isVisibleToCharacter then
+                                if ClosestPlayer then
+                                    local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
+                                    local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
+                                    if TargetDistance < CurrentDistance then
+                                        ClosestPlayer = TargetPart
+                                    end
+                                else
+                                    ClosestPlayer = TargetPart
+                                end
+                            end
+                        elseif Settings.Priority == "Team" then
+                            if isSameTeam(Player) and not isFriend(Player) then
+                                if ClosestPlayer then
+                                    local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
+                                    local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
+                                    if TargetDistance < CurrentDistance then
+                                        ClosestPlayer = TargetPart
+                                    end
+                                else
+                                    ClosestPlayer = TargetPart
+                                end
+                            end
+                        elseif Settings.Priority == "Friend" then
+                            if not isFriend(Player) then
+                                if ClosestPlayer then
+                                    local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
+                                    local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
+                                    if TargetDistance < CurrentDistance then
+                                        ClosestPlayer = TargetPart
+                                    end
+                                else
+                                    ClosestPlayer = TargetPart
+                                end
+                            end
+                        elseif TargetSelection == "Closest to Character" then
                             if ClosestPlayer then
                                 local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
                                 local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
@@ -743,52 +763,21 @@ local function getClosestPlayer()
                             else
                                 ClosestPlayer = TargetPart
                             end
-                        end
-                    elseif Settings.Priority == "Team" then
-                        if isSameTeam(Player) and not isFriend(Player) then
+                        elseif TargetSelection == "Closest to Cursor" then
+                            local ScreenPosition = Camera:WorldToScreenPoint(TargetPart.Position)
+                            local CursorDistance = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
+                            
                             if ClosestPlayer then
-                                local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
-                                local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
-                                if TargetDistance < CurrentDistance then
+                                local CurrentScreenPosition = Camera:WorldToScreenPoint(ClosestPlayer.Position)
+                                local CurrentCursorDistance = (Vector2.new(CurrentScreenPosition.X, CurrentScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
+                            
+                                if CursorDistance > CurrentCursorDistance then
                                     ClosestPlayer = TargetPart
                                 end
                             else
                                 ClosestPlayer = TargetPart
                             end
-                        end
-                    elseif Settings.Priority == "Friend" then
-                        if not isFriend(Player) then
-                            if ClosestPlayer then
-                                local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
-                                local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
-                                if TargetDistance < CurrentDistance then
-                                    ClosestPlayer = TargetPart
-                                end
-                            else
-                                ClosestPlayer = TargetPart
-                            end
-                        end
-                    elseif TargetSelection == "Closest to Character" then
-                        if ClosestPlayer then
-                            local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
-                            local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
-                            if TargetDistance < CurrentDistance then
-                                ClosestPlayer = TargetPart
-                            end
-                        else
-                            ClosestPlayer = TargetPart
-                        end
-                    elseif TargetSelection == "Closest to Cursor" then
-                        local ScreenPosition = Camera:WorldToScreenPoint(TargetPart.Position)
-                        local CursorDistance = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
-                        if ClosestPlayer then
-                            local CurrentScreenPosition = Camera:WorldToScreenPoint(ClosestPlayer.Position)
-                            local CurrentCursorDistance = (Vector2.new(CurrentScreenPosition.X, CurrentScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
-                            if CursorDistance < CurrentCursorDistance then
-                                ClosestPlayer = TargetPart
-                            end
-                        else
-                            ClosestPlayer = TargetPart
+                            
                         end
                     end
                 end
@@ -799,7 +788,7 @@ local function getClosestPlayer()
     return ClosestPlayer
 end
 
-local Camlock = function()
+local function Camlock()
     local Target = getClosestPlayer()
     if Settings.Camlock then
         if Settings.Prediction or Settings.AutoPrediction then
@@ -814,6 +803,7 @@ local Camlock = function()
         end
     end
 end
+
 
 local oldIndex = nil
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
