@@ -441,9 +441,8 @@ LegitAim:AddDropdown('AimMethod', {
     end
 })
 
-
 LegitAim:AddDropdown('MyDropdown', {
-    Values = { 'Head', 'HumanoidRootPart',},
+    Values = { 'Head', 'HumanoidRootPart', 'LowerTorso', 'UpperTorso'},
     Default = 1,
     Multi = false,
 
@@ -700,7 +699,6 @@ end
 local function getClosestPlayer()
     local Players = game:GetService("Players"):GetPlayers()
     local ClosestPlayer
-    local ClosestDistance = math.huge
     local Camera = workspace.CurrentCamera
     local CameraPosition = Camera.CFrame.Position
     local CameraDirection = Camera.CFrame.LookVector
