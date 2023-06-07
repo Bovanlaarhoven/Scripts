@@ -701,10 +701,12 @@ local function getClosestPlayer()
     local Camera = workspace.CurrentCamera
     local CameraPosition = Camera.CFrame.Position
     local CameraDirection = Camera.CFrame.LookVector
+    local ClosestDistance = math.huge
 
     for _, Player in ipairs(Players) do
         if Player ~= lplr and isInFov(Player) then
             if isAlive(Player) then
+                if not isAlive(Player) then return end
                 local Character = Player.Character
                 local TargetPart = Character and Character:FindFirstChild(Settings.Bone)
                 if TargetPart then
@@ -764,20 +766,15 @@ local function getClosestPlayer()
                                 ClosestPlayer = TargetPart
                             end
                         elseif TargetSelection == "Closest to Cursor" then
-                            local ScreenPosition = Camera:WorldToScreenPoint(TargetPart.Position)
-                            local CursorDistance = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
+                            local ScreenPosition, IsVisibleOnViewPort = Camera:WorldToViewportPoint(Character.HumanoidRootPart.Position)
                             
-                            if ClosestPlayer then
-                                local CurrentScreenPosition = Camera:WorldToScreenPoint(ClosestPlayer.Position)
-                                local CurrentCursorDistance = (Vector2.new(CurrentScreenPosition.X, CurrentScreenPosition.Y) - Vector2.new(userInputService:GetMouseLocation())).Magnitude
-                            
-                                if CursorDistance > CurrentCursorDistance then
+                            if IsVisibleOnViewPort then
+                                local MDistance = (Vector2.new(userInputService:GetMouseLocation()) - Vector2.new(ScreenPosition.X, ScreenPosition.Y)).Magnitude
+                                if MDistance < ClosestDistance then
                                     ClosestPlayer = TargetPart
+                                    ClosestDistance = MDistance
                                 end
-                            else
-                                ClosestPlayer = TargetPart
                             end
-                            
                         end
                     end
                 end
