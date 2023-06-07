@@ -51,6 +51,7 @@ local Settings = {
     BreakerPreseton = false,
     BulletTracers = false,
     Camlock = false,
+    AutoShoot = false,
     BulletTracersColor = Color3.new(0, 120, 255),
     WeaponColor = Color3.new(0, 120, 255),
     DesyncPreset = "Random",
@@ -74,8 +75,20 @@ local function isGun(tool)
 end
 
 local isAlive = function(player)
-    return (player and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart")) and true or false
+    if player and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart") then
+        local humanoid = player.Character.Humanoid
+        local humanoidRootPart = player.Character.HumanoidRootPart
+        if humanoid.Health > 0 and humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
+            if humanoidRootPart.Anchored then
+                return false
+            end            
+            return true
+        end
+    end
+    
+    return false
 end
+
 
 local function getPlayerGun(player)
     local character = player.Character
@@ -135,7 +148,7 @@ local PredictionBreaker = Breakers:AddTab('Prediction Breaker')
 local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
 local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
 
-local Weapon = Tabs.Rage:AddRightGroupbox('Weapon')
+local Weapon = Tabs.Rage:AddLeftGroupbox('Weapon')
 
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
 local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
@@ -479,6 +492,16 @@ LegitAim:AddSlider('Smoothing', {
     end
 })
 
+Weapon:AddToggle('Fov', {
+    Text = 'Auto Shoot',
+    Default = false,
+    Tooltip = 'Shootington',
+
+    Callback = function(Value)
+        Settings.AutoShoot = Value
+    end
+})
+
 --real hackery
 
 local function createBeam(p1, p2)
@@ -701,7 +724,6 @@ local function getClosestPlayer()
     local Camera = workspace.CurrentCamera
     local CameraPosition = Camera.CFrame.Position
     local CameraDirection = Camera.CFrame.LookVector
-    local ClosestDistance = math.huge
 
     for _, Player in ipairs(Players) do
         if Player ~= lplr and isInFov(Player) then
@@ -766,14 +788,14 @@ local function getClosestPlayer()
                                 ClosestPlayer = TargetPart
                             end
                         elseif TargetSelection == "Closest to Cursor" then
-                            local ScreenPosition, IsVisibleOnViewPort = Camera:WorldToViewportPoint(Character.HumanoidRootPart.Position)
-                            
-                            if IsVisibleOnViewPort then
-                                local MDistance = (Vector2.new(userInputService:GetMouseLocation()) - Vector2.new(ScreenPosition.X, ScreenPosition.Y)).Magnitude
-                                if MDistance < ClosestDistance then
+                            if ClosestPlayer then
+                                local CurrentDistance = (ClosestPlayer.Position - CameraPosition).Magnitude
+                                local TargetDistance = (TargetPart.Position - CameraPosition).Magnitude
+                                if TargetDistance < CurrentDistance then
                                     ClosestPlayer = TargetPart
-                                    ClosestDistance = MDistance
                                 end
+                            else
+                                ClosestPlayer = TargetPart
                             end
                         end
                     end
@@ -801,6 +823,20 @@ local function Camlock()
     end
 end
 
+local AutoShoot = function()
+    local Target = getClosestPlayer()
+    if Settings.AutoShoot and isAlive(lplr) and Settings.Priority == "Visible" then
+        if Target and lplr.Character and lplr.Character:FindFirstChildOfClass("Tool") then
+            local tool = lplr.Character:FindFirstChildOfClass("Tool")
+            if isGun(tool) then
+                if Target.Parent:FindFirstChild("ForceField") then return end
+                tool:Activate()
+                wait(.2)
+            end
+        end
+    end
+end
+
 
 local oldIndex = nil
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
@@ -823,6 +859,7 @@ RunService.RenderStepped:Connect(function()
     VisualWeapon()
     Fov()
     Camlock()
+    AutoShoot()
 end)
 
 Library:SetWatermark('Privte Project Btw')
