@@ -837,7 +837,6 @@ local AutoShoot = function()
     end
 end
 
-
 local oldIndex = nil
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
     if self == mouse and not checkcaller() and Settings.Legit then
