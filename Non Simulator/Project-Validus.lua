@@ -77,6 +77,10 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
+local function istool(tool)
+    return tool:IsA("Tool")
+end
+
 local function isPlayerWithinFOV(player)
     local character = player.Character
     if not character or not character:IsDescendantOf(workspace) then
