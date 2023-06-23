@@ -927,7 +927,7 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     local method = getnamecallmethod()
 
     if self == MainEvent and method == "FireServer" and table.find(blocked, args[1]) then
-        return
+        return nil
     end
 
     return hook(self, ...)
