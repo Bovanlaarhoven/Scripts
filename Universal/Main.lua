@@ -5,9 +5,12 @@ local UserInputService = game:GetService("UserInputService")
 local GetMouseLocation = UserInputService.GetMouseLocation
 local ValidTargetParts = {"Head", "HumanoidRootPart"}
 local mouse = plr:GetMouse()
-local GetPlayers = plrs.GetPlayers
 local Camera = workspace.CurrentCamera
+local FindFirstChild = game.FindFirstChild
+local WorldToScreen = Camera.WorldToScreenPoint
+local GetPlayers = plrs.GetPlayers
 local Character = plr.Character
+local GetPartsObscuringTarget = Camera.GetPartsObscuringTarget
 local Humanoid = Character.Humanoid
 local RootPart = Character.HumanoidRootPart
 
@@ -38,14 +41,6 @@ local IsAlive = function(Plr)
     return Plr.Character and Plr.Character:FindFirstChild("Humanoid") and Plr.Character.Humanoid.Health > 0
 end
 
-local GetTool = function()
-    for _,v in pairs(plr.Backpack:GetChildren()) do
-        if IsTool(v) then
-            return v
-        end
-    end
-end
-
 local TeamCheck = function(Plr)
     return plr.Team ~= Plr.Team
 end
@@ -54,16 +49,20 @@ local GetMousePosition = function()
     return GetMouseLocation(UserInputService)
 end
 
-local VisibleCheck = function(player)
-    local ray = Ray.new(RootPart.Position, (player.Character.Head.Position - RootPart.Position).unit * 300)
-    local part, position = workspace:FindPartOnRayWithIgnoreList(ray, {RootPart, Character})
-    if part then
-        local humanoid = part.Parent:FindFirstChildOfClass("Humanoid")
-        if not humanoid or humanoid.Parent == Character then
-            return true
-        end
-    end
-    return false
+local IsPlayerVisible = function(Player)
+    local PlayerCharacter = Player.Character
+    local LocalPlayerCharacter = plr.Character
+    
+    if not (PlayerCharacter or LocalPlayerCharacter) then return end 
+    
+    local PlayerRoot = FindFirstChild(PlayerCharacter, Settings.TargetPart) or FindFirstChild(PlayerCharacter, "HumanoidRootPart")
+    
+    if not PlayerRoot then return end 
+    
+    local CastPoints, IgnoreList = {PlayerRoot.Position, LocalPlayerCharacter, PlayerCharacter}, {LocalPlayerCharacter, PlayerCharacter}
+    local ObscuringObjects = #GetPartsObscuringTarget(Camera, CastPoints, IgnoreList)
+    
+    return ((ObscuringObjects == 0 and true) or (ObscuringObjects > 0 and false))
 end
 
 local Arguments = {
@@ -106,8 +105,8 @@ local ValidateArgument = function(Args, RayMethod)
         return false
     end
 
-    for Pos,Arguments in next, Args do
-        if typeof(Arguments) == RayMethod.Args[Pos] then
+    for Pos, Argument in next, Args do
+        if typeof(Argument) == RayMethod.Args[Pos] then
             Matches = Matches + 1
         end
     end
@@ -115,10 +114,11 @@ local ValidateArgument = function(Args, RayMethod)
 end
 
 local Direction = function(Origin, Position)
-    return (Position - Origin).unit * 1000
+    return (Position - Origin).Unit * 1000
 end
 
 local GetClosestPlayer = function()
+    if not Settings.TargetPart then return end
     local Closest
     local DistanceToMouse
     for _,Player in next, GetPlayers(plrs) do
@@ -127,18 +127,18 @@ local GetClosestPlayer = function()
         local Character = Player.Character
         if not Character then continue end
 
-        if Settings.VisibleCheck and not VisibleCheck(Player) then continue end
+        if Settings.VisibleCheck and not IsPlayerVisible(Player) then continue end
 
         local HumanoidRootPart = FindFirstChild(Character, "HumanoidRootPart")
         local Humanoid = FindFirstChild(Character, "Humanoid")
-        if not HumanoidRootPart or not Humanoid or not IsAlive(Player) then continue end
+        if not HumanoidRootPart or not Humanoid or Humanoid and Humanoid.Health <= 0 then continue end
 
         local ScreenPosition, OnScreen = GetScreenPosition(HumanoidRootPart.Position)
         if not OnScreen then continue end
 
         local Distance = (GetMousePosition() - ScreenPosition).Magnitude
         if Distance <= (DistanceToMouse or Settings.FovRadius or 2000) then
-            Closest = ((Settings.TargetPart == "Random" and Character[ValidTargetParts[math.random(1, #ValidTargetParts)]] or Character[Settings.TargetPart]) or HumanoidRootPart)
+            Closest = ((Settings.TargetPart == "Random" and Character[ValidTargetParts[math.random(1, #ValidTargetParts)]] or Character[Settings.TargetPart]))
             DistanceToMouse = Distance
         end
     end
@@ -293,7 +293,7 @@ OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
                     return OldNamecall(unpack(Args))
                 end
             end
-        elseif (Method == "FindPartOnRay" and Settings.Method == Method) and Settings.Method:lower() == Method:Lower() then
+        elseif (Method == "FindPartOnRay" or Method == "findPartOnRay") and Settings.Method == Method then
             if ValidateArgument(Args, Arguments.FindPartOnRay) then
                 local A_Ray = Args[2]
                 local HitPart = GetClosestPlayer()
