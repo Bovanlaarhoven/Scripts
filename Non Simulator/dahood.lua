@@ -932,17 +932,3 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
 
     return hook(self, ...)
 end))
-
-setreadonly(mt, false)
-mt.__namecall = newcclosure(function(self, ...)
-    local args = {...}
-
-    if game.PlaceId == 9825515356 then 
-        if args[1] == "RequestAFKDisplay" then
-            args[2] = false
-            return namecall(self, unpack(args))
-        end
-    end
-
-    return namecall(self, ...)
-end)
