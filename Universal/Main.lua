@@ -4,7 +4,9 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local GetMouseLocation = UserInputService.GetMouseLocation
 local ValidTargetParts = {"Head", "HumanoidRootPart"}
+local VirtualUser = game:GetService("VirtualUser")
 local mouse = plr:GetMouse()
+local originalCameraMode = game.Players.LocalPlayer.CameraMode
 local Camera = workspace.CurrentCamera
 local FindFirstChild = game.FindFirstChild
 local WorldToScreen = Camera.WorldToScreenPoint
@@ -15,6 +17,9 @@ local Humanoid = Character.Humanoid
 local RootPart = Character.HumanoidRootPart
 
 local Settings = {
+    Viewmodel = false,
+    ViewmodelDistance = 0,
+    TriggerBot = false,
     Enabled = false,
     Method = "Raycast",
     TeamCheck = false,
@@ -145,6 +150,26 @@ local GetClosestPlayer = function()
     return Closest
 end
 
+local TriggerBot = function()
+    if Settings.TriggerBot then
+        local Closest = GetClosestPlayer()
+        local mousePos = GetMousePosition()
+        if Closest then
+            mouse1click(mousePos)
+        end
+    end
+end
+
+local Viewmodel = function()
+    if Settings.Viewmodel then
+        game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
+        game.Players.LocalPlayer.CameraMaxZoomDistance = Settings.ViewmodelDistance
+        game.Players.LocalPlayer.CameraMinZoomDistance = Settings.ViewmodelDistance
+    else
+        game.Players.LocalPlayer.CameraMode = originalCameraMode
+    end
+end
+
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -162,11 +187,14 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Legit'),
     Rage = Window:AddTab('Rage'),
+    Player = Window:AddTab('Player'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local Silent = Tabs.Main:AddLeftGroupbox('Silent')
 local Fov = Tabs.Main:AddRightGroupbox('Fov')
+local Rage = Tabs.Rage:AddLeftGroupbox('Rage')
+local Player = Tabs.Player:AddLeftGroupbox('Player')
 
 Silent:AddToggle('Enabled', {
     Text = 'Enable',
@@ -194,6 +222,16 @@ Silent:AddToggle('VisibleCheck', {
         Settings.VisibleCheck = Value
     end
 })
+
+Player:AddToggle('Viewmodel', {
+    Text = 'Viewmodel',
+    Default = false,
+    Tooltip = 'viewington',
+    Callback = function(Value)
+        Settings.Viewmodel = Value
+    end
+})
+
 
 Silent:AddDropdown('HitPart', {
     Values = {'Random', 'Head', 'HumanoidRootPart'},
@@ -263,6 +301,29 @@ Fov:AddSlider('Trans', {
     end
 })
 
+Player:AddSlider('ViewmodelDistance', {
+    Text = 'Player',
+    Default = 100,
+    Min = 1,
+    Max = 250,
+    Rounding = 1,
+    Compact = false,
+    Callback = function(Value)
+        Settings.ViewmodelDistance = Value
+    end
+})
+
+Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
+    Default = 'J',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Triggerbot',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.TriggerBot = Value
+    end,
+})
 
 local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
@@ -332,8 +393,10 @@ local Fov = function()
     end
 end
 
-RunService.RenderStepped:Connect(function()
+RunService.Heartbeat:Connect(function()
     Fov()
+    TriggerBot()
+    Viewmodel()
 end)
 
 Library:SetWatermark('Privte Project Btw')
