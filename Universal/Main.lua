@@ -18,13 +18,15 @@ local RootPart = Character.HumanoidRootPart
 
 local Settings = {
     Viewmodel = false,
-    ViewmodelDistance = 0,
+    Spinbot = false,
     TriggerBot = false,
     Enabled = false,
     Method = "Raycast",
     TeamCheck = false,
     TargetPart = "Head",
     HitChance = 100, 
+    ViewmodelDistance = 0,
+    SpinbotSpeed = 10,
 
     --Fov
     FovRadius = 100,
@@ -279,7 +281,7 @@ Fov:AddSlider('Radois', {
     Text = 'Fov Radius',
     Default = 100,
     Min = 1,
-    Max = 250,
+    Max = 500,
     Rounding = 1,
     Compact = false,
     Callback = function(Value)
@@ -302,7 +304,7 @@ Fov:AddSlider('Trans', {
 Rage:AddSlider('ViewmodelDistance', {
     Text = 'Player',
     Default = 100,
-    Min = 1,
+    Min = 0,
     Max = 250,
     Rounding = 1,
     Compact = false,
