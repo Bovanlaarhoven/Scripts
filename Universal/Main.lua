@@ -172,6 +172,35 @@ local Viewmodel = function()
     end
 end
 
+local Spinbot = function()
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+    local character = humanoid.Parent
+    local speed = Settings.SpinbotSpeed
+
+    if Settings.Spinbot then
+        local angularVelocity = Instance.new("BodyAngularVelocity")
+        angularVelocity.AngularVelocity = Vector3.new(0, speed, 0)
+        angularVelocity.MaxTorque = Vector3.new(0, math.huge, 0)
+
+        local torso = character:WaitForChild("HumanoidRootPart")
+        angularVelocity.Parent = torso
+
+        local cleanup
+        cleanup = humanoid.Died:Connect(function()
+            angularVelocity:Destroy()
+            cleanup:Disconnect()
+        end)
+    else
+        local torso = character:FindFirstChild("HumanoidRootPart")
+        local angularVelocity = torso and torso:FindFirstChildOfClass("BodyAngularVelocity")
+        if angularVelocity then
+            angularVelocity:Destroy()
+        end
+    end
+end
+
+
+
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -195,6 +224,8 @@ local Tabs = {
 local Silent = Tabs.Main:AddLeftGroupbox('Silent')
 local Fov = Tabs.Main:AddRightGroupbox('Fov')
 local Rage = Tabs.Rage:AddLeftGroupbox('Rage')
+local ViewModel = Tabs.Rage:AddRightGroupbox('ViewModel')
+local Spinbots = Tabs.Rage:AddRightGroupbox('Spinbots')
 
 Silent:AddToggle('Enabled', {
     Text = 'Enable',
@@ -223,7 +254,7 @@ Silent:AddToggle('VisibleCheck', {
     end
 })
 
-Rage:AddToggle('Viewmodel', {
+ViewModel:AddToggle('Viewmodel', {
     Text = 'Viewmodel',
     Default = false,
     Tooltip = 'viewington',
@@ -232,6 +263,14 @@ Rage:AddToggle('Viewmodel', {
     end
 })
 
+Spinbots:AddToggle('Spinny', {
+    Text = 'Spinbot',
+    Default = false,
+    Tooltip = 'Spinbot',
+    Callback = function(Value)
+        Settings.Spinbot = Value
+    end
+})
 
 Silent:AddDropdown('HitPart', {
     Values = {'Random', 'Head', 'HumanoidRootPart'},
@@ -301,7 +340,7 @@ Fov:AddSlider('Trans', {
     end
 })
 
-Rage:AddSlider('ViewmodelDistance', {
+ViewModel:AddSlider('ViewmodelDistance', {
     Text = 'Player',
     Default = 100,
     Min = 0,
@@ -310,6 +349,18 @@ Rage:AddSlider('ViewmodelDistance', {
     Compact = false,
     Callback = function(Value)
         Settings.ViewmodelDistance = Value
+    end
+})
+
+Spinbots:AddSlider('Spin', {
+    Text = 'Spinbot Speed',
+    Default = 100,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+    Callback = function(Value)
+        Settings.SpinbotSpeed = Value
     end
 })
 
@@ -397,6 +448,7 @@ RunService.Heartbeat:Connect(function()
     Fov()
     TriggerBot()
     Viewmodel()
+    Spinbot()
 end)
 
 Library:SetWatermark('Privte Project Btw')
