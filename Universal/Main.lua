@@ -187,14 +187,12 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Legit'),
     Rage = Window:AddTab('Rage'),
-    Player = Window:AddTab('Player'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local Silent = Tabs.Main:AddLeftGroupbox('Silent')
 local Fov = Tabs.Main:AddRightGroupbox('Fov')
 local Rage = Tabs.Rage:AddLeftGroupbox('Rage')
-local Player = Tabs.Player:AddLeftGroupbox('Player')
 
 Silent:AddToggle('Enabled', {
     Text = 'Enable',
@@ -223,7 +221,7 @@ Silent:AddToggle('VisibleCheck', {
     end
 })
 
-Player:AddToggle('Viewmodel', {
+Rage:AddToggle('Viewmodel', {
     Text = 'Viewmodel',
     Default = false,
     Tooltip = 'viewington',
@@ -301,7 +299,7 @@ Fov:AddSlider('Trans', {
     end
 })
 
-Player:AddSlider('ViewmodelDistance', {
+Rage:AddSlider('ViewmodelDistance', {
     Text = 'Player',
     Default = 100,
     Min = 1,
