@@ -461,9 +461,9 @@ LPH_JIT_MAX(function()
             end
         end
         return OldNamecall(...)
-    end))    
-end)()
-
+    end))  
+end)
+  
 local Fov = Drawing.new("Circle")
 
 local Fov = function()

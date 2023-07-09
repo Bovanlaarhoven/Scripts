@@ -836,22 +836,23 @@ local AutoShoot = function()
     end
 end
 
-local oldIndex = nil
-oldIndex = hookmetamethod(game, "__index", function(self, Index)
-    if self == mouse and not checkcaller() and Settings.Legit then
-        local HitPart = getClosestPlayer()
-
-        if Index == "Target" or Index == "target" then
-            return HitPart
-        elseif Index == "Hit" or Index == "hit" then
-            if HitPart then
-                return ((Settings.Prediction and (HitPart.CFrame + (HitPart.Velocity * Settings.PredictionAmount))) or HitPart.CFrame)
+LPH_JIT_MAX(function()
+    local oldIndex = nil
+    oldIndex = hookmetamethod(game, "__index", function(self, Index)
+        if self == mouse and not checkcaller() and Settings.Legit then
+            local HitPart = getClosestPlayer()
+    
+            if Index == "Target" or Index == "target" then
+                return HitPart
+            elseif Index == "Hit" or Index == "hit" then
+                if HitPart then
+                    return ((Settings.Prediction and (HitPart.CFrame + (HitPart.Velocity * Settings.PredictionAmount))) or HitPart.CFrame)
+                end
             end
         end
-    end
-    return oldIndex(self, Index)
+        return oldIndex(self, Index)
+    end)
 end)
-
 
 RunService.RenderStepped:Connect(function()
     VisualWeapon()
