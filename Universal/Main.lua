@@ -17,6 +17,7 @@ local Humanoid = Character.Humanoid
 local RootPart = Character.HumanoidRootPart
 
 local Settings = {
+    BulletTracers = false,
     Viewmodel = false,
     Spinbot = false,
     TriggerBot = false,
@@ -24,6 +25,7 @@ local Settings = {
     Method = "Raycast",
     TeamCheck = false,
     TargetPart = "Head",
+    BulletTracersColor = Color3.fromRGB(255, 255, 255),
     HitChance = 100, 
     ViewmodelDistance = 0,
     SpinbotSpeed = 10,
@@ -54,6 +56,35 @@ end
 
 local GetMousePosition = function()
     return GetMouseLocation(UserInputService)
+end
+
+local Getgun = function(player)
+    local character = player.Character
+    if character then
+        for _, child in ipairs(character:GetChildren()) do
+            if IsTool(child) then
+                return child
+            end
+        end
+    end
+    return nil
+end
+
+local CreateBeam = function(p1, p2)
+    local beam = Instance.new("Part")
+    beam.Anchored = true
+    beam.CanCollide = false
+    beam.Material = Enum.Material.ForceField
+    beam.BrickColor = BrickColor.new(Settings.BulletTracersColor)   
+    
+    local thickness = 0.2
+    local direction = p2 - p1
+    local magnitude = direction.magnitude
+    
+    beam.Size = Vector3.new(thickness, thickness, magnitude)
+    beam.CFrame = CFrame.new(p1, p2) * CFrame.new(0, 0, -magnitude / 2)
+    beam.Parent = workspace
+    return beam
 end
 
 local IsPlayerVisible = function(Player)
@@ -199,7 +230,23 @@ local Spinbot = function()
     end
 end
 
-
+mouse.Button1Down:Connect(function()
+    if Settings.BulletTracers then
+        local gun = Getgun(plr)
+        if gun then
+            local handle = gun:FindFirstChild("Handle")
+            if handle then
+                local beamOrigin = handle.Position
+                local BeamDirection = Direction(beamOrigin, GetClosestPlayer().Position)
+                local BeamEnd = beamOrigin + BeamDirection
+                local beam = CreateBeam(beamOrigin, BeamEnd)
+                wait(0.5)
+                beam:Destroy()
+                task.wait(1)
+            end
+        end
+    end
+end)
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
@@ -226,6 +273,8 @@ local Fov = Tabs.Main:AddRightGroupbox('Fov')
 local Rage = Tabs.Rage:AddLeftGroupbox('Rage')
 local ViewModel = Tabs.Rage:AddRightGroupbox('ViewModel')
 local Spinbots = Tabs.Rage:AddRightGroupbox('Spinbots')
+local BulletTracers = Tabs.Rage:AddRightGroupbox('Bullet Tracers')
+
 
 Silent:AddToggle('Enabled', {
     Text = 'Enable',
@@ -315,6 +364,16 @@ Fov:AddToggle('Fov Visible', {
         Settings.FovVisable = Value
     end
 })
+
+BulletTracers:AddToggle('Enabled', {
+    Text = 'Bullet tracers',
+    Default = false,
+    Tooltip = 'Tracington',
+    Callback = function(Value)
+        Settings.BulletTracers = Value
+    end
+})
+
 
 Fov:AddSlider('Radois', {
     Text = 'Fov Radius',
