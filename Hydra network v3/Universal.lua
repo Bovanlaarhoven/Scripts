@@ -408,7 +408,7 @@ Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
 })
 
 
-LPH_JIT_MAX(function()
+    (function()
     local OldNamecall
     OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
         local Method = getnamecallmethod()
