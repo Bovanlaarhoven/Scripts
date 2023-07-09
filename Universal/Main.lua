@@ -1,3 +1,11 @@
+for _, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+    v:Disable()
+end
+
+for _, v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
+    v:Disable()
+end
+
 local plr = game:GetService("Players").LocalPlayer
 local plrs = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -15,7 +23,6 @@ local Character = plr.Character
 local GetPartsObscuringTarget = Camera.GetPartsObscuringTarget
 local Humanoid = Character.Humanoid
 local RootPart = Character.HumanoidRootPart
-
 local Settings = {
     BulletTracers = false,
     Spinbot = false,
@@ -84,7 +91,6 @@ local CreateBeam = function(p1, p2)
     beam.Parent = workspace
     return beam
 end
-
 local IsPlayerVisible = function(Player)
     local PlayerCharacter = Player.Character
     local LocalPlayerCharacter = plr.Character
@@ -312,7 +318,7 @@ Silent:AddDropdown('HitPart', {
 })
 
 Silent:AddDropdown('MyDropdown', {
-    Values = { 'Raycast', 'FindPartOnRay', 'FindPartOnRayWithWhitelist', 'FindPartOnRayWithIgnoreList' },
+    Values = { 'Raycast', 'FindPartOnRay', 'FindPartOnRayWithWhitelist', 'FindPartOnRayWithIgnoreList'},
     Default = 1,
     Multi = false, 
     Text = 'A dropdown',
