@@ -407,59 +407,62 @@ Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
     end,
 })
 
-local OldNamecall
-OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
-    local Method = getnamecallmethod()
-    local Args = {...}
-    local self = Args[1]
-    local chance = HitChanceMath(Settings.HitChance)
-    if Settings.Enabled and self == workspace and not checkcaller() and chance == true then
-        if Method == "FindPartOnRayWithIgnoreList" and Settings.Method == Method then
-            if ValidateArgument(Args, Arguments.FindPartOnRayWithIgnoreList) then
-                local A_Ray = Args[2]
-                local HitPart = GetClosestPlayer()
-                if HitPart then
-                    local Origin = A_Ray.Origin
-                    local Direction = Direction(Origin, HitPart.Position)
-                    Args[2] = Ray.new(Origin, Direction)
-                    return OldNamecall(unpack(Args))
+
+LPH_JIT_MAX(function()
+    local OldNamecall
+    OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
+        local Method = getnamecallmethod()
+        local Args = {...}
+        local self = Args[1]
+        local chance = HitChanceMath(Settings.HitChance)
+        if Settings.Enabled and self == workspace and not checkcaller() and chance == true then
+            if Method == "FindPartOnRayWithIgnoreList" and Settings.Method == Method then
+                if ValidateArgument(Args, Arguments.FindPartOnRayWithIgnoreList) then
+                    local A_Ray = Args[2]
+                    local HitPart = GetClosestPlayer()
+                    if HitPart then
+                        local Origin = A_Ray.Origin
+                        local Direction = Direction(Origin, HitPart.Position)
+                        Args[2] = Ray.new(Origin, Direction)
+                        return OldNamecall(unpack(Args))
+                    end
                 end
-            end
-        elseif Method == "FindPartOnRayWithWhitelist" and Settings.Method == Method then
-            if ValidateArgument(Args, Arguments.FindPartOnRayWithWhitelist) then
-                local A_Ray = Args[2]
-                local HitPart = GetClosestPlayer()
-                if HitPart then
-                    local Origin = A_Ray.Origin
-                    local Direction = Direction(Origin, HitPart.Position)
-                    Args[2] = Ray.new(Origin, Direction)
-                    return OldNamecall(unpack(Args))
+            elseif Method == "FindPartOnRayWithWhitelist" and Settings.Method == Method then
+                if ValidateArgument(Args, Arguments.FindPartOnRayWithWhitelist) then
+                    local A_Ray = Args[2]
+                    local HitPart = GetClosestPlayer()
+                    if HitPart then
+                        local Origin = A_Ray.Origin
+                        local Direction = Direction(Origin, HitPart.Position)
+                        Args[2] = Ray.new(Origin, Direction)
+                        return OldNamecall(unpack(Args))
+                    end
                 end
-            end
-        elseif (Method == "FindPartOnRay" or Method == "findPartOnRay") and Settings.Method == Method then
-            if ValidateArgument(Args, Arguments.FindPartOnRay) then
-                local A_Ray = Args[2]
-                local HitPart = GetClosestPlayer()
-                if HitPart then
-                    local Origin = A_Ray.Origin
-                    local Direction = Direction(Origin, HitPart.Position)
-                    Args[2] = Ray.new(Origin, Direction)
-                    return OldNamecall(unpack(Args))
+            elseif (Method == "FindPartOnRay" or Method == "findPartOnRay") and Settings.Method == Method then
+                if ValidateArgument(Args, Arguments.FindPartOnRay) then
+                    local A_Ray = Args[2]
+                    local HitPart = GetClosestPlayer()
+                    if HitPart then
+                        local Origin = A_Ray.Origin
+                        local Direction = Direction(Origin, HitPart.Position)
+                        Args[2] = Ray.new(Origin, Direction)
+                        return OldNamecall(unpack(Args))
+                    end
                 end
-            end
-        elseif Method == "Raycast" and Settings.Method == Method then
-            if ValidateArgument(Args, Arguments.Raycast) then
-                local A_Origin = Args[2]
-                local HitPart = GetClosestPlayer()
-                if HitPart then
-                    Args[3] = Direction(A_Origin, HitPart.Position)
-                    return OldNamecall(unpack(Args))
+            elseif Method == "Raycast" and Settings.Method == Method then
+                if ValidateArgument(Args, Arguments.Raycast) then
+                    local A_Origin = Args[2]
+                    local HitPart = GetClosestPlayer()
+                    if HitPart then
+                        Args[3] = Direction(A_Origin, HitPart.Position)
+                        return OldNamecall(unpack(Args))
+                    end
                 end
             end
         end
-    end
-    return OldNamecall(...)
-end))
+        return OldNamecall(...)
+    end))    
+end)()
 
 local Fov = Drawing.new("Circle")
 
