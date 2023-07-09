@@ -18,7 +18,6 @@ local RootPart = Character.HumanoidRootPart
 
 local Settings = {
     BulletTracers = false,
-    Viewmodel = false,
     Spinbot = false,
     TriggerBot = false,
     Enabled = false,
@@ -27,7 +26,6 @@ local Settings = {
     TargetPart = "Head",
     BulletTracersColor = Color3.fromRGB(255, 255, 255),
     HitChance = 100, 
-    ViewmodelDistance = 0,
     SpinbotSpeed = 10,
 
     --Fov
@@ -193,16 +191,6 @@ local TriggerBot = function()
     end
 end
 
-local Viewmodel = function()
-    if Settings.Viewmodel then
-        game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
-        game.Players.LocalPlayer.CameraMaxZoomDistance = Settings.ViewmodelDistance
-        game.Players.LocalPlayer.CameraMinZoomDistance = Settings.ViewmodelDistance
-    else
-        game.Players.LocalPlayer.CameraMode = originalCameraMode
-    end
-end
-
 local Spinbot = function()
     local humanoid = game.Players.LocalPlayer.Character.Humanoid
     local character = humanoid.Parent
@@ -271,7 +259,6 @@ local Tabs = {
 local Silent = Tabs.Main:AddLeftGroupbox('Silent')
 local Fov = Tabs.Main:AddRightGroupbox('Fov')
 local Rage = Tabs.Rage:AddLeftGroupbox('Rage')
-local ViewModel = Tabs.Rage:AddRightGroupbox('ViewModel')
 local Spinbots = Tabs.Rage:AddRightGroupbox('Spinbots')
 local BulletTracers = Tabs.Rage:AddRightGroupbox('Bullet Tracers')
 
@@ -300,15 +287,6 @@ Silent:AddToggle('VisibleCheck', {
     Tooltip = 'Checkington',
     Callback = function(Value)
         Settings.VisibleCheck = Value
-    end
-})
-
-ViewModel:AddToggle('Viewmodel', {
-    Text = 'Viewmodel',
-    Default = false,
-    Tooltip = 'viewington',
-    Callback = function(Value)
-        Settings.Viewmodel = Value
     end
 })
 
@@ -396,18 +374,6 @@ Fov:AddSlider('Trans', {
     Compact = false,
     Callback = function(Value)
         Settings.FovTransparency = Value
-    end
-})
-
-ViewModel:AddSlider('ViewmodelDistance', {
-    Text = 'Player',
-    Default = 100,
-    Min = 0,
-    Max = 250,
-    Rounding = 1,
-    Compact = false,
-    Callback = function(Value)
-        Settings.ViewmodelDistance = Value
     end
 })
 
@@ -506,7 +472,6 @@ end
 RunService.Heartbeat:Connect(function()
     Fov()
     TriggerBot()
-    Viewmodel()
     Spinbot()
 end)
 
