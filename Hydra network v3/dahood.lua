@@ -134,7 +134,6 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Legit = Window:AddTab('Legit'),
     Rage = Window:AddTab('Rage'),
-    player = Window:AddTab('Player'),
     Visuals = Window:AddTab('Visuals'),
     Misc = Window:AddTab('Misc'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
