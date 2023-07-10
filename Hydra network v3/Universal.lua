@@ -24,6 +24,7 @@ local GetPartsObscuringTarget = Camera.GetPartsObscuringTarget
 local Humanoid = Character.Humanoid
 local RootPart = Character.HumanoidRootPart
 local Settings = {
+    Camlock = false,
     BulletTracers = false,
     Spinbot = false,
     TriggerBot = false,
@@ -34,6 +35,7 @@ local Settings = {
     BulletTracersColor = Color3.fromRGB(255, 255, 255),
     HitChance = 100, 
     SpinbotSpeed = 10,
+    Smoothing = 50,
 
     --Fov
     FovRadius = 100,
@@ -242,6 +244,20 @@ mouse.Button1Down:Connect(function()
     end
 end)
 
+local Camlock = function()
+    local Target = GetClosestPlayer()
+    if Settings.Camlock then
+        if Camera then
+            if IsAlive(plr) then
+                if Target ~= nil then
+                    local Main = CFrame.new(Camera.CFrame.Position, Target.Position)
+                    Camera.CFrame = Camera.CFrame:Lerp(Main, Settings.Smoothing / 100, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut)
+                end
+            end
+        end
+    end
+end
+
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -340,6 +356,18 @@ Silent:AddSlider('hitchance', {
     end
 })
 
+Rage:AddSlider('Smoothing', {
+    Text = 'Camlock Smoothing',
+    Default = 50,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+    Callback = function(Value)
+        Settings.Smoothing = Value
+    end
+})
+
 Fov:AddToggle('Fov Visible', {
     Text = 'Enable',
     Default = false,
@@ -406,6 +434,19 @@ Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
         Settings.TriggerBot = Value
     end,
 })
+
+Rage:AddLabel('Camlock'):AddKeyPicker('Camlock', {
+    Default = 'C',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Camlock',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.Camlock = Value
+    end,
+})
+
 
 local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
@@ -479,6 +520,7 @@ RunService.Heartbeat:Connect(function()
     Fov()
     TriggerBot()
     Spinbot()
+    Camlock()
 end)
 
 Library:SetWatermark('Privte Project Btw')
