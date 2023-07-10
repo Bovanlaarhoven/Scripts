@@ -391,7 +391,7 @@ Fov:AddSlider('Radois', {
     Text = 'Fov Radius',
     Default = 100,
     Min = 1,
-    Max = 500,
+    Max = 1000,
     Rounding = 1,
     Compact = false,
     Callback = function(Value)
