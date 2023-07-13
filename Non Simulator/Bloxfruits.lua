@@ -37,7 +37,6 @@ local getClosest = function()
     return closest
 end
 
-
 local TpEnemy = function()
     Util.CTween:go(plr, getClosest().HumanoidRootPart.CFrame, 1) 
 end
@@ -47,7 +46,6 @@ local Click = function()
     local screenCenter = Vector2.new(screenSize.X / 2, screenSize.Y / 2)
     mouse1click(screenCenter.X, screenCenter.Y)
 end
-
 
 local KillEnemy = function()
     local Enemy = getClosest()
