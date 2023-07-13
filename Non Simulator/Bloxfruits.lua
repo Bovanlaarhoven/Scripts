@@ -1,12 +1,12 @@
 repeat wait() until game:IsLoaded()
-local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
+local module = loadstring(game:HttpGet("https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua"))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local plr = game:GetService("Players").LocalPlayer
 local tools = {}
 local Enemy = workspace.Enemies:GetChildren()
-local Vu = game:GetService("VirtualUser")
+local Mouse = plr:GetMouse()
 
-for _,v in pairs(plr.Backpack:GetChildren()) do
+for _, v in pairs(plr.Backpack:GetChildren()) do
     if v:IsA("Tool") then
         table.insert(tools, v.Name)
     end
@@ -15,7 +15,7 @@ end
 local getClosest = function()
     local closest = nil
     local dist = math.huge
-    for _,v in pairs(Enemy) do
+    for _, v in pairs(Enemy) do
         if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
             local mag = (v.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).magnitude
             if mag < dist then
@@ -31,27 +31,25 @@ local TpEnemy = function()
     Util.CTween:go(plr, getClosest().HumanoidRootPart.CFrame, 1) 
 end
 
-local function getClosestPosition2D()
-    local closestPosition3D = getClosest().HumanoidRootPart.Position
-    local closestPosition2D = Vector2.new(closestPosition3D.X, closestPosition3D.Z)
-    return closestPosition2D
-end
-
 local Click = function()
-    local closestPosition2D = getClosestPosition2D()
-    Vu:Button1Down(closestPosition2D)
-    wait()
-    Vu:Button1Up(closestPosition2D)
+    mouse1click(Mouse.X, Mouse.Y)
 end
 
-
-local Kill = function()
-    for i = 1, 10 do
-        Click()
-        wait(0.1)
+local KillEnemy = function()
+    local Enemy = getClosest()
+    if Enemy then
+        repeat
+            Click()
+            wait()
+        until Enemy.Humanoid.Health <= 0
     end
 end
 
-TpEnemy()
-wait(0.1)
-Kill()
+local AutoFarm = function()
+    while wait() do
+        KillEnemy()
+        TpEnemy()
+    end
+end
+
+AutoFarm()
