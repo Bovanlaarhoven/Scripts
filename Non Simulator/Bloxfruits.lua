@@ -2,24 +2,9 @@ repeat wait() until game:IsLoaded()
 local module = loadstring(game:HttpGet("https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua"))()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
 local plr = game:GetService("Players").LocalPlayer
-local tools = {}
 local Enemy = workspace.Enemies:GetChildren()
-local Mouse = plr:GetMouse()
-
-local Quests = {
-    "BanditQuest1",
-    "JungleQuest1",
-}
-
-for _, v in pairs(plr.Backpack:GetChildren()) do
-    if v:IsA("Tool") then
-        table.insert(tools, v.Name)
-    end
-end
-
-local Quest = function()
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(1, "BanditQuest1", "StartQuest")
-end
+local Lvl = game:GetService("Players")[plr.Name].Data.Level.Value
+local IslandsFolder = workspace._WorldOrigin.Locations
 
 local getClosest = function()
     local closest = nil
