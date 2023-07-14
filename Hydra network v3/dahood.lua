@@ -68,6 +68,7 @@ local Settings = {
     PredictionAmount = 0,
     Ping = 20,
     Smoothing = 50,
+    CFrame = false,
 }
 
 local function isGun(tool)
@@ -148,6 +149,7 @@ local Gun = Tabs.Visuals:AddRightGroupbox('Weapon Visuals')
 local BulletTracers = Tabs.Visuals:AddLeftGroupbox('Bullet')
 
 local Weapon = Tabs.Rage:AddLeftGroupbox('Weapon')
+local WalkSpeed = Tabs.Rage:AddLeftGroupbox('WalkSpeed')
 
 local AimVisuals = Tabs.Legit:AddRightGroupbox('Aim Visuals')
 local LegitAim = Tabs.Legit:AddLeftGroupbox('Legit')
@@ -231,6 +233,38 @@ BulletTracers:AddToggle('BulletTracers', {
 
     Callback = function(Value)
         Settings.BulletTracers = Value
+    end
+})
+
+
+WalkSpeed:AddToggle('Spedtoggle', {
+    Text = 'CFrame walksped',
+    Default = false,
+    Tooltip = 'CFrame walksped',
+
+    Callback = function(Value)
+        Settings.CFrame = Value
+    end
+})
+
+WalkSpeed:AddSlider('spedding', {
+    Text = 'WalkSped',
+    Default = 0,
+    Min = 0,
+    Max = 10,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        RunService.Heartbeat:Connect(function()
+            if Settings.CFrame then
+                if lplr.Character.Humanoid.MoveDirection.Magnitude > 0 then
+                    for i=1, Value do
+                        lplr.Character:TranslateBy(lplr.Character.Humanoid.MoveDirection)
+                    end
+                end
+            end
+        end)
     end
 })
 
@@ -380,6 +414,18 @@ AimVisuals:AddSlider('Radius', {
     Callback = function(Value)
         Visuals.Radius = Value
     end
+})
+
+WalkSpeed:AddLabel('CFrame'):AddKeyPicker('KeyPicker', {
+    Default = 'G',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'CFrame',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.CFrame = Value
+    end,
 })
 
 LegitAim:AddLabel('Silent'):AddKeyPicker('KeyPicker', {
