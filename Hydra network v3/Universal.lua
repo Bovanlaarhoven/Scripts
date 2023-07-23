@@ -285,13 +285,28 @@ local Spinbots = Tabs.Rage:AddRightGroupbox('Spinbots')
 local BulletTracers = Tabs.Rage:AddRightGroupbox('Bullet Tracers')
 
 
-Silent:AddToggle('Enabled', {
-    Text = 'Enable',
-    Default = false,
-    Tooltip = 'Enbles the script',
+Silent:AddLabel('Camlock'):AddKeyPicker('Camlock', {
+    Default = 'C',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Camlock',
+    NoUI = false,
+    Callback = function(Value)
+        Settings.Camlock = Value
+    end,
+})
+
+Silent:AddLabel('Silent aim'):AddKeyPicker('Silentaim', {
+    Default = 'G',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+
+    Text = 'Camlock',
+    NoUI = false,
     Callback = function(Value)
         Settings.Enabled = Value
-    end
+    end,
 })
 
 Silent:AddToggle('TeamCheck', {
@@ -338,7 +353,7 @@ Silent:AddDropdown('MyDropdown', {
     Default = 1,
     Multi = false, 
     Text = 'A dropdown',
-    Tooltip = 'This is a tooltip',
+    Tooltip = 'Methington',
     Callback = function(Value)
         Settings.Method = Value
     end
@@ -356,7 +371,7 @@ Silent:AddSlider('hitchance', {
     end
 })
 
-Rage:AddSlider('Smoothing', {
+Silent:AddSlider('Smoothing', {
     Text = 'Camlock Smoothing',
     Default = 50,
     Min = 1,
@@ -435,17 +450,7 @@ Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
     end,
 })
 
-Rage:AddLabel('Camlock'):AddKeyPicker('Camlock', {
-    Default = 'C',
-    SyncToggleState = false,
-    Mode = 'Toggle',
 
-    Text = 'Camlock',
-    NoUI = false,
-    Callback = function(Value)
-        Settings.Camlock = Value
-    end,
-})
 
 
 local OldNamecall
