@@ -1,5 +1,3 @@
---the code might not be the best way to do it but it works
-
 repeat wait() until game:IsLoaded()
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robobo2022/Util/main/Load.lua"))()
