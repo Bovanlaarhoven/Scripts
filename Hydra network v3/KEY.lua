@@ -39,3 +39,5 @@ local Window = Rayfield:CreateWindow({
        Key = {"99L2ZQvqLr","YhIHXlJzgt","NAIH82u0dm", "Qj72SBNKBq", "tisksjxncbgbbtsyruwo13383"}
     }
 })
+
+Rayfield:Destroy()

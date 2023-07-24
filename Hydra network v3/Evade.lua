@@ -147,13 +147,15 @@ local Settings = {
     Bhop = false,
 }
 
-local old
-old = hookmetamethod(game, "__namecall", function(self, ...)
-    local args = {...}
-    if (Settings.WalkEnabled or Settings.JumpEnabled) and self and self.Name == "Communicator" and args[1] == "update" then
-        return (Settings.WalkEnabled and Settings.WalkSpeed*100 or 1500), (Settings.JumpEnabled and Settings.JumpPower or 3)
-    end
-    return old(self,...)
+LPH_JIT_MAX(function()
+    local old
+    old = hookmetamethod(game, "__namecall", function(self, ...)
+        local args = {...}
+        if (Settings.WalkEnabled or Settings.JumpEnabled) and self and self.Name == "Communicator" and args[1] == "update" then
+            return (Settings.WalkEnabled and Settings.WalkSpeed*100 or 1500), (Settings.JumpEnabled and Settings.JumpPower or 3)
+        end
+        return old(self,...)
+    end)
 end)
 
 task.defer(function()
