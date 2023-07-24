@@ -16,6 +16,7 @@ local Distance = function()
             if Mag < Dist then
                 Closest = v
                 Dist = Mag
+                print(Dist, Closest)
             end
         end
     end
