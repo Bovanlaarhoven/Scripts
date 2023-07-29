@@ -302,7 +302,7 @@ Silent:AddLabel('Silent aim'):AddKeyPicker('Silentaim', {
     SyncToggleState = false,
     Mode = 'Toggle',
 
-    Text = 'Camlock',
+    Text = 'Silent aim',
     NoUI = false,
     Callback = function(Value)
         Settings.Enabled = Value
