@@ -1,5 +1,6 @@
 local plr = game.Players.LocalPlayer
 local players = game.Players:GetPlayers()
+local Animations = {"1","2","3","4"}
 
 local Closest = function()
     local closestPlayer = nil
@@ -47,14 +48,3 @@ else
     print("No suitable players found.")
 end
 
-if closestCharacter then
-    for _, v2 in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v2:IsA("Model") and v2.Name == plr.Name then
-            for _,v3 in pairs(v2:GetChildren()) do
-                if v3:IsA("Folder") and v3.Name == "SwingAnimations" then
-                    print("Swing animations folder found.")
-                end
-            end
-        end
-    end
-end
