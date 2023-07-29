@@ -69,7 +69,7 @@ do
     lplr.CharacterAdded:Connect(onCharacterAdded)
 end
 
-local Bags = {"Uncommon", "Common"}
+local Bags = {"Uncommon", "Common", "Rare", "Epic", "Legendary", "Ultimate", "Resplendent"}
 
 local Distance = function()
     local Closest = nil
