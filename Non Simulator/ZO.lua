@@ -1,8 +1,15 @@
 local plr = game.Players.LocalPlayer
 local players = game.Players:GetPlayers()
-local Animations = {"1","2","3","4"}
 
-local Closest = function()
+local function findSwingAnimationsFolder(parent)
+    for _, child in ipairs(parent:GetChildren()) do
+        if child:IsA("Folder") and child.Name == "SwingAnimations" then
+            return child
+        end
+    end
+end
+
+local function Closest()
     local closestPlayer = nil
     local distance = math.huge
 
@@ -22,29 +29,53 @@ local Closest = function()
 end
 
 local closestCharacter = Closest()
-
 if closestCharacter then
-    print("Closest Player:", closestCharacter.Name)
+    local humanoid = closestCharacter:FindFirstChild("Humanoid")
+    if humanoid then
+        local tool = nil
 
-    for _, v2 in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v2:IsA("Model") and v2.Name == closestCharacter.Name then
-            for _, v3 in pairs(v2:GetChildren()) do
-                if v3:IsA("Tool") then
-                    local boolValueParry = v3:FindFirstChild("Parry")
-                    local boolValueBlocking = v3:FindFirstChild("Blocking")
-    
-                    if boolValueParry and boolValueParry:IsA("BoolValue") then
-                        print("Parry value:", boolValueParry.Value)
+        for _, descendant in ipairs(closestCharacter:GetDescendants()) do
+            if descendant:IsA("Tool") then
+                tool = descendant
+                break
+            end
+        end
+
+        if tool then
+            local swingAnimationsFolder = findSwingAnimationsFolder(tool)
+            if swingAnimationsFolder then
+                local animationIdsToCheck = {} 
+
+                local function collectAnimationIds(folder)
+                    for _, animation in ipairs(folder:GetChildren()) do
+                        if animation:IsA("Animation") then
+                            local animationId = animation.AnimationId
+                            if not table.find(animationIdsToCheck, animationId) then
+                                table.insert(animationIdsToCheck, animationId)
+                            end
+                        end
                     end
-    
-                    if boolValueBlocking and boolValueBlocking:IsA("BoolValue") then
-                        print("Blocking value:", boolValueBlocking.Value)
+                end
+
+                collectAnimationIds(swingAnimationsFolder) 
+
+                local humanoid = closestCharacter:FindFirstChild("Humanoid")
+                if humanoid then
+                    local animationplaying = humanoid:GetPlayingAnimationTracks()
+                    if #animationplaying > 0 then
+                        for _, v in ipairs(animationplaying) do
+                            local AnimationName = v.Name
+                            local AnimationId = v.Animation.AnimationId
+
+                            for _, idToCheck in ipairs(animationIdsToCheck) do
+                                if AnimationId == idToCheck then
+                                    print("Found Animation:", AnimationName, "AnimationId:", AnimationId)
+                                end
+                            end
+                        end
                     end
                 end
             end
         end
     end
-else
-    print("No suitable players found.")
 end
-

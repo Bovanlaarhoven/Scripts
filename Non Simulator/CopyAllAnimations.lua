@@ -1,4 +1,4 @@
-local animationIdsToCheck = {}  -- Array to store unique animationIds
+local animationIdsToCheck = {} 
 
 local function collectAnimationIds(folder)
     for _, animation in ipairs(folder:GetChildren()) do
