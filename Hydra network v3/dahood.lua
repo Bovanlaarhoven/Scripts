@@ -852,7 +852,7 @@ local function getClosestPlayer()
     return ClosestPlayer
 end
 
-local function Camlock()
+local Camlock = function()
     local Target = getClosestPlayer()
     if Settings.Camlock then
         if Settings.Prediction or Settings.AutoPrediction then
