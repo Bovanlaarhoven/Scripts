@@ -450,9 +450,6 @@ Rage:AddLabel('Trigger bot'):AddKeyPicker('Triggerbot', {
     end,
 })
 
-
-
-
 local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(...)
     local Method = getnamecallmethod()
