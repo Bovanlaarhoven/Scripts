@@ -10,29 +10,6 @@ local lastVelocities, lastCFrames = {}, {}
 local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]
 Fov = Drawing.new("Circle")
 
-
-local Weapons = {
-    "[Glock]",
-    "[SMG]",
-    "[Silencer]",
-    "[TacticalShotgun]",
-    "[P90]",
-    "[AUG]",
-    "[Shotgun]",
-    "[RPG]",
-    "[AR]",
-    "[Double-Barrel SG]",
-    "[Flamethrower]",
-    "[Revolver]",
-    "[LMG]",
-    "[AK47]", 
-    "[DrumGun]",
-    "[Silencer]",
-    "[GrenadeLauncher]",
-    "[Taser]",
-    "[SilencerAR]"
-}
-
 local Visuals = {
     Fov = false,
     FovColor = Color3.new(0, 120, 255),
